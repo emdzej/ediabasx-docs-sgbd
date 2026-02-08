@@ -1,0 +1,2332 @@
+# tcb1.prg
+
+- Jobs: [39](#jobs)
+- Tables: [59](#tables)
+
+## INFO
+
+| Field | Value |
+| --- | --- |
+| ECU | Telematics Communication Box |
+| ORIGIN | BMW EI-43 Pengler |
+| REVISION | 13.001 |
+| AUTHOR | RECOMPLI-GMBH EE-71 Boehme |
+| COMMENT | - |
+| PACKAGE | 1.70 |
+| SPRACHE | deutsch |
+
+## Jobs
+
+### Index
+
+- [INFO](#job-info) - Information SGBD
+- [INITIALISIERUNG](#job-initialisierung) - Initialisierung und Kommunikationsparameter
+- [IDENT](#job-ident) - Identdaten UDS  : $22   ReadDataByIdentifier UDS  : $F150 Sub-Parameter SGBD-Index Modus: Default
+- [FS_LESEN](#job-fs-lesen) - Fehlerspeicher lesen (alle Fehler / Ort und Art) UDS  : $19 ReadDTCInformation UDS  : $02 ReadDTCByStatusMask UDS  : $0C StatusMask (Bit2, Bit3) Modus: Default
+- [FS_LESEN_DETAIL](#job-fs-lesen-detail) - Fehlerspeicher lesen (einzelner Fehler / Ort und Art) UDS  : $19 ReadDTCInformation UDS  : $04 reportDTCSnapshotRecordByDTCNumber UDS  : $06 reportDTCExtendedDataRecordByDTCNumber UDS  : $09 reportSeverityInformationOfDTC Modus: Default
+- [FS_LOESCHEN](#job-fs-loeschen) - Fehlerspeicher loeschen UDS  : $14 ClearDiagnosticInformation UDS  : $FF DTCHighByte UDS  : $FF DTCMiddleByte UDS  : $FF DTCLowByte Modus: Default
+- [PRUEFSTEMPEL_LESEN](#job-pruefstempel-lesen) - Auslesen des Pruefstempels UDS  : $22   ReadDataByIdentifier UDS  : $1000 TestStamp Modus: Default
+- [PRUEFSTEMPEL_SCHREIBEN](#job-pruefstempel-schreiben) - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. UDS  : $2E   WriteDataByIdentifier UDS  : $1000 TestStamp Modus: Default
+- [SVK_LESEN](#job-svk-lesen) - Informationen zur Steuergeraete-Verbau-Kennung UDS  : $22   ReadDataByIdentifier UDS  : $F1xx Sub-Parameter fuer SVK UDS  : $F101 SVK_AKTUELL (Default) Modus: Default
+- [STATUS_LESEN](#job-status-lesen) - Lesen eines oder mehrerer Stati UDS  : $22 ReadDataByIdentifier
+- [STEUERN](#job-steuern) - Vorgeben eines Status UDS  : $2E WriteDataByIdentifier
+- [SERIENNUMMER_LESEN](#job-seriennummer-lesen) - Seriennummer des Steuergeraets UDS  : $22   ReadDataByIdentifier UDS  : $F18C Sub-Parameter ECUSerialNumber Modus: Default
+- [STEUERN_ROUTINE](#job-steuern-routine) - Vorgeben eines Status UDS  : $31 RoutineControl
+- [FS_SPERREN](#job-fs-sperren) - Sperren bzw. Freigeben des Fehlerspeichers UDS  : $85 ControlDTCSetting UDS  : $?? Sperren ($02) / Freigabe ($01) Modus: Default
+- [IS_LESEN](#job-is-lesen) - Sekundaerer Fehlerspeicher lesen (alle Fehler / Ort und Art) UDS  : $22   ReadDataByIdentifierRequestServiceID UDS  : $2000 DataIdentifier sekundaerer Fehlerspeicher Modus: Default
+- [IS_LESEN_DETAIL](#job-is-lesen-detail) - sekundären Fehlerspeicher lesen (Info-Meldungen / Ort und Art) UDS  : $22 ReadDataByIdentifier UDS  : $20 dataIdentifier UDS  : $00 alle Info-Meldungen anschließend UDS  : $20 dataIdentifier UDS  : $nn Details zur Info-Meldung an der Position n Modus: Default
+- [IS_LOESCHEN](#job-is-loeschen) - Infospeicher loeschen UDS  : $31   RoutineControl UDS  : $01   startRoutine UDS  : $0F06 ClearSecondaryDTCMemory Modus: Default
+- [HERSTELLINFO_LESEN](#job-herstellinfo-lesen) - Lieferant und Herstelldatum lesen UDS  : $22   ReadDataByIdentifier UDS  : $F18A SystemSupplierIdentifier UDS  : $F18B ECUManufactoringData Modus: Default
+- [DIAGNOSE_AUFRECHT](#job-diagnose-aufrecht) - Diagnosemode des SG aufrecht erhalten UDS  : $3E TesterPresent UDS  : $?0 suppressPosRspMsgIndication Modus: Default
+- [DIAGNOSE_MODE](#job-diagnose-mode) - SG in bestimmten Diagnosemode bringen UDS  : $10 StartDiagnosticSession Modus: einstellbar mit diesem Job
+- [SLEEP_MODE](#job-sleep-mode) - SG in Sleep-Mode versetzen UDS  : $11 ECUReset UDS  : $04 EnableRapidPowerShutDown Modus: Default
+- [ENERGIESPARMODE](#job-energiesparmode) - Einstellen des Energiesparmodes UDS   : $31   RoutineControlRequestServiceID UDS   : $01   startRoutine UDS   : $0F0C DataIdentifier ControlEnergySavingMode UDS   : $??   Mode Modus : Default
+- [STATUS_ENERGIESPARMODE](#job-status-energiesparmode) - Energy-Saving-Mode auslesen UDS  : $22   ReadDataByIdentifier UDS  : $100A DataIdentifier EnergySavingMode Modus: Default
+- [STATUS_BETRIEBSMODE](#job-status-betriebsmode) - Aktueller Betriebsmode SG muss sich im Energiersparmode befinden UDS  : $22   ReadDataByIdentifier UDS  : $100E Sub-Parameter Betriebsmode Modus: Default
+- [STEUERN_BETRIEBSMODE](#job-steuern-betriebsmode) - Betriebsmode setzen SG muss sich im Energiersparmode befinden UDS  : $31   RoutineControl UDS  : $01   startRoutine UDS  : $1003 DataIdentifier Betriebsmode UDS  : $0?   Betriebsmode Modus: Default
+- [STEUERGERAETE_RESET](#job-steuergeraete-reset) - Harter Reset des Steuergeraets UDS  : $11 EcuReset UDS  : $01 HardReset Modus: Default
+- [STEUERN_ROE_STOP](#job-steuern-roe-stop) - Temporaeres Deaktivieren der aktiven Fehlermeldung UDS   : $86 ResponseOnEvent $00 Stop $02 (EventWindowTime) gültig für LH Diagnosemaster V9 oder früher. (pre 35up)
+- [STATUS_ROE_REPORT](#job-status-roe-report) - Abfrage Status der Aktivierung der aktiven Fehlermeldung UDS: $86 ResponseOnEvent $04 report activated events [$02 eventWindowTime - infinite (nur 35up)] 35up: LH Diagnosemaster V11 oder höher pre35up: LH Diagnosemaster V6 - V9
+- [STEUERN_ROE_START](#job-steuern-roe-start) - Temporaeres Aktivieren der aktiven Fehlermeldung UDS   : $86 ResponseOnEvent $05 Start $02 (EventWindowTime) gültig für LH Diagnosemaster V9 oder früher. (pre 35up)
+- [STEUERN_ROE_PERSISTENT_STOP](#job-steuern-roe-persistent-stop) - Persistentes Deaktivieren der aktiven Fehlermeldung an den Diagnosemaster ueber TAS UDS   : $86 ResponseOnEvent $40 Stop persistent $02 (EventWindowTime) gültig für LH Diagnosemaster V6 - V12 (Stand 2013)
+- [STEUERN_ROE_PERSISTENT_START](#job-steuern-roe-persistent-start) - Persistentes Aktivieren der aktiven Fehlermeldung an den Diagnosemaster ueber TAS UDS   : $86 ResponseOnEvent $45 Start persistent $02 (EventWindowTime) gültig für LH Diagnosemaster V6 - V12 (Stand 2013)
+- [CPS_LESEN](#job-cps-lesen) - Codierpruefstempel lesen UDS  : $22   ReadDataByIdentifier UDS  : $37FE DataIdentifier Codierpruefstempel Modus: Default
+- [DIAG_SESSION_LESEN](#job-diag-session-lesen) - Aktive Diagnose-Session auslesen UDS  : $22   ReadDataByIdentifier UDS  : $F186 ActiveDiagnosticSession Modus: Default
+- [FLASH_TP_LESEN](#job-flash-tp-lesen) - Flash Timing Parameter auslesen UDS  : $22   ReadDataByIdentifier UDS  : $2504 FlashTimingParameter Modus: Default
+- [PROG_ZAEHLER_LESEN](#job-prog-zaehler-lesen) - Programmierzaehler lesen UDS  : $22   ReadDataByIdentifier UDS  : $2502 ProgrammingCounter Modus: Default
+- [PROG_MAX_LESEN](#job-prog-max-lesen) - Anzahl der maximal möglichen Programmiervorgänge auslesen UDS  : $22   ReadDataByIdentifier UDS  : $2503 ProgrammingCounter Modus: Default
+- [STATUS_POWERMANAGEMENT_NAD](#job-status-powermanagement-nad) - Auslesen der gespeicherten internen Powermanagement Transitionen 
+- [STATUS_ECALL_LOGGING](#job-status-ecall-logging) - Auslesen der gespeicherten internen EU ecall Loggings 
+- [STEUERN_PROVISIONING_DATA](#job-steuern-provisioning-data) - Schreiben der Provisionierungsdaten
+
+<a id="job-info"></a>
+### INFO
+
+Information SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ECU | string | Steuergerät im Klartext |
+| ORIGIN | string | Steuergeräte-Verantwortlicher |
+| REVISION | string | Versions-Nummer |
+| AUTHOR | string | Namen aller Autoren |
+| COMMENT | string | wichtige Hinweise |
+| PACKAGE | string | Include-Paket-Nummer |
+| SPRACHE | string | deutsch, english |
+
+<a id="job-initialisierung"></a>
+### INITIALISIERUNG
+
+Initialisierung und Kommunikationsparameter
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DONE | int | 1, wenn Okay |
+
+<a id="job-ident"></a>
+### IDENT
+
+Identdaten UDS  : $22   ReadDataByIdentifier UDS  : $F150 Sub-Parameter SGBD-Index Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ID_SG_ADR | long | Steuergeraeteadresse |
+| ID_SGBD_INDEX | long | Index zur Erkennung der SG-Variante |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen"></a>
+### FS_LESEN
+
+Fehlerspeicher lesen (alle Fehler / Ort und Art) UDS  : $19 ReadDTCInformation UDS  : $02 ReadDTCByStatusMask UDS  : $0C StatusMask (Bit2, Bit3) Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| IGNORIERE_EREIGNIS_DTC | string | 'IGNORIERE_EREIGNIS_DTC': Alle Ereignis DTC-Fehlereinträge werden ignoriert sonst: alle Fehlereinträge werden ausgegeben |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer UDS immer 3 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_EREIGNIS_DTC | int | 0: DTC kein Ereignis DTC 1: DTC ist Ereignis DTC table FOrtTexte EREIGNIS_DTC |
+| F_STATUSBYTE | int | Wert des DTC-Statusbyte laut ISO 14229 (bitcodiert) Bedeutung der einzelnen Bits: Bit 7: warningIndicatorRequested Bit 6: testNotCompletedThisOperationCycle Bit 5: testFailedSinceLastClear Bit 4: testNotCompletedSinceLastClear Bit 3: ConfirmedDTC Bit 2: PendingDTC Bit 1: testFailedThisOperationCycle Bit 0: testFailed |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen-detail"></a>
+### FS_LESEN_DETAIL
+
+Fehlerspeicher lesen (einzelner Fehler / Ort und Art) UDS  : $19 ReadDTCInformation UDS  : $04 reportDTCSnapshotRecordByDTCNumber UDS  : $06 reportDTCExtendedDataRecordByDTCNumber UDS  : $09 reportSeverityInformationOfDTC Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | long | gewaehlter Fehlercode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer UDS immer 3 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_EREIGNIS_DTC | int | 0: DTC kein Ereignis DTC 1: DTC ist Ereignis DTC table FOrtTexte EREIGNIS_DTC |
+| F_STATUSBYTE | int | Wert des DTC-Statusbyte laut ISO 14229 (bitcodiert) Bedeutung der einzelnen Bits: Bit 7: warningIndicatorRequested Bit 6: testNotCompletedThisOperationCycle Bit 5: testFailedSinceLastClear Bit 4: testNotCompletedSinceLastClear Bit 3: ConfirmedDTC Bit 2: PendingDTC Bit 1: testFailedThisOperationCycle Bit 0: testFailed |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_HFK | int | Haeufigkeitszaehler als Zahl Wertebereich 0 - 255 Bei mehr als 255 bleibt Zaehler stehen. Kein Ueberlauf |
+| F_HLZ | int | Heilungsszaehler als Zahl Wertebereich 0 - 255 -1: ohne Heilungsszaehler |
+| F_UEBERLAUF | int | 0: Kein Ueberlauf des Fehlerspeichers 1: Ueberlauf des Fehlerspeichers |
+| F_FEHLERKLASSE_NR | int | 0: Keine Fehlerklasse verfuegbar 1: Ueberpruefung bei naechstem Werkstattbesuch 2: Ueberpruefung bei naechstem Halt 4: Ueberpruefung sofort erforderlich ! |
+| F_FEHLERKLASSE_TEXT | string | Ausgabe der Fehlerklasse als Text table Fehlerklasse TEXT |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| F_UW_KM | long | Umweltbedingung Kilometerstand (3 Byte) Wertebereich: 0 - 16777215 km -1, wenn Kilometerstand nicht zur Verfuegung steht |
+| F_UW_ZEIT | long | Umweltbedingung Absolute Zeit (4 Byte) Genauigkeit: in Sekunden -1, wenn Absolute Zeit nicht zur Verfuegung steht |
+| F_UW_BN | int | Umweltbedingung Basisnetz (1 Byte) -1, wenn Daten bzgl. Basisnetz nicht zur Verfuegung stehen |
+| F_UW_TN | long | Umweltbedingung Teilnetz (3 Byte) -1, wenn Daten bzgl. funktionalem Teilnetz nicht zur Verfuegung stehen |
+| F_SAE_CODE | unsigned int | Wertebereich 0x000000 - 0xFFFFFF externe Tabelle T_SCOD |
+| F_SAE_CODE_STRING | string | 5 stelliger Text in der Form 'Sxxxx' |
+| F_SAE_CODE_TEXT | string | Text zu F_SAE_CODE |
+| _RESPONSE_SNAPSHOT | binary | Hex-Antwort von SG |
+| _RESPONSE_EXTENDED_DATA | binary | Hex-Antwort von SG |
+| _RESPONSE_SEVERITY | binary | Hex-Antwort von SG |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+<a id="job-fs-loeschen"></a>
+### FS_LOESCHEN
+
+Fehlerspeicher loeschen UDS  : $14 ClearDiagnosticInformation UDS  : $FF DTCHighByte UDS  : $FF DTCMiddleByte UDS  : $FF DTCLowByte Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | long | 0x??????: Angabe eines einzelnen Fehlers Default: 0xFFFFFF: alle Fehler |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-lesen"></a>
+### PRUEFSTEMPEL_LESEN
+
+Auslesen des Pruefstempels UDS  : $22   ReadDataByIdentifier UDS  : $1000 TestStamp Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-schreiben"></a>
+### PRUEFSTEMPEL_SCHREIBEN
+
+Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. UDS  : $2E   WriteDataByIdentifier UDS  : $1000 TestStamp Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-svk-lesen"></a>
+### SVK_LESEN
+
+Informationen zur Steuergeraete-Verbau-Kennung UDS  : $22   ReadDataByIdentifier UDS  : $F1xx Sub-Parameter fuer SVK UDS  : $F101 SVK_AKTUELL (Default) Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SVK | string | table SVK_ID BEZEICHNUNG WERT default SVK_AKTUELL |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PROG_TEST | int | Programmierabhaengigkeiten (ProgrammingDependenciesChecked) 1: IO : Signaturpruefung und ProgrammingDependenciesCheck erfolgreich 2: NIO: mindestens eine SWE fehlerhaft oder ProgrammingDependenciesCheck nicht durchgefuehrt 3: NIO: mindestens eine SWE passt nicht mit einer HWE zusammen 4: NIO: mindestens eine SWE passt nicht mit einer anderen SWE zusammen sonst: reserviert |
+| ANZAHL_EINHEITEN | int | Anzahl der xWEn |
+| PROG_DATUM | string | Programmierdatum (DD.MM.YY) |
+| PROG_KM | long | KM-Stand bei Programmierung (10 KM bis 655350 KM) Inkrement sind 10 KM -1: KM-Stand wird nicht unterstuetzt |
+| PROZESSKLASSE_WERT | int | table Prozessklassen WERT dezimale Angabe der Prozessklasse |
+| PROZESSKLASSE_TEXT | string | table Prozessklassen BEZEICHNUNG Text-Angabe der Prozessklasse |
+| PROZESSKLASSE_KURZTEXT | string | table Prozessklassen PROZESSKLASSE Text-Angabe des Prozessklassenkurztextes |
+| SGBM_IDENTIFIER | string | Angabe SGBM-ID der Prozessklasse |
+| VERSION | string | Angabe der Version der Prozessklasse |
+| SGBM_ID | string | Angabe von Prozessklasse, SGBM-Identifier, Version |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-status-lesen"></a>
+### STATUS_LESEN
+
+Lesen eines oder mehrerer Stati UDS  : $22 ReadDataByIdentifier
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARGUMENT_SPALTE | string | 'ARG', 'ID', 'LABEL' |
+| STATUS | string | Es muss mindestens ein Argument übergeben werden Es wird das zugehörige result erzeugt table SG_Funktionen ARG ID RESULTNAME RES_TABELLE ARG_TABELLE |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Antwort von SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern"></a>
+### STEUERN
+
+Vorgeben eines Status UDS  : $2E WriteDataByIdentifier
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARGUMENT_SPALTE | string | 'ARG', 'ID', 'LABEL' |
+| STATUS | string | Siehe table SG_Funktionen ARG ID LABEL ARG_TABELLE |
+| WERT | string | Es muss mindestens ein Argument übergeben werden Argumente siehe table SG_Funktionen ARG ID ARG_TABELLE |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Antwort von SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-seriennummer-lesen"></a>
+### SERIENNUMMER_LESEN
+
+Seriennummer des Steuergeraets UDS  : $22   ReadDataByIdentifier UDS  : $F18C Sub-Parameter ECUSerialNumber Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SERIENNUMMER | string | Seriennummer des Steuergeraets |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-routine"></a>
+### STEUERN_ROUTINE
+
+Vorgeben eines Status UDS  : $31 RoutineControl
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARGUMENT_SPALTE | string | 'ARG', 'ID', 'LABEL' |
+| STATUS | string | Siehe table SG_Funktionen ARG ID RES_TABELLE ARG_TABELLE |
+| STEUERPARAMETER | string | 'STR'  = startRoutine 'STPR' = stopRoutine 'RRR'  = requestRoutineResults |
+| WERT | string | Argumente siehe table SG_Funktionen ARG_TABELLE |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Antwort von SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-fs-sperren"></a>
+### FS_SPERREN
+
+Sperren bzw. Freigeben des Fehlerspeichers UDS  : $85 ControlDTCSetting UDS  : $?? Sperren ($02) / Freigabe ($01) Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SPERREN | string | "ja"   -&gt; Fehlerspeicher sperren "nein" -&gt; Fehlerspeicher freigeben table DigitalArgument TEXT Default: "ja" |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen"></a>
+### IS_LESEN
+
+Sekundaerer Fehlerspeicher lesen (alle Fehler / Ort und Art) UDS  : $22   ReadDataByIdentifierRequestServiceID UDS  : $2000 DataIdentifier sekundaerer Fehlerspeicher Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer UDS immer 3 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_EREIGNIS_DTC | int | 0: DTC kein Ereignis DTC 1: DTC ist Ereignis DTC table FOrtTexte EREIGNIS_DTC |
+| F_STATUSBYTE | int | Wert des DTC-Statusbyte laut ISO 14229 (bitcodiert) Bedeutung der einzelnen Bits: Bit 7: warningIndicatorRequested Bit 6: testNotCompletedThisOperationCycle Bit 5: testFailedSinceLastClear Bit 4: testNotCompletedSinceLastClear Bit 3: ConfirmedDTC Bit 2: PendingDTC Bit 1: testFailedThisOperationCycle Bit 0: testFailed |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen-detail"></a>
+### IS_LESEN_DETAIL
+
+sekundären Fehlerspeicher lesen (Info-Meldungen / Ort und Art) UDS  : $22 ReadDataByIdentifier UDS  : $20 dataIdentifier UDS  : $00 alle Info-Meldungen anschließend UDS  : $20 dataIdentifier UDS  : $nn Details zur Info-Meldung an der Position n Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | long | gewaehlter Infocode Wenn dieser Parameter angegeben wird, wird die Position automatisch ermittelt. Es darf dann nicht argument F_POS angegeben werden |
+| F_POS | int | gewaehlter Eintrag Wenn dieser Parameter angegeben wird, wird die Position benutzt. Wertebereich 1 - 255 Es darf dann nicht argument F_CODE angegeben werden |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer UDS immer 3 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_EREIGNIS_DTC | int | 0: DTC kein Ereignis DTC 1: DTC ist Ereignis DTC table FOrtTexte EREIGNIS_DTC |
+| F_STATUSBYTE | int | Wert des DTC-Statusbyte laut ISO 14229 (bitcodiert) Bedeutung der einzelnen Bits: Bit 7: warningIndicatorRequested Bit 6: testNotCompletedThisOperationCycle Bit 5: testFailedSinceLastClear Bit 4: testNotCompletedSinceLastClear Bit 3: ConfirmedDTC Bit 2: PendingDTC Bit 1: testFailedThisOperationCycle Bit 0: testFailed |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_HFK | int | Haeufigkeitszaehler als Zahl Wertebereich 0 - 255 Bei mehr als 255 bleibt Zaehler stehen. Kein Ueberlauf |
+| F_HLZ | int | Heilungsszaehler als Zahl Wertebereich 0 - 255 -1: ohne Heilungsszaehler |
+| F_UEBERLAUF | int | 0: Kein Ueberlauf des Fehlerspeichers 1: Ueberlauf des Fehlerspeichers |
+| F_FEHLERKLASSE_NR | int | 0: Keine Fehlerklasse verfuegbar 1: Ueberpruefung bei naechstem Werkstattbesuch 2: Ueberpruefung bei naechstem Halt 4: Ueberpruefung sofort erforderlich ! |
+| F_FEHLERKLASSE_TEXT | string | Ausgabe der Fehlerklasse als Text table Fehlerklasse TEXT |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| F_UW_KM | long | Umweltbedingung Kilometerstand (3 Byte) Wertebereich: 0 - 16777215 km -1, wenn Kilometerstand nicht zur Verfuegung steht |
+| F_UW_ZEIT | long | Umweltbedingung Absolute Zeit (4 Byte) Genauigkeit: in Sekunden -1, wenn Absolute Zeit nicht zur Verfuegung steht |
+| F_UW_BN | int | Umweltbedingung Basisnetz (1 Byte) -1, wenn Daten bzgl. Basisnetz nicht zur Verfuegung stehen |
+| F_UW_TN | long | Umweltbedingung Teilnetz (3 Byte) -1, wenn Daten bzgl. funktionalem Teilnetz nicht zur Verfuegung stehen |
+| F_SAE_CODE | unsigned int | Wertebereich 0x000000 - 0xFFFFFF externe Tabelle T_SCOD |
+| F_SAE_CODE_STRING | string | 5 stelliger Text in der Form 'Sxxxx' |
+| F_SAE_CODE_TEXT | string | Text zu F_SAE_CODE |
+| _RESPONSE_2000 | binary | Hex-Antwort von SG |
+| _RESPONSE_200X | binary | Hex-Antwort von SG |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+<a id="job-is-loeschen"></a>
+### IS_LOESCHEN
+
+Infospeicher loeschen UDS  : $31   RoutineControl UDS  : $01   startRoutine UDS  : $0F06 ClearSecondaryDTCMemory Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-herstellinfo-lesen"></a>
+### HERSTELLINFO_LESEN
+
+Lieferant und Herstelldatum lesen UDS  : $22   ReadDataByIdentifier UDS  : $F18A SystemSupplierIdentifier UDS  : $F18B ECUManufactoringData Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ID_LIEF_NR | long | Lieferantennummer 0xFFFFFF, falls nicht vorhanden |
+| ID_LIEF_TEXT | string | Text zu ID_LIEF_NR table Lieferanten LIEF_TEXT unbekannter Hersteller, falls nicht vorhanden |
+| ID_DATUM | string | Herstelldatum (DD.MM.YY) |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+| _REQUEST_2 | binary | Hex-Auftrag an SG |
+| _RESPONSE_2 | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-aufrecht"></a>
+### DIAGNOSE_AUFRECHT
+
+Diagnosemode des SG aufrecht erhalten UDS  : $3E TesterPresent UDS  : $?0 suppressPosRspMsgIndication Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-mode"></a>
+### DIAGNOSE_MODE
+
+SG in bestimmten Diagnosemode bringen UDS  : $10 StartDiagnosticSession Modus: einstellbar mit diesem Job
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | gewuenschter Diagnose-Modus table DiagMode MODE MODE_TEXT Defaultwert: DEFAULT (DefaultMode) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-sleep-mode"></a>
+### SLEEP_MODE
+
+SG in Sleep-Mode versetzen UDS  : $11 ECUReset UDS  : $04 EnableRapidPowerShutDown Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-energiesparmode"></a>
+### ENERGIESPARMODE
+
+Einstellen des Energiesparmodes UDS   : $31   RoutineControlRequestServiceID UDS   : $01   startRoutine UDS   : $0F0C DataIdentifier ControlEnergySavingMode UDS   : $??   Mode Modus : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | int | 0x00: Normalmode 0x01: Fertigungsmode 0x02: Transportmode 0x03: Flashmode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-status-energiesparmode"></a>
+### STATUS_ENERGIESPARMODE
+
+Energy-Saving-Mode auslesen UDS  : $22   ReadDataByIdentifier UDS  : $100A DataIdentifier EnergySavingMode Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_ENERGIESPARMODE_WERT | int | Ausgabe des Energiesparmodes 0: Kein Energiesparmode gesetzt 1: Produktionsmode gesetzt 2: Transportmode gesetzt 3: Flashmode gesetzt -1: Mode ungueltig |
+| STAT_ENERGIESPARMODE_TEXT | string | Text zu STAT_ENERGIESPARMODE_WERT |
+| STAT_PRODUKTIONSMODE_EIN | int | 0: Produktionsmode nicht aktiv 1: Produktionsmode aktiv |
+| STAT_TRANSPORTMODE_EIN | int | 0: Transportmode nicht aktiv 1: Transportmode aktiv |
+| STAT_FLASHMODE_EIN | int | 0: Flashmode nicht aktiv 1: Flashmode aktiv |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-status-betriebsmode"></a>
+### STATUS_BETRIEBSMODE
+
+Aktueller Betriebsmode SG muss sich im Energiersparmode befinden UDS  : $22   ReadDataByIdentifier UDS  : $100E Sub-Parameter Betriebsmode Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_BETRIEBSMODE_WERT | int | Aktueller Betriebsmode table Betriebsmode WERT 0     : Kein Betriebsmode gesetzt 1 - 16: Erweiterter Betriebsmode (Bedeutung siehe Tabelle) |
+| STAT_BETRIEBSMODE_TEXT | string | Textausgabe STAT_BETRIEBSMODE_WERT table Betriebsmode TEXT |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-betriebsmode"></a>
+### STEUERN_BETRIEBSMODE
+
+Betriebsmode setzen SG muss sich im Energiersparmode befinden UDS  : $31   RoutineControl UDS  : $01   startRoutine UDS  : $1003 DataIdentifier Betriebsmode UDS  : $0?   Betriebsmode Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BETRIEBSMODE | int | Betriebsmode setzen table Betriebsmode WERT 0     : Kein Betriebsmode gesetzt 1 - 16: Erweiterter Betriebsmode (Bedeutung siehe Tabelle) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuergeraete-reset"></a>
+### STEUERGERAETE_RESET
+
+Harter Reset des Steuergeraets UDS  : $11 EcuReset UDS  : $01 HardReset Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-roe-stop"></a>
+### STEUERN_ROE_STOP
+
+Temporaeres Deaktivieren der aktiven Fehlermeldung UDS   : $86 ResponseOnEvent $00 Stop $02 (EventWindowTime) gültig für LH Diagnosemaster V9 oder früher. (pre 35up)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-status-roe-report"></a>
+### STATUS_ROE_REPORT
+
+Abfrage Status der Aktivierung der aktiven Fehlermeldung UDS: $86 ResponseOnEvent $04 report activated events [$02 eventWindowTime - infinite (nur 35up)] 35up: LH Diagnosemaster V11 oder höher pre35up: LH Diagnosemaster V6 - V9
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_ROE_AKTIV | char | 0x00  = Aktive Fehlermeldung deaktiviert 0x01  = Aktive Fehlermeldung aktiviert 0xFF  = Status der aktiven Fehlermeldung nicht feststellbar |
+| STAT_ROE_AKTIV_TEXT | string | Interpretation von STAT_ROE_AKTIV table UDS_TAB_ROE_AKTIV TEXT |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-roe-start"></a>
+### STEUERN_ROE_START
+
+Temporaeres Aktivieren der aktiven Fehlermeldung UDS   : $86 ResponseOnEvent $05 Start $02 (EventWindowTime) gültig für LH Diagnosemaster V9 oder früher. (pre 35up)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-roe-persistent-stop"></a>
+### STEUERN_ROE_PERSISTENT_STOP
+
+Persistentes Deaktivieren der aktiven Fehlermeldung an den Diagnosemaster ueber TAS UDS   : $86 ResponseOnEvent $40 Stop persistent $02 (EventWindowTime) gültig für LH Diagnosemaster V6 - V12 (Stand 2013)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-roe-persistent-start"></a>
+### STEUERN_ROE_PERSISTENT_START
+
+Persistentes Aktivieren der aktiven Fehlermeldung an den Diagnosemaster ueber TAS UDS   : $86 ResponseOnEvent $45 Start persistent $02 (EventWindowTime) gültig für LH Diagnosemaster V6 - V12 (Stand 2013)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-cps-lesen"></a>
+### CPS_LESEN
+
+Codierpruefstempel lesen UDS  : $22   ReadDataByIdentifier UDS  : $37FE DataIdentifier Codierpruefstempel Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| CPS | string | Codierpruefstempel 7-stellig |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-diag-session-lesen"></a>
+### DIAG_SESSION_LESEN
+
+Aktive Diagnose-Session auslesen UDS  : $22   ReadDataByIdentifier UDS  : $F186 ActiveDiagnosticSession Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DIAG_SESSION_WERT | int | Diagnose-Session (1 Byte) |
+| DIAG_SESSION_TEXT | string | Diagnose-Session als Text |
+| DIAG_DETAIL_WERT | int | Details zur Diagnose-Session (1 Byte) |
+| DIAG_DETAIL_TEXT | string | Details zur Diagnose-Session als Text |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-flash-tp-lesen"></a>
+### FLASH_TP_LESEN
+
+Flash Timing Parameter auslesen UDS  : $22   ReadDataByIdentifier UDS  : $2504 FlashTimingParameter Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_LOESCHEN | int | EraseMemoryTime (2 Byte) |
+| FLASH_TEST | int | CheckMemoryTime (2 Byte) |
+| FLASH_BOOT | int | BootloaderInstallationTime (2 Byte) |
+| FLASH_AUTHENT | int | AuthenticationTime (2 Byte) |
+| FLASH_RESET | int | ResetTime (2 Byte) |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-prog-zaehler-lesen"></a>
+### PROG_ZAEHLER_LESEN
+
+Programmierzaehler lesen UDS  : $22   ReadDataByIdentifier UDS  : $2502 ProgrammingCounter Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PROG_ZAEHLER_STATUS_WERT | int | Status, wie oft das SG programmierbar ist |
+| PROG_ZAEHLER_STATUS_TEXT | string | Status, wie oft das SG programmierbar ist |
+| PROG_ZAEHLER | int | Programmierzaehler |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-prog-max-lesen"></a>
+### PROG_MAX_LESEN
+
+Anzahl der maximal möglichen Programmiervorgänge auslesen UDS  : $22   ReadDataByIdentifier UDS  : $2503 ProgrammingCounter Modus: Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PROG_MAX | long | maximal mögliche Programmiervorgänge Sonderfall 0xFFFF: Anzahl der Programmiervorgänge unbegrenzt |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _REQUEST | binary | Hex-Auftrag an SG |
+| _RESPONSE | binary | Hex-Antwort von SG |
+
+<a id="job-status-powermanagement-nad"></a>
+### STATUS_POWERMANAGEMENT_NAD
+
+Auslesen der gespeicherten internen Powermanagement Transitionen 
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_DATASET | unsigned char | Dataset number requested Range: 1 (Only one dataset supported) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STATUS_TEXT | string | values from table TPowerStateNAD |
+| STAT_EVENT_TEXT | string | values from table TPowerEventNAD |
+| STAT_TIMESTAMP | string | Timestamp as hex string |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+<a id="job-status-ecall-logging"></a>
+### STATUS_ECALL_LOGGING
+
+Auslesen der gespeicherten internen EU ecall Loggings 
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_DATASET | unsigned char | eCall logging session number requested Range: 1-20 Disable/Enable logging session: 255 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STATUS_TEXT | string | values from table TStateEcallLog |
+| STAT_EVENT_TEXT | string | values from table TEventEcallLog |
+| STAT_TIMESTAMP | string | Timestamp as hex string |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+<a id="job-steuern-provisioning-data"></a>
+### STEUERN_PROVISIONING_DATA
+
+Schreiben der Provisionierungsdaten
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_TYPE | unsigned char | Welche Daten geschrieben werden sollen 0x01 DPAS, 0x03 OTA |
+| ARG_PATH | string | absolute and complete path to file that shall be written |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RET_STATUS | unsigned char | Rückmeldungen, Fehlercodes z.B. OK 0x00 oder NOTOK 0x01 |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+## Tables
+
+### Index
+
+- [JOBRESULT](#table-jobresult) (76 × 2)
+- [LIEFERANTEN](#table-lieferanten) (141 × 2)
+- [FARTTEXTE](#table-farttexte) (35 × 2)
+- [DIGITALARGUMENT](#table-digitalargument) (17 × 2)
+- [PROZESSKLASSEN](#table-prozessklassen) (26 × 3)
+- [SVK_ID](#table-svk-id) (65 × 2)
+- [DTCEXTENDEDDATARECORDNUMBER](#table-dtcextendeddatarecordnumber) (5 × 3)
+- [DTCSNAPSHOTIDENTIFIER](#table-dtcsnapshotidentifier) (7 × 9)
+- [FEHLERKLASSE](#table-fehlerklasse) (5 × 2)
+- [DIAGMODE](#table-diagmode) (12 × 3)
+- [IARTTEXTE](#table-iarttexte) (35 × 2)
+- [UDS_TAB_ROE_AKTIV](#table-uds-tab-roe-aktiv) (3 × 2)
+- [ARG_0XA020_R](#table-arg-0xa020-r) (2 × 14)
+- [ARG_0XA022_R](#table-arg-0xa022-r) (1 × 14)
+- [ARG_0XA05E_R](#table-arg-0xa05e-r) (1 × 14)
+- [ARG_0XA05F_R](#table-arg-0xa05f-r) (1 × 14)
+- [ARG_0XA086_R](#table-arg-0xa086-r) (3 × 14)
+- [ARG_0XA089_R](#table-arg-0xa089-r) (1 × 14)
+- [BETRIEBSMODE](#table-betriebsmode) (6 × 3)
+- [FDETAILSTRUKTUR](#table-fdetailstruktur) (6 × 2)
+- [FORTTEXTE](#table-forttexte) (47 × 3)
+- [FUMWELTTEXTE](#table-fumwelttexte) (5 × 9)
+- [IDETAILSTRUKTUR](#table-idetailstruktur) (5 × 2)
+- [IORTTEXTE](#table-iorttexte) (89 × 3)
+- [IUMWELTTEXTE](#table-iumwelttexte) (5 × 9)
+- [JOBRESULTEXTENDED](#table-jobresultextended) (1 × 2)
+- [RES_0XA020_R](#table-res-0xa020-r) (1 × 13)
+- [RES_0XA022_R](#table-res-0xa022-r) (2 × 13)
+- [RES_0XA05E_R](#table-res-0xa05e-r) (4 × 13)
+- [RES_0XA05F_R](#table-res-0xa05f-r) (2 × 13)
+- [RES_0XA079_R](#table-res-0xa079-r) (1 × 13)
+- [RES_0XA07A_R](#table-res-0xa07a-r) (3 × 13)
+- [RES_0XA089_R](#table-res-0xa089-r) (1 × 13)
+- [RES_0XD029_D](#table-res-0xd029-d) (8 × 10)
+- [RES_0XD035_D](#table-res-0xd035-d) (2 × 10)
+- [RES_0XD0CE_D](#table-res-0xd0ce-d) (13 × 10)
+- [RES_0XD0D3_D](#table-res-0xd0d3-d) (3 × 10)
+- [RES_0XD0E1_D](#table-res-0xd0e1-d) (9 × 10)
+- [SG_FUNKTIONEN](#table-sg-funktionen) (19 × 16)
+- [TAB_ANTENNE_ECALL](#table-tab-antenne-ecall) (4 × 2)
+- [TAB_BUB_LADUNG_ART](#table-tab-bub-ladung-art) (6 × 2)
+- [TAB_NO_YES](#table-tab-no-yes) (3 × 2)
+- [TAB_RET_STATUS](#table-tab-ret-status) (5 × 2)
+- [TAB_SOS_CAN_BOTSCHAFT](#table-tab-sos-can-botschaft) (2 × 2)
+- [TAB_SOS_DEAKTIVIERUNG](#table-tab-sos-deaktivierung) (2 × 2)
+- [TAB_TASTER_STATUS](#table-tab-taster-status) (4 × 2)
+- [TANTENNEFEHLERART](#table-tantennefehlerart) (5 × 2)
+- [TEVENTECALLLOG](#table-teventecalllog) (98 × 2)
+- [TGPSSTATUS](#table-tgpsstatus) (14 × 2)
+- [TPOWEREVENTNAD](#table-tpowereventnad) (17 × 2)
+- [TPOWERSTATENAD](#table-tpowerstatenad) (12 × 2)
+- [TPROVISIONINGSTATUS](#table-tprovisioningstatus) (5 × 2)
+- [TPROVISIONINGSTATUSECALL](#table-tprovisioningstatusecall) (6 × 2)
+- [TRESETSTATUS](#table-tresetstatus) (6 × 2)
+- [TSTATEECALLLOG](#table-tstateecalllog) (58 × 2)
+- [TSELBSTTESTROUTINE](#table-tselbsttestroutine) (9 × 2)
+- [TSIMSTATUS](#table-tsimstatus) (8 × 2)
+- [TTESTSTATUS](#table-tteststatus) (6 × 2)
+- [TVERBAUCECALL](#table-tverbaucecall) (13 × 2)
+
+<a id="table-jobresult"></a>
+### JOBRESULT
+
+Dimensions: 76 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x10 | ERROR_ECU_GENERAL_REJECT |
+| 0x11 | ERROR_ECU_SERVICE_NOT_SUPPORTED |
+| 0x12 | ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED |
+| 0x13 | ERROR_ECU_INCORRECT_MESSAGE_LENGTH_OR_INVALID_FORMAT |
+| 0x14 | ERROR_ECU_RESPONSE_TOO_LONG |
+| 0x21 | ERROR_ECU_BUSY_REPEAT_REQUEST |
+| 0x22 | ERROR_ECU_CONDITIONS_NOT_CORRECT |
+| 0x24 | ERROR_ECU_REQUEST_SEQUENCE_ERROR |
+| 0x25 | ERROR_ECU_NO_RESPONSE_FROM_SUBNET_COMPONENT |
+| 0x26 | ERROR_ECU_FAILURE_PREVENTS_EXECUTION_OF_REQUESTED_ACTION |
+| 0x31 | ERROR_ECU_REQUEST_OUT_OF_RANGE |
+| 0x33 | ERROR_ECU_SECURITY_ACCESS_DENIED |
+| 0x35 | ERROR_ECU_INVALID_KEY |
+| 0x36 | ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS |
+| 0x37 | ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED |
+| 0x70 | ERROR_ECU_UPLOAD_DOWNLOAD_NOT_ACCEPTED |
+| 0x71 | ERROR_ECU_TRANSFER_DATA_SUSPENDED |
+| 0x72 | ERROR_ECU_GENERAL_PROGRAMMING_FAILURE |
+| 0x73 | ERROR_ECU_WRONG_BLOCK_SEQUENCE_COUNTER |
+| 0x78 | ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING |
+| 0x7E | ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION |
+| 0x7F | ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION |
+| 0x81 | ERROR_ECU_RPM_TOO_HIGH |
+| 0x82 | ERROR_ECU_RPM_TOO_LOW |
+| 0x83 | ERROR_ECU_ENGINE_IS_RUNNING |
+| 0x84 | ERROR_ECU_ENGINE_IS_NOT_RUNNING |
+| 0x85 | ERROR_ECU_ENGINE_RUN_TIME_TOO_LOW |
+| 0x86 | ERROR_ECU_TEMPERATURE_TOO_HIGH |
+| 0x87 | ERROR_ECU_TEMPERATURE_TOO_LOW |
+| 0x88 | ERROR_ECU_VEHICLE_SPEED_TOO_HIGH |
+| 0x89 | ERROR_ECU_VEHICLE_SPEED_TOO_LOW |
+| 0x8A | ERROR_ECU_THROTTLE_PEDAL_TOO_HIGH |
+| 0x8B | ERROR_ECU_THROTTLE_PEDAL_TOO_LOW |
+| 0x8C | ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_NEUTRAL |
+| 0x8D | ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_GEAR |
+| 0x8F | ERROR_ECU_BRAKE_SWITCH_NOT_CLOSED |
+| 0x90 | ERROR_ECU_SHIFTER_LEVER_NOT_IN_PARK |
+| 0x91 | ERROR_ECU_TORQUE_CONVERTER_CLUTCH_LOCKED |
+| 0x92 | ERROR_ECU_VOLTAGE_TOO_HIGH |
+| 0x93 | ERROR_ECU_VOLTAGE_TOO_LOW |
+| ?00? | OKAY |
+| ?01? | ERROR_ECU_NO_RESPONSE |
+| ?02? | ERROR_ECU_INCORRECT_LEN |
+| ?03? | ERROR_ECU_INCORRECT_RESPONSE_ID |
+| ?04? | ERROR_ECU_TA_RESPONSE_NOT_SA_REQUEST |
+| ?05? | ERROR_ECU_SA_RESPONSE_NOT_TA_REQUEST |
+| ?06? | ERROR_ECU_RESPONSE_INCORRECT_DATA_IDENTIFIER |
+| ?07? | ERROR_ECU_RESPONSE_TOO_MUCH_DATA |
+| ?08? | ERROR_ECU_RESPONSE_TOO_LESS_DATA |
+| ?09? | ERROR_ECU_RESPONSE_VALUE_OUT_OF_RANGE |
+| ?0A? | ERROR_TABLE |
+| ?10? | ERROR_F_CODE |
+| ?12? | ERROR_INTERPRETATION |
+| ?13? | ERROR_F_POS |
+| ?14? | ERROR_ECU_RESPONSE_INCORRECT_IO_CONTROL_PARAMETER |
+| ?15? | ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_TYPE |
+| ?16? | ERROR_ECU_RESPONSE_INCORRECT_SUB_FUNCTION |
+| ?17? | ERROR_ECU_RESPONSE_INCORRECT_DYNAMICALLY_DEFINED_DATA_IDENTIFIER |
+| ?18? | ERROR_ECU_RESPONSE_NO_STRING_END_CHAR |
+| ?19? | ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_IDENTIFIER |
+| ?1A? | ERROR_ECU_RESPONSE_INCORRECT_RESET_TYPE |
+| ?1B? | ERROR_ECU_RESPONSE_INCORRECT_SERIAL_NUMBER_FORMAT |
+| ?1C? | ERROR_ECU_RESPONSE_INCORRECT_DTC_BY_STATUS_MASK |
+| ?1D? | ERROR_ECU_RESPONSE_INCORRECT_DTC_STATUS_AVAILABILITY_MASK |
+| ?1E? | ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_IDENTIFIER |
+| ?50? | ERROR_BYTE1 |
+| ?51? | ERROR_BYTE2 |
+| ?52? | ERROR_BYTE3 |
+| ?60? | ERROR_VERIFY |
+| ?61? | ERROR_ECU_RESPONSE_ZGW |
+| ?62? | ERROR_ECU_RESPONSE_BACKUP |
+| ?70? | ERROR_CALID_CVN_INCORRECT_LEN |
+| ?80? | ERROR_SVK_INCORRECT_LEN |
+| ?81? | ERROR_SVK_INCORRECT_FINGERPRINT |
+| ?F0? | ERROR_ARGUMENT |
+| 0xXY | ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE |
+
+<a id="table-lieferanten"></a>
+### LIEFERANTEN
+
+Dimensions: 141 rows × 2 columns
+
+| LIEF_NR | LIEF_TEXT |
+| --- | --- |
+| 0x000001 | Reinshagen / Delphi |
+| 0x000002 | Leopold Kostal GmbH & Co. KG |
+| 0x000003 | Hella Fahrzeugkomponenten GmbH |
+| 0x000004 | Siemens |
+| 0x000005 | Eaton |
+| 0x000006 | UTA |
+| 0x000007 | Helbako GmbH |
+| 0x000008 | Robert Bosch GmbH |
+| 0x000009 | Lear Corporation |
+| 0x000010 | VDO |
+| 0x000011 | Valeo GmbH |
+| 0x000012 | MBB |
+| 0x000013 | Kammerer |
+| 0x000014 | SWF |
+| 0x000015 | Blaupunkt |
+| 0x000016 | Philips |
+| 0x000017 | Alpine Electronics GmbH |
+| 0x000018 | Continental Teves AG & Co. OHG |
+| 0x000019 | Elektromatik Südafrika |
+| 0x000020 | Harman Becker Automotive Systems |
+| 0x000021 | Preh GmbH |
+| 0x000022 | Alps Electric Co. Ltd. |
+| 0x000023 | Motorola |
+| 0x000024 | Temic |
+| 0x000025 | Webasto SE |
+| 0x000026 | MotoMeter |
+| 0x000027 | Delphi Automotive PLC |
+| 0x000028 | DODUCO (Beru) |
+| 0x000029 | DENSO |
+| 0x000030 | NEC |
+| 0x000031 | DASA |
+| 0x000032 | Pioneer Corporation |
+| 0x000033 | Jatco |
+| 0x000034 | FUBA Automotive GmbH & Co. KG |
+| 0x000035 | UK-NSI |
+| 0x000036 | AABG |
+| 0x000037 | Dunlop |
+| 0x000038 | Sachs |
+| 0x000039 | ITT |
+| 0x000040 | FTE (Fahrzeugtechnik Ebern) |
+| 0x000041 | Megamos |
+| 0x000042 | TRW Automotive GmbH |
+| 0x000043 | WABCO Fahrzeugsysteme GmbH |
+| 0x000044 | ISAD Electronic Systems |
+| 0x000045 | HEC Hella Electronics Corporation |
+| 0x000046 | Gemel |
+| 0x000047 | ZF Friedrichshafen AG |
+| 0x000048 | GMPT |
+| 0x000049 | Harman Becker Automotive Systems GmbH |
+| 0x000050 | Remes GmbH |
+| 0x000051 | ZF Lenksysteme GmbH |
+| 0x000052 | Magneti Marelli S.p.A. |
+| 0x000053 | Johnson Controls Inc. |
+| 0x000054 | GETRAG Getriebe- und Zahnradf. Hermann Hagenmeyer GmbH & Co. KG |
+| 0x000055 | Behr-Hella Thermocontrol GmbH |
+| 0x000056 | Siemens VDO Automotive |
+| 0x000057 | Visteon Innovation & Technology GmbH |
+| 0x000058 | Autoliv AB |
+| 0x000059 | Haberl Electronic GmbH & Co. KG |
+| 0x000060 | Magna International Inc. |
+| 0x000061 | Marquardt GmbH |
+| 0x000062 | AB Elektronik GmbH |
+| 0x000063 | SDVO/BORG |
+| 0x000064 | Hirschmann Car Communication GmbH |
+| 0x000065 | hoerbiger-electronics |
+| 0x000066 | Thyssen Krupp Automotive |
+| 0x000067 | Gentex Corporation |
+| 0x000068 | Atena GmbH |
+| 0x000069 | Magna-Donelly |
+| 0x000070 | Koyo Steeting Europe |
+| 0x000071 | NSI Beheer B.V. |
+| 0x000072 | Aisin AW Co. Ltd. |
+| 0x000073 | Schorlock |
+| 0x000074 | Schrader Electronics Ltd. |
+| 0x000075 | Huf-Electronics Bretten GmbH |
+| 0x000076 | CEL |
+| 0x000077 | AUDIO MOBIL Elektronik GmbH |
+| 0x000078 | rd electronic |
+| 0x000079 | iSYS RTS GmbH |
+| 0x000080 | Westfalia-Automotive GmbH |
+| 0x000081 | Tyco Electronics |
+| 0x000082 | Paragon AG |
+| 0x000083 | IEE S.A. |
+| 0x000084 | TEMIC AUTOMOTIVE of NA |
+| 0x000085 | Sonceboz S.A. |
+| 0x000086 | Meta System S.p.A. |
+| 0x000087 | Huf Hülsbeck & Fürst GmbH & Co. KG |
+| 0x000088 | MANN+HUMMEL GmbH |
+| 0x000089 | Brose Fahrzeugteile GmbH & Co. |
+| 0x000090 | Keihin |
+| 0x000091 | Vimercati S.p.a |
+| 0x000092 | CRH |
+| 0x000093 | TPO Display Corp |
+| 0x000094 | Küster Automotive GmbH |
+| 0x000095 | Hitachi Automotive |
+| 0x000096 | Continental AG |
+| 0x000097 | TI-Automotive |
+| 0x000098 | Hydro |
+| 0x000099 | Johnson Controls Inc. |
+| 0x00009A | Takata-Petri |
+| 0x00009B | Mitsubishi Electric B.V. (Melco) |
+| 0x00009C | Autokabel |
+| 0x00009D | GKN Plc |
+| 0x00009E | Zollner Elektronik AG |
+| 0x00009F | peiker acustic GmbH & Co. KG |
+| 0x0000A0 | Bosal-Oris |
+| 0x0000A1 | Cobasys |
+| 0x0000A2 | Automotive Lighting Reutlingen GmbH |
+| 0x0000A3 | CONTI VDO |
+| 0x0000A4 | A.D.C. Automotive Distance Control Systems GmbH |
+| 0x0000A5 | Novero Dabendorf GmbH |
+| 0x0000A6 | LAMES S.p.a. |
+| 0x0000A7 | Magna/Closures |
+| 0x0000A8 | Harbin Wan Yu Technology Co |
+| 0x0000A9 | ThyssenKrupp Presta AG |
+| 0x0000AA | ArvinMeritor |
+| 0x0000AB | Kongsberg Automotive GmbH |
+| 0x0000AC | SMR Automotive Mirrors Stuttgart GmbH |
+| 0x0000AD | So.Ge.Mi. |
+| 0x0000AE | MTA S.p.A. |
+| 0x0000AF | Alfmeier Präzision AG |
+| 0x0000B0 | Eltek Deutechland GmbH |
+| 0x0000B1 | OMRON Automotive Electronics Europe GmbH |
+| 0x0000B2 | ASK Industries GmbH |
+| 0x0000B3 | CML Innovative Technologies GmbH & Co. KG |
+| 0x0000B4 | APAG Elektronik AG |
+| 0x0000B5 | Nexteer Automotive |
+| 0x0000B6 | Hans Widmaier Fernmelde- und Feinwerktechnik |
+| 0x0000B7 | Robert Bosch Battery Systems GmbH |
+| 0x0000B8 | Kyocera Display Europe GmbH |
+| 0x0000B9 | Magna Powertrain AG & Co. KG |
+| 0x0000BA | BorgWarner Beru Systems GmbH |
+| 0x0000BB | BMW AG |
+| 0x0000BC | Benteler Duncan Plant |
+| 0x0000BD | U-Shin Deutschland Zugangssysteme GmbH |
+| 0x0000BE | Schaeffler Technologies AG & Co. KG |
+| 0x0000BF | JTEKT Corporation |
+| 0x0000C0 | VLF |
+| 0x0000C1 | Flextronics |
+| 0x0000C2 | LG Chem |
+| 0xFFFFFF | unbekannter Hersteller |
+
+<a id="table-farttexte"></a>
+### FARTTEXTE
+
+Dimensions: 35 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | keine Fehlerart verfügbar |
+| 0x04 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x05 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x08 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x09 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x0C | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x0D | Fehler momentan vorhanden und bereits gespeichert |
+| 0x20 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x21 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x24 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x25 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x28 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x29 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x2C | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x2D | Fehler momentan vorhanden und bereits gespeichert |
+| 0x40 | unbekannte Fehlerart |
+| 0x44 | Fehler gespeichert |
+| 0x45 | Fehler gespeichert |
+| 0x48 | Fehler gespeichert |
+| 0x49 | Fehler gespeichert |
+| 0x4C | Fehler gespeichert |
+| 0x4D | Fehler gespeichert |
+| 0x60 | Fehler gespeichert |
+| 0x61 | Fehler gespeichert |
+| 0x64 | Fehler gespeichert |
+| 0x65 | Fehler gespeichert |
+| 0x68 | Fehler gespeichert |
+| 0x69 | Fehler gespeichert |
+| 0x6C | Fehler gespeichert |
+| 0x6D | Fehler gespeichert |
+| 0x10 | Testbedingungen erfüllt |
+| 0x11 | Testbedingungen noch nicht erfüllt |
+| 0x80 | Fehler würde kein Aufleuchten einer Warnlampe verursachen |
+| 0x81 | Fehler würde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-digitalargument"></a>
+### DIGITALARGUMENT
+
+Dimensions: 17 rows × 2 columns
+
+| TEXT | WERT |
+| --- | --- |
+| ein | 1 |
+| aus | 0 |
+| ja | 1 |
+| nein | 0 |
+| auf | 1 |
+| ab | 0 |
+| an | 1 |
+| yes | 1 |
+| no | 0 |
+| on | 1 |
+| off | 0 |
+| up | 1 |
+| down | 0 |
+| true | 1 |
+| false | 0 |
+| 1 | 1 |
+| 0 | 0 |
+
+<a id="table-prozessklassen"></a>
+### PROZESSKLASSEN
+
+Dimensions: 26 rows × 3 columns
+
+| WERT | PROZESSKLASSE | BEZEICHNUNG |
+| --- | --- | --- |
+| 0x00 | - | ungueltig |
+| 0x01 | HWEL | Hardware (Elektronik) |
+| 0x02 | HWAP | Hardwareauspraegung |
+| 0x03 | HWFR | Hardwarefarbe |
+| 0x05 | CAFD | Codierdaten |
+| 0x06 | BTLD | Bootloader |
+| 0x08 | SWFL | Software ECU Speicherimage |
+| 0x09 | SWFF | Flash File Software |
+| 0x0A | SWPF | Pruefsoftware |
+| 0x0B | ONPS | Onboard Programmiersystem |
+| 0x0F | FAFP | FA2FP |
+| 0x1A | TLRT | Temporaere Loeschroutine |
+| 0x1B | TPRG | Temporaere Programmierroutine |
+| 0x07 | FLSL | Flashloader Slave |
+| 0x0C | IBAD | Interaktive Betriebsanleitung Daten |
+| 0x10 | FCFA | Freischaltcode Fahrzeug-Auftrag |
+| 0x1C | BLUP | Bootloader-Update Applikation |
+| 0x1D | FLUP | Flashloader-Update Applikation |
+| 0xC0 | SWUP | Software-Update Package |
+| 0xC1 | SWIP | Index Software-Update Package |
+| 0xA0 | ENTD | Entertainment Daten |
+| 0xA1 | NAVD | Navigation Daten |
+| 0xA2 | FCFN | Freischaltcode Funktion |
+| 0x04 | GWTB | Gateway-Tabelle |
+| 0x0D | SWFK | BEGU: Detaillierung auf SWE-Ebene |
+| 0xFF | - | ungueltig |
+
+<a id="table-svk-id"></a>
+### SVK_ID
+
+Dimensions: 65 rows × 2 columns
+
+| WERT | BEZEICHNUNG |
+| --- | --- |
+| 0x01 | SVK_AKTUELL |
+| 0x02 | SVK_SUPPLIER |
+| 0x03 | SVK_WERK |
+| 0x04 | SVK_BACKUP_01 |
+| 0x05 | SVK_BACKUP_02 |
+| 0x06 | SVK_BACKUP_03 |
+| 0x07 | SVK_BACKUP_04 |
+| 0x08 | SVK_BACKUP_05 |
+| 0x09 | SVK_BACKUP_06 |
+| 0x0A | SVK_BACKUP_07 |
+| 0x0B | SVK_BACKUP_08 |
+| 0x0C | SVK_BACKUP_09 |
+| 0x0D | SVK_BACKUP_10 |
+| 0x0E | SVK_BACKUP_11 |
+| 0x0F | SVK_BACKUP_12 |
+| 0x10 | SVK_BACKUP_13 |
+| 0x11 | SVK_BACKUP_14 |
+| 0x12 | SVK_BACKUP_15 |
+| 0x13 | SVK_BACKUP_16 |
+| 0x14 | SVK_BACKUP_17 |
+| 0x15 | SVK_BACKUP_18 |
+| 0x16 | SVK_BACKUP_19 |
+| 0x17 | SVK_BACKUP_20 |
+| 0x18 | SVK_BACKUP_21 |
+| 0x19 | SVK_BACKUP_22 |
+| 0x1A | SVK_BACKUP_23 |
+| 0x1B | SVK_BACKUP_24 |
+| 0x1C | SVK_BACKUP_25 |
+| 0x1D | SVK_BACKUP_26 |
+| 0x1E | SVK_BACKUP_27 |
+| 0x1F | SVK_BACKUP_28 |
+| 0x20 | SVK_BACKUP_29 |
+| 0x21 | SVK_BACKUP_30 |
+| 0x22 | SVK_BACKUP_31 |
+| 0x23 | SVK_BACKUP_32 |
+| 0x24 | SVK_BACKUP_33 |
+| 0x25 | SVK_BACKUP_34 |
+| 0x26 | SVK_BACKUP_35 |
+| 0x27 | SVK_BACKUP_36 |
+| 0x28 | SVK_BACKUP_37 |
+| 0x29 | SVK_BACKUP_38 |
+| 0x2A | SVK_BACKUP_39 |
+| 0x2B | SVK_BACKUP_40 |
+| 0x2C | SVK_BACKUP_41 |
+| 0x2D | SVK_BACKUP_42 |
+| 0x2E | SVK_BACKUP_43 |
+| 0x2F | SVK_BACKUP_44 |
+| 0x30 | SVK_BACKUP_45 |
+| 0x31 | SVK_BACKUP_46 |
+| 0x32 | SVK_BACKUP_47 |
+| 0x33 | SVK_BACKUP_48 |
+| 0x34 | SVK_BACKUP_49 |
+| 0x35 | SVK_BACKUP_50 |
+| 0x36 | SVK_BACKUP_51 |
+| 0x37 | SVK_BACKUP_52 |
+| 0x38 | SVK_BACKUP_53 |
+| 0x39 | SVK_BACKUP_54 |
+| 0x3A | SVK_BACKUP_55 |
+| 0x3B | SVK_BACKUP_56 |
+| 0x3C | SVK_BACKUP_57 |
+| 0x3D | SVK_BACKUP_58 |
+| 0x3E | SVK_BACKUP_59 |
+| 0x3F | SVK_BACKUP_60 |
+| 0x40 | SVK_BACKUP_61 |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-dtcextendeddatarecordnumber"></a>
+### DTCEXTENDEDDATARECORDNUMBER
+
+Dimensions: 5 rows × 3 columns
+
+| WERT | TEXT | ANZ_BYTE |
+| --- | --- | --- |
+| 0x00 | ISO_RESERVED | 0 |
+| 0x01 | CONDITION_BYTE | 1 |
+| 0x02 | HFK | 1 |
+| 0x03 | HLZ | 1 |
+| 0xFF | RECORD_UNKNOWN | 0 |
+
+<a id="table-dtcsnapshotidentifier"></a>
+### DTCSNAPSHOTIDENTIFIER
+
+Dimensions: 7 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x1700 | KM_STAND | 0-n | - | 0xFFFFFF | - | 1 | 1 | 0.000000 |
+| 0x1701 | ABS_ZEIT | 0-n | - | 0xFFFFFFFF | - | 1 | 1 | 0.000000 |
+| 0x1702 | SAE_CODE | 0-n | - | 0xFFFFFF | - | 1 | 1 | 0.000000 |
+| 0x1731 | Fehlerklasse_DTC | - | - | u char | - | 1 | 1 | 0.000000 |
+| 0x1750 | PWF_Basinetz | 0-n | - | 0xFF | - | 1 | 1 | 0.000000 |
+| 0x1751 | PWF_Teilnetz | 0-n | - | 0xFFFFFF | - | 1 | 1 | 0.000000 |
+| 0xFFFF | IDENTIFIER_UNKNOWN | - | - | 0xFFFFFF | - | 1 | 1 | 0.000000 |
+
+<a id="table-fehlerklasse"></a>
+### FEHLERKLASSE
+
+Dimensions: 5 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0x00 | Keine Fehlerklasse verfuegbar |
+| 0x01 | Ueberpruefung bei naechstem Werkstattbesuch |
+| 0x02 | Ueberpruefung bei naechstem Halt |
+| 0x04 | Ueberpruefung sofort erforderlich ! |
+| 0xFF | unbekannte Fehlerklasse |
+
+<a id="table-diagmode"></a>
+### DIAGMODE
+
+Dimensions: 12 rows × 3 columns
+
+| NR | MODE | MODE_TEXT |
+| --- | --- | --- |
+| 0x00 | UNGUELTIG | DefaultMode |
+| 0x01 | DEFAULT | DefaultMode |
+| 0x02 | ECUPM | ECUProgrammingMode |
+| 0x03 | ECUEXTDIAG | ECUExtendedDiagnosticSession |
+| 0x04 | ECUSSDS | ECUSafetySystemDiagnosticSession |
+| 0x40 | ECUEOL | ECUEndOfLineSession |
+| 0x41 | ECUCODE | ECUCodingSession |
+| 0x42 | ECUSWT | ECUSwtSession |
+| 0x43 | ECUHDD | ECUHDDDownloadSession |
+| 0x4F | ECUDEVELOP | ECUDevelopmentSession |
+| 0x5F | ECUGDM | ECUGarageDiagnoseMode |
+| 0xXY | -- | unbekannter Diagnose-Mode |
+
+<a id="table-iarttexte"></a>
+### IARTTEXTE
+
+Dimensions: 35 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | keine Fehlerart verfügbar |
+| 0x04 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x05 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x08 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x09 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x0C | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x0D | Fehler momentan vorhanden und bereits gespeichert |
+| 0x20 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x21 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x24 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x25 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x28 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x29 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x2C | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x2D | Fehler momentan vorhanden und bereits gespeichert |
+| 0x40 | unbekannte Fehlerart |
+| 0x44 | Fehler gespeichert |
+| 0x45 | Fehler gespeichert |
+| 0x48 | Fehler gespeichert |
+| 0x49 | Fehler gespeichert |
+| 0x4C | Fehler gespeichert |
+| 0x4D | Fehler gespeichert |
+| 0x60 | Fehler gespeichert |
+| 0x61 | Fehler gespeichert |
+| 0x64 | Fehler gespeichert |
+| 0x65 | Fehler gespeichert |
+| 0x68 | Fehler gespeichert |
+| 0x69 | Fehler gespeichert |
+| 0x6C | Fehler gespeichert |
+| 0x6D | Fehler gespeichert |
+| 0x10 | Testbedingungen erfüllt |
+| 0x11 | Testbedingungen noch nicht erfüllt |
+| 0x80 | Fehler würde kein Aufleuchten einer Warnlampe verursachen |
+| 0x81 | Fehler würde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-uds-tab-roe-aktiv"></a>
+### UDS_TAB_ROE_AKTIV
+
+Dimensions: 3 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0x00 | Aktive Fehlermeldung deaktiviert |
+| 0x01 | Aktive Fehlermeldung aktiviert |
+| 0xFF | Status der aktiven Fehlermeldung nicht feststellbar |
+
+<a id="table-arg-0xa020-r"></a>
+### ARG_0XA020_R
+
+Dimensions: 2 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ARG_TYPE | + | - | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | - | - | There can only have two Values for the argument: BMW or BROWSER ARG_TYPE =  BMW  or  BROWSER  |
+| ARG_PATH | + | - | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | - | - | path of the certificate |
+
+<a id="table-arg-0xa022-r"></a>
+### ARG_0XA022_R
+
+Dimensions: 1 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ARG_SELBSTTEST_ROUTINE | + | - | 0-n | - | unsigned long | - | TSelbsttestRoutine | - | - | - | - | - | Routinen, die getestet werden sollen. Die Tabelle TSelbsttestRoutine wird in der SGBD von der Entwicklung bzw. vom Zulieferer befüllt und gepflegt |
+
+<a id="table-arg-0xa05e-r"></a>
+### ARG_0XA05E_R
+
+Dimensions: 1 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ARG_ANTENNE | + | - | 0-n | high | unsigned char | - | TAB_ANTENNE_ECALL | - | - | - | 0.0 | - | Antenne, die getestet werden sollen Tabelle TAB_ANTENNE_ECALL |
+
+<a id="table-arg-0xa05f-r"></a>
+### ARG_0XA05F_R
+
+Dimensions: 1 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ARG_VERBAU_ROUTINE | + | - | 0-n | - | unsigned long | - | TVerbauCECALL | - | - | - | - | - | Routinen, die getestet werden sollen Tabelle TVerbauCECALL |
+
+<a id="table-arg-0xa086-r"></a>
+### ARG_0XA086_R
+
+Dimensions: 3 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ARG_FREQUENZ | + | - | Hz | high | unsigned int | - | - | 1.0 | 1.0 | 0.0 | - | - | Frequenz in Hertz. Bereich 400 bis 3400 Hz. Sonst Request out of range |
+| ARG_LAUTSTAERKE | + | - | - | high | unsigned char | - | - | 1.0 | 1.0 | 0.0 | - | - | Lautstaerke von 0-15. Minimal- und Maximalbereich eincodiert. Bei ungueltigen Einganben kommt Request out of range |
+| ARG_DAUER | + | - | s | high | unsigned char | - | - | 1.0 | 1.0 | 0.0 | 0.0 | 255.0 | Dauer des Tons. Wertebereich von 0 bis 255 |
+
+<a id="table-arg-0xa089-r"></a>
+### ARG_0XA089_R
+
+Dimensions: 1 rows × 14 columns
+
+| ARG | STR | STPR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | MIN | MAX | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SOS_DEAKTIVIERUNG | + | - | 0-n | high | unsigned char | - | TAB_SOS_DEAKTIVIERUNG | - | - | - | - | - | 0x00 aktiviert und 0x01 deaktiviert das Senden von SOS-Botschaften über CAN |
+
+<a id="table-betriebsmode"></a>
+### BETRIEBSMODE
+
+Dimensions: 6 rows × 3 columns
+
+| WERT | TEXT | BEDEUTUNG |
+| --- | --- | --- |
+| 0x00 | Allgemeiner Fertigungs- und Energiesparmode | Hier deaktivierte Funktionen gemäß FeTra-Liste festhalten |
+| 0x01 | Spezieller Energiesparmode | - |
+| 0x02 | ECOS-Mode | - |
+| 0x03 | MOST-Mode | - |
+| 0x04 | Rollenmode | - |
+| 0xFF | ungültiger Betriebsmode | ungültig |
+
+<a id="table-fdetailstruktur"></a>
+### FDETAILSTRUKTUR
+
+Dimensions: 6 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_UWB_ERW | ja |
+| SAE_CODE | nein |
+| F_HLZ | nein |
+| F_SEVERITY | nein |
+| F_UWB_SATZ | 2 |
+| F_HLZ_VIEW | nein |
+
+<a id="table-forttexte"></a>
+### FORTTEXTE
+
+Dimensions: 47 rows × 3 columns
+
+| ORT | ORTTEXT | EREIGNIS_DTC |
+| --- | --- | --- |
+| 0x026100 | Energiesparmode aktiv | 0 |
+| 0x02FF61 | Dummy-Fehlerspeichereintrag im Komponentenfehlerbereich nur für Testzwecke | 1 |
+| 0xB7F301 | Codierung: Steuergerät ist nicht codiert | 0 |
+| 0xB7F302 | Codierung: Fehler bei Codierung aufgetreten | 0 |
+| 0xB7F303 | Codierung: Signatur für Daten ungültig | 0 |
+| 0xB7F304 | Codierung: Codierung passt nicht zum Fahrzeug | 0 |
+| 0xB7F305 | Codierung: Unplausible Daten während Transaktion | 0 |
+| 0xB7F311 | Kein Zugriff auf interne SIM-Karte | 0 |
+| 0xB7F313 | SIM-Karte gesperrt | 0 |
+| 0xB7F315 | GPS-Antenne: Kurzschluss nach Plus | 0 |
+| 0xB7F316 | GPS-Antenne: Unterbrechung | 0 |
+| 0xB7F317 | GPS-Antenne: Kurzschluss nach Masse | 0 |
+| 0xB7F318 | Notruf-LED Fehler | 0 |
+| 0xB7F319 | Notruf-Taster: Kurzschluss | 0 |
+| 0xB7F31A | Notruf-Taster: Unterbrechung | 0 |
+| 0xB7F31B | Mikrofon 1: Kurzschluss nach Plus | 0 |
+| 0xB7F31D | GSM-Backup-Antenne: Kurzschluss nach Plus | 0 |
+| 0xB7F31E | GSM-Antenne: Kurzschluss nach Plus | 0 |
+| 0xB7F31F | GSM-Antenne: Kurzschluss nach Masse | 0 |
+| 0xB7F320 | Hardware Reset | 0 |
+| 0xB7F321 | Software Reset | 0 |
+| 0xB7F323 | Alive Signal Airbag fehlerhaft | 1 |
+| 0xB7F324 | Notruf-Lautsprecher: Kurzschluss nach Plus | 0 |
+| 0xB7F325 | Notruf-Lautsprecher: Unterbrechung | 0 |
+| 0xB7F326 | Notruf-Lautsprecher: Kurzschluss nach Masse | 0 |
+| 0xB7F327 | Mikrofon 1: Kurzschluss nach Masse | 0 |
+| 0xB7F328 | Mikrofon 1: Unterbrechung | 0 |
+| 0xB7F32B | GSM-Antenne: Unterbrechung | 0 |
+| 0xB7F32C | GSM-Backup-Antenne: Kurzschluss nach Masse | 0 |
+| 0xB7F32D | GSM-Backup-Antenne: Unterbrechung | 0 |
+| 0xB7F335 | Interner Steuergerätefehler Hardware | 0 |
+| 0xB7F336 | Interner Steuergerätefehler Software | 0 |
+| 0xB7F338 | Alive Signal Airbag fehlt | 1 |
+| 0xB7F339 | Unterspannung erkannt | 1 |
+| 0xB7F33A | Überspannung erkannt | 1 |
+| 0xB7F33C | Interner Steuergerätefehler | 0 |
+| 0xB7F33E | Automatischer Notruf häufig ausgelöst | 1 |
+| 0xB7F33F | Notruf durch Diagnose deaktiviert | 0 |
+| 0xB7F341 | Backup-Batterie: Hardware defekt | 0 |
+| 0xB7F343 | Backup-Batterie:  Before end of life | 0 |
+| 0xB7F347 | Provisionierung ohne Signatur Diagnose | 0 |
+| 0xB7F348 | Provisionierung ohne Signatur OTA | 0 |
+| 0xB7F349 | Zertifikat ohne Signatur | 0 |
+| 0xE1445F | BODY- oder IuK-CAN Physikalischer Busfehler | 0 |
+| 0xE14468 | BODY- oder IuK-CAN Control Module Bus OFF | 0 |
+| 0xE14BFF | Dummy-Fehlerspeichereintrag im Netzwerkfehlerbereich nur für Testzwecke | 1 |
+| 0xFFFFFF | unbekannter Fehlerort | 0 |
+
+<a id="table-fumwelttexte"></a>
+### FUMWELTTEXTE
+
+Dimensions: 5 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x1700 | Kilometerstand | TEXT | High | 3 | - | - | - | - |
+| 0x1701 | Systemzeit | s | High | signed long | - | 1.0 | 1.0 | 0.0 |
+| 0x4001 | COUNTER | count | High | unsigned int | - | 1.0 | 1.0 | 0.0 |
+| 0xD34C | SPANNUNG_WERT | mV | High | unsigned int | - | 1.0 | 1.0 | 0.0 |
+| 0xXYXY | unbekannte Umweltbedingung | - | - | - | - | - | - | - |
+
+<a id="table-idetailstruktur"></a>
+### IDETAILSTRUKTUR
+
+Dimensions: 5 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_UWB_ERW | ja |
+| SAE_CODE | nein |
+| F_HLZ | nein |
+| F_SEVERITY | nein |
+| F_UWB_SATZ | 2 |
+
+<a id="table-iorttexte"></a>
+### IORTTEXTE
+
+Dimensions: 89 rows × 3 columns
+
+| ORT | ORTTEXT | EREIGNIS_DTC |
+| --- | --- | --- |
+| 0x230004 | Kommunikation Einschlafkoordinator: Zeitüberschreitung | 1 |
+| 0x610002 | Puffer für ausgehende Fehlermeldungen ist voll | 1 |
+| 0x610003 | Fehler konnte nach maximaler Anzahl von Versuchen nicht gesendet werden | 1 |
+| 0x610004 | Signal (Zeit_Sekunde_Zaehler_Relativ, 0x328): ungültig | 1 |
+| 0x610005 | Botschaft (Fahrzeugzustand, 0x3A0) fehlt | 1 |
+| 0x610006 | CAN Interface - Sendepuffer voll | 0 |
+| 0x610007 | CAN Interface - Interface angehalten | 0 |
+| 0x610008 | CAN NM - Sendefehler | 0 |
+| 0x610009 | CAN NM Zeitüberschreitung | 0 |
+| 0x61000A | CAN NM Initialisierung fehlgeschlagen | 0 |
+| 0x61000B | CAN TP Kommunikationsfehler | 0 |
+| 0x61000C | CAN Transceiver ungültiger Zustand | 0 |
+| 0x61000D | CAN TP Operation nicht unterstützt | 0 |
+| 0x61000E | CAN Zeitüberschreitung | 0 |
+| 0x61000F | Start Übertragung auf Kanal 0 fehlgeschlagen | 0 |
+| 0x610010 | Stop Übertragung auf Kanal 0 fehlgeschlagen | 0 |
+| 0x610011 | Empfang NM Nachricht während Sendeverbot | 0 |
+| 0x610012 | Funktion EcuM_KillAllRUNRequests wurde aufgerufen | 0 |
+| 0x610013 | EEPROM maximale Anzahl Schreibzyklen erreicht | 0 |
+| 0x610014 | Ungültige Post-Build Daten erkannt | 0 |
+| 0x610015 | Watchdog abschalten abgelehnt | 0 |
+| 0x610016 | Watchdog Manager Mode setzen fehlgeschlagen | 0 |
+| 0x610017 | RAM Test fehlgeschlagen | 0 |
+| 0x610018 | Kein EEPROM Sektor verfügbar | 0 |
+| 0x610019 | NVM Integritätsprüfung fehlgeschlagen | 0 |
+| 0x61001A | NVM Anforderung fehlgeschlagen | 0 |
+| 0x61001B | MCU Clock Fehler | 0 |
+| 0x61001C | Watchdog Manager - Keine Rückmeldung von Entity | 0 |
+| 0x61001D | Senden I-PDU fehlgeschlagen | 0 |
+| 0x61001E | CAN-Interface - DLC ungültig | 0 |
+| 0x61001F | Falsche NGTP Keytable | 0 |
+| 0x610020 | SMS Sende Timeout | 0 |
+| 0x610021 | Backup-Batterie: Kurzschluss nach 12 Volt | 0 |
+| 0x610022 | Purge Test fehlgeschlagen | 0 |
+| 0x610023 | Backup-Batterie: Unterbrechung | 0 |
+| 0x610025 | Backup-Batterie: End of life | 0 |
+| 0x610026 | NAD Software Reset | 0 |
+| 0x610030 | ECall deaktiviert | 0 |
+| 0x610036 | Flight Mode aufgrund fehlgeschlagener Netzwerk-Registrierung | 1 |
+| 0x930000 | Alive Signal Airbag: Prüfsummenfehler | 1 |
+| 0xB7F314 | SIM-Karte nicht freigeschaltet | 0 |
+| 0xB7F322 | Alive Signal Airbag fehlt beim Aufstart | 1 |
+| 0xB7F337 | Alive Signal Airbag fehlerhaft beim Aufstart | 1 |
+| 0xB7F33B | Interner Steuergerätefehler | 0 |
+| 0xB7F340 | Provisionierungsdaten fehlerhaft | 1 |
+| 0xE14400 | Zeitüberschreitung CAN-Botschaft A_TEMP | 1 |
+| 0xE14401 | Zeitüberschreitung CAN-Botschaft BEDIENUNG_AUDIO_TEL | 1 |
+| 0xE14402 | Zeitüberschreitung CAN-Botschaft DT_PT_2 | 1 |
+| 0xE14403 | Zeitüberschreitung CAN-Botschaft EINHEITEN | 1 |
+| 0xE14404 | Zeitüberschreitung CAN-Botschaft FLLUPT_GPWSUP | 1 |
+| 0xE14405 | Zeitüberschreitung CAN-Botschaft GPS_CTI_MOST | 1 |
+| 0xE14406 | Zeitüberschreitung CAN-Botschaft GPS_PO_EXTS_MOST | 1 |
+| 0xE14407 | Zeitüberschreitung CAN-Botschaft GPS_PO_MOST | 1 |
+| 0xE14408 | Zeitüberschreitung CAN-Botschaft KILOMETERSTAND | 1 |
+| 0xE14409 | Zeitüberschreitung CAN-Botschaft KLEMMEN | 1 |
+| 0xE1440C | Zeitüberschreitung CAN-Botschaft POWERMGMT_CTR_COS | 1 |
+| 0xE1440D | Zeitüberschreitung CAN-Botschaft STEA_FTAX_EFFV | 1 |
+| 0xE1440E | Zeitüberschreitung CAN-Botschaft UHRZEIT_DATUM | 1 |
+| 0xE1440F | Zeitüberschreitung CAN-Botschaft VYAW_VEH | 1 |
+| 0xE14411 | Zeitüberschreitung CAN-Botschaft V_VEH | 1 |
+| 0xE14412 | Zeitüberschreitung CAN-Botschaft LAMPENZUSTAND | 1 |
+| 0xE14413 | Zeitüberschreitung CAN-Botschaft STAT_GANG_RUECKWAERTS | 1 |
+| 0xE14414 | Zeitüberschreitung CAN-Botschaft STAT_ZV_KLAPPEN | 1 |
+| 0xE14415 | Zeitüberschreitung CAN-Botschaft MILE_VEH | 1 |
+| 0xE14420 | Ungültiges Signal in CAN-Botschaft BEDIENUNG_AUDIO_TEL | 1 |
+| 0xE14421 | Ungültiges Signal in CAN-Botschaft CRASH | 1 |
+| 0xE14422 | Ungültiges Signal in CAN-Botschaft CTR_CR | 1 |
+| 0xE14423 | Ungültiges Signal in CAN-Botschaft DT_PT_2 | 1 |
+| 0xE14424 | Ungültiges Signal in CAN-Botschaft EINHEITEN | 1 |
+| 0xE14425 | Ungültiges Signal in CAN-Botschaft FLLUPT_GPWSUP | 1 |
+| 0xE14426 | Ungültiges Signal in CAN-Botschaft GPS_PO_EXTS_MOST | 1 |
+| 0xE14427 | Ungültiges Signal in CAN-Botschaft KLEMMEN | 1 |
+| 0xE1442A | Ungültiges Signal in CAN-Botschaft OP_ROCO_AVOL | 1 |
+| 0xE1442B | Ungültiges Signal in CAN-Botschaft POWERMGMT_CTR_COS | 1 |
+| 0xE1442C | Ungültiges Signal in CAN-Botschaft STAT_ZV_KLAPPEN | 1 |
+| 0xE1442D | Ungültiges Signal in CAN-Botschaft STEA_FTAX_EFFV | 1 |
+| 0xE1442E | Ungültiges Signal in CAN-Botschaft TELM_SER_CTR | 1 |
+| 0xE1442F | Ungültiges Signal in CAN-Botschaft UHRZEIT_DATUM | 1 |
+| 0xE14430 | Ungültiges Signal in CAN-Botschaft VYAW_VEH | 1 |
+| 0xE14431 | Ungültiges Signal in CAN-Botschaft V_VEH | 1 |
+| 0xE14432 | Ungültiges Signal in CAN-Botschaft DT_BAT | 1 |
+| 0xE14433 | Ungültiges Signal in CAN-Botschaft STAT_GANG_RUECKWAERTS | 1 |
+| 0xE14434 | Ungültiges Signal in CAN-Botschaft A_TEMP | 1 |
+| 0xE14435 | Ungültiges Signal in CAN-Botschaft GPS_CTI_MOST | 1 |
+| 0xE14436 | Ungültiges Signal in CAN-Botschaft GPS_DATE_MOST | 1 |
+| 0xE14437 | Ungültiges Signal in CAN-Botschaft GPS_PO_MOST | 1 |
+| 0xE14438 | Ungültiges Signal in CAN-Botschaft KILOMETERSTAND | 1 |
+| 0xE1443A | Ungültiges Signal in CAN-Botschaft MILE_VEH | 1 |
+| 0xFFFFFF | unbekannter Fehlerort | 0 |
+
+<a id="table-iumwelttexte"></a>
+### IUMWELTTEXTE
+
+Dimensions: 5 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x1700 | Kilometerstand | TEXT | High | 3 | - | - | - | - |
+| 0x1701 | Systemzeit | s | High | signed long | - | 1.0 | 1.0 | 0.0 |
+| 0x4001 | COUNTER | count | High | unsigned int | - | 1.0 | 1.0 | 0.0 |
+| 0xD34C | SPANNUNG_WERT | mV | High | unsigned int | - | 1.0 | 1.0 | 0.0 |
+| 0xXYXY | unbekannte Umweltbedingung | - | - | - | - | - | - | - |
+
+<a id="table-jobresultextended"></a>
+### JOBRESULTEXTENDED
+
+Dimensions: 1 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-res-0xa020-r"></a>
+### RES_0XA020_R
+
+Dimensions: 1 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_RET_STATUS | + | - | + | 0-n | high | unsigned char | - | TAB_RET_STATUS | - | - | - | Status message |
+
+<a id="table-res-0xa022-r"></a>
+### RES_0XA022_R
+
+Dimensions: 2 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_SELBSTTEST_ROUTINE | - | - | + | 0-n | - | unsigned long | - | TSelbsttestRoutine | - | - | - | Routine(n), die getestet wurde(n). Tabelle  TSelbsttestRoutine |
+| STAT_SELBSTTEST | - | - | + | 0-n | - | unsigned char | - | TTestStatus | - | - | - | Gibt den Status des Tests wieder. |
+
+<a id="table-res-0xa05e-r"></a>
+### RES_0XA05E_R
+
+Dimensions: 4 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_ANTENNE | - | - | + | 0-n | high | unsigned char | - | TAB_ANTENNE_ECALL | - | - | - | gibt an, welche Antenne getestet wurden |
+| STAT_TEST_ANTENNE | - | - | + | 0-n | high | unsigned char | - | TTestStatus | - | - | - | Gibt den Status des gesamten Tests der entsprechenden Antenne wieder Nach dem Herunterfahren oder Neustart des Steuergerätes wird der Status automatisch auf 0 zurückgesetzt |
+| STAT_FEHLERART_ANTENNE | - | - | + | 0-n | high | unsigned char | - | TAntenneFehlerArt | - | - | - | Dieses Result wird mit 255 belegt, wenn STAT_TEST_ANTENNE nicht den Wert 3 (Fehler) meldet |
+| STAT_SPANNUNG_WERT | - | - | + | mV | high | unsigned int | - | - | 1.0 | 1.0 | 0.0 | Die auf der fehlerhaften Antenne gemessene Spannung in mV. |
+
+<a id="table-res-0xa05f-r"></a>
+### RES_0XA05F_R
+
+Dimensions: 2 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_VERBAU_ROUTINE | - | - | + | 0-n | - | unsigned long | - | TVerbauCECALL | - | - | - | Ausgeführte Testroutine(n) |
+| STAT_TEST_VERBAU | - | - | + | 0-n | - | unsigned char | - | TTestStatus | - | - | - | Gibt den Status des Verbautests wieder Nach dem Herunterfahren oder Neustart des Steuergerätes wird der Status automatisch auf 0 zurückgesetzt |
+
+<a id="table-res-0xa079-r"></a>
+### RES_0XA079_R
+
+Dimensions: 1 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_PROVISIONING_RESET | - | - | + | 0-n | - | unsigned char | - | TResetStatus | - | - | - | Status Reset Werte gemäß Tabelle TResetStatus 0 UNKNOWN - unbekannt 1 ACTIVE - läuft noch 2 SUCCESS - alles OK 3 FAILED - mit Fehler beendet 4 IDLE - wurde nicht gestartet |
+
+<a id="table-res-0xa07a-r"></a>
+### RES_0XA07A_R
+
+Dimensions: 3 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_PROVISIONING | - | - | + | 0-n | - | unsigned char | - | TProvisioningStatusEcall | - | - | - | Status des Provisionierungsprozess Werte gemäß Tabelle TProvisioningStatusEcall |
+| STAT_ECALL_OTA_ID_TEXT | - | - | + | TEXT | - | string | - | - | 1.0 | 1.0 | 0.0 | Version von den aktuellen OTA Daten |
+| STAT_ECALL_DAS_ID_TEXT | - | - | + | TEXT | - | string | - | - | 1.0 | 1.0 | 0.0 | Version von den aktuellen DAS Daten |
+
+<a id="table-res-0xa089-r"></a>
+### RES_0XA089_R
+
+Dimensions: 1 rows × 13 columns
+
+| RESULTNAME | STR | STPR | RRR | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_SOS_CAN_BOTSCHAFT | - | - | + | 0-n | high | unsigned char | - | TAB_SOS_CAN_BOTSCHAFT | 1.0 | 1.0 | 0.0 | Auslesen des aktuellen Status des Signalmodus (siehe Job STEUERN_SIGNAL_MODE) |
+
+<a id="table-res-0xd029-d"></a>
+### RES_0XD029_D
+
+Dimensions: 8 rows × 10 columns
+
+| RESULTNAME | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_BUB_SPANNUNG_WERT | mV | high | unsigned int | - | - | 1.0 | 1.0 | 0.0 | Batteriespannung als Wert in Millivolt |
+| STAT_BUB_TEMPERATUR_WERT | °C | high | signed int | - | - | 1.0 | 1.0 | 0.0 | Batterietemperatur in C° |
+| STAT_BUB_VERBAUT | 0/1 | high | unsigned char | - | - | - | - | - | Status gibt an ob Steuergerät auf Betrieb mit BUB oder ohne codiert ist. 0 = nicht verbaut 1 = verbaut |
+| STAT_BUB_SOH_WERT | % | high | unsigned int | - | - | 1.0 | 1000.0 | 0.0 | Relative Health der Backup-Batterie (State of Health) |
+| STAT_BUB_JAHR_HEALTH_MESSUNG_WERT | - | high | signed int | - | - | 1.0 | 1000.0 | 0.0 | Datum der Relative Health Messung der Backup-Batterie. Ergebnis Jahr (Format: JJJJ) |
+| STAT_BUB_MONAT_HEALTH_MESSUNG_WERT | - | high | signed int | - | - | 1.0 | 1000.0 | 0.0 | Datum der Relative Health Messung der Backup-Batterie. Ergebnis Monat (Format: MM) |
+| STAT_BUB_TAG_HEALTH_MESSUNG_WERT | - | high | signed int | - | - | 1.0 | 1000.0 | 0.0 | Datum der Relative Health Messung der Backup-Batterie. Ergebnis Tag (Format: TT) |
+| STAT_BUB_LADUNG_ART | 0-n | high | unsigned char | - | TAB_BUB_LADUNG_ART | - | - | - | Gibt das aktuelle Ladungsverfahren an. |
+
+<a id="table-res-0xd035-d"></a>
+### RES_0XD035_D
+
+Dimensions: 2 rows × 10 columns
+
+| RESULTNAME | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_SIM_STATUS | 0-n | high | unsigned char | - | TSimStatus | - | - | - | Status der SIM-Karte |
+| STAT_IP_ADRESSE_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | IP-Adresse z.B. 192.168.0.1 |
+
+<a id="table-res-0xd0ce-d"></a>
+### RES_0XD0CE_D
+
+Dimensions: 13 rows × 10 columns
+
+| RESULTNAME | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_SHORT_VIN_TEXT | TEXT | high | string[7] | - | - | 1.0 | 1.0 | 0.0 | 7-stellige Fahrgestellnummer |
+| STAT_SMCC_TEXT | TEXT | high | string[3] | - | - | 1.0 | 1.0 | 0.0 | SIM Mobile Länderkode |
+| STAT_SMNC_TEXT | TEXT | high | string[3] | - | - | 1.0 | 1.0 | 0.0 | SIM Mobile Netzwerkkode |
+| STAT_NMCC_TEXT | TEXT | high | string[3] | - | - | 1.0 | 1.0 | 0.0 | Netzwerk Mobile Länderkode |
+| STAT_NMNC_TEXT | TEXT | high | string[3] | - | - | 1.0 | 1.0 | 0.0 | Netzwerk Mobile Netzwerkkode |
+| STAT_VERSION_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | Version des Steuergerätes und des Provisionierungsmanagers |
+| STAT_OTA_ID_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | OTA - ID |
+| STAT_DAS_ID_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | DAS - ID |
+| STAT_CAUSE_WERT | - | high | unsigned int | - | - | 1.0 | 1.0 | 0.0 | Cause Wert Der Wert gibt den Auslöser der Provisionierung an. 0: Required access data is missing in the DASAS data 1: A required OTAAS is expired 2: Update request by user via the HMI  3: Application trigger 4: The PINGUIN triggered the provisioning  5: ACM triggered provisioning on DPAS Mode 6: Provisioning via Diagnosis |
+| STAT_DPAS_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | Provisionierungszustand |
+| STAT_ICC_ID_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | ICC - ID |
+| STAT_IMEI_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | IMEI |
+| STAT_SERIAL_NUMBER_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | Seriennummer des Steuergeräts |
+
+<a id="table-res-0xd0d3-d"></a>
+### RES_0XD0D3_D
+
+Dimensions: 3 rows × 10 columns
+
+| RESULTNAME | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_SHORT_VIN_TEXT | TEXT | high | string[7] | - | - | 1.0 | 1.0 | 0.0 | 7-stellige Fahrgestellnummer |
+| STAT_DOWNLOAD_ID_TEXT | TEXT | high | string | - | - | 1.0 | 1.0 | 0.0 | Download ID |
+| STAT_PROVISIONING | 0-n | high | unsigned char | - | TProvisioningStatus | - | - | - | Status vom Schreibvorgang der Provisionierungsdaten. |
+
+<a id="table-res-0xd0e1-d"></a>
+### RES_0XD0E1_D
+
+Dimensions: 9 rows × 10 columns
+
+| RESULTNAME | EINHEIT | L/H | DATENTYP | MASKE | NAME | MUL | DIV | ADD | INFO |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| STAT_GPS_RECEIVER_SW_VERSION_TEXT | TEXT | - | string | - | - | 1.0 | 1.0 | 0.0 | Auslesen der Software Versionsnummer des GPS Receivers |
+| STAT_GPS | 0-n | - | unsigned char | - | TGpsStatus | - | - | - | Liest den GPS Status. Siehe Tabelle TGpsStatus. |
+| STAT_GPS_LONG_WERT | - | high | signed long | - | - | 1.0 | 1.0 | 0.0 | Längengrad |
+| STAT_GPS_LAT_WERT | - | high | signed long | - | - | 1.0 | 1.0 | 0.0 | Breitengrad |
+| STAT_GPS_HEADING_WERT | ° | high | unsigned int | - | - | 1.0 | 1.0 | 0.0 | Richtung in Grad |
+| STAT_GPS_SPEED_WERT | m/s | high | unsigned int | - | - | 1.0 | 100.0 | 0.0 | Geschwindigkeit in m pro Sekunde. Steuergerät sendet in cm/s, in der SGBD wird auf m/s umgerechnet |
+| STAT_GPS_HEIGHT_WERT | m | high | signed int | - | - | 1.0 | 1.0 | 0.0 | Höhe in Meter |
+| STAT_GPS_DATE_TEXT | TEXT | high | string[8] | - | - | 1.0 | 1.0 | 0.0 | Datum TTMMJJJJ |
+| STAT_GPS_TIME_TEXT | TEXT | high | string[6] | - | - | 1.0 | 1.0 | 0.0 | Uhrzeit HHMMSS |
+
+<a id="table-sg-funktionen"></a>
+### SG_FUNKTIONEN
+
+Dimensions: 19 rows × 16 columns
+
+| ARG | ID | RESULTNAME | INFO | EINHEIT | LABEL | L/H | DATENTYP | NAME | MUL | DIV | ADD | SG_ADR | SERVICE | ARG_TABELLE | RES_TABELLE |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| UNIVERSAL_TRANSPORT_LAYER | 0xA020 | - | Dummy für UTL Transport-Schicht | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA020_R | RES_0xA020_R |
+| SELBSTTEST | 0xA022 | - | Selbsttests des Steuergerätes Sie sollen einen evtl. notwendigen Tausch von Software/Hardware erkennen | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA022_R | RES_0xA022_R |
+| TEST_ANTENNE_ECALL | 0xA05E | - | Startet und bewertet die Prüfung für eine definierte Antenne | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA05E_R | RES_0xA05E_R |
+| TEST_VERBAU_ECALL | 0xA05F | - | Test Verbau CECALL | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA05F_R | RES_0xA05F_R |
+| PROVISIONING_RESET | 0xA079 | - | Setzt die standard Telematik Konfigurationswerte zurück und löscht die OTA (Over The Air) Daten | - | - | - | - | - | - | - | - | - | 31 | - | RES_0xA079_R |
+| PROVISIONING_ECALL | 0xA07A | - | Startet die Provisionierung der Telematikdienste OTA | - | - | - | - | - | - | - | - | - | 31 | - | RES_0xA07A_R |
+| SOS_SPEAKER_TEST | 0xA086 | - | Spielt einen Ton mit parametrierbarer Frequenz, Dauer, Lautstärke auf dem SOS-Lautsprecher ab | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA086_R | - |
+| SIGNAL_MODE_ECALL | 0xA089 | - | Aktiviert bzw. deaktiviert das Senden von SOS-Botschaften (via CAN) zu Testzwecken des SOS-Tasters | - | - | - | - | - | - | - | - | - | 31 | ARG_0xA089_R | RES_0xA089_R |
+| BACKUP_BATTERIE | 0xD029 | - | Backup-Batterie | - | - | - | - | - | - | - | - | - | 22 | - | RES_0xD029_D |
+| LAST_CONNECTION_TEL | 0xD035 | - | Auslesen des SIM Status und IP Adresse der letzte Verbindung Argument beschreibt welches Gerät für das die letze Verbindung abgefragt wird | - | - | - | - | - | - | - | - | - | 22 | - | RES_0xD035_D |
+| ICC_ID_LESEN | 0xD05A | STAT_ICC_ID_TEXT | Auslesen des ICC (Integrated Circuit Card) -ID des internen Telefonmoduls | TEXT | - | - | string | - | 1.0 | 1.0 | 0.0 | - | 22 | - | - |
+| IMEI_LESEN | 0xD06B | STAT_IMEI_TEXT | Auslesen des IMEI (International Mobile Equipment Identity) des internen Telefonmoduls | TEXT | - | - | string | - | 1.0 | 1.0 | 0.0 | - | 22 | - | - |
+| NAD_FIRMWARE_VERSION | 0xD06D | STAT_NAD_FIRMWARE_VERSION_TEXT | Auslesen der Firmware Version des NAD (Network Access Module) | TEXT | - | - | string | - | 1.0 | 1.0 | 0.0 | - | 22 | - | - |
+| NAD_USERWARE_VERSION | 0xD06E | STAT_NAD_USERWARE_VERSION_TEXT | Auslesen der Userware Version des NAD (Network Access Module) | TEXT | - | - | string | - | 1.0 | 1.0 | 0.0 | - | 22 | - | - |
+| SOS_TASTER | 0xD09B | STAT_SOS_TASTER | Gibt an, ob der SOS-Taster gedrückt (0x01) oder nicht gedrückt (0x00) ist. | 0-n | - | High | unsigned char | TAB_TASTER_STATUS | - | - | - | - | 22 | - | - |
+| PROVISIONING_PARAMETER | 0xD0CE | - | Liest die Parameter der Provisionierung aus | - | - | - | - | - | - | - | - | - | 22 | - | RES_0xD0CE_D |
+| PROVISIONING_DATA | 0xD0D3 | - | Liest Status des Schreibens der Provisionierungsdatei. | - | - | - | - | - | - | - | - | - | 22 | - | RES_0xD0D3_D |
+| STATUS_GPS_ECALL | 0xD0E1 | - | GPS Status des Telematiksteuergeräts. | - | - | - | - | - | - | - | - | - | 22 | - | RES_0xD0E1_D |
+| PROVISIONING_FORMAT | 0xD0EB | STAT_STAT_SIGNATURE | dient dazu, eine signierte Bereitstellungsdatei zu verstehen  | 0-n | - | High | unsigned char | TAB_NO_YES | - | - | - | - | 22 | - | - |
+
+<a id="table-tab-antenne-ecall"></a>
+### TAB_ANTENNE_ECALL
+
+Dimensions: 4 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x01 | GSM_Telematik |
+| 0x02 | GSM_Backup |
+| 0x04 | GPS_Antenne |
+| 0xFF | Ungültig |
+
+<a id="table-tab-bub-ladung-art"></a>
+### TAB_BUB_LADUNG_ART
+
+Dimensions: 6 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Ladung BUB aus |
+| 0x01 | Normale Ladung |
+| 0x02 | Erhaltungsladung |
+| 0x03 | Keine Ladung: Voll geladen |
+| 0x04 | Keine Ladung: Temperatur |
+| 0x05 | Keine Ladung: BUB Betrieb |
+
+<a id="table-tab-no-yes"></a>
+### TAB_NO_YES
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | no |
+| 0x01 | yes |
+| 0xFF | not defined |
+
+<a id="table-tab-ret-status"></a>
+### TAB_RET_STATUS
+
+Dimensions: 5 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | OK |
+| 0x01 | prepostprocessing neg. response |
+| 0x02 | prepostprocessing timeout |
+| 0x03 | ret_data exceeds 0xF000 bytes |
+| 0xFF | Wert ungültig |
+
+<a id="table-tab-sos-can-botschaft"></a>
+### TAB_SOS_CAN_BOTSCHAFT
+
+Dimensions: 2 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | SOS-Botschaften werden gesendet |
+| 0x01 | SOS-Botschaften werden nicht gesendet |
+
+<a id="table-tab-sos-deaktivierung"></a>
+### TAB_SOS_DEAKTIVIERUNG
+
+Dimensions: 2 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Senden von SOS-Nachrichten aktivieren |
+| 0x01 | Senden von SOS-Nachrichten deaktivieren |
+
+<a id="table-tab-taster-status"></a>
+### TAB_TASTER_STATUS
+
+Dimensions: 4 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Taste nicht betätigt |
+| 0x01 | Taste betätigt |
+| 0x02 | nicht verbaut oder codiert |
+| 0xFF | Ungültig |
+
+<a id="table-tantennefehlerart"></a>
+### TANTENNEFEHLERART
+
+Dimensions: 5 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Kurzschluss nach Plus |
+| 0x01 | Kurzschluss nach Masse |
+| 0x02 | Leitungsunterbrechung |
+| 0x03 | Falscher Antennfuß oder Diversity |
+| 0xFF | Nicht definiert |
+
+<a id="table-teventecalllog"></a>
+### TEVENTECALLLOG
+
+Dimensions: 98 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | DEFAULT |
+| 0x01 | TIME_UPDATE_1 |
+| 0x02 | TIME_UPDATE_2 |
+| 0x03 | MILAGE_1 |
+| 0x04 | MILAGE_2 |
+| 0x05 | MILAGE_3 |
+| 0x06 | MILAGE_4 |
+| 0x07 | GPS_QUALITY_1 |
+| 0x08 | GPS_QUALITY_2 |
+| 0x09 | GPS_POS_LONGITUDE_1 |
+| 0x0A | GPS_POS_LONGITUDE_2 |
+| 0x0B | GPS_POS_LONGITUDE_3 |
+| 0x0C | GPS_POS_LONGITUDE_4 |
+| 0x0D | GPS_POS_LATITUDE_1 |
+| 0x0E | GPS_POS_LATITUDE_2 |
+| 0x0F | GPS_POS_LATITUDE_3 |
+| 0x10 | GPS_POS_LATITUDE_4 |
+| 0x11 | AIRBAG_CONTEXT |
+| 0x12 | NETWORK_MCC_1 |
+| 0x13 | NETWORK_MCC_2 |
+| 0x14 | NETWORK_MCC_3 |
+| 0x15 | NETWORK_MCC_4 |
+| 0x16 | NETWORK_MNC_1 |
+| 0x17 | NETWORK_MNC_2 |
+| 0x18 | NETWORK_MNC_3 |
+| 0x19 | NETWORK_MNC_4 |
+| 0x1A | NETWORK_CELL_ID_1 |
+| 0x1B | NETWORK_CELL_ID_2 |
+| 0x1C | NETWORK_SIGNAL_STRENGTH_1 |
+| 0x1D | NETWORK_SIGNAL_STRENGTH_2 |
+| 0x1E | PHONE_NUMBER_DIGIT_1 |
+| 0x1F | PHONE_NUMBER_DIGIT_2 |
+| 0x20 | PHONE_NUMBER_DIGIT_3 |
+| 0x21 | PHONE_NUMBER_DIGIT_4 |
+| 0x22 | PHONE_NUMBER_DIGIT_5 |
+| 0x23 | PHONE_NUMBER_DIGIT_6 |
+| 0x24 | PHONE_NUMBER_DIGIT_7 |
+| 0x25 | PHONE_NUMBER_DIGIT_8 |
+| 0x26 | PHONE_NUMBER_DIGIT_9 |
+| 0x27 | PHONE_NUMBER_DIGIT_10 |
+| 0x28 | PHONE_NUMBER_DIGIT_11 |
+| 0x29 | PHONE_NUMBER_DIGIT_12 |
+| 0x2A | PHONE_NUMBER_DIGIT_13 |
+| 0x2B | PHONE_NUMBER_DIGIT_14 |
+| 0x2C | PHONE_NUMBER_DIGIT_15 |
+| 0x2D | PHONE_NUMBER_DIGIT_16 |
+| 0x2E | PHONE_NUMBER_DIGIT_17 |
+| 0x2F | PHONE_NUMBER_DIGIT_18 |
+| 0x30 | PHONE_NUMBER_DIGIT_19 |
+| 0x31 | PHONE_NUMBER_DIGIT_20 |
+| 0x32 | PHONE_NUMBER_DIGIT_21 |
+| 0x33 | PHONE_NUMBER_DIGIT_22 |
+| 0x34 | PHONE_NUMBER_DIGIT_23 |
+| 0x35 | PHONE_NUMBER_DIGIT_24 |
+| 0x36 | PHONE_NUMBER_DIGIT_25 |
+| 0x37 | PHONE_NUMBER_DIGIT_26 |
+| 0x38 | PHONE_NUMBER_DIGIT_27 |
+| 0x39 | PHONE_NUMBER_DIGIT_28 |
+| 0x3A | SUPPORTED_TYPE_PROVISIONING |
+| 0x3B | SUPPORTED_TYPE_CODING |
+| 0x4B | TIME_ECALL_TRIGGER_UPDATE |
+| 0x4C | TIME_ECALL_ACTIVE |
+| 0x4D | TIME_ECALL_ABORTED |
+| 0x4E | TIME_NETWORK_REGISTRATION |
+| 0x4F | TIME_ANTENNA_SWITCHED |
+| 0x50 | TIME_FIRE_FORGET_SMS_STARTED |
+| 0x51 | TIME_FIRE_FORGET_SMS_DELIVERED |
+| 0x52 | TIME_VOICE_CALL_DIALING |
+| 0x53 | TIME_VOICE_CALL_ESTABLISHED |
+| 0x54 | TIME_VOICE_CALL_TERMINATED_USER |
+| 0x55 | TIME_VOICE_CALL_TERMINATED_COMMAND |
+| 0x56 | TIME_VOICE_CALL_TERMINATED_REMOTE |
+| 0x57 | TIME_INCOMING_VOICE_CALL_ACCEPTED |
+| 0x58 | TIME_EU_ECALL_DATA_TRANSMISSION_STARTED |
+| 0x59 | TIME_EU_ECALL_DATA_TRANSMISSION_SUCCESS |
+| 0x5A | TIME_ASSIST_ECALL_DATA_SEND_STARTED |
+| 0x5B | TIME_ASSIST_ECALL_DATA_SEND_SUCCESS |
+| 0x5C | TIME_ASSIST_ECALL_DATA_TRANSMISSION_SUCCESS |
+| 0x5D | TIME_ECALL_INACTIVE |
+| 0x5E | TIME_ECALL_STANDBY_STARTED |
+| 0x5F | TIME_ECALL_STANDBY_ENDED |
+| 0x60 | TIME_SWITCH_POWER_SUPPLY |
+| 0x7D | TRIGGER_SOURCE |
+| 0x7E | CLAMP_STATUS |
+| 0x7F | VEH_MOVEMENT |
+| 0x80 | LAST_WAKEUP_REASON |
+| 0x81 | ENGINE_STATUS |
+| 0x82 | SELECTED_ANTENNA |
+| 0x83 | TERMINATION_SOURCE |
+| 0x84 | TERMINATION_REASON |
+| 0x85 | BEARER |
+| 0x86 | VEH_BATTERY_STATUS |
+| 0x87 | VEH_BUS_STATUS |
+| 0x88 | NEW_POWER_SOURCE |
+| 0x89 | DISABLE_ENABLE_REASON |
+| 0x8A | NEW_STATUS_ECALL_AUTOMATIC |
+| 0x8B | NEW_STATUS_ECALL_MANUAL |
+| 0xFF | Nicht definiert |
+
+<a id="table-tgpsstatus"></a>
+### TGPSSTATUS
+
+Dimensions: 14 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Nicht unterstuetzt: Kein GPS |
+| 0x01 | Nicht unterstuetzt: Kommunikationsfehler |
+| 0x02 | Receiverfehler |
+| 0x03 | Kein almanac |
+| 0x04 | Suche Satelliten |
+| 0x05 | Ortung Satellit 1 |
+| 0x06 | Ortung Satellit 2 |
+| 0x07 | Ortung Satellit 3 |
+| 0x08 | Ortung Satellit 4 |
+| 0x09 | Ortung Satellit 5 |
+| 0x0A | Ortung Satellit 6 |
+| 0x0B | 2D Position |
+| 0x0C | 3D Position |
+| 0xFF | Nicht definiert |
+
+<a id="table-tpowereventnad"></a>
+### TPOWEREVENTNAD
+
+Dimensions: 17 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Initial Power Up |
+| 0x01 | Get Data; This event should never be logged |
+| 0x02 | Forced by CAN-MCU |
+| 0x03 | Forced by NAD |
+| 0x04 | CAN Bus Powered Off |
+| 0x05 | CAN Bus Powered On |
+| 0x06 | NAO Maximum Time Expired |
+| 0x07 | Diagnostic Command |
+| 0x08 | USB Switched On |
+| 0x09 | USB Switched Off |
+| 0x0A | Power Down Voting |
+| 0x0B | Vehicle Wakeup |
+| 0x0C | Vehicle Sleep |
+| 0x0D | Goto State Command |
+| 0x0E | No Network Registration |
+| 0x10 | Purge Detection |
+| 0xFF | Nicht definiert |
+
+<a id="table-tpowerstatenad"></a>
+### TPOWERSTATENAD
+
+Dimensions: 12 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Default; This state should never be logged |
+| 0x01 | Sleep Power Off |
+| 0x02 | Normal Operation |
+| 0x03 | Nad Always On Pre |
+| 0x04 | Nad Always On |
+| 0x05 | Nad Always On Post |
+| 0x06 | MTS |
+| 0x07 | MTS Sleep |
+| 0x08 | Low Power |
+| 0x09 | Sleep Pre |
+| 0x0A | EOL |
+| 0xFF | Nicht definiert |
+
+<a id="table-tprovisioningstatus"></a>
+### TPROVISIONINGSTATUS
+
+Dimensions: 5 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | IDLE wurde nicht gestartet |
+| 0x01 | ACTIVE laeuft noch |
+| 0x02 | SUCCESS alles OK |
+| 0x03 | mit Fehler beendet |
+| 0xFF | Nicht definiert |
+
+<a id="table-tprovisioningstatusecall"></a>
+### TPROVISIONINGSTATUSECALL
+
+Dimensions: 6 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | unbekannt |
+| 0x01 | läuft noch |
+| 0x02 | alles OK |
+| 0x03 | mit Fehler beendet |
+| 0x04 | wurde nicht gestartet |
+| 0xFF | nicht definiert |
+
+<a id="table-tresetstatus"></a>
+### TRESETSTATUS
+
+Dimensions: 6 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | unbekannt |
+| 0x01 | läuft noch |
+| 0x02 | alles OK |
+| 0x03 | mit Fehler |
+| 0x04 | wurde nicht gestartet |
+| 0xFF | undefinierter Zustand |
+
+<a id="table-tstateecalllog"></a>
+### TSTATEECALLLOG
+
+Dimensions: 58 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x0000 | DEFAULT |
+| 0x7D00 | ECALL_SOURCE_COMMON |
+| 0x7D01 | ECALL_SOURCE_MOST |
+| 0x7D02 | ECALL_SOURCE_BUTTON |
+| 0x7D03 | ECALL_SOURCE_AUTOMATIC |
+| 0x7D04 | ECALL_SOURCE_EXTERNAL |
+| 0x7E01 | CLAMP_RESERVE |
+| 0x7E02 | CLAMP_30 |
+| 0x7E03 | CLAMP_30F_CHANGE |
+| 0x7E04 | CLAMP_30_ON |
+| 0x7E05 | CLAMP_30B_CHANGE |
+| 0x7E06 | CLAMP_30B_ON |
+| 0x7E07 | CLAMP_R_CHANGE |
+| 0x7E08 | CLAMP_R_ON |
+| 0x7E09 | CLAMP_15_CHANGE |
+| 0x7E0A | CLAMP_15_ON |
+| 0x7E0B | CLAMP_50_DELAY |
+| 0x7E0C | CLAMP_50_CHANGE |
+| 0x7E0D | CLAMP_50_ON |
+| 0x7E0E | CLAMP_ERROR |
+| 0x7E0F | CLAMP_INVALID |
+| 0x7F00 | MOVEMENT_NO |
+| 0x7F01 | MOVEMENT_YES |
+| 0x8000 | WAKEUP_REASON_UNKNOWN |
+| 0x8001 | WAKEUP_REASON_REGULAR |
+| 0x8002 | WAKEUP_REASON_REMOTE |
+| 0x8100 | ENGINE_OFF |
+| 0x8101 | ENGINE_ON |
+| 0x8200 | ANTENNA_UNKNOWN |
+| 0x8201 | ANTENNA_MAIN |
+| 0x8202 | ANTENNA_BACKUP |
+| 0x8300 | TERM_SOURCE_UNKNOWN |
+| 0x8301 | TERM_SOURCE_MFL |
+| 0x8302 | TERM_SOURCE_MMI |
+| 0x8400 | TERM_REASON_UNKNOWN |
+| 0x8401 | TERM_REASON_NETWORK |
+| 0x8402 | TERM_REASON_HANGUP |
+| 0x8500 | BEARER_UNKNOWN |
+| 0x8501 | BEARER_SMS |
+| 0x8502 | BEARER_INBAND |
+| 0x8503 | BEARER_DTMF |
+| 0x8600 | BATT_RELIABLE_NO |
+| 0x8601 | BATT_RELIABLE_YES |
+| 0x8700 | BUS_ACTIVE_NO |
+| 0x8701 | BUS_ACTIVE_YES |
+| 0x8800 | POWER_SOURCE_UNKNONW |
+| 0x8801 | POWER_SOURCE_VEHICLE |
+| 0x8802 | POWER_SOURCE_BACKUP_BATTERY |
+| 0x8900 | REASON_PROVISIONING |
+| 0x8901 | REASON_DIAG |
+| 0x8902 | REASON_CODING |
+| 0x8903 | REASON_MMI |
+| 0x8904 | REASON_MMI_STARTUP |
+| 0x8A00 | AUTO_ENABLED_ANY_NETWORK_NO |
+| 0x8A01 | AUTO_ENABLED_ANY_NETWORK_YES |
+| 0x8B00 | MAN_ENABLED_ANY_NETWORK_NO |
+| 0x8B01 | MAN_ENABLED_ANY_NETWORK_YES |
+| 0xFFFF | Nicht definiert |
+
+<a id="table-tselbsttestroutine"></a>
+### TSELBSTTESTROUTINE
+
+Dimensions: 9 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00000000 | Alle Routinen |
+| 0x00000001 | NAD UART Schnittstelle |
+| 0x00000002 | CAN Controller |
+| 0x00000004 | Versorgungsspannung |
+| 0x00000008 | Speicher |
+| 0x00000010 | Backup Batterie |
+| 0x00000020 | USB Controller |
+| 0x00000040 | SIM |
+| 0xFFFFFFFF | Nicht definiert |
+
+<a id="table-tsimstatus"></a>
+### TSIMSTATUS
+
+Dimensions: 8 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0xff | undefinierter Status |
+| 0x00 | nicht eingebucht, sucht kein Netz |
+| 0x01 | eingebucht |
+| 0x02 | nicht eingebucht, sucht ein Netz |
+| 0x03 | einbuchen verweigert |
+| 0x04 | eingebucht und roaming |
+| 0x05 | eingebucht und roaming off-net |
+| 0x10 | Emergency Call bereit |
+
+<a id="table-tteststatus"></a>
+### TTESTSTATUS
+
+Dimensions: 6 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | Test nicht gestartet |
+| 0x01 | Test läuft |
+| 0x02 | Test beendet ohne Fehler |
+| 0x03 | Test beendet mit Fehlern |
+| 0x04 | Test unterbrochen |
+| 0xFF | Nicht definiert |
+
+<a id="table-tverbaucecall"></a>
+### TVERBAUCECALL
+
+Dimensions: 13 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00000000 | Alle |
+| 0x00000001 | GSM-Telematik |
+| 0x00000002 | GSM-Backup |
+| 0x00000004 | GPS-Antenne |
+| 0x00000008 | Backup-Lautsprecher |
+| 0x00000010 | E-Call-Button |
+| 0x00000020 | E-Call-LED |
+| 0x00000040 | E-Batterie |
+| 0x00000080 | Airbag-Leitung |
+| 0x00000100 | Wakeup-Leitung-CAS |
+| 0x00000200 | Mikrophon1 |
+| 0x00000400 | Mikrophon2 |
+| 0xFFFFFFFF | nicht definiert |

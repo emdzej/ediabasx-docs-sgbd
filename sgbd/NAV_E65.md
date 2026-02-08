@@ -1,0 +1,2401 @@
+# NAV_E65.prg
+
+- Jobs: [73](#jobs)
+- Tables: [44](#tables)
+
+## INFO
+
+| Field | Value |
+| --- | --- |
+| ECU | Navigation 2001  |
+| ORIGIN | BMW TI-431 Weber |
+| REVISION | 3.030 |
+| AUTHOR | SiemensVdo SD-SD Dreßler, SiemensVdo SD-SD Keller, BMW EE-4 Piasecki, BMW TI-431 Rochal, BMW TI-431 Weber, BMW EI-44 Rudloff |
+| COMMENT | SGBD fuer Navigation 2001 E65  |
+| PACKAGE | 1.29 |
+| SPRACHE | deutsch |
+
+## Jobs
+
+### Index
+
+- [INITIALISIERUNG](#job-initialisierung) - Initialisierung und Kommunikationsparameter
+- [INFO](#job-info) - Information SGBD
+- [DIAGNOSEPROTOKOLL_LESEN](#job-diagnoseprotokoll-lesen) - Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+- [DIAGNOSEPROTOKOLL_SETZEN](#job-diagnoseprotokoll-setzen) - Wählt ein Diagnoseprotokoll aus
+- [IDENT](#job-ident) - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+- [FS_LESEN](#job-fs-lesen) - Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+- [FS_LESEN_DETAIL](#job-fs-lesen-detail) - Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+- [FS_LOESCHEN](#job-fs-loeschen) - Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+- [PRUEFSTEMPEL_LESEN](#job-pruefstempel-lesen) - Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [PRUEFSTEMPEL_SCHREIBEN](#job-pruefstempel-schreiben) - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [NORMALER_DATENVERKEHR](#job-normaler-datenverkehr) - Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+- [DIAGNOSE_AUFRECHT](#job-diagnose-aufrecht) - Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+- [IS_LESEN](#job-is-lesen) - Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $22 ReadDataByCommonIdentifier $2000 dtcShadowMemory
+- [IS_LESEN_DETAIL](#job-is-lesen-detail) - Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $22 ReadDataByCommonIdentifier $2001 - $20FF dtcShadowMemoryEntry Modus: Default
+- [IS_LOESCHEN](#job-is-loeschen) - Infospeicher loeschen KWP2000: $31 StartRoutineByLocalIdentifier $06 ClearDTCShadowMemory Modus  : Default
+- [DIAGNOSE_ENDE](#job-diagnose-ende) - Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+- [DIAGNOSE_MODE](#job-diagnose-mode) - SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [SLEEP_MODE](#job-sleep-mode) - SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier a)       $0E Time controlled PowerDown oder b)       $05 PowerDown $00 all ECU Modus  : Default
+- [SPEICHER_LESEN](#job-speicher-lesen) - Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+- [SPEICHER_SCHREIBEN](#job-speicher-schreiben) - Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+- [MOST_VERSION_LESEN](#job-most-version-lesen) - Auslesen von Most Version KWP2000: $21 ReadDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $A0 MOSTVersion MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [STATUS_MOST_3DB](#job-status-most-3db) - Auslesen des Status der Lichtleistungsabsenkung KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AF OpticalTransmitPowSwitch MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [STEUERN_MOST_3DB](#job-steuern-most-3db) - Lichtleistungsabsenkung einschalten KWP2000: $3B WriteDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AF OpticalTransmitPowSwitch $00 S1 geoeffnet = 3dB Absenkung MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [STATUS_WAKE_UP_STATUS](#job-status-wake-up-status) - Auslesen des Status WakeupStatus KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD WakeUpStatus MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [STATUS_ABILITY_TO_WAKE](#job-status-ability-to-wake) - Auslesen des Status AbilityToWake KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD WakeUpStatus MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [STEUERN_ABILITY_TO_WAKE](#job-steuern-ability-to-wake) - AbilityToWake einstellen KWP2000: $3B WriteDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD AbilityToWake $00 of, $01 on, $02 critical MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+- [PRUEFCODE_LESEN](#job-pruefcode-lesen) - Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+- [C_CI_LESEN](#job-c-ci-lesen) - Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [C_FG_LESEN](#job-c-fg-lesen) - Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_FG_SCHREIBEN](#job-c-fg-schreiben) - Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+- [C_FG_AUFTRAG](#job-c-fg-auftrag) - Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_AEI_LESEN](#job-c-aei-lesen) - Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_SCHREIBEN](#job-c-aei-schreiben) - Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_AUFTRAG](#job-c-aei-auftrag) - Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_C_LESEN](#job-c-c-lesen) - Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_SCHREIBEN](#job-c-c-schreiben) - Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_AUFTRAG](#job-c-c-auftrag) - Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [ZIF_LESEN](#job-zif-lesen) - Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [ZIF_BACKUP_LESEN](#job-zif-backup-lesen) - Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [PHYSIKALISCHE_HW_NR_LESEN](#job-physikalische-hw-nr-lesen) - Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [HARDWARE_REFERENZ_LESEN](#job-hardware-referenz-lesen) - Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [DATEN_REFERENZ_LESEN](#job-daten-referenz-lesen) - Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+- [FLASH_ZEITEN_LESEN](#job-flash-zeiten-lesen) - Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+- [FLASH_BLOCKLAENGE_LESEN](#job-flash-blocklaenge-lesen) - Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+- [FLASH_PROGRAMMIER_STATUS_LESEN](#job-flash-programmier-status-lesen) - Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+- [STEUERGERAETE_RESET](#job-steuergeraete-reset) - Steuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [FS_SPERREN](#job-fs-sperren) - Sperren bzw. Freigeben des Fehlerspeichers KWP2000: $85 ControlDTCSetting Modus  : Default
+- [STATUS_GANGWAHL](#job-status-gangwahl) - Status der Gangwahl wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_TACHOPULSE](#job-status-tachopulse) - Status der Tachopulse wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_GPS](#job-status-gps) - Status des GPS wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_GPS_ANTENNA](#job-status-gps-antenna) - Status der GPS_Antenne wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_BATTERIE_VOLTAGE](#job-status-batterie-voltage) - Status der Batteriespannung am OCN wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_GYRO_VOLTAGE](#job-status-gyro-voltage) - Status der GYRO-Spannung wird ausgegeben (wird ab NAVI01-SW 6.3.0 unterstützt) KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_EJECT_BUTTON](#job-status-eject-button) - Der Zustand des Eject Buttons wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [GPS_POSITION_WERT](#job-gps-position-wert) - GPS Position wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [WRITE_LANGUAGE_MODIFICATION](#job-write-language-modification) - Befehl zum laden der Sprachen KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+- [STATUS_SOFTWARELOADING](#job-status-softwareloading) - Der Zustand von Softwareloading wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [STATUS_FFS](#job-status-ffs) - Der Zustand des Flash File Systems wird überprüft KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [SET_FACTORY_MODE](#job-set-factory-mode) - Die Navi wird in den Factory-Mode versetzt KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+- [RESET_FACTORY_MODE](#job-reset-factory-mode) - Der Factory-Mode wird abgeschaltet KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+- [GET_FACTORY_MODE](#job-get-factory-mode) - Zeigt an ob der Factory-Mode aktiviert ist KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [SET_ENDE_CODIERUNG](#job-set-ende-codierung) - Die Navi wird in Codierung-Ende versetzt KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+- [NAVI_RESET](#job-navi-reset) - Die Navi macht einen Reset durch Erzeugen eines Fehlers KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+- [TEMPERATUR_SH4](#job-temperatur-sh4) - Liest die momentane Temperatur KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [POWER_SUPPLY_2_5V](#job-power-supply-2-5v) - Die exakte 2.5V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [POWER_SUPPLY_1_8V](#job-power-supply-1-8v) - Die exakte 1.8V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [POWER_SUPPLY_3_3V](#job-power-supply-3-3v) - Die exakte 3.3V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [POWER_SUPPLY_BATTERY_SH4](#job-power-supply-battery-sh4) - Die Batteriespannung (im SH4 gemessen) wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [NAVI_SELFTEST](#job-navi-selftest) - Die Navi führt einen Selbsttest unter WinCe durch KWP2000: $31 StartRoutineByLocalId Modus  : Default
+- [GET_SELBST_TEST_RESULT](#job-get-selbst-test-result) - Lese die Testergebnisse des Selbsttests KWP2000: $33 RequestRoutineResultsByLocalId Modus  : Default
+- [READ_BMW_SACH_NR](#job-read-bmw-sach-nr) - SystemSupplierECUHardwareNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+- [READ_BMW_HW_VERSION](#job-read-bmw-hw-version) - vehicleManufactureECUHardwareVersionNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+- [PROGRAM_REFERENZ_LESEN](#job-program-referenz-lesen) - vehicleManufECUSoftwareLayerVersionNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+
+<a id="job-initialisierung"></a>
+### INITIALISIERUNG
+
+Initialisierung und Kommunikationsparameter
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DONE | int | 1, wenn Okay |
+
+<a id="job-info"></a>
+### INFO
+
+Information SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ECU | string | Steuergerät im Klartext |
+| ORIGIN | string | Steuergeräte-Verantwortlicher |
+| REVISION | string | Versions-Nummer |
+| AUTHOR | string | Namen aller Autoren |
+| COMMENT | string | wichtige Hinweise |
+| PACKAGE | string | Include-Paket-Nummer |
+| SPRACHE | string | deutsch, english |
+
+<a id="job-diagnoseprotokoll-lesen"></a>
+### DIAGNOSEPROTOKOLL_LESEN
+
+Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY oder ERROR_DIAG_PROT |
+| DIAG_PROT_IST | string | Gibt das aktuelle gewählte Protokoll aus table KONZEPT_TABELLE KONZEPT_TEXT |
+| DIAG_PROT_ANZAHL | int | Anzahl der Diagnoseprotokolle |
+| DIAG_PROT_NR1 | string | Alle möglichen Diagnose-Protokolle Falls mehrere Protokolle möglich sind werden die entsprechenden Results DIAG_PROT_NRx dynamisch erzeugt |
+
+<a id="job-diagnoseprotokoll-setzen"></a>
+### DIAGNOSEPROTOKOLL_SETZEN
+
+Wählt ein Diagnoseprotokoll aus
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DIAG_PROT | string | Diagnoseprotokoll table KONZEPT_TABELLE KONZEPT_TEXT |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY |
+
+<a id="job-ident"></a>
+### IDENT
+
+Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_BMW_NR | string | BMW-Teilenummer |
+| ID_HW_NR | string | BMW-Hardware-Versionsindex |
+| ID_COD_INDEX | int | Codier-Index |
+| ID_DIAG_INDEX | int | Diagnose-Index |
+| ID_VAR_INDEX | int | Varianten-Index |
+| ID_DATUM_JAHR | int | Herstelldatum (Jahr) |
+| ID_DATUM_MONAT | int | Herstelldatum (Monat) |
+| ID_DATUM_TAG | int | Herstelldatum (Tag) |
+| ID_DATUM | string | Herstelldatum (TT.MM.JJJJ) |
+| ID_LIEF_NR | int | Lieferanten-Nummer |
+| ID_LIEF_TEXT | string | Lieferanten-Text table Lieferanten LIEF_TEXT |
+| ID_SW_NR_MCV | string | Softwarenummer (message catalogue version) |
+| ID_SW_NR_FSV | string | Softwarenummer (functional software version) |
+| ID_SW_NR_OSV | string | Softwarenummer (operating system version) |
+| ID_SW_NR_RES | string | Softwarenummer (reserved - currently unused) |
+| ID_SG_ADR | long | Steuergeraeteadresse bzw. LIN Master Steuergeraeteadresse |
+| ID_LIN_SLAVE_ADR | long | LIN Slave Steuergeraeteadresse |
+| ID_EWS_SS | int | Identifikation EWS-Schnittstelle Nur fuer DS2-Bordnetz benoetigt Fuer EWS-DME/DDE Abgleich |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen"></a>
+### FS_LESEN
+
+Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen-detail"></a>
+### FS_LESEN_DETAIL
+
+Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | gewaehlter Fehlercode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_PCODE | unsigned int | optional / Pflicht fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_PCODE7 | unsigned int | optional / fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE7_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE7_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_HFK | int | Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler |
+| F_LZ | int | Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler |
+| F_ART_ANZ | int | Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart |
+| F_UW_KM | long | Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-loeschen"></a>
+### FS_LOESCHEN
+
+Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | 0x????: Angabe eines einzelnen Fehlers 0xFFFB: alle Antriebsfehler 0xFFFC: alle Fahrwerkfehler 0xFFFD: alle Karosseriefehler 0xFFFE: alle Netzwerkfehler Default: 0xFFFF: alle Fehler |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-lesen"></a>
+### PRUEFSTEMPEL_LESEN
+
+Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-schreiben"></a>
+### PRUEFSTEMPEL_SCHREIBEN
+
+Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-normaler-datenverkehr"></a>
+### NORMALER_DATENVERKEHR
+
+Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FREIGEBEN | string | "ja"   -&gt; normalen Datenverkehr freigeben "nein" -&gt; normalen Datenverkehr sperren table DigitalArgument TEXT |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-aufrecht"></a>
+### DIAGNOSE_AUFRECHT
+
+Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen"></a>
+### IS_LESEN
+
+Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $22 ReadDataByCommonIdentifier $2000 dtcShadowMemory
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table IOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen-detail"></a>
+### IS_LESEN_DETAIL
+
+Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $22 ReadDataByCommonIdentifier $2001 - $20FF dtcShadowMemoryEntry Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | gewaehlter Infocode Wenn dieser Parameter angegeben wird, wird die Position automatisch ermittelt. Es darf dann nicht argument F_POS angegeben werden |
+| F_POS | int | gewaehlter Eintrag Wenn dieser Parameter angegeben wird, wird die Position benutzt. Wertebereich 1 - 255 Es darf dann nicht argument F_CODE angegeben werden |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table IOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_PCODE | unsigned int | optional / Pflicht fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_PCODE7 | unsigned int | optional / fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE7_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE7_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_HFK | int | Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler |
+| F_LZ | int | Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler |
+| F_ART_ANZ | int | Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart |
+| F_UW_KM | long | Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-loeschen"></a>
+### IS_LOESCHEN
+
+Infospeicher loeschen KWP2000: $31 StartRoutineByLocalIdentifier $06 ClearDTCShadowMemory Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-ende"></a>
+### DIAGNOSE_ENDE
+
+Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-mode"></a>
+### DIAGNOSE_MODE
+
+SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | gewuenschter Diagnose-Modus table DiagMode MODE MODE_TEXT Defaultwert: DEFAULT (DefaultMode) |
+| BAUDRATE | string | optionaler Parameter fuer die gewuenschte Baudrate table BaudRate BAUD |
+| SPEZIFISCHE_BAUDRATE_WERT | long | Parameter nur fuer BAUDRATE = 'SB' ( spezifische Baudrate ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-sleep-mode"></a>
+### SLEEP_MODE
+
+SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier a)       $0E Time controlled PowerDown oder b)       $05 PowerDown $00 all ECU Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ZEIT | real | a) Zeit nach der das Steuergerät einschläft Bereich   : 0.5 bis 20.0 [Sekunden] Auflösung : 0.5 [Sekunden] =&gt; zeitgesteuerter Power-Down (0x0E) wird aktiviert b) Default: (Es wird kein Argument übergeben!) =&gt; normaler Power-Down (0x05) wird aktiviert |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-lesen"></a>
+### SPEICHER_LESEN
+
+Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | table SpeicherSegment SEG_NAME SEG_TEXT |
+| ADRESSE | long | 0x000000 - 0xFFFFFF |
+| ANZAHL | int | 1 - n ( 254 ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DATEN | binary | ausgelesene Daten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-schreiben"></a>
+### SPEICHER_SCHREIBEN
+
+Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | table SpeicherSegment SEG_NAME SEG_TEXT |
+| ADRESSE | long | 0x000000 - 0xFFFFFF |
+| ANZAHL | int | 1 - n ( max. 249 ) |
+| DATEN | string | zu schreibende Daten (Anzahl siehe oben) z.B. 1,2,03,0x04,0x05... |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-most-version-lesen"></a>
+### MOST_VERSION_LESEN
+
+Auslesen von Most Version KWP2000: $21 ReadDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $A0 MOSTVersion MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| TRANSCEIVER_VERSION | string | Version des MOST Transceivers |
+| NETSERVICES_VERSION | string | Version der Oasis NetServices |
+| NETSERVICES_REVISION | string | Revision der Oasis NetServices |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-most-3db"></a>
+### STATUS_MOST_3DB
+
+Auslesen des Status der Lichtleistungsabsenkung KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AF OpticalTransmitPowSwitch MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_MOST_3DB | int | Status der Lichtleistungsabsenkung 0 = Lichtleistung abgesenkt 1 = Volle Lichtleistung 5s nach Absenkung wird die volle Lichtleistung wieder aktiv |
+| STAT_MOST_3DB_TEXT | string | Status der Lichtleistungsabsenkung als Text |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-most-3db"></a>
+### STEUERN_MOST_3DB
+
+Lichtleistungsabsenkung einschalten KWP2000: $3B WriteDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AF OpticalTransmitPowSwitch $00 S1 geoeffnet = 3dB Absenkung MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT Nach 5s wieder volle Lichtleistung |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-wake-up-status"></a>
+### STATUS_WAKE_UP_STATUS
+
+Auslesen des Status WakeupStatus KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD WakeUpStatus MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_WAKE_UP_STATUS | int | Status ob Device geweckt hat oder geweckt wurde 0 = nicht initialisiert 1 = SG hat geweckt 2 = SG wurde geweckt |
+| STAT_WAKE_UP_STATUS_TEXT | string | Status ob Device geweckt hat oder geweckt wurde als Text |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ability-to-wake"></a>
+### STATUS_ABILITY_TO_WAKE
+
+Auslesen des Status AbilityToWake KWP2000: $21 ReadByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD WakeUpStatus MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_ABILITY_TO_WAKE | int | Status ob Device wecken darf 0 = off 1 = on 2 = critical |
+| STAT_ABILITY_TO_WAKE_TEXT | string | Status ob Device wecken darf als Text |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ability-to-wake"></a>
+### STEUERN_ABILITY_TO_WAKE
+
+AbilityToWake einstellen KWP2000: $3B WriteDataByLocalIdentifier LH Diagnose Teil 8, Januar 2000 Seite 67 $AD AbilityToWake $00 of, $01 on, $02 critical MOST Funktionenkatalog 5.0.0, Januar 2000 Seite 43 
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | gewuenschter AbilityToWake Modus table  AbilityToWake Status Defaultwert: DEFAULT 00 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefcode-lesen"></a>
+### PRUEFCODE_LESEN
+
+Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PRUEFCODE | binary | Pruefcode Daten |
+
+<a id="job-c-ci-lesen"></a>
+### C_CI_LESEN
+
+Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_COD_INDEX | int | Codier-Index |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-lesen"></a>
+### C_FG_LESEN
+
+Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FG_NR | string | Fahrgestellnummer 7-stellig |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-schreiben"></a>
+### C_FG_SCHREIBEN
+
+Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-auftrag"></a>
+### C_FG_AUFTRAG
+
+Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-lesen"></a>
+### C_AEI_LESEN
+
+Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-schreiben"></a>
+### C_AEI_SCHREIBEN
+
+Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-auftrag"></a>
+### C_AEI_AUFTRAG
+
+Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-lesen"></a>
+### C_C_LESEN
+
+Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| CODIER_DATEN | binary | Codierdaten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-schreiben"></a>
+### C_C_SCHREIBEN
+
+Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-auftrag"></a>
+### C_C_AUFTRAG
+
+Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-lesen"></a>
+### ZIF_LESEN
+
+Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_PROGRAMM_REFERENZ | string | PRGREF ProgrammReferenz letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_SG_KENNUNG | string | ZZZ |
+| ZIF_PROJEKT | string | PPPxV |
+| ZIF_PROGRAMM_STAND | string | BBxh |
+| ZIF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BMW_HW | string | VMECUH*N vehicleManufacturerECUHardware*Number BMW Hardware Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_3 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_3 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-backup-lesen"></a>
+### ZIF_BACKUP_LESEN
+
+Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_BACKUP_PROGRAMM_REFERENZ | string | PRGREFB ProgrammReferenzBackup letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_BACKUP_SG_KENNUNG | string | ZZZ |
+| ZIF_BACKUP_PROJEKT | string | PPPxV |
+| ZIF_BACKUP_PROGRAMM_STAND | string | BBxh |
+| ZIF_BACKUP_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BACKUP_BMW_HW | string | VMECUH*NB vehicleManufECUHW*NumberBackup BMW Hardware* Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-physikalische-hw-nr-lesen"></a>
+### PHYSIKALISCHE_HW_NR_LESEN
+
+Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PHYSIKALISCHE_HW_NR | string | Physikalische Hardware-Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-hardware-referenz-lesen"></a>
+### HARDWARE_REFERENZ_LESEN
+
+Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| HARDWARE_REFERENZ | string | Hardware Referenz Format: ZZZPPPx 7 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware |
+| HW_REF_SG_KENNUNG | string | ZZZ |
+| HW_REF_PROJEKT | string | PPPx |
+| HW_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-daten-referenz-lesen"></a>
+### DATEN_REFERENZ_LESEN
+
+Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| DATEN_REFERENZ | string | Daten Referenz Format: ZZZPPPxVBBxhdxxxx 17 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller d     : Datenstandersteller xxxx  : frei aber eindeutig belegt |
+| DATEN_REF_SG_KENNUNG | string | ZZZ |
+| DATEN_REF_PROJEKT | string | PPPxV |
+| DATEN_REF_PROGRAMM_STAND | string | BBxh |
+| DATEN_REF_DATENSATZ | string | dxxxx |
+| DATEN_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-zeiten-lesen"></a>
+### FLASH_ZEITEN_LESEN
+
+Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_LOESCHZEIT | int | Flash Loeschzeit in Sekunden |
+| FLASH_SIGNATURTESTZEIT | int | Flash Signaturtestzeit in Sekunden |
+| FLASH_RESETZEIT | int | Flash Resetzeit in Sekunden |
+| FLASH_AUTHENTISIERZEIT | int | Flash Authentisierberechnungszeit in Sekunden |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-blocklaenge-lesen"></a>
+### FLASH_BLOCKLAENGE_LESEN
+
+Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_BLOCKLAENGE_GESAMT | unsigned int | Flash Blocklaenge inclusive SID |
+| FLASH_BLOCKLAENGE_DATEN | int | Flash Datenlaenge |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-programmier-status-lesen"></a>
+### FLASH_PROGRAMMIER_STATUS_LESEN
+
+Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS_TEXT | string | table ProgrammierStatus STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS | int | ProgrammierStatus 0 - 255 |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuergeraete-reset"></a>
+### STEUERGERAETE_RESET
+
+Steuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-sperren"></a>
+### FS_SPERREN
+
+Sperren bzw. Freigeben des Fehlerspeichers KWP2000: $85 ControlDTCSetting Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SPERREN | string | "ja"   -&gt; Fehlerspeicher sperren "nein" -&gt; Fehlerspeicher freigeben table DigitalArgument TEXT |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-gangwahl"></a>
+### STATUS_GANGWAHL
+
+Status der Gangwahl wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_GANGWAHL_TEXT | string | Gangwahl-status als Textausgabe |
+| STAT_GANGWAHL | int | Gangwahl-status als Nummer |
+
+<a id="job-status-tachopulse"></a>
+### STATUS_TACHOPULSE
+
+Status der Tachopulse wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_TACHOPULSE | int | Tachopulse Hex-Zahl entspricht der Anzahl der Tachoimpulse |
+
+<a id="job-status-gps"></a>
+### STATUS_GPS
+
+Status des GPS wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_GPS | int | GPS-status 0x00 = No GPS 0x01 = Communication error 0x02 = Receiver error 0x03 = No almanac 0x04 = Searching satellites 0x05 = Tracking 1 satellite 0x06 = Tracking 2 satellites 0x07 = Tracking 3 satellites 0x08 = Tracking 4 satellites 0x09 = Tracking 5 satellites 0x0A = Tracking 6 satellites 0x0B = 2D positioning 0x0C = 3D positioning |
+| STAT_GPS_TEXT | string | GPS-status als Textausgabe |
+
+<a id="job-status-gps-antenna"></a>
+### STATUS_GPS_ANTENNA
+
+Status der GPS_Antenne wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_ANTENNA | int | table ANTENNEN_STATUS WERT GPS-status 0x00 = Verbunden 0x01 = Nicht Verbunden 0x02 = Kurzschluss |
+| STAT_ANTENNA_TEXT | string | GPS-status als Textausgabe table ANTENNEN_STATUS ANZEIGE_TEXT |
+
+<a id="job-status-batterie-voltage"></a>
+### STATUS_BATTERIE_VOLTAGE
+
+Status der Batteriespannung am OCN wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_BATTERIE_VOLTAGE_WERT | string | Batteriespannung im OCN |
+
+<a id="job-status-gyro-voltage"></a>
+### STATUS_GYRO_VOLTAGE
+
+Status der GYRO-Spannung wird ausgegeben (wird ab NAVI01-SW 6.3.0 unterstützt) KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_GYRO_VOLTAGE_WERT | real | Es wird die aktuelle GYRO-Spannung zurückgeliefert |
+| STAT_GYRO_TEXT | string | GYRO Status Es wird ein Text zu fehlerhaften Datenwerten angezeigt |
+| STAT_GYRO_VOLTAGE_EINH | string | GYRO-Spannung Einheit: V |
+
+<a id="job-status-eject-button"></a>
+### STATUS_EJECT_BUTTON
+
+Der Zustand des Eject Buttons wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| STAT_EJECT_BUTTON_TEXT | string | Eject-Button-status als Textausgabe |
+
+<a id="job-gps-position-wert"></a>
+### GPS_POSITION_WERT
+
+GPS Position wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_OCN_TEXT | string | OCN Status 0: OK, -1: Fehler |
+| GPS_POSITION_BREITE_WERT | string | Es wird die aktuelle GYRO Position Breite zurückgeliefert |
+| GPS_POSITION_LAENGE_WERT | string | Es wird die aktuelle GYRO Position Laenge zurückgeliefert |
+| GPS_POSITION_HOEHE_WERT | string | Es wird die aktuelle GYRO Position Hoehe zurückgeliefert |
+| TEST | real | Es wird die aktuelle GYRO Position Hoehe zurückgeliefert |
+
+<a id="job-write-language-modification"></a>
+### WRITE_LANGUAGE_MODIFICATION
+
+Befehl zum laden der Sprachen KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE4 | unsigned char | Bereich: 0-255 bzw. 0x00-0xFF argument valid only if 6 languages supported |
+| BYTE5 | unsigned char | Bereich: 0-255 bzw. 0x00-0xFF argument valid only if 6 languages supported |
+| BYTE6 | unsigned char | Bereich: 0-255 bzw. 0x00-0xFF argument valid only if 6 languages supported |
+| BYTE7 | unsigned char | Bereich: 0-255 bzw. 0x00-0xFF argument valid only if 7 languages supported |
+| BYTE8 | unsigned char | Bereich: 0-255 bzw. 0x00-0xFF argument valid only if 8 languages supported |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-softwareloading"></a>
+### STATUS_SOFTWARELOADING
+
+Der Zustand von Softwareloading wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_SOFTWARELOADING_TEXT | string | Softwareloading-status als Textausgabe |
+| STAT_SOFTWARELOADING_DEMAND | string | Software laden erforderlich |
+| STAT_IST_SYSTEMSPRACHE_1 | string | geladene Systemsprache 1 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_1_INT | int | geladene Systemsprache 1 als integer |
+| STAT_IST_SYSTEMSPRACHE_2 | string | geladene Systemsprache 2 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_2_INT | int | geladene Systemsprache 2 als integer |
+| STAT_IST_SYSTEMSPRACHE_3 | string | geladene Systemsprache 3 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_3_INT | int | geladene Systemsprache 3 als integer |
+| STAT_IST_SYSTEMSPRACHE_4 | string | geladene Systemsprache 4 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_4_INT | int | geladene Systemsprache 4 als integer |
+| STAT_IST_SYSTEMSPRACHE_5 | string | geladene Systemsprache 5 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_5_INT | int | geladene Systemsprache 5 als integer |
+| STAT_IST_SYSTEMSPRACHE_6 | string | geladene Systemsprache 6 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_6_INT | int | geladene Systemsprache 6 als integer |
+| STAT_IST_SYSTEMSPRACHE_7 | string | geladene Systemsprache 7 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_7_INT | int | geladene Systemsprache 7 als integer |
+| STAT_IST_SYSTEMSPRACHE_8 | string | geladene Systemsprache 8 als Textausgabe |
+| STAT_IST_SYSTEMSPRACHE_8_INT | int | geladene Systemsprache 8 als integer |
+| STAT_SOLL_SYSTEMSPRACHE_1 | string | angeforderte Systemsprache 1 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_2 | string | angeforderte Systemsprache 2 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_3 | string | angeforderte Systemsprache 3 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_4 | string | angeforderte Systemsprache 4 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_5 | string | angeforderte Systemsprache 5 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_6 | string | angeforderte Systemsprache 6 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_7 | string | angeforderte Systemsprache 7 als Textausgabe |
+| STAT_SOLL_SYSTEMSPRACHE_8 | string | angeforderte Systemsprache 8 als Textausgabe |
+
+<a id="job-status-ffs"></a>
+### STATUS_FFS
+
+Der Zustand des Flash File Systems wird überprüft KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_FFS_TEXT | string | FFS-status als Textausgabe |
+| STAT_FFS_VALUE | string | FFS-status binaer |
+
+<a id="job-set-factory-mode"></a>
+### SET_FACTORY_MODE
+
+Die Navi wird in den Factory-Mode versetzt KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-reset-factory-mode"></a>
+### RESET_FACTORY_MODE
+
+Der Factory-Mode wird abgeschaltet KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-get-factory-mode"></a>
+### GET_FACTORY_MODE
+
+Zeigt an ob der Factory-Mode aktiviert ist KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STATUS_FACTORY_MODE_TEXT | string | Factory-Mode-status als Textausgabe |
+
+<a id="job-set-ende-codierung"></a>
+### SET_ENDE_CODIERUNG
+
+Die Navi wird in Codierung-Ende versetzt KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-navi-reset"></a>
+### NAVI_RESET
+
+Die Navi macht einen Reset durch Erzeugen eines Fehlers KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-temperatur-sh4"></a>
+### TEMPERATUR_SH4
+
+Liest die momentane Temperatur KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| TEMPERATUR_WERT | string | Geraete Temperatur |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-power-supply-2-5v"></a>
+### POWER_SUPPLY_2_5V
+
+Die exakte 2.5V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| POWER_SUPPLY_25V_WERT | string | Es wird die exakte 2.5 V Spannung zurückgeliefert |
+
+<a id="job-power-supply-1-8v"></a>
+### POWER_SUPPLY_1_8V
+
+Die exakte 1.8V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| POWER_SUPPLY_18V_WERT | string | Es wird die exakte 1.8 V Spannung zurückgeliefert |
+
+<a id="job-power-supply-3-3v"></a>
+### POWER_SUPPLY_3_3V
+
+Die exakte 3.3V Spannung wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| POWER_SUPPLY_33V_WERT | string | Es wird die exakte 3.3 V Spannung zurückgeliefert |
+
+<a id="job-power-supply-battery-sh4"></a>
+### POWER_SUPPLY_BATTERY_SH4
+
+Die Batteriespannung (im SH4 gemessen) wird ausgegeben KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| POWER_SUPPLY_12V_WERT | string | Es wird die Batteriespannung zurückgeliefert |
+
+<a id="job-navi-selftest"></a>
+### NAVI_SELFTEST
+
+Die Navi führt einen Selbsttest unter WinCe durch KWP2000: $31 StartRoutineByLocalId Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-get-selbst-test-result"></a>
+### GET_SELBST_TEST_RESULT
+
+Lese die Testergebnisse des Selbsttests KWP2000: $33 RequestRoutineResultsByLocalId Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| SELFTEST_RESULT_TEXT | string | Selbsttestergebnis als Textausgabe |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-read-bmw-sach-nr"></a>
+### READ_BMW_SACH_NR
+
+SystemSupplierECUHardwareNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_HW_NR | string | BMW-Hardwarenummer |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-read-bmw-hw-version"></a>
+### READ_BMW_HW_VERSION
+
+vehicleManufactureECUHardwareVersionNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_HW_NR | string | BMW-HardwareVersion |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-program-referenz-lesen"></a>
+### PROGRAM_REFERENZ_LESEN
+
+vehicleManufECUSoftwareLayerVersionNumber KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PROGRAMM_REFERENZ | string | PRGREF ProgrammReferenz letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+## Tables
+
+### Index
+
+- [KONZEPT_TABELLE](#table-konzept-tabelle) (4 × 2)
+- [JOBRESULT](#table-jobresult) (95 × 2)
+- [LIEFERANTEN](#table-lieferanten) (76 × 2)
+- [FARTTEXTE](#table-farttexte) (14 × 2)
+- [DIGITALARGUMENT](#table-digitalargument) (17 × 2)
+- [AUTHENTISIERUNG](#table-authentisierung) (4 × 2)
+- [DIAGMODE](#table-diagmode) (14 × 3)
+- [BAUDRATE](#table-baudrate) (7 × 3)
+- [IARTTEXTE](#table-iarttexte) (14 × 2)
+- [PROGRAMMIERSTATUS](#table-programmierstatus) (19 × 2)
+- [SPEICHERSEGMENT](#table-speichersegment) (12 × 3)
+- [ABILITY_TO_WAKE](#table-ability-to-wake) (4 × 2)
+- [MOST_3DB](#table-most-3db) (3 × 2)
+- [WAKE_UP_STATUS](#table-wake-up-status) (4 × 2)
+- [JOBRESULTEXTENDED](#table-jobresultextended) (1 × 2)
+- [SG_DIAGNOSEKONZEPT](#table-sg-diagnosekonzept) (4 × 2)
+- [FORTTEXTE](#table-forttexte) (6 × 2)
+- [FDETAILSTRUKTUR](#table-fdetailstruktur) (7 × 2)
+- [FUMWELTMATRIX](#table-fumweltmatrix) (6 × 5)
+- [FUMWELTTEXTE](#table-fumwelttexte) (16 × 9)
+- [HORTTEXTE](#table-horttexte) (1 × 2)
+- [IORTTEXTE](#table-iorttexte) (18 × 2)
+- [IDETAILSTRUKTUR](#table-idetailstruktur) (7 × 2)
+- [IUMWELTMATRIX](#table-iumweltmatrix) (18 × 5)
+- [IUMWELTTEXTE](#table-iumwelttexte) (20 × 9)
+- [FWINERROR](#table-fwinerror) (1 × 10)
+- [IWINERROR](#table-iwinerror) (1 × 10)
+- [IADRESSE](#table-iadresse) (1 × 5)
+- [GANGWAHL](#table-gangwahl) (3 × 2)
+- [GPS](#table-gps) (16 × 2)
+- [EJECTBUTTON](#table-ejectbutton) (3 × 2)
+- [FACTORYMODEBUTTON](#table-factorymodebutton) (3 × 2)
+- [LANGUAGES](#table-languages) (18 × 2)
+- [LANGUAGES_REQ](#table-languages-req) (18 × 2)
+- [SOFTWARELOADING_STATUS](#table-softwareloading-status) (23 × 2)
+- [SOFTWAREL_DEMAND_TAB](#table-softwarel-demand-tab) (3 × 2)
+- [SELFTESTRESULTSH4](#table-selftestresultsh4) (7 × 2)
+- [SELFTESTRESULTOCN](#table-selftestresultocn) (7 × 2)
+- [SELFTESTRESULTNAVI2001](#table-selftestresultnavi2001) (7 × 2)
+- [FANSTATERESULT](#table-fanstateresult) (3 × 2)
+- [FANTESTRESULT](#table-fantestresult) (3 × 2)
+- [OCNSTATETABLE](#table-ocnstatetable) (3 × 2)
+- [FFSERRORSTATE](#table-ffserrorstate) (8 × 2)
+- [ANTENNEN_STATUS](#table-antennen-status) (4 × 2)
+
+<a id="table-konzept-tabelle"></a>
+### KONZEPT_TABELLE
+
+Dimensions: 4 rows × 2 columns
+
+| NR | KONZEPT_TEXT |
+| --- | --- |
+| 0x0F | BMW-FAST |
+| 0x0D | KWP2000* |
+| 0x0C | KWP2000 |
+| 0x06 | DS2 |
+
+<a id="table-jobresult"></a>
+### JOBRESULT
+
+Dimensions: 95 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x10 | ERROR_ECU_GENERAL_REJECT |
+| 0x11 | ERROR_ECU_SERVICE_NOT_SUPPORTED |
+| 0x12 | ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT |
+| 0x21 | ERROR_ECU_BUSY_REPEAT_REQUEST |
+| 0x22 | ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR |
+| 0x23 | ERROR_ECU_ROUTINE_NOT_COMPLETE |
+| 0x31 | ERROR_ECU_REQUEST_OUT_OF_RANGE |
+| 0x33 | ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED |
+| 0x36 | ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS |
+| 0x37 | ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED |
+| 0x40 | ERROR_ECU_DOWNLOAD_NOT_ACCEPTED |
+| 0x41 | ERROR_ECU_IMPROPER_DOWNLOAD_TYPE |
+| 0x42 | ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS |
+| 0x43 | ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x50 | ERROR_ECU_UPLOAD_NOT_ACCEPTED |
+| 0x51 | ERROR_ECU_IMPROPER_UPLOAD_TYPE |
+| 0x52 | ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS |
+| 0x53 | ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x71 | ERROR_ECU_TRANSFER_SUSPENDED |
+| 0x72 | ERROR_ECU_TRANSFER_ABORTED |
+| 0x74 | ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER |
+| 0x75 | ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER |
+| 0x76 | ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE |
+| 0x77 | ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR |
+| 0x78 | ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING |
+| 0x79 | ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER |
+| 0x80 | ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE |
+| ?00? | OKAY |
+| ?02? | ERROR_ECU_INCORRECT_RESPONSE_ID |
+| ?03? | ERROR_ECU_INCORRECT_LEN |
+| ?04? | ERROR_ECU_INCORRECT_LIN_RESPONSE_ID |
+| ?05? | ERROR_ECU_INCORRECT_LIN_LEN |
+| ?10? | ERROR_F_CODE |
+| ?11? | ERROR_TABLE |
+| ?12? | ERROR_INTERPRETATION |
+| ?13? | ERROR_F_POS |
+| ?20? | ERROR_SEGMENT |
+| ?21? | ERROR_ADDRESS |
+| ?22? | ERROR_NUMBER |
+| ?30? | ERROR_DATA |
+| ?40? | ERROR_MODE |
+| ?41? | ERROR_BAUDRATE |
+| ?50? | ERROR_BYTE1 |
+| ?51? | ERROR_BYTE2 |
+| ?52? | ERROR_BYTE3 |
+| ?60? | ERROR_DATA_OUT_OF_RANGE |
+| ?70? | ERROR_NUMBER_ARGUMENT |
+| ?71? | ERROR_RANGE_ARGUMENT |
+| ?72? | ERROR_VERIFY |
+| ?73? | ERROR_NO_BIN_BUFFER |
+| ?74? | ERROR_BIN_BUFFER |
+| ?75? | ERROR_DATA_TYPE |
+| ?76? | ERROR_CHECKSUM |
+| ?80? | ERROR_FLASH_SIGNATURE_CHECK |
+| ?81? | ERROR_VIHICLE_IDENTFICATON_NR |
+| ?82? | ERROR_PROGRAMMING_DATE |
+| ?83? | ERROR_ASSEMBLY_NR |
+| ?84? | ERROR_CALIBRATION_DATASET_NR |
+| ?85? | ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR |
+| ?86? | ERROR_REPAIR_SHOP_NR |
+| ?87? | ERROR_TESTER_SERIAL_NR |
+| ?88? | ERROR_MILAGE |
+| ?89? | ERROR_PROGRAMMING_REFERENCE |
+| ?8A? | ERROR_NO_FREE_UIF |
+| ?8B? | ERROR_MAX_UIF |
+| ?8C? | ERROR_SIZE_UIF |
+| ?8D? | ERROR_LEVEL |
+| ?8E? | ERROR_KEY |
+| ?8F? | ERROR_AUTHENTICATION |
+| ?90? | ERROR_NO_DREF |
+| ?91? | ERROR_CHECK_PECUHN |
+| ?92? | ERROR_CHECK_PRGREF |
+| ?93? | ERROR_AIF_NR |
+| ?94? | ERROR_CHECK_DREF |
+| ?95? | ERROR_CHECK_HWREF |
+| ?96? | ERROR_CHECK_HWREF |
+| ?97? | ERROR_CHECK_PRGREFB |
+| ?98? | ERROR_CHECK_VMECUH*NB |
+| ?99? | ERROR_CHECK_PRGREFB |
+| ?9A? | ERROR_CHECK_VMECUH*N |
+| ?9B? | ERROR_MOST_CAN_GATEWAY_DISABLE |
+| ?9C? | ERROR_NO_P2MIN |
+| ?9D? | ERROR_NO_P2MAX |
+| ?9E? | ERROR_NO_P3MIN |
+| ?9F? | ERROR_NO_P3MAX |
+| ?A0? | ERROR_NO_P4MIN |
+| ?B0? | ERROR_DIAG_PROT |
+| ?B1? | ERROR_SG_ADRESSE |
+| ?B2? | ERROR_SG_MAXANZAHL_AIF |
+| ?B3? | ERROR_SG_GROESSE_AIF |
+| ?B4? | ERROR_SG_ENDEKENNUNG_AIF |
+| ?B5? | ERROR_SG_AUTHENTISIERUNG |
+| ?C0? | ERROR_TELEGRAM_LEN_OUT_OFF_RANGE |
+| ?F0? | ERROR_ARGUMENT |
+| 0xXY | ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE |
+
+<a id="table-lieferanten"></a>
+### LIEFERANTEN
+
+Dimensions: 76 rows × 2 columns
+
+| LIEF_NR | LIEF_TEXT |
+| --- | --- |
+| 0x01 | Reinshagen =&gt; Delphi |
+| 0x02 | Kostal |
+| 0x03 | Hella |
+| 0x04 | Siemens |
+| 0x05 | Eaton |
+| 0x06 | UTA |
+| 0x07 | Helbako |
+| 0x08 | Bosch |
+| 0x09 | Loewe =&gt; Lear |
+| 0x10 | VDO |
+| 0x11 | Valeo |
+| 0x12 | MBB |
+| 0x13 | Kammerer |
+| 0x14 | SWF |
+| 0x15 | Blaupunkt |
+| 0x16 | Philips |
+| 0x17 | Alpine |
+| 0x18 | Continental Teves |
+| 0x19 | Elektromatik Suedafrika |
+| 0x20 | Becker |
+| 0x21 | Preh |
+| 0x22 | Alps |
+| 0x23 | Motorola |
+| 0x24 | Temic |
+| 0x25 | Webasto |
+| 0x26 | MotoMeter |
+| 0x27 | Delphi PHI |
+| 0x28 | DODUCO =&gt; BERU |
+| 0x29 | DENSO |
+| 0x30 | NEC |
+| 0x31 | DASA |
+| 0x32 | Pioneer |
+| 0x33 | Jatco |
+| 0x34 | Fuba |
+| 0x35 | UK-NSI |
+| 0x36 | AABG |
+| 0x37 | Dunlop |
+| 0x38 | Sachs |
+| 0x39 | ITT |
+| 0x40 | FTE |
+| 0x41 | Megamos |
+| 0x42 | TRW |
+| 0x43 | Wabco |
+| 0x44 | ISAD Electronic Systems |
+| 0x45 | HEC (Hella Electronics Corporation) |
+| 0x46 | Gemel |
+| 0x47 | ZF |
+| 0x48 | GMPT |
+| 0x49 | Harman Kardon |
+| 0x50 | Remes |
+| 0x51 | ZF Lenksysteme |
+| 0x52 | Magneti Marelli |
+| 0x53 | Borg Instruments |
+| 0x54 | GETRAG |
+| 0x55 | BHTC (Behr Hella Thermocontrol) |
+| 0x56 | Siemens VDO Automotive |
+| 0x57 | Visteon |
+| 0x58 | Autoliv |
+| 0x59 | Haberl |
+| 0x60 | Magna Steyr |
+| 0x61 | Marquardt |
+| 0x62 | AB-Elektronik |
+| 0x63 | Siemens VDO Borg |
+| 0x64 | Hirschmann Electronics |
+| 0x65 | Hoerbiger Electronics |
+| 0x66 | Thyssen Krupp Automotive Mechatronics |
+| 0x67 | Gentex GmbH |
+| 0x68 | Atena GmbH |
+| 0x69 | Magna-Donelly |
+| 0x70 | Koyo Steering Europe |
+| 0x71 | NSI B.V |
+| 0x72 | ASIN AWCO.LTD |
+| 0x73 | Shorlock |
+| 0x74 | Schrader |
+| 0x75 | BERU Electronics GmbH |
+| 0xFF | unbekannter Hersteller |
+
+<a id="table-farttexte"></a>
+### FARTTEXTE
+
+Dimensions: 14 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | kein passendes Fehlersymptom |
+| 0x01 | Signal oder Wert oberhalb Schwelle |
+| 0x02 | Signal oder Wert unterhalb Schwelle |
+| 0x04 | kein Signal oder Wert |
+| 0x08 | unplausibles Signal oder Wert |
+| 0x10 | Testbedingungen erfüllt |
+| 0x11 | Testbedingungen noch nicht erfüllt |
+| 0x20 | Fehler bisher nicht aufgetreten |
+| 0x21 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x22 | Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase) |
+| 0x23 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x30 | Fehler würde kein Aufleuchten einer Warnlampe verursachen |
+| 0x31 | Fehler würde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-digitalargument"></a>
+### DIGITALARGUMENT
+
+Dimensions: 17 rows × 2 columns
+
+| TEXT | WERT |
+| --- | --- |
+| ein | 1 |
+| aus | 0 |
+| ja | 1 |
+| nein | 0 |
+| auf | 1 |
+| ab | 0 |
+| an | 1 |
+| yes | 1 |
+| no | 0 |
+| on | 1 |
+| off | 0 |
+| up | 1 |
+| down | 0 |
+| true | 1 |
+| false | 0 |
+| 1 | 1 |
+| 0 | 0 |
+
+<a id="table-authentisierung"></a>
+### AUTHENTISIERUNG
+
+Dimensions: 4 rows × 2 columns
+
+| AUTH_NR | AUTH_TEXT |
+| --- | --- |
+| 0x01 | Simple |
+| 0x02 | Symetrisch |
+| 0x03 | Asymetrisch |
+| 0xFF | Keine |
+
+<a id="table-diagmode"></a>
+### DIAGMODE
+
+Dimensions: 14 rows × 3 columns
+
+| NR | MODE | MODE_TEXT |
+| --- | --- | --- |
+| 0x81 | DEFAULT | DefaultMode |
+| 0x82 | PT | PeriodicTransmissions |
+| 0x84 | EOLSSM | EndOfLineSystemSupplierMode |
+| 0x85 | ECUPM | ECUProgrammingMode |
+| 0x86 | ECUDM | ECUDevelopmentMode |
+| 0x87 | ECUAM | ECUAdjustmentMode |
+| 0x88 | ECUVCM | ECUVariantCodingMode |
+| 0x89 | ECUSM | ECUSafetyMode |
+| 0xFA | SSS_A | SystemSupplierSpecific (A) |
+| 0xFB | SSS_B | SystemSupplierSpecific (B) |
+| 0xFC | SSS_C | SystemSupplierSpecific (C) |
+| 0xFD | SSS_D | SystemSupplierSpecific (D) |
+| 0xFE | SSS_E | SystemSupplierSpecific (E) |
+| 0xXY | -- | unbekannter Diagnose-Mode |
+
+<a id="table-baudrate"></a>
+### BAUDRATE
+
+Dimensions: 7 rows × 3 columns
+
+| NR | BAUD | BAUD_TEXT |
+| --- | --- | --- |
+| 0x01 | PC9600 | Baudrate 9.6 kBaud |
+| 0x02 | PC19200 | Baudrate 19.2 kBaud |
+| 0x03 | PC38400 | Baudrate 38.4 kBaud |
+| 0x04 | PC57600 | Baudrate 57.6 kBaud |
+| 0x05 | PC115200 | Baudrate 115.2 kBaud |
+| 0x06 | SB | Specific Baudrate |
+| 0xXY | -- | unbekannte Baudrate |
+
+<a id="table-iarttexte"></a>
+### IARTTEXTE
+
+Dimensions: 14 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | kein passendes Fehlersymptom |
+| 0x01 | Signal oder Wert oberhalb Schwelle |
+| 0x02 | Signal oder Wert unterhalb Schwelle |
+| 0x04 | kein Signal oder Wert |
+| 0x08 | unplausibles Signal oder Wert |
+| 0x10 | Testbedingungen erfüllt |
+| 0x11 | Testbedingungen noch nicht erfüllt |
+| 0x20 | Fehler bisher nicht aufgetreten |
+| 0x21 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x22 | Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase) |
+| 0x23 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x30 | Fehler würde kein Aufleuchten einer Warnlampe verursachen |
+| 0x31 | Fehler würde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-programmierstatus"></a>
+### PROGRAMMIERSTATUS
+
+Dimensions: 19 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x00 | Anlieferzustand |
+| 0x01 | Normalbetrieb |
+| 0x02 | nicht benutzt |
+| 0x03 | Speicher gelöscht |
+| 0x04 | nicht benutzt |
+| 0x05 | Signaturprüfung PAF nicht durchgeführt |
+| 0x06 | Signaturprüfung DAF nicht durchgeführt |
+| 0x07 | Programmprogrammiersitzung aktiv |
+| 0x08 | Datenprogrammiersitzung aktiv |
+| 0x09 | Hardwarereferenzeintrag fehlerhaft |
+| 0x0A | Programmreferenzeintrag fehlerhaft |
+| 0x0B | Referenzierungsfehler Hardware -&gt; Programm |
+| 0x0C | Programm nicht vorhanden oder nicht vollständig |
+| 0x0D | Datenreferenzeintrag fehlerhaft |
+| 0x0E | Referenzierungsfehler Programm -&gt; Daten |
+| 0x0F | Daten nicht vorhanden oder nicht vollständig |
+| 0x10 | Reserviert fuer BMW |
+| 0x80 | Reserviert fuer Zulieferer |
+| 0xXY | unbekannter Programmierstatus |
+
+<a id="table-speichersegment"></a>
+### SPEICHERSEGMENT
+
+Dimensions: 12 rows × 3 columns
+
+| SEG_BYTE | SEG_NAME | SEG_TEXT |
+| --- | --- | --- |
+| 0x00 | LAR | linearAdressRange |
+| 0x01 | ROMI | ROM / EPROM, internal |
+| 0x02 | ROMX | ROM / EPROM, external |
+| 0x03 | NVRAM | NV-RAM (characteristic zones, DTC memory |
+| 0x04 | RAMIS | RAM, internal (short MOV) |
+| 0x05 | RAMXX | RAM, external (x data MOV) |
+| 0x06 | FLASH | Flash EPROM, internal |
+| 0x07 | UIFM | User Info Field Memory |
+| 0x08 | VODM | Vehicle Order Data Memory |
+| 0x09 | FLASHX | Flash EPROM, external |
+| 0x0B | RAMIL | RAM, internal (long MOV / Register) |
+| 0xFF | ??? | unbekanntes Speichersegment |
+
+<a id="table-ability-to-wake"></a>
+### ABILITY_TO_WAKE
+
+Dimensions: 4 rows × 2 columns
+
+| ABILITY_TO_WAKE_NR | ABILITY_TO_WAKE_MODE |
+| --- | --- |
+| 0x00 | off |
+| 0x01 | on |
+| 0x02 | critical |
+| 0xXY | unbekannter Mode |
+
+<a id="table-most-3db"></a>
+### MOST_3DB
+
+Dimensions: 3 rows × 2 columns
+
+| MOST_3DB_NR | MOST_3DB_MODE |
+| --- | --- |
+| 0x00 | Lichtleistung abgesenkt |
+| 0x01 | Volle Lichtleistung |
+| 0xXY | unbekannter Mode |
+
+<a id="table-wake-up-status"></a>
+### WAKE_UP_STATUS
+
+Dimensions: 4 rows × 2 columns
+
+| WAKE_UP_STATUS_NR | WAKE_UP_STATUS_MODE |
+| --- | --- |
+| 0x00 | nicht initialisiert |
+| 0x01 | SG hat geweckt |
+| 0x02 | SG wurde geweckt |
+| 0xXY | unbekannter Mode |
+
+<a id="table-jobresultextended"></a>
+### JOBRESULTEXTENDED
+
+Dimensions: 1 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-sg-diagnosekonzept"></a>
+### SG_DIAGNOSEKONZEPT
+
+Dimensions: 4 rows × 2 columns
+
+| RANG | KONZEPT_TEXT |
+| --- | --- |
+| 1 | BMW-FAST |
+| - | KWP2000* |
+| - | KWP2000 |
+| - | DS2 |
+
+<a id="table-forttexte"></a>
+### FORTTEXTE
+
+Dimensions: 6 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0xD7CE | Obwohl Shutdown(Execute) geschickt wurde, ging das Licht nicht aus. (Error_Light_Not_Off). |
+| 0xD7D0 | Ringbruchdiagnose wurde durchgefuehrt (Error_Ring_Diagnose). |
+| 0xD7D1 | Lange und/oder häufige Unlocks (Error_Unlock_Long). |
+| 0xD7D2 | Ein Device hat sich wegen Uebertemperatur abgeschaltet (Error_Temp_Shutdown). |
+| 0xD7E4 | Navi wurde von Spannung getrennt. |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-fdetailstruktur"></a>
+### FDETAILSTRUKTUR
+
+Dimensions: 7 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_ART_IND | nein |
+| F_ART_ERW | nein |
+| F_PCODE | nein |
+| F_PCODE7 | nein |
+| F_HFK | ja |
+| F_LZ | ja |
+| F_UWB_ERW | ja |
+
+<a id="table-fumweltmatrix"></a>
+### FUMWELTMATRIX
+
+Dimensions: 6 rows × 5 columns
+
+| ORT | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| 0xD7CE | FWinError | -- | -- | -- |
+| 0xD7D0 | FWinError | 0x06 | -- | -- |
+| 0xD7D1 | FWinError | -- | -- | -- |
+| 0xD7D2 | FWinError | 0x07 | -- | -- |
+| 0xD7E4 | FWinError | 0x37 | -- | -- |
+| default | 0x01 | 0x02 | 0x03 | -- |
+
+<a id="table-fumwelttexte"></a>
+### FUMWELTTEXTE
+
+Dimensions: 16 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x05 | Diagnoseadresse | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x06 | NPR | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x07 | Uebertemperatur | Hex | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x20 | WinError | Hex | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x21 | ModulId | -- | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x22 | LineNum | -- | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x23 | Daten_Länge | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x30 | SystemStatus | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x31 | Temperature | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x32 | CD-ID | Hex | high | unsigned int | -- | 1 | 1 | 0 |
+| 0x33 | GPS_Month | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x34 | GPS_Day | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x35 | GPS_Hour | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x36 | GPS_Minute | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x37 | KM-Stand bei Powerdown | Hex | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0xXY | unbekannte Umweltbedingung | 1 | -- | unsigned char | -- | 1 | 1 | 0 |
+
+<a id="table-horttexte"></a>
+### HORTTEXTE
+
+Dimensions: 1 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-iorttexte"></a>
+### IORTTEXTE
+
+Dimensions: 18 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0x9308 | Device bekam Reset (Error_Reset). |
+| 0x9309 | Bis zum Auftreten des Timeouts konnte kein Licht bzw. kein stabiler Lock erkannt werden (Error_NSInit_Timeout). |
+| 0x930A | Device ist im Zustand Normal Operation und das Licht am Eingang geht ohne Vorankündigung aus (Error_Sudden_light_off). |
+| 0x930B | Anfragendes Device bekommt keine Antwort obwohl Partner vorhanden ist (Error_Device_No_Answer). |
+| 0x930C | Kurze Unlocks (Error_Unlock_Short). |
+| 0x930D | Kein Broadcast Configuration(Status) vom Networkmaster erhalten (Error_t_CfgStatus). |
+| 0x930F | Ein Device hat im laufenden Betrieb seinen Bypass All geschlossen (Error_NCE). |
+| 0x9310 | Empfänger hat eine Nachricht nicht abgenommen (Error_NAK). |
+| 0x9328 | Der Primäre Fehlerspeicher wurde gelöscht. |
+| 0xA3E8 | Checksum Fehler oder Image nicht wie erwartet (Error_Image). |
+| 0xA3E9 | RAM-Test fehlgeschlagen (Error_RAM). |
+| 0xA3EA | OLIC Error (Error_OLIC). |
+| 0xA3EB | 1 oder mehr Spannungen nicht wie erwartet (Error_SUPPLY). |
+| 0xA3EC | Fehler im Grafikprozessor (Error_TRIMEDIA). |
+| 0xA3ED | Lüfter Fehler (Error_FAN). |
+| 0xA3EE | Kommunikation mit OCN gestört oder NVR defekt(Error_OCNCOMM). |
+| 0xA3EF | Fehler bei Selbsttest Durchfuehrung (Error_SELFTEST). |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-idetailstruktur"></a>
+### IDETAILSTRUKTUR
+
+Dimensions: 7 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_ART_IND | nein |
+| F_ART_ERW | nein |
+| F_PCODE | nein |
+| F_PCODE7 | nein |
+| F_HFK | ja |
+| F_LZ | ja |
+| F_UWB_ERW | ja |
+
+<a id="table-iumweltmatrix"></a>
+### IUMWELTMATRIX
+
+Dimensions: 18 rows × 5 columns
+
+| ORT | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| 0x9308 | IWinError | 0x04 | -- | -- |
+| 0x9309 | IWinError | -- | -- | -- |
+| 0x930A | IWinError | -- | -- | -- |
+| 0x930B | IWinError | IADRESSE | -- | -- |
+| 0x930C | IWinError | -- | -- | -- |
+| 0x930D | IWinError | -- | -- | -- |
+| 0x930F | IWinError | -- | -- | -- |
+| 0x9310 | IWinError | IADRESSE | -- | -- |
+| 0x9328 | IWinError | -- | -- | -- |
+| 0xA3E8 | IWinError | -- | -- | -- |
+| 0xA3E9 | IWinError | -- | -- | -- |
+| 0xA3EA | IWinError | -- | -- | -- |
+| 0xA3EB | IWinError | -- | -- | -- |
+| 0xA3EC | IWinError | -- | -- | -- |
+| 0xA3ED | IWinError | -- | -- | -- |
+| 0xA3EE | IWinError | -- | -- | -- |
+| 0xA3EF | IWinError | -- | -- | -- |
+| default | -- | IADRESSE | -- | -- |
+
+<a id="table-iumwelttexte"></a>
+### IUMWELTTEXTE
+
+Dimensions: 20 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x01 | Batteriespannung | Volt | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x02 | Aussentemperatur | Grad C | -- | signed char | -- | 1 | 1 | 0 |
+| 0x04 | TaskId | Hex | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x10 | Logische-Knotenadresse | Hex | high | unsigned int | -- | 1 | 1 | 0 |
+| 0x11 | FBlockID | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x12 | InstID | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x13 | FktID | Hex | high | unsigned int | -- | 1 | 1 | 0 |
+| 0x20 | KM-Stand | Hex | -- | unsigned int | -- | 8 | 1 | 0 |
+| 0x21 | WinError | Hex | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x22 | ModulId | -- | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x23 | LineNum | -- | -- | unsigned long | -- | 1 | 1 | 0 |
+| 0x24 | Daten_Länge | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x30 | SystemStatus | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x31 | Temperature | Hex | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x32 | CD-ID | Hex | high | unsigned int | -- | 1 | 1 | 0 |
+| 0x33 | GPS_Month | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x34 | GPS_Day | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x35 | GPS_Hour | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0x36 | GPS_Minute | -- | -- | unsigned char | -- | 1 | 1 | 0 |
+| 0xXY | unbekannte Umweltbedingung | 1 | -- | unsigned char | -- | 1 | 1 | 0 |
+
+<a id="table-fwinerror"></a>
+### FWINERROR
+
+Dimensions: 1 rows × 10 columns
+
+| UW_ANZ | UW1_NR | UW2_NR | UW3_NR | UW4_NR | UW5_NR | UW6_NR | UW7_NR | UW8_NR | UW9_NR |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 9 | 0x20 | 0x30 | 0x31 | 0x32 | 0x33 | 0x34 | 0x35 | 0x36 | 0x23 |
+
+<a id="table-iwinerror"></a>
+### IWINERROR
+
+Dimensions: 1 rows × 10 columns
+
+| UW_ANZ | UW1_NR | UW2_NR | UW3_NR | UW4_NR | UW5_NR | UW6_NR | UW7_NR | UW8_NR | UW9_NR |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 9 | 0x21 | 0x30 | 0x31 | 0x32 | 0x33 | 0x34 | 0x35 | 0x36 | 0x24 |
+
+<a id="table-iadresse"></a>
+### IADRESSE
+
+Dimensions: 1 rows × 5 columns
+
+| UW_ANZ | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| 4 | 0x10 | 0x11 | 0x12 | 0x13 |
+
+<a id="table-gangwahl"></a>
+### GANGWAHL
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Vorwärtsgang oder Leerlauf |
+| 0x01 | Rückwärtsgang |
+| 0xXY | nicht definiert |
+
+<a id="table-gps"></a>
+### GPS
+
+Dimensions: 16 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Kein GPS |
+| 0x01 | Kommunikationsfehler |
+| 0x02 | GPS Empfängerfehler |
+| 0x03 | Kein Almanach |
+| 0x04 | Suche Satellit |
+| 0x05 | Verfolge 1 Satellit |
+| 0x06 | Verfolge 2 Satelliten |
+| 0x07 | Verfolge 3 Satelliten |
+| 0x08 | Verfolge 4 Satelliten |
+| 0x09 | Verfolge 5 Satelliten |
+| 0x0A | Verfolge 6 Satelliten |
+| 0x0B | 2D Positionierung |
+| 0x0C | 3D Positionierung |
+| 0x0D | GPS Antenne nicht angeschlossen |
+| 0x0E | Kurzschluß GPS Antenne |
+| 0xXY | nicht definiert |
+
+<a id="table-ejectbutton"></a>
+### EJECTBUTTON
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Released |
+| 0x01 | Pressed |
+| 0xXY | nicht definiert |
+
+<a id="table-factorymodebutton"></a>
+### FACTORYMODEBUTTON
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Inactiv |
+| 0xFF | Activ |
+| 0xXY | nicht definiert |
+
+<a id="table-languages"></a>
+### LANGUAGES
+
+Dimensions: 18 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | GERMAN_MALE |
+| 0x80 | GERMAN_FEMALE |
+| 0x01 | ENGLISH_MALE |
+| 0x81 | ENGLISH_FEMALE |
+| 0x02 | AMERICAN_MALE |
+| 0x82 | AMERICAN_FEMALE |
+| 0x03 | ITALIAN_MALE |
+| 0x83 | ITALIAN_FEMALE |
+| 0x04 | SPANISCH_MALE |
+| 0x84 | SPANISCH_FEMALE |
+| 0x06 | FRENCH_MALE |
+| 0x86 | FRENCH_FEMALE |
+| 0x08 | NETHERLANDS_MALE |
+| 0x88 | NETHERLANDS_FEMALE |
+| 0x10 | RUSSIAN_MALE |
+| 0x90 | RUSSIAN_FEMALE |
+| 0xFF | nicht vorhanden |
+| 0xXY | nicht definiert |
+
+<a id="table-languages-req"></a>
+### LANGUAGES_REQ
+
+Dimensions: 18 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | GERMAN_MALE |
+| 0x80 | GERMAN_FEMALE |
+| 0x01 | ENGLISH_MALE |
+| 0x81 | ENGLISH_FEMALE |
+| 0x02 | AMERICAN_MALE |
+| 0x82 | AMERICAN_FEMALE |
+| 0x03 | ITALIAN_MALE |
+| 0x83 | ITALIAN_FEMALE |
+| 0x04 | SPANISCH_MALE |
+| 0x84 | SPANISCH_FEMALE |
+| 0x06 | FRENCH_MALE |
+| 0x86 | FRENCH_FEMALE |
+| 0x08 | NETHERLANDS_MALE |
+| 0x88 | NETHERLANDS_FEMALE |
+| 0x10 | RUSSIAN_MALE |
+| 0x90 | RUSSIAN_FEMALE |
+| 0xFF | keine neue Anforderung |
+| 0xXY | nicht definiert |
+
+<a id="table-softwareloading-status"></a>
+### SOFTWARELOADING_STATUS
+
+Dimensions: 23 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | INSTALL_NO_ERROR |
+| 0x01 | STATUS_INSERT_SWL_CD |
+| 0x02 | STATUS_SWL_CD_INSERTED |
+| 0x03 | STATUS_SWL_LANGUAGE_LOADING |
+| 0x04 | STATUS_SWL_SH4_LOADING |
+| 0x05 | STATUS_SWL_OCN_LOADING |
+| 0x0A | ERROR_READ_CONTENT_FILE |
+| 0x0B | ERROR_MISSING_FILE |
+| 0x0C | ERROR_NO_MEMORY |
+| 0x0D | ERROR_READ_IMAGE |
+| 0x0E | ERROR_WRITE_IMAGE |
+| 0x0F | ERROR_INSTALLATON_COUNTER |
+| 0x14 | ERROR_MODE_CHANGE |
+| 0x15 | ERROR_NO_OCN_CONNECTION |
+| 0x16 | ERROR_INIT_MASTER_MODE |
+| 0x17 | ERROR_NOTIFY_OCN |
+| 0x18 | ERROR_WRONG_OCN_STATE |
+| 0x19 | ERROR_NO_TELEGRAM_FROM_OCN |
+| 0x1A | ERROR_OCN_PROG |
+| 0x1B | ERROR_OCN_LANGUAGE |
+| 0x1C | ERROR_OCN_ACCESS_CD |
+| 0x1D | ERROR_OCN_ILLEGAL_CD |
+| 0xXY | nicht definiert |
+
+<a id="table-softwarel-demand-tab"></a>
+### SOFTWAREL_DEMAND_TAB
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Keine Anforderung |
+| 0x01 | Software laden erforderlich |
+| 0xXY | nicht definiert |
+
+<a id="table-selftestresultsh4"></a>
+### SELFTESTRESULTSH4
+
+Dimensions: 7 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Selbsttest SH4 OK |
+| 0x7B | es wurde noch kein Selbsttest durchgeführt |
+| 0x7C | Selbsttest lauft zur Zeit |
+| 0x7D | angeforderter Selbsttest nicht durchgeführt |
+| 0x7E | Fehler bei Testdurchfuehrung |
+| 0x7F | Selbsttest SH4 Failed |
+| 0xXY | nicht definiert |
+
+<a id="table-selftestresultocn"></a>
+### SELFTESTRESULTOCN
+
+Dimensions: 7 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Selbsttest OCN OK |
+| 0x7B | es wurde noch kein Selbsttest durchgeführt |
+| 0x7C | Selbsttest lauft zur Zeit |
+| 0x7D | angeforderter Selbsttest nicht durchgeführt |
+| 0x7E | Fehler bei Testdurchfuehrung |
+| 0x7F | Selbsttest OCN Failed |
+| 0xXY | nicht definiert |
+
+<a id="table-selftestresultnavi2001"></a>
+### SELFTESTRESULTNAVI2001
+
+Dimensions: 7 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Selbsttest Navi2001 OK |
+| 0x7B | es wurde noch kein Selbsttest durchgeführt |
+| 0x7C | Selbsttest lauft zur Zeit |
+| 0x7D | angeforderter Selbsttest nicht durchgeführt |
+| 0x7E | Fehler bei Testdurchfuehrung |
+| 0x7F | Selbsttest Navi2001 Failed |
+| 0xXY | nicht definiert |
+
+<a id="table-fanstateresult"></a>
+### FANSTATERESULT
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Lüfter aus |
+| 0x01 | Lüfter an |
+| 0xXY | nicht definiert |
+
+<a id="table-fantestresult"></a>
+### FANTESTRESULT
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Lüfter not OK |
+| 0x01 | Lüfter OK |
+| 0xXY | nicht definiert |
+
+<a id="table-ocnstatetable"></a>
+### OCNSTATETABLE
+
+Dimensions: 3 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Status OCN OK |
+| 0xFF | OCN Kommunikations Fehler (moegl. Diagnose nicht gestartet?) |
+| 0xXY | nicht definiert |
+
+<a id="table-ffserrorstate"></a>
+### FFSERRORSTATE
+
+Dimensions: 8 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | OK |
+| 0x0A | Fehler FFS: Content File fehlt |
+| 0x0B | Fehler FFS: benötigtes File fehlt |
+| 0x0C | Fehler FFS: nicht genügend Speicherplatz zum Test |
+| 0x0D | Fehler FFS: Fehler beim Datei lesen |
+| 0x28 | Fehler FFS: Fehler in Registry |
+| 0x2A | Fehler FFS: Datei ungültig |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-antennen-status"></a>
+### ANTENNEN_STATUS
+
+Dimensions: 4 rows × 2 columns
+
+| WERT | ANZEIGE_TEXT |
+| --- | --- |
+| 0x00 | Verbunden |
+| 0x01 | Nicht Verbunden |
+| 0x02 | Kurzschluss |
+| 0xXY | nicht definiert |

@@ -1,0 +1,7770 @@
+# med17_2n.prg
+
+- Jobs: [198](#jobs)
+- Tables: [43](#tables)
+
+## INFO
+
+| Field | Value |
+| --- | --- |
+| ECU | MED17.2 fuer NG-Motoren  |
+| ORIGIN | BMW EA-52 Roman_Stoiber |
+| REVISION | 6.506 |
+| AUTHOR | IAV EA-14 Moritz_Zindler |
+| COMMENT | SGBD fuer MED17.2  |
+| PACKAGE | 1.50 |
+| SPRACHE | deutsch |
+
+## Jobs
+
+### Index
+
+- [INFO](#job-info) - Information SGBD
+- [INITIALISIERUNG](#job-initialisierung) - Initialisierung und Kommunikationsparameter
+- [DIAGNOSEPROTOKOLL_LESEN](#job-diagnoseprotokoll-lesen) - Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+- [DIAGNOSEPROTOKOLL_SETZEN](#job-diagnoseprotokoll-setzen) - Wählt ein Diagnoseprotokoll aus
+- [FS_LESEN](#job-fs-lesen) - Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+- [FS_LOESCHEN](#job-fs-loeschen) - Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+- [PRUEFSTEMPEL_LESEN](#job-pruefstempel-lesen) - Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [PRUEFSTEMPEL_SCHREIBEN](#job-pruefstempel-schreiben) - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [NORMALER_DATENVERKEHR](#job-normaler-datenverkehr) - Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+- [DIAGNOSE_AUFRECHT](#job-diagnose-aufrecht) - Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+- [DIAGNOSE_ENDE](#job-diagnose-ende) - Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+- [DIAGNOSE_MODE](#job-diagnose-mode) - SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [ENERGIESPARMODE](#job-energiesparmode) - Einstellen des Energiesparmodes KWP2000: $31 StartRoutineByLocalIdentifier $0C ControlEnergySavingMode Modus  : Default
+- [SENSOREN_ANZAHL_LESEN](#job-sensoren-anzahl-lesen) - Anzahl der intelligenten Subbussensoren lesen KWP2000: $22 ReadDataByCommonIdentifier $1600 IdentifyNumberofSubbusMembers Modus  : Default
+- [SENSOREN_IDENT_LESEN](#job-sensoren-ident-lesen) - Identifikation der intelligenten Subbussensoren lesen KWP2000: $22 ReadDataByCommonIdentifier $1600 IdentifyNumberofSubbusMembers $16xx SubbusMemberSerialNumber Modus  : Default
+- [STATUS_MESSWERTBLOCK_LESEN](#job-status-messwertblock-lesen) - Lesen eines Messwertblockes Es muss immer das BlockSchreibenFlag und mindestens ein MESSWERT uebergeben werden. KWP2000: $2C DynamicallyDefinedLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier $04 ClearDynamicallyDefinedLocalIdentifier KWP2000: $2C DynamicallyDefinedLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier $02 DefineByCommonIdentifier KWP2000: $21 ReadDataByLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier Modus  : Default
+- [CBS_INFO](#job-cbs-info) - Ausgabe der CBS-Version
+- [CBS_DATEN_LESEN](#job-cbs-daten-lesen) - CBS Daten auslesen (fuer CBS-Version 4) KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+- [CBS_RESET](#job-cbs-reset) - CBS Daten Zuruecksetzen (fuer CBS-Version 4) KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default Musterparametersatz fuer Bremsbelagverschleiss Vorder/Hinterachse br_v,100,1,0,0,0,1,0,0 br_h,100,1,0,0,0,1,0,0 jedoch mit "Strich_Punkt" getrennt (nicht mit Komma!)
+- [PRUEFCODE_LESEN](#job-pruefcode-lesen) - Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+- [C_CI_LESEN](#job-c-ci-lesen) - Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [C_FG_LESEN](#job-c-fg-lesen) - Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_FG_SCHREIBEN](#job-c-fg-schreiben) - Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+- [C_FG_AUFTRAG](#job-c-fg-auftrag) - Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_AEI_LESEN](#job-c-aei-lesen) - Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_SCHREIBEN](#job-c-aei-schreiben) - Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_AUFTRAG](#job-c-aei-auftrag) - Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_C_LESEN](#job-c-c-lesen) - Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_SCHREIBEN](#job-c-c-schreiben) - Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_AUFTRAG](#job-c-c-auftrag) - Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [ZIF_LESEN](#job-zif-lesen) - Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [ZIF_BACKUP_LESEN](#job-zif-backup-lesen) - Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [PHYSIKALISCHE_HW_NR_LESEN](#job-physikalische-hw-nr-lesen) - Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [HARDWARE_REFERENZ_LESEN](#job-hardware-referenz-lesen) - Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [DATEN_REFERENZ_LESEN](#job-daten-referenz-lesen) - Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+- [FLASH_ZEITEN_LESEN](#job-flash-zeiten-lesen) - Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+- [FLASH_BLOCKLAENGE_LESEN](#job-flash-blocklaenge-lesen) - Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+- [AUTHENTISIERUNG_ZUFALLSZAHL_LESEN](#job-authentisierung-zufallszahl-lesen) - Authentisierung Zufallszahl des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $07 RequestForAuthentication Modus  : Default
+- [AUTHENTISIERUNG_START](#job-authentisierung-start) - Authentisierung pruefen KWP2000: $31 StartRoutineByLocalIdentifier $08 ReleaseAuthentication Modus  : Default
+- [FLASH_PROGRAMMIER_STATUS_LESEN](#job-flash-programmier-status-lesen) - Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+- [FLASH_SIGNATUR_PRUEFEN](#job-flash-signatur-pruefen) - Flash Signatur pruefen KWP2000: $31 StartRoutineByLocalIdentifier $09 CheckSignature Modus  : Default
+- [STEUERGERAETE_RESET](#job-steuergeraete-reset) - Steuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [FLASH_LOESCHEN](#job-flash-loeschen) - Flash loeschen Standard Flashjob KWP2000: $31 StartRoutineByLocalIdentifier $02 ClearMemory Modus  : Default
+- [FLASH_SCHREIBEN_ADRESSE](#job-flash-schreiben-adresse) - Vorbereitung fuer Flash schreiben Standard Flashjob KWP2000: $34 RequestDownload Modus  : Default
+- [FLASH_SCHREIBEN](#job-flash-schreiben) - Flash Daten schreiben Standard Flashjob KWP2000: $36 TransferData Modus  : Default
+- [FLASH_SCHREIBEN_ENDE](#job-flash-schreiben-ende) - Flashprogrammierung abschliessen Standard Flashjob KWP2000: $37 RequestTransferExit Modus  : Default
+- [AIF_LESEN](#job-aif-lesen) - Auslesen des Anwender Informations Feldes Standard Flashjob KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+- [AIF_SCHREIBEN](#job-aif-schreiben) - Schreiben des Anwender Informations Feldes Standard Flashjob KWP 2000: $3D WriteMemoryByAddress Modus   : Default
+- [FS_LESEN_DETAIL](#job-fs-lesen-detail) - Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+- [FS_LESEN_LANG](#job-fs-lesen-lang) - Fehlerspeicher auslesen
+- [DATA_ID_LESEN](#job-data-id-lesen) - Auslesen der Data-ID (PST+DS) des SG
+- [IDENT](#job-ident) - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+- [IDENT_AIF](#job-ident-aif) - (1) Auslesen der Identdaten mit KWP2000: $1A ReadECUIdentification (2) Auslesen des Anwender Informations Feldes mit KWP2000: $23 ReadMemoryByAddress (3) =Standard Flashjob
+- [SERIENNUMMER_LESEN](#job-seriennummer-lesen) - Auslesen der Hersteller Seriennummer
+- [SPEICHER_LESEN](#job-speicher-lesen) - Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes
+- [SPEICHER_SCHREIBEN](#job-speicher-schreiben) - Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+- [RAM_LESEN](#job-ram-lesen) - Auslesen von beliebigen RAM-Zellen / INTEL-Format (Byte1=LB, Byte2=HB)
+- [VARIANTEN_LESEN](#job-varianten-lesen) - Auslesen Bauteilevarianten
+- [VARIANTEN_LOESCHEN](#job-varianten-loeschen) - Löschen der Varianten
+- [ADAPTIONEN_LOESCHEN](#job-adaptionen-loeschen) - Selektives Löschen der Adaptionswerte
+- [STATUS_LLABG](#job-status-llabg) - Auslesen LL-Abgleichswerte
+- [STEUERN_LLABG_VORGEBEN](#job-steuern-llabg-vorgeben) - LL-Abgleichswerte flüchtig vorgeben
+- [STEUERN_LLABG_PROGRAMMIEREN](#job-steuern-llabg-programmieren) - LL-Abgleichswerte nicht flüchtig vorgeben
+- [STEUERN_LSHVK](#job-steuern-lshvk) - Ansteuerung Lambdasondenheizung vor Kat
+- [STEUERN_ENDE_LSHVK](#job-steuern-ende-lshvk) - Ansteuerung Lambdasondenheizung vor Kat beenden
+- [STEUERN_LSHHK](#job-steuern-lshhk) - Ansteuerung Lambdasondenheizung hinter Kat
+- [STEUERN_ENDE_LSHHK](#job-steuern-ende-lshhk) - Ansteuerung Lambdasondenheizung hinter Kat beenden
+- [STEUERN_MIL](#job-steuern-mil) - Ansteuerung MIL
+- [STEUERN_ENDE_MIL](#job-steuern-ende-mil) - Ansteuerung MIL beenden
+- [STEUERN_EML](#job-steuern-eml) - Ansteuerung EML
+- [STEUERN_ENDE_EML](#job-steuern-ende-eml) - Ansteuerung EML beenden
+- [STEUERN_EKP](#job-steuern-ekp) - Ansteuerung elektrische Kraftstoffpumpe
+- [STEUERN_ENDE_EKP](#job-steuern-ende-ekp) - Ansteuerung EKP beenden
+- [STEUERN_WAPUT](#job-steuern-waput) - Ansteuerung Wasserpumpe Turbolader
+- [STEUERN_ENDE_WAPUT](#job-steuern-ende-waput) - Ansteuerung Wasserpumpe Turbolader beenden
+- [STEUERN_E_LUEFTER](#job-steuern-e-luefter) - Ansteuerung E-Lüfter
+- [STEUERN_ENDE_E_LUEFTER](#job-steuern-ende-e-luefter) - Ansteuerung E-Lüfter beenden
+- [STEUERN_DK](#job-steuern-dk) - Ansteuerung Drosselklappe
+- [STEUERN_ENDE_DK](#job-steuern-ende-dk) - Ansteuerung Drosselklappe beenden
+- [STEUERN_DMTLP](#job-steuern-dmtlp) - Ansteuerung DMTL-Pumpe
+- [STEUERN_ENDE_DMTLP](#job-steuern-ende-dmtlp) - Ansteuerung DMTL-Pumpe beenden
+- [STEUERN_DMTLV](#job-steuern-dmtlv) - Ansteuerung DMTL-Ventil
+- [STEUERN_ENDE_DMTLV](#job-steuern-ende-dmtlv) - Ansteuerung DMTL-Ventil beenden
+- [STEUERN_DMTLH](#job-steuern-dmtlh) - Ansteuerung DMTL-Heizung
+- [STEUERN_ENDE_DMTLH](#job-steuern-ende-dmtlh) - Ansteuerung DMTL-Heizung beenden
+- [STEUERN_KFK](#job-steuern-kfk) - Ansteuerung Kennfeldthermostat
+- [STEUERN_ENDE_KFK](#job-steuern-ende-kfk) - Ansteuerung Kennfeldthermostat beenden
+- [STEUERN_TEV](#job-steuern-tev) - Ansteuerung Tankentlüftungsventil
+- [STEUERN_ENDE_TEV](#job-steuern-ende-tev) - Ansteuerung Tankentlüftungsventil beenden
+- [STEUERN_VANOS_EINLASS](#job-steuern-vanos-einlass) - Ansteuerung Vanos Einlass-Ventil
+- [STEUERN_ENDE_VANOS_EINLASS](#job-steuern-ende-vanos-einlass) - Ansteuerung VANOS Einlass-Ventil beenden
+- [STEUERN_ULV](#job-steuern-ulv) - Ansteuerung Umluftventil
+- [STEUERN_ENDE_ULV](#job-steuern-ende-ulv) - Ansteuerung Umluftventil beenden
+- [STEUERN_WGV](#job-steuern-wgv) - Ansteuerung Wastegate-Ventil
+- [STEUERN_ENDE_WGV](#job-steuern-ende-wgv) - Ansteuerung Wastegate-Ventil beenden
+- [STATUS_RBM_MODE9](#job-status-rbm-mode9) - Lesen der Rate-Based-Monitoring-Werte Mode 9
+- [STATUS_SCHALTERSTATI](#job-status-schalterstati) - Auslesen der Schalterstati
+- [STATUS_FUNKTIONSSTATI](#job-status-funktionsstati) - Auslesen der Funktionsstati
+- [STATUS_UBATT](#job-status-ubatt) - Auslesen der Batteriespannung
+- [STATUS_MOTORDREHZAHL](#job-status-motordrehzahl) - Auslesen der Motordrehzahl
+- [STATUS_MOTORTEMPERATUR](#job-status-motortemperatur) - Auslesen der Motortemperatur
+- [STATUS_ANSAUGLUFTTEMPERATUR](#job-status-ansauglufttemperatur) - Auslesen der Ansauglufttemperatur
+- [STATUS_PWG_POTI_SPANNUNG](#job-status-pwg-poti-spannung) - Auslesen der Pedalwertgeber-Stati
+- [STATUS_LMM_MASSE](#job-status-lmm-masse) - Auslesen des Luftmassenstroms bei Fz. mit HFM (US-Variante)  =&gt; Luftmassenstrom über mshfm_w
+- [STATUS_ULSVK](#job-status-ulsvk) - Auslesen Lambdasondenspannung vor Kat
+- [STATUS_ULSHK](#job-status-ulshk) - Auslesen Lambdasondenspannung hinter Kat
+- [STATUS_INT](#job-status-int) - Auslesen des Lambdaregler-Ausgangs
+- [STATUS_MUL](#job-status-mul) - Multipikativer Gemischadaptionsfaktor der Lambdaregelung
+- [STATUS_ADD](#job-status-add) - Additiver Gemischadaptionsfaktor der Lambdaregelung
+- [STATUS_LAUFUNRUHE](#job-status-laufunruhe) - Auslesen der Laufunruhewerte
+- [STATUS_MSA](#job-status-msa) - 0x22402F STATUS_MSA     MSA (MotorStopAutomatik) auslesen
+- [STATUS_MSARING](#job-status-msaring) - 0x22401C STATUS_MSARING Ringspeicher Motor-Start/Stop Automatik (MSA) auslesen
+- [STATUS_NULLGANG_ERKENNUNG](#job-status-nullgang-erkennung) - 0x22402E STATUS_NULLGANG_ERKENNUNG     Nullgang Erkennung auslesen
+- [STEUERN_MSA_DEAK](#job-steuern-msa-deak) - 0x2E5F8E07 STEUERN_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren vorgeben   NO_CON keine Vorraussetzungen
+- [STATUS_MSA_DEAK](#job-status-msa-deak) - 0x225F8E STATUS_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren auslesen
+- [STEUERN_ENDE_MSA_DEAK](#job-steuern-ende-msa-deak) - 0x2E5F8E00 STEUERN_ENDE_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren Vorgeben beenden  NO_CON keine Vorraussetzungen
+- [STEUERN_MSA_DEAK_AV](#job-steuern-msa-deak-av) - 0x2E5F8F07 STEUERN_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) vorgeben   NO_CON keine Vorraussetzungen
+- [STATUS_MSA_DEAK_AV](#job-status-msa-deak-av) - 0x225F8F STATUS_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) auslesen
+- [STEUERN_ENDE_MSA_DEAK_AV](#job-steuern-ende-msa-deak-av) - 0x2E5F8F00 STEUERN_ENDE_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) Vorgeben beenden   NO_CON keine Vorraussetzungen
+- [STEUERN_MSARING_HFKRESET](#job-steuern-msaring-hfkreset) - 0x2E5F89 STEUERN_MSARING_HFKRESET MSARING Haeufigkeitszaehler Reset
+- [STATUS_KUP](#job-status-kup) - 0x300401 STATUS_KUP     Kupplungsschalter auslesen NO_CON keine Vorraussetzungen
+- [STEUERN_NULLGANG_SCHREIBEN](#job-steuern-nullgang-schreiben) - 0x2E5F8A STEUERN_NULLGANG_SCHREIBEN Schreiben Nullgang Lernwert
+- [STEUERN_NULLGANG_LERNEN](#job-steuern-nullgang-lernen) - 0x312E STEUERN_NULLGANG_LERNEN Ansteuern Nullgang lernen (Der Nullgang-Lernwert ist nichtfluechtig so abzulegen, dass er bei Reprogrammierung nicht überschrieben wird.)
+- [STEUERN_CODIERUNG_MSA](#job-steuern-codierung-msa) - 0x2E3250 STEUERN_CODIERUNG_MSA Codierung fuer MSA vorgeben  Dieser Service muss waehrend der ganzen Lebensdauer des Fahrzeugs ausfuehrbar sein. Betriebsstundenzaehler und km-Stand haben also keinen Einfluss auf diesen Service.
+- [STATUS_CODIERUNG_MSA](#job-status-codierung-msa) - 0x223250 STATUS_CODIERUNG_MSA Codierung fuer MSA auslesen
+- [STEUERN_MSA_DEAK_DAUERHAFT](#job-steuern-msa-deak-dauerhaft) - 0x2E5F8E08 STEUERN_MSA_DEAK_DAUERHAFT MSA (MotorStopAutomatik) MSA dauerhaft (ueber Zuendungswechsel hinweg) deaktivieren vorgeben  Der Diagnosejob zur dauerhaften MSA Deaktivierung ist an den Km-Zaehler zu koppeln. Nach Ablauf von 250 km, wird die permanente MSA Deaktivierung automatisch zurueckgenommen (d.h. MSA permanent aktiviert) und der Job zur dauerhaften MSA Deaktivierung kann nicht mehr ausgefuehrt werden. Dadurch wird noch ein mal mehr sichergestellt, dass im Feld MSA aktiv ist und MSA nicht dauerhaft deaktiviert werden kann. Bei deaktivierter MSA ist kein FS zu erzeugen. Bei deaktivierter MSA muessen alle MSA Diagnosen aktiv bleiben. NO_CON
+- [STATUS_STARTZEITENSPEICHER](#job-status-startzeitenspeicher) - Auslesen Startverhinderer Aktivierung: Klemme 15 = EIN STAT_BEDKURZ sind die Startverhinderer zwischen 1s &lt; tstart &lt; 4s STAT_BEDLANG sind die Startverhinderer wo tstart &gt; 4s ist
+- [IDENT_IBS](#job-ident-ibs) - $22 40 21 BMW Nr, Seriennummer, SW/HW Index
+- [STATUS_GENERATOR_INFO](#job-status-generator-info) - Auslesen des Infospeicher der Generator-Diagnose
+- [STATUS_BZEINFO](#job-status-bzeinfo) - Auslesen Infospeicher Batterie Zustands Erkennung (BZE)
+- [STATUS_SYSTEMCHECK_PM_INFO_1](#job-status-systemcheck-pm-info-1) - Auslesen Bytefeld 1 Batterie Powermanagement
+- [STATUS_SYSTEMCHECK_PM_INFO_2](#job-status-systemcheck-pm-info-2) - Auslesen Bytefeld 2 Batterie Powermanagement
+- [STEUERN_PM_HISTOGRAM_RESET](#job-steuern-pm-histogram-reset) - 0x2E5FF504 STEUERN_PM_HISTOGRAM_RESET Löschen der Powermanagement-Infofelder Aktivierung: Klemme 15 = EIN Activation: LV_IGK = 1
+- [START_SYSTEMCHECK_PM_MESSEMODE](#job-start-systemcheck-pm-messemode) - Anstoßen DiagnoseFunktion PM-Messmode
+- [STATUS_SYSTEMCHECK_PM_MESSEMODE](#job-status-systemcheck-pm-messemode) - 0x33F6 STATUS_SYSTEMCHECK_PM_MESSEMODE Auslesen Messemode
+- [STOP_SYSTEMCHECK_PM_MESSEMODE](#job-stop-systemcheck-pm-messemode) - Systemdiagnose BatterieSensor Reset beenden
+- [STEUERN_BATTERIETAUSCH_REGISTRIEREN](#job-steuern-batterietausch-registrieren) - 0x3130001000 STEUERN_BATTERIETAUSCH_REGISTRIEREN Batterietausch registrieren Aktivierung: Klemme 15 = EIN UND Drehzahl = 0 1/min Activation: LV_IGK = 1 UND LV_ES = 1
+- [STEUERN_RUHESTROMMESSUNG](#job-steuern-ruhestrommessung) - Ansteuern Ruhestrompruefung mit IBS
+- [STATUS_RUHESTROMMESSUNG](#job-status-ruhestrommessung) - Auslesen Status Ruhestromprüfung mit IBS
+- [START_SYSTEMCHECK_EVAUSBL](#job-start-systemcheck-evausbl) - Ausblenden von EVs
+- [STATUS_SYSTEMCHECK_EVAUSBL](#job-status-systemcheck-evausbl) - Ausgabe Ausblendstatus EV1-EV4
+- [STOP_SYSTEMCHECK_EVAUSBL](#job-stop-systemcheck-evausbl) - Ausblenden von EVs beenden
+- [START_SYSTEMCHECK_TEV_FUNC](#job-start-systemcheck-tev-func) - Anstoßen Systemtest TEV
+- [STATUS_SYSTEMCHECK_TEV_FUNC](#job-status-systemcheck-tev-func) - Auslesen Status Systemtest TEV
+- [STOP_SYSTEMCHECK_TEV_FUNC](#job-stop-systemcheck-tev-func) - Stop Systemtest TEV
+- [START_SYSTEMCHECK_LLERH](#job-start-systemcheck-llerh) - Anstoßen Systemtest LL-Erhöhung über Tester
+- [STATUS_SYSTEMCHECK_LLERH](#job-status-systemcheck-llerh) - Diagnosestatus LLERH (a) Diag. läuft (llsstat = 0) =&gt; wirksame LL-Drehzahl = die über den Tester vorgegebene (b) Diag. läuft nicht (llsstat = 5) =&gt; wirksame LL-Drehzahl = Kennlinienwert
+- [STOP_SYSTEMCHECK_LLERH](#job-stop-systemcheck-llerh) - Systemtest LL-Erhöhung beenden
+- [START_SYSTEMCHECK_DMTL](#job-start-systemcheck-dmtl) - Anstoßen Tankdiagnose DMTL
+- [STATUS_SYSTEMCHECK_DMTL](#job-status-systemcheck-dmtl) - Status Tankdiagnose DMTL
+- [STOP_SYSTEMCHECK_DMTL](#job-stop-systemcheck-dmtl) - Tankdiagnose DMTL beenden
+- [START_SYSTEMCHECK_LSVK](#job-start-systemcheck-lsvk) - Anstoßen Systemdiagnose LS vor KAT
+- [STATUS_SYSTEMCHECK_LSVK](#job-status-systemcheck-lsvk) - Status Systemdiagnose LS vor KAT
+- [STOP_SYSTEMCHECK_LSVK](#job-stop-systemcheck-lsvk) - Systemdiagnose LS vor KAT beenden
+- [START_SYSTEMCHECK_LSHK](#job-start-systemcheck-lshk) - Anstoßen Systemtest LS hinter KAT
+- [STOP_SYSTEMCHECK_LSHK](#job-stop-systemcheck-lshk) - Systemtest LS hinter KAT beenden
+- [START_SYSTEMCHECK_KAT](#job-start-systemcheck-kat) - Anstoßen Kurztest KAT
+- [STATUS_SYSTEMCHECK_KAT](#job-status-systemcheck-kat) - Auslesen Status Systemtest KAT
+- [STOP_SYSTEMCHECK_KAT](#job-stop-systemcheck-kat) - Kurztest KAT beenden
+- [START_SYSTEMCHECK_GEMISCHADAPT_SPERR](#job-start-systemcheck-gemischadapt-sperr) - Anstoßen Systemtest 'Gemischadaption sperren'
+- [STATUS_SYSTEMCHECK_GEMISCHADAPT_SPERR](#job-status-systemcheck-gemischadapt-sperr) - Status der Diagnose 'Gemischadaption sperren'
+- [STOP_SYSTEMCHECK_GEMISCHADAPT_SPERR](#job-stop-systemcheck-gemischadapt-sperr) - Systemtest 'Gemischadaption sperren' beenden
+- [START_SYSTEMCHECK_GRUNDADAPT](#job-start-systemcheck-grundadapt) - Anstoßen Systemtest 'Grundadaption starten'
+- [STATUS_SYSTEMCHECK_GRUNDADAPT](#job-status-systemcheck-grundadapt) - Status der Diagnose 'Grundadaption starten'
+- [STOP_SYSTEMCHECK_GRUNDADAPT](#job-stop-systemcheck-grundadapt) - Systemtest 'Grundadaption starten' beenden
+- [START_SYSTEMCHECK_L_REGELUNG_AUS](#job-start-systemcheck-l-regelung-aus) - Anstoßen Systemtest 'Lambdaregelung aus'
+- [STATUS_SYSTEMCHECK_L_REGELUNG_AUS](#job-status-systemcheck-l-regelung-aus) - Auslesen Diagnosestatus 'Lambdaregelung aus'
+- [STOP_SYSTEMCHECK_L_REGELUNG_AUS](#job-stop-systemcheck-l-regelung-aus) - Stop Systemtest 'Lambdaregelung aus'
+- [START_SYSTEMCHECK_IGR_AUS](#job-start-systemcheck-igr-aus) - Start Diagnose IGR deaktivieren
+- [STATUS_SYSTEMCHECK_IGR_AUS](#job-status-systemcheck-igr-aus) - Status IGR-Deaktivieren lesen
+- [STOP_SYSTEMCHECK_IGR_AUS](#job-stop-systemcheck-igr-aus) - Diagnose 'IGR deaktivieren' beenden
+- [STATUS_EWS](#job-status-ews) - KWP 2000: $22 ReadDataByCommonIdentifier CommonIdentifier=0xC000 Zurücklesen verschiedener interner Stati für EWS
+- [STATUS_EWS4_SK](#job-status-ews4-sk) - KWP 2000: $22 ReadDataByCommonIdentifier CommonIdentifier=0xC002 Lesen des SecretKey des Server sowie Client für EWS4
+- [STEUERN_EWS4_SK](#job-steuern-ews4-sk) - 17 "EWS4-data" schreiben KWP 2000: $2E ReadDataByCommonIdentifier CommonIdentifier=0xC001
+- [STATUS_ENERGIESPARMODE](#job-status-energiesparmode) - Auslesen des Energiesparmodus
+- [STATUS_FEHLERCODE](#job-status-fehlercode) - Auslesen der Zyklusflags einzelner Fehlerpfade
+- [STEUERN_EKP_DEAKTIVIERUNG](#job-steuern-ekp-deaktivierung) - Deaktivierung der elektrische Kraftstoffpumpe Nur eine Zustandsänderung pro Driving Cycle möglich!
+- [STATUS_EKP_DEAKTIVIERUNG](#job-status-ekp-deaktivierung) - Status der elektrische Kraftstoffpumpe
+- [STEUERN_KGEH](#job-steuern-kgeh) - Ansteuerung Heizung Kurbelgehäuseentlüftung
+- [STEUERN_ENDE_KGEH](#job-steuern-ende-kgeh) - Ansteuerung Heizung Kurbelgehäuseentlüftung
+- [STEUERN_MSV](#job-steuern-msv) - Ansteuerung des Mengensteuerventils
+- [STEUERN_ENDE_MSV](#job-steuern-ende-msv) - Ansteuerung des Mengensteuerventils beenden
+- [STATUS_BETRIEBSSTUNDENZAEHLER](#job-status-betriebsstundenzaehler) - $ 22 5A B4 Status Betriebsstundenzaehler auslesen
+- [IDENT_GEN](#job-ident-gen) - Identifikationsdaten Generator Aktivierung: Klemme 15 = EIN Activation:
+- [STATUS_AMUENE](#job-status-amuene) - Status AMUENE
+- [STEUERN_POWERFAIL](#job-steuern-powerfail) - Ansteuerung Heizung Kurbelgehäuseentlüftung
+- [STATUS_READINESS](#job-status-readiness) - Auslesen Readiness Systemchecks
+- [MESSWERTBLOCK_LESEN](#job-messwertblock-lesen) - 0x2CF0 MESSWERTBLOCK_LESEN DDLI Messwerte auf Basis Übergabestring aus DME auslesen Aktivierung: Klemme 15 = EIN Activation: LV_IGK = 1
+- [STATUS_FREISCHALTUNG](#job-status-freischaltung) - SWT Enable status of JNav KWP2000: $31 StartRoutineByLocalIdentifier $1F SweepingTechnologies $F6 SWTGetStatus
+- [STEUERN_SCHUBBLUBBERN](#job-steuern-schubblubbern) - Schubblubbern vorgeben
+- [STATUS_SCHUBBLUBBERN](#job-status-schubblubbern) - Status Schubblubbern
+- [STATUS_MSAINFO](#job-status-msainfo) - 0x224018 STATUS_MSAINFO Infospeicher Motor-Start/Stop Automatik (MSA) auslesen
+- [STATUS_LEMINFO](#job-status-leminfo) - 0x224017 STATUS_LEMINFO Infospeicher Leistungskoordination Elektrisch Mechanisch (LEM) auslesen
+- [STATUS_IGRINFO](#job-status-igrinfo) - 0x224016 STATUS_IGRINFO Infospeicher Intelligente Generator Regelung (IGR) auslesen
+- [LESEN_INDIVIDUALDATA_LISTE](#job-lesen-individualdata-liste) - Lesen eines Listeneintrags der Individualisierungsdaten KWP2000: $21 ReadDataByLocalIdentifier (not used) $01 recordLocalIdentifier (not used)
+- [LESE_INDIVIDUALDATA](#job-lese-individualdata) - Lesen von Individualisierungsdaten Modus   : Default
+- [SCHREIBEN_INDIVIDUALDATA](#job-schreiben-individualdata) - Schreiben von Individualisierungsdaten Modus   : Default
+- [KRAFTSTOFFVERBRAUCH_LESEN](#job-kraftstoffverbrauch-lesen) - Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+
+<a id="job-info"></a>
+### INFO
+
+Information SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ECU | string | Steuergerät im Klartext |
+| ORIGIN | string | Steuergeräte-Verantwortlicher |
+| REVISION | string | Versions-Nummer |
+| AUTHOR | string | Namen aller Autoren |
+| COMMENT | string | wichtige Hinweise |
+| PACKAGE | string | Include-Paket-Nummer |
+| SPRACHE | string | deutsch, english |
+
+<a id="job-initialisierung"></a>
+### INITIALISIERUNG
+
+Initialisierung und Kommunikationsparameter
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DONE | int | 1, wenn Okay |
+
+<a id="job-diagnoseprotokoll-lesen"></a>
+### DIAGNOSEPROTOKOLL_LESEN
+
+Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY oder ERROR_DIAG_PROT |
+| DIAG_PROT_IST | string | Gibt das aktuelle gewählte Protokoll aus table KONZEPT_TABELLE KONZEPT_TEXT |
+| DIAG_PROT_ANZAHL | int | Anzahl der Diagnoseprotokolle |
+| DIAG_PROT_NR1 | string | Alle möglichen Diagnose-Protokolle Falls mehrere Protokolle möglich sind werden die entsprechenden Results DIAG_PROT_NRx dynamisch erzeugt |
+
+<a id="job-diagnoseprotokoll-setzen"></a>
+### DIAGNOSEPROTOKOLL_SETZEN
+
+Wählt ein Diagnoseprotokoll aus
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DIAG_PROT | string | Diagnoseprotokoll table KONZEPT_TABELLE KONZEPT_TEXT |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY |
+
+<a id="job-fs-lesen"></a>
+### FS_LESEN
+
+Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-loeschen"></a>
+### FS_LOESCHEN
+
+Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | 0x????: Angabe eines einzelnen Fehlers 0xFFFB: alle Antriebsfehler 0xFFFC: alle Fahrwerkfehler 0xFFFD: alle Karosseriefehler 0xFFFE: alle Netzwerkfehler Default: 0xFFFF: alle Fehler |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-lesen"></a>
+### PRUEFSTEMPEL_LESEN
+
+Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-schreiben"></a>
+### PRUEFSTEMPEL_SCHREIBEN
+
+Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-normaler-datenverkehr"></a>
+### NORMALER_DATENVERKEHR
+
+Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FREIGEBEN | string | "ja"   -&gt; normalen Datenverkehr freigeben "nein" -&gt; normalen Datenverkehr sperren table DigitalArgument TEXT |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-aufrecht"></a>
+### DIAGNOSE_AUFRECHT
+
+Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-ende"></a>
+### DIAGNOSE_ENDE
+
+Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-mode"></a>
+### DIAGNOSE_MODE
+
+SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | gewuenschter Diagnose-Modus table DiagMode MODE MODE_TEXT Defaultwert: DEFAULT (DefaultMode) |
+| BAUDRATE | string | optionaler Parameter fuer die gewuenschte Baudrate table BaudRate BAUD |
+| SPEZIFISCHE_BAUDRATE_WERT | long | Parameter nur fuer BAUDRATE = 'SB' ( spezifische Baudrate ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-energiesparmode"></a>
+### ENERGIESPARMODE
+
+Einstellen des Energiesparmodes KWP2000: $31 StartRoutineByLocalIdentifier $0C ControlEnergySavingMode Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PRODUKTIONSMODE | string | "ein" -&gt; Produktions Mode ein "aus" -&gt; Produktions Mode aus table DigitalArgument TEXT Default: "aus" |
+| TRANSPORTMODE | string | "ein" -&gt; Transport Mode ein "aus" -&gt; Transport Mode aus table DigitalArgument TEXT Default: "aus" |
+| WERKSTATTMODE | string | "ein" -&gt; Werkstatt Mode ein "aus" -&gt; Werkstatt Mode aus table DigitalArgument TEXT Default: "aus" |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-sensoren-anzahl-lesen"></a>
+### SENSOREN_ANZAHL_LESEN
+
+Anzahl der intelligenten Subbussensoren lesen KWP2000: $22 ReadDataByCommonIdentifier $1600 IdentifyNumberofSubbusMembers Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| SENSOR_ANZAHL | long | Anzahl der intelligenten Subbussensoren |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-sensoren-ident-lesen"></a>
+### SENSOREN_IDENT_LESEN
+
+Identifikation der intelligenten Subbussensoren lesen KWP2000: $22 ReadDataByCommonIdentifier $1600 IdentifyNumberofSubbusMembers $16xx SubbusMemberSerialNumber Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SENSOR_NR | long | optionales Argument gewuenschter Sensor xx (0x01 - 0xFF) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| SENSOR_VERBAUORT | string | Verbauort des Sensors table VerbauortTabelle ORTTEXT |
+| SENSOR_BMW_NR | string | BMW-Teilenummer des Sensors |
+| SENSOR_PART_NR | string | Teilenummer des Sensors optional wenn SENSOR_BMW_NR gueltig wenn vom Teilenummer vom Sensor nicht verfuegbar dann '--' |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-status-messwertblock-lesen"></a>
+### STATUS_MESSWERTBLOCK_LESEN
+
+Lesen eines Messwertblockes Es muss immer das BlockSchreibenFlag und mindestens ein MESSWERT uebergeben werden. KWP2000: $2C DynamicallyDefinedLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier $04 ClearDynamicallyDefinedLocalIdentifier KWP2000: $2C DynamicallyDefinedLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier $02 DefineByCommonIdentifier KWP2000: $21 ReadDataByLocalIdentifier $F0 DynamicallyDefinedLocalIdentifier Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | Wenn 'JA' wird der Messwertblock im SG gelöscht neu ins SG geschrieben und dann gelesen Wenn 'NEIN' wird der Messwertblock im SG nicht gelöscht Es wird der im SG gespeicherte Messwertblock gelesen table MesswerteMode TEXT KOMMENTAR |
+| MESSWERT | string | Dynamische Argumente Es können bis zu 42 Argumente übergeben werden Es muss mindestens ein Argument übergeben werden Er wird das zugehörige Result table MesswerteTab ARG RESULTNAME erzeugt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_3 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_3 | binary | Hex-Antwort von SG |
+
+<a id="job-cbs-info"></a>
+### CBS_INFO
+
+Ausgabe der CBS-Version
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei |
+| ECU_NAME | string | Steuergeraetename |
+| CBS_VERSION_TEXT | string | CBS Version im Klartext |
+| CBS_VERSION_HEX | string | CBS Version als Wert |
+
+<a id="job-cbs-daten-lesen"></a>
+### CBS_DATEN_LESEN
+
+CBS Daten auslesen (fuer CBS-Version 4) KWP2000: $22 ReadDataByCommonIdentifier Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ECU_ADR_WERT | int | Steuergeraeteadresse als Hex-String |
+| ECU_ADR_HEX | string | Steuergeraeteadresse als Hex-String |
+| ECU_ADR_TEXT | string | Steuergeraeteadresse im Klartext |
+| ANZ_CBS | int | Anzahl der CBS - Umfaenge im Steuergeraet |
+| ID_FN_CBS_MESS_WERT | int | CBS-Kennung als Zahl |
+| ID_FN_CBS_MESS_HEX | string | CBS-Kennung als Hex-String |
+| ID_FN_CBS_MESS_TEXT | string | table CbsKennung CBS_K CBS_K_TEXT CBS-Kennung im Klartext |
+| RMMI_CBS_WERT | int | Restlaufleistung |
+| RMMI_CBS_EINH | string | Information zur Restlaufleistung |
+| ST_UN_CBS_WERT | int | Einheit Restlaufleistung als Zahl |
+| ST_UN_CBS_HEX | string | Einheit Restlaufleistung als Hex-String |
+| ST_UN_CBS_TEXT | string | Einheit Restlaufleistung im Klartext |
+| COU_RSTG_CBS_MESS_WERT | int | Servicezaehler |
+| COU_RSTG_CBS_MESS_EINH | string | Zaehler |
+| AVAI_CBS_WERT | int | Verfuegbarkeit in % |
+| AVAI_CBS_EINH | string | % |
+| AVAI_CBS_WERT_OEL | int | Verfuegbarkeit OEL in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_CSF | int | Verfuegbarkeit CSF in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_BATT | int | Verfügbarkeit BATT in %, für Prüfablauf Bandende |
+| AVAI_CBS_WERT_VTG | int | Verfügbarkeit VTG in %, für Prüfablauf Bandende |
+| AVAI_CBS_WERT_FILT | int | Verfuegbarkeit FILT in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_BR_V | int | Verfuegbarkeit BR_V in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_BR_H | int | Verfuegbarkeit BR_H in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_BRFL | int | Verfuegbarkeit BRFL in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_ZKRZ | int | Verfuegbarkeit ZKRZ in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_SIC | int | Verfuegbarkeit SIC in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_KFL | int | Verfuegbarkeit KFL in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_UEB | int | Verfuegbarkeit UEB in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_DAD | int | Verfuegbarkeit DAD in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_ZKRZ_A | int | Verfuegbarkeit ZKRZ_A in %, fuer Pruefablauf Bandende |
+| AVAI_CBS_WERT_H2 | int | Verfuegbarkeit H2 in %, fuer Pruefablauf Bandende |
+| ZIEL_MM_WERT | int | Ziel-Monat |
+| ZIEL_MM_EINH | string | Monat |
+| ZIEL_YY_WERT | int | Ziel-Jahr |
+| ZIEL_YY_EINH | string | Jahr |
+| FRC_INTM_WAY_CBS_MESS | int | Prognose Wegintervall |
+| FRC_INTM_WAY_CBS_EINH | string | Information zur Prognose Wegintervall |
+| FRC_INTM_T_CBS_MESS | int | Prognose Zeitintervall |
+| MANIP_CBS | int | Manipulationsbyte |
+| MANIP_CBS_TEXT | string | Manipulationsbyte im Klartext |
+| Res_Byte | int | Reserve Byte (noch unbenutzt) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-cbs-reset"></a>
+### CBS_RESET
+
+CBS Daten Zuruecksetzen (fuer CBS-Version 4) KWP2000: $2E WriteDataByCommonIdentifier Modus  : Default Musterparametersatz fuer Bremsbelagverschleiss Vorder/Hinterachse br_v,100,1,0,0,0,1,0,0 br_h,100,1,0,0,0,1,0,0 jedoch mit "Strich_Punkt" getrennt (nicht mit Komma!)
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| CBS_KENNUNG | string | gewuenschte CBS-Kennung table CbsKennung CBS_K CBS_K_TEXT Werte Kombi-Umfaenge: Brfl, ZKrz, Sic, Kfl, TUV, AU, Ueb, H2 Werte externe Umfaenge: Oel, Br_v, Br_h, Filt, CSF, Batt, VTG, ZKrz_a, DAD Defaultwert: 0x00 (ungueltig) |
+| CBS_VERFUEGBARKEIT | int | gewuenschte Verfuegbarkeit in Prozent: 0-100 Schalter, keine Aenderung: 255 Defaultwert: 100 |
+| CBS_ANZAHL_SERVICE | int | Anzahl der durchgefuehrten Services: 0-30 Schalter, Erhoehung der Anzahl um +1: 31 Defaultwert: 31 |
+| CBS_ZIEL_MONAT | int | Ziel-Monat (HU/AU) Januar-Dezember: 1-12 Schalter, keine Aenderung: 255 Defaultwert: 255 |
+| CBS_ZIEL_JAHR | int | Ziel-Jahr (HU/AU) 2000-2239: 0-239 Schalter, keine Aenderung: 255 Defaultwert: 255 |
+| RMM_CBS_WERT | int | Restlaufleistung in km oder % (siehe Argument Einheit) Schalter, keine Aenderung: 8000h Defaultwert: 8000h |
+| ST_UN_CBS_RSTG | int | Einheit Restlaufleistung 0hex -&gt; % 1hex -&gt; km*10 Fhex -&gt; d.c. Defaultwert: Fh |
+| FRC_INTM_WAY_CBS_MESS | int | Prognose Wegintervall Umrechnung 1-254*1000km Schalter, setzt auf Defaultwert zurueck: 0h Schalter, keine Aenderung: FFh Defaultwert: FFh |
+| FRC_INTM_T_CBS_MESS | int | Prognose Zeitintervall 0-254 Monate Schalter, keine Aenderung: FFh Defaultwert: FFh |
+| Res_Byte | int | Reserve Byte (noch unbenutzt) Defaultwert: 00h |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ECU_ADR_WERT | int | Steuergeraeteadresse als Zahl |
+| ECU_ADR_HEX | string | Steuergeraeteadresse als Hex-String |
+| ECU_ADR_TEXT | string | Steuergeraeteadresse im Klartext |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefcode-lesen"></a>
+### PRUEFCODE_LESEN
+
+Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PRUEFCODE | binary | Pruefcode Daten |
+
+<a id="job-c-ci-lesen"></a>
+### C_CI_LESEN
+
+Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_COD_INDEX | int | Codier-Index |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-lesen"></a>
+### C_FG_LESEN
+
+Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FG_NR | string | Fahrgestellnummer 7-stellig |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-schreiben"></a>
+### C_FG_SCHREIBEN
+
+Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-auftrag"></a>
+### C_FG_AUFTRAG
+
+Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-lesen"></a>
+### C_AEI_LESEN
+
+Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-schreiben"></a>
+### C_AEI_SCHREIBEN
+
+Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-auftrag"></a>
+### C_AEI_AUFTRAG
+
+Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII inkl. Ziffern 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-lesen"></a>
+### C_C_LESEN
+
+Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| CODIER_DATEN | binary | Codierdaten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-schreiben"></a>
+### C_C_SCHREIBEN
+
+Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-auftrag"></a>
+### C_C_AUFTRAG
+
+Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-lesen"></a>
+### ZIF_LESEN
+
+Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_PROGRAMM_REFERENZ | string | PRGREF ProgrammReferenz letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_SG_KENNUNG | string | ZZZ |
+| ZIF_PROJEKT | string | PPPxV |
+| ZIF_PROGRAMM_STAND | string | BBxh |
+| ZIF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BMW_HW | string | VMECUH*N vehicleManufacturerECUHardware*Number BMW Hardware Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_3 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_3 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-backup-lesen"></a>
+### ZIF_BACKUP_LESEN
+
+Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_BACKUP_PROGRAMM_REFERENZ | string | PRGREFB ProgrammReferenzBackup letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_BACKUP_SG_KENNUNG | string | ZZZ |
+| ZIF_BACKUP_PROJEKT | string | PPPxV |
+| ZIF_BACKUP_PROGRAMM_STAND | string | BBxh |
+| ZIF_BACKUP_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BACKUP_BMW_HW | string | VMECUH*NB vehicleManufECUHW*NumberBackup BMW Hardware* Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-physikalische-hw-nr-lesen"></a>
+### PHYSIKALISCHE_HW_NR_LESEN
+
+Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PHYSIKALISCHE_HW_NR | string | Physikalische Hardware-Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-hardware-referenz-lesen"></a>
+### HARDWARE_REFERENZ_LESEN
+
+Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| HARDWARE_REFERENZ | string | Hardware Referenz Format: ZZZPPPx 7 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware |
+| HW_REF_SG_KENNUNG | string | ZZZ |
+| HW_REF_PROJEKT | string | PPPx |
+| HW_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-daten-referenz-lesen"></a>
+### DATEN_REFERENZ_LESEN
+
+Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| DATEN_REFERENZ | string | Daten Referenz Format: ZZZPPPxVBBxhdxxxx 17 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller d     : Datenstandersteller xxxx  : frei aber eindeutig belegt |
+| DATEN_REF_SG_KENNUNG | string | ZZZ |
+| DATEN_REF_PROJEKT | string | PPPxV |
+| DATEN_REF_PROGRAMM_STAND | string | BBxh |
+| DATEN_REF_DATENSATZ | string | dxxxx |
+| DATEN_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-zeiten-lesen"></a>
+### FLASH_ZEITEN_LESEN
+
+Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_LOESCHZEIT | int | Flash Loeschzeit in Sekunden |
+| FLASH_SIGNATURTESTZEIT | int | Flash Signaturtestzeit in Sekunden |
+| FLASH_RESETZEIT | int | Flash Resetzeit in Sekunden |
+| FLASH_AUTHENTISIERZEIT | int | Flash Authentisierberechnungszeit in Sekunden |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-blocklaenge-lesen"></a>
+### FLASH_BLOCKLAENGE_LESEN
+
+Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_BLOCKLAENGE_GESAMT | unsigned int | Flash Blocklaenge inclusive SID |
+| FLASH_BLOCKLAENGE_DATEN | int | Flash Datenlaenge |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-authentisierung-zufallszahl-lesen"></a>
+### AUTHENTISIERUNG_ZUFALLSZAHL_LESEN
+
+Authentisierung Zufallszahl des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $07 RequestForAuthentication Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| LEVEL | int |  |
+| USER_ID | long | optional |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ZUFALLSZAHL | binary | Zufallszahl |
+| AUTHENTISIERUNG | string | Authentisierungsart table Authentisierung AUTHG_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-authentisierung-start"></a>
+### AUTHENTISIERUNG_START
+
+Authentisierung pruefen KWP2000: $31 StartRoutineByLocalIdentifier $08 ReleaseAuthentication Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : (unbenutzt) Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : Authentisierungszeit in Sekunden Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : (unbenutzt) Wortadresse (low/highbyte, low/highword) Byte 21,....        : Schluesseldaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-programmier-status-lesen"></a>
+### FLASH_PROGRAMMIER_STATUS_LESEN
+
+Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS_TEXT | string | table ProgrammierStatus STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS | int | ProgrammierStatus 0 - 255 |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-signatur-pruefen"></a>
+### FLASH_SIGNATUR_PRUEFEN
+
+Flash Signatur pruefen KWP2000: $31 StartRoutineByLocalIdentifier $09 CheckSignature Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BEREICH | string | 'Programm' 'Daten' |
+| SIGNATURTESTZEIT | int | Zeit in Sekunden |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuergeraete-reset"></a>
+### STEUERGERAETE_RESET
+
+Steuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-loeschen"></a>
+### FLASH_LOESCHEN
+
+Flash loeschen Standard Flashjob KWP2000: $31 StartRoutineByLocalIdentifier $02 ClearMemory Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : Loeschzeit in Sekunden (Byteparameter 1) Byte 5,6            : Loeschzeit in Sekunden (WordParameter 1 (low/high)) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_LOESCHEN_STATUS | int | Loeschstatus 1 = Speicher geloescht 2 = Speicher nicht geloescht 5 = Signaturpruefung PAF nicht durchgefuehrt |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben-adresse"></a>
+### FLASH_SCHREIBEN_ADRESSE
+
+Vorbereitung fuer Flash schreiben Standard Flashjob KWP2000: $34 RequestDownload Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_BLOCKLAENGE_DATEN | int | Flash Datenlaenge ohne Telegramm-Overhead |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben"></a>
+### FLASH_SCHREIBEN
+
+Flash Daten schreiben Standard Flashjob KWP2000: $36 TransferData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : (unbenutzt) Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : (unbenutzt) Wortadresse (low/highbyte, low/highword) Byte 21,....        : Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_SCHREIBEN_ANZAHL | unsigned int | Anzahl FLASH_SCHREIBEN seit letztem FLASH_SCHREIBEN_ADRESSE |
+| FLASH_SCHREIBEN_STATUS | int | Programmierstatus 1 = Programmierung in Ordnung 2 = Programmierung nicht in Ordnung |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben-ende"></a>
+### FLASH_SCHREIBEN_ENDE
+
+Flashprogrammierung abschliessen Standard Flashjob KWP2000: $37 RequestTransferExit Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-aif-lesen"></a>
+### AIF_LESEN
+
+Auslesen des Anwender Informations Feldes Standard Flashjob KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_NUMMER | int | ==0 : aktuelles AIF &gt; 0 : Nummer des zu lesenden AIF default = 0 : aktuelles AIF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_ADRESSE_HIGH | int | AIF Adresse des AIF, High-Word |
+| AIF_ADRESSE_LOW | int | AIF Adresse des AIF, Low-Word |
+| AIF_FG_NR | string | Fahrgestellnummer 7-stellig |
+| AIF_FG_NR_LANG | string | Fahrgestellnummer 17-stellig falls vorhanden, sonst 7-stellig |
+| AIF_DATUM | string | Datum der SG-Programmierung in der Form TT.MM.JJJJ |
+| AIF_ZB_NR | string | BMW/Rover Zusammenbaunummer |
+| AIF_SW_NR | string | BMW/Rover Datensatznummer - Softwarenummer |
+| AIF_BEHOERDEN_NR | string | BMW/Rover Behoerdennummer |
+| AIF_HAENDLER_NR | string | Haendlernummer |
+| AIF_SERIEN_NR | string | Tester Seriennummer |
+| AIF_KM | long | km-Stand bei der Programmierung |
+| AIF_PROG_NR | string | Programmstandsnummer |
+| AIF_ANZ_FREI | int | Anzahl noch vorhandener AIF-Eintraege |
+| AIF_ANZAHL_PROG | int | Anzahl Programmiervorgaenge |
+| AIF_ANZ_DATEN | int | Groesse des AIF-Eintrags |
+| AIF_GROESSE | int | Groesse des AIF |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-aif-schreiben"></a>
+### AIF_SCHREIBEN
+
+Schreiben des Anwender Informations Feldes Standard Flashjob KWP 2000: $3D WriteMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_FG_NR | string | Fahrgestellnummer 7-stellig oder 17-stellig |
+| AIF_DATUM | string | Datum der SG-Programmierung in der Form TT.MM.JJJJ oder TTMMJJ |
+| AIF_ZB_NR | string | BMW/Rover Zusammenbaunummer |
+| AIF_SW_NR | string | BMW/Rover Datensatznummer - Softwarenummer |
+| AIF_BEHOERDEN_NR | string | BMW/Rover Behoerdennummer |
+| AIF_HAENDLER_NR | string | Haendlernummer |
+| AIF_SERIEN_NR | string | Tester Seriennummer |
+| AIF_KM | long | km-Stand bei der Programmierung |
+| AIF_PROG_NR | string | Programmstandsnummer |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| AIF_NUMMER | int | Nummer des geschreibenen AIF |
+| AIF_DATEN | binary | AIF Hex-Daten |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG AIF lesen |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG AIF lesen |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG AIF schreiben |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG AIF schreiben |
+
+<a id="job-fs-lesen-detail"></a>
+### FS_LESEN_DETAIL
+
+Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | gewaehlter Fehlercode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_PCODE | unsigned int | optional / Pflicht fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_PCODE7 | unsigned int | optional / fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE7_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE7_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_HFK | int | Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler |
+| F_LZ | int | Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler |
+| F_ART_ANZ | int | Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart |
+| F_UW_KM | long | Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen-lang"></a>
+### FS_LESEN_LANG
+
+Fehlerspeicher auslesen
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FEHLERNR | int | ID des zu lesenden Fehlers (zB.0x27AB) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| F_STATUS | int | 1 =&gt; Fehler i. FSP eingetragen 0 =&gt; Fehler nicht i. FSP eingetragen |
+| F_ORT_NR_DEZIMAL | int | ID (dez) des Fehlerortes |
+| F_ORT_NR_HEX | string | ID (hex) des Fehlerortes |
+| F_ORT_TEXT | string | Fehlerorttext |
+| F_ART_NR | int | ID der Fehlerart 1 =&gt; max-Fehler 2 =&gt; min-Fehler 4 =&gt; sig-Fehler 8 =&gt; plaus-Fehler |
+| F_ART_TEXT | string | Fehlerarttext |
+| F_READINESS_NR | int | ID für Readiness-Status |
+| F_READINESS_TEXT | string | Text zu Readiness-Status |
+| F_VORHANDEN_NR | int | ID für Entprell- und Eintragstatus des FO |
+| F_VORHANDEN_TEXT | string | Text zu Entprell- und Eintragstatus des FO |
+| F_MIL_SOLL_NR | int | Identifier für Soll-Status der MIL |
+| F_MIL_SOLL_TEXT | string | Text zu Soll-Status der MIL |
+| F_MIL_IST_NR | int | ID für Ist-Status der MIL |
+| F_MIL_IST_TEXT | string | Text zu Ist-Status der MIL |
+| F_MIL_ENTPRELL_NR | int | ID für MIL-Entprellstatus |
+| F_MIL_ENTPRELL_TEXT | string | Text zu MIL-Entprellstatus |
+| F_DIAGNOSE_ZYKLUS_NR | int | ID für Zyklusflag-Status der Diagnose |
+| F_DIAGNOSE_ZYKLUS_TEXT | string | Text zu Zyklusflag-Status der Diagnose |
+| F_DIAGNOSE_AKTIV_NR | int | ID für Aktiv-Status der Diagnose |
+| F_DIAGNOSE_AKTIV_TEXT | string | Text zu Aktiv-Status der Diagnose |
+| F_DIAGNOSE_STOP_NR | int | ID für Stop-Status der Diagnose |
+| F_DIAGNOSE_STOP_TEXT | string | Text zu Stop-Status der Diagnose |
+| F_DIAGNOSE_ERROR_NR | int | ID für Error-Flag-Status |
+| F_DIAGNOSE_ERROR_TEXT | string | Text zu Error-Flag-Status |
+| F_HAEUFIGKEITS_ZAEHLER | int | Haeufigkeitszaehler des Fehlers |
+| F_LOESCH_ZAEHLER | int | Loeschzaehler (=Speicherdauer nach Heilung) |
+| F_KM_STAND_ERSTERKENNUNG | string | Km-Stand bei 1. Auftreten des Fehlers |
+| F_KM_STAND_ZWEITERKENNUNG | string | Km-Stand bei 2. Auftreten des Fehlers |
+| F_KM_STAND_LETZTERKENNUNG | string | Km-Stand bei letztem Auftreten des Fehlers |
+| F_UW1_NR_ERSTERKENNUNG | int | Index Umweltbedingung 1 bei Ersterkennung |
+| F_UW1_TEXT_ERSTERKENNUNG | string | Text Umweltbedingung 1 bei Ersterkennung |
+| F_UW1_WERT_ERSTERKENNUNG | real | Wert Umweltbedingung 1 bei Ersterkennung |
+| F_UW1_EINH_ERSTERKENNUNG | string | Einheit Umweltbedingung 1 bei Ersterkennung |
+| F_UW2_NR_ERSTERKENNUNG | int | Index Umweltbedingung 2 bei Ersterkennung |
+| F_UW2_TEXT_ERSTERKENNUNG | string | Text Umweltbedingung 2 bei Ersterkennung |
+| F_UW2_WERT_ERSTERKENNUNG | real | Wert Umweltbedingung 2 bei Ersterkennung |
+| F_UW2_EINH_ERSTERKENNUNG | string | Einheit Umweltbedingung 2 bei Ersterkennung |
+| F_UW3_NR_ERSTERKENNUNG | int | Index Umweltbedingung 3 bei Ersterkennung |
+| F_UW3_TEXT_ERSTERKENNUNG | string | Text Umweltbedingung 3 bei Ersterkennung |
+| F_UW3_WERT_ERSTERKENNUNG | real | Wert Umweltbedingung 3 bei Ersterkennung |
+| F_UW3_EINH_ERSTERKENNUNG | string | Einheit Umweltbedingung 3 bei Ersterkennung |
+| F_UW4_NR_ERSTERKENNUNG | int | Index Umweltbedingung 4 bei Ersterkennung |
+| F_UW4_TEXT_ERSTERKENNUNG | string | Text Umweltbedingung 4 bei Ersterkennung |
+| F_UW4_WERT_ERSTERKENNUNG | real | Wert Umweltbedingung 4 bei Ersterkennung |
+| F_UW4_EINH_ERSTERKENNUNG | string | Einheit Umweltbedingung 4 bei Ersterkennung |
+| F_UW1_NR_ZWEITERKENNUNG | int | Index Umweltbedingung 1 bei Zweiterkennung |
+| F_UW1_TEXT_ZWEITERKENNUNG | string | Text Umweltbedingung 1 bei Zweiterkennung |
+| F_UW1_WERT_ZWEITERKENNUNG | real | Wert Umweltbedingung 1 bei Zweiterkennung |
+| F_UW1_EINH_ZWEITERKENNUNG | string | Einheit Umweltbedingung 1 bei Zweiterkennung |
+| F_UW2_NR_ZWEITERKENNUNG | int | Index Umweltbedingung 2 bei Zweiterkennung |
+| F_UW2_TEXT_ZWEITERKENNUNG | string | Text Umweltbedingung 2 bei Zweiterkennung |
+| F_UW2_WERT_ZWEITERKENNUNG | real | Wert Umweltbedingung 2 bei Zweiterkennung |
+| F_UW2_EINH_ZWEITERKENNUNG | string | Einheit Umweltbedingung 2 bei Zweiterkennung |
+| F_UW3_NR_ZWEITERKENNUNG | int | Index Umweltbedingung 3 bei Zweiterkennung |
+| F_UW3_TEXT_ZWEITERKENNUNG | string | Text Umweltbedingung 3 bei Zweiterkennung |
+| F_UW3_WERT_ZWEITERKENNUNG | real | Wert Umweltbedingung 3 bei Zweiterkennung |
+| F_UW3_EINH_ZWEITERKENNUNG | string | Einheit Umweltbedingung 3 bei Zweiterkennung |
+| F_UW4_NR_ZWEITERKENNUNG | int | Index Umweltbedingung 4 bei Zweiterkennung |
+| F_UW4_TEXT_ZWEITERKENNUNG | string | Text Umweltbedingung 4 bei Zweiterkennung |
+| F_UW4_WERT_ZWEITERKENNUNG | real | Wert Umweltbedingung 4 bei Zweiterkennung |
+| F_UW4_EINH_ZWEITERKENNUNG | string | Einheit Umweltbedingung 4 bei Zweiterkennung |
+| F_UW1_NR_LETZTERKENNUNG | int | Index Umweltbedingung 1 bei letzter Erkennung |
+| F_UW1_TEXT_LETZTERKENNUNG | string | Text Umweltbedingung 1 bei letzter Erkennung |
+| F_UW1_WERT_LETZTERKENNUNG | real | Wert Umweltbedingung 1 bei letzter Erkennung |
+| F_UW1_EINH_LETZTERKENNUNG | string | Einheit Umweltbedingung 1 bei letzter Erkennung |
+| F_UW2_NR_LETZTERKENNUNG | int | Index Umweltbedingung 2 bei letzter Erkennung |
+| F_UW2_TEXT_LETZTERKENNUNG | string | Text Umweltbedingung 2 bei letzter Erkennung |
+| F_UW2_WERT_LETZTERKENNUNG | real | Wert Umweltbedingung 2 bei letzter Erkennung |
+| F_UW2_EINH_LETZTERKENNUNG | string | Einheit Umweltbedingung 2 bei letzter Erkennung |
+| F_UW3_NR_LETZTERKENNUNG | int | Index Umweltbedingung 3 bei letzter Erkennung |
+| F_UW3_TEXT_LETZTERKENNUNG | string | Text Umweltbedingung 3 bei letzter Erkennung |
+| F_UW3_WERT_LETZTERKENNUNG | real | Wert Umweltbedingung 3 bei letzter Erkennung |
+| F_UW3_EINH_LETZTERKENNUNG | string | Einheit Umweltbedingung 3 bei letzter Erkennung |
+| F_UW4_NR_LETZTERKENNUNG | int | Index Umweltbedingung 4 bei letzter Erkennung |
+| F_UW4_TEXT_LETZTERKENNUNG | string | Text Umweltbedingung 4 bei letzter Erkennung |
+| F_UW4_WERT_LETZTERKENNUNG | real | Wert Umweltbedingung 4 bei letzter Erkennung |
+| F_UW4_EINH_LETZTERKENNUNG | string | Einheit Umweltbedingung 4 bei letzter Erkennung |
+| F_P_CODE | string | P-Code des eingetragenen Fehlers |
+| F_HEX_CODE | binary | Hexdump des eingetragenen Fehlers |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-data-id-lesen"></a>
+### DATA_ID_LESEN
+
+Auslesen der Data-ID (PST+DS) des SG
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| DATA_ID | string | ASCII-String fuer Data-ID |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-ident"></a>
+### IDENT
+
+Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) Table JobResult STATUS_TEXT |
+| ID_BMW_NR | string | BMW-Teilenummer |
+| ID_HW_NR | string | BMW-Hardware-Versionsindex |
+| ID_COD_INDEX | int | Codier-Index |
+| ID_DIAG_INDEX | int | Diagnose-Index |
+| ID_VAR_INDEX | int | Varianten-Index |
+| ID_DATUM_JAHR | int | Herstelldatum (Jahr) |
+| ID_DATUM_MONAT | int | Herstelldatum (Monat) |
+| ID_DATUM_TAG | int | Herstelldatum (Tag) |
+| ID_DATUM | string | Herstelldatum (TT.MM.JJJJ) |
+| ID_LIEF_NR | int | Lieferanten-Nummer |
+| ID_LIEF_TEXT | string | Lieferanten-Text Table Lieferanten LIEF_TEXT |
+| ID_SW_NR_MCV | string | Softwarenummer (message catalogue version) |
+| ID_SW_NR_FSV | string | Softwarenummer (functional software version) |
+| ID_SW_NR_OSV | string | Softwarenummer (operating system version) |
+| ID_SW_NR_RES | string | Softwarenummer (reserved - currently unused) |
+| ID_SG_ADR | long | Steuergeräteadr. bzw. LIN Master Steuergeräteadr. |
+| ID_LIN_SLAVE_ADR | long | LIN Slave Steuergeraeteadresse |
+| ID_EWS_SS | int | Identifikation EWS-Schnittstelle Nur für DS2-Bordnetz benötigt Für EWS-DME Abgleich |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-ident-aif"></a>
+### IDENT_AIF
+
+(1) Auslesen der Identdaten mit KWP2000: $1A ReadECUIdentification (2) Auslesen des Anwender Informations Feldes mit KWP2000: $23 ReadMemoryByAddress (3) =Standard Flashjob
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| ID_BMW_NR | string | BMW-Teilenummer |
+| ID_HW_NR | string | BMW-Hardwarenummer |
+| ID_COD_INDEX | int | Codier-Index |
+| ID_DIAG_INDEX | int | Diagnose-Index |
+| ID_VAR_INDEX | int | Varianten-Index |
+| ID_DATUM_JAHR | int | Herstelldatum (Jahr) |
+| ID_DATUM_MONAT | int | Herstelldatum (Monat) |
+| ID_DATUM_TAG | int | Herstelldatum (Tag) |
+| ID_DATUM | string | Herstelldatum (TT.MM.JJJJ) |
+| ID_LIEF_NR | int | Lieferanten-Nummer |
+| ID_LIEF_TEXT | string | Lieferanten-Text |
+| ID_SW_NR_MCV | string | Softwarenummer (message catalogue version) |
+| ID_SW_NR_FSV | string | Softwarenummer (functional software version) |
+| ID_SW_NR_OSV | string | Softwarenummer (operating system version) |
+| ID_SW_NR_RES | string | Softwarenummer (reserved - currently unused) |
+| _TEL_AUFTRAG_IDENT | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_IDENT | binary | Hex-Antwort von SG |
+| AIF_BEHOERDEN_NR | string | BMW/Rover Behoerdennummer |
+| AIF_HAENDLER_NR | string | Haendlernummer |
+| AIF_ANZ_FREI | int | Anzahl noch vorhandener AIF-Eintraege |
+| AIF_ANZ_DATEN | int | Groesse des AIF-Eintrags |
+| AIF_ADRESSE_HIGH | int | AIF Adresse des AIF, High-Word |
+| AIF_ADRESSE_LOW | int | AIF Adresse des AIF, Low-Word |
+| AIF_FG_NR | string | Fahrgestellnummer 7-stellig |
+| AIF_FG_NR_LANG | string | Fahrgestellnummer 17-stellig falls vorhanden, sonst 7-stellig |
+| AIF_DATUM | string | Datum der SG-Programmierung in der Form TT.MM.JJJJ |
+| AIF_ZB_NR | string | BMW/Rover Zusammenbaunummer |
+| AIF_SW_NR | string | BMW/Rover Datensatznummer - Softwarenummer |
+| AIF_SERIEN_NR | string | Tester Seriennummer |
+| AIF_KM | long | km-Stand bei der Programmierung |
+| AIF_PROG_NR | string | Programmstandsnummer |
+| AIF_ANZAHL_PROG | int | Anzahl Programmiervorgaenge |
+| AIF_GROESSE | int | Groesse des AIF |
+| _TEL_AUFTRAG_AIF | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_AIF | binary | Hex-Antwort von SG |
+
+<a id="job-seriennummer-lesen"></a>
+### SERIENNUMMER_LESEN
+
+Auslesen der Hersteller Seriennummer
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| SERIENNUMMER | string | Seriennummer des Steuergerätes |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-lesen"></a>
+### SPEICHER_LESEN
+
+Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | LAR, wenn Seg. = linearAdressRange ROMI, wenn Seg. = ROM / EPROM, internal ROMX, wenn Seg. = ROM / EPROM, external NVRAM, wenn Seg. = NV-RAM (characteristic zones, DTC memory RAMIS, wenn Seg. = RAM, internal (short MOV) RAMXX, wenn Seg. = RAM, external (x data MOV) FLASH, wenn Seg. = Flash EPROM, internal UIFM, wenn Seg. = User Info Field Memory RAMIL, wenn Seg. = RAM, internal (long MOV / Register) |
+| ADRESSE | long | Anfangsadresse ab welcher der Speicher ausgelesen werden soll |
+| ANZAHL | int | Anzahl Speicherzellen, die ausgelesen werden sollen (1 - 254 ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DATEN | binary | ausgelesene Daten |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-schreiben"></a>
+### SPEICHER_SCHREIBEN
+
+Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | LAR, wenn Seg. = linearAdressRange ROMI, wenn Seg. = ROM / EPROM, internal ROMX, wenn Seg. = ROM / EPROM, external NVRAM, wenn Seg. = NV-RAM (characteristic zones, DTC memory RAMIS, wenn Seg. = RAM, internal (short MOV) RAMXX, wenn Seg. = RAM, external (x data MOV) FLASH, wenn Seg. = Flash EPROM, internal UIFM, wenn Seg. = User Info Field Memory RAMIL, wenn Seg. = RAM, internal (long MOV / Register) |
+| ADRESSE | long | Anfangsadresse ab welcher Daten in den Speicher geschrieben werden sollen |
+| ANZAHL | int | Anzahl der zu schreibenden Daten (max. 249 ) |
+| DATEN | string | zu schreibende Daten (Anzahl siehe oben) z.B. 1,2,03,0x04,0x05... |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-ram-lesen"></a>
+### RAM_LESEN
+
+Auslesen von beliebigen RAM-Zellen / INTEL-Format (Byte1=LB, Byte2=HB)
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RAM_ADRESSE | long | Startadresse (zB. 0xD00002A8) |
+| ANZAHL_BYTE | long | Anzahl der auszulesenden Bytes |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| RAM_LESEN_WERT | binary | Ausgelesener Wert |
+| RAM_LESEN_EINH | string | Einheit des ausgelesenen Wertes [HEX] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-varianten-lesen"></a>
+### VARIANTEN_LESEN
+
+Auslesen Bauteilevarianten
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_HS_EIN | int | Handschaltgetriebe gelernt (codget = 1) |
+| STAT_EGS_EIN | int | Automatikgetriebe gelernt (codget = 4) |
+| STAT_KOV_EIN | int | Klimakompressor gelernt (Variantenbit = B_kovar) |
+| STAT_MFL_EIN | int | Multifunktionsrad gelernt (Variantenbit = B_mfl) |
+| STAT_IBS_EIN | int | IBS gelernt (Variantenbit = B_dev0det) |
+| STAT_ACC_EIN | int | ACC gelernt (Variantenbit = B_acc) |
+| STAT_ASC_EIN | int | Antischlupfregelung gelernt (Variantenbit = B_ascpkw) |
+| STAT_OEL_EIN | int | Ölabscheiderheizung gelernt (Variantenbit = aoelhlrn) |
+| STAT_MSA_EIN | int | MSA gelernt (Variantenbit = B_msafzg) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-varianten-loeschen"></a>
+### VARIANTEN_LOESCHEN
+
+Löschen der Varianten
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-adaptionen-loeschen"></a>
+### ADAPTIONEN_LOESCHEN
+
+Selektives Löschen der Adaptionswerte
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AUSWAHLBYTE_1 | int | Bit 0 = 1 =&gt; Adapt. LL-Regelung werden gelöscht Bit 1 = 1 =&gt; Adapt. Klopfregelung werden gelöscht Bit 2 = 1 =&gt; Lambdaregelungsfaktor vor KAT wird gelöscht Bit 3 = 1 =&gt; Lambdaregelungsfaktor hinter KAT wird gelöscht Bit 4 = 1 =&gt; Adapt. Massenströme zum Saugrohr werden gelöscht Bit 5 = 1 =&gt; Höhenadaption fho_w wird gelöscht Bit 6 = 1 =&gt; Adapt. Fuel-Off /-On werden gelöscht Bit 7 = 1 =&gt; Adapt. Lambdasondenalterung wird gelöscht |
+| AUSWAHLBYTE_2 | int | Bit 0 = 1 =&gt; Adapt. Dynamikvorhalt werden gelöscht Bit 1 = 1 =&gt; Adapt. Bereichserkennung Benzin im Öl werden gelöscht Bit 2 = 1 =&gt; nicht belegt Bit 3 = 1 =&gt; nicht belegt Bit 4 = 1 =&gt; Adapt. Batterietausch werden gelöscht Bit 5 = 1 =&gt; Adapt. der Hochdruckregelung werden gelöscht Bit 6 = 1 =&gt; Faktor Hinterachsübersetzung wird gelöscht Bit 7 = 1 =&gt; Adapt. Vanos werden gelöscht |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-llabg"></a>
+### STATUS_LLABG
+
+Auslesen LL-Abgleichswerte
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_DNLLMV_WERT | real | Abgleichswert LL ohne Fahrstufe (dnllmv) |
+| STAT_DNLLMV_EINH | string | Einheit von dnllmv: [Upmin] |
+| STAT_DNSACMV_WERT | real | Abgleichswert LL mit Klimaanlage ohne Fahrstufe (dnsacmv) |
+| STAT_DNSACMV_EINH | string | Einheit von dnsacmv: [Upmin] |
+| STAT_DNSLBV_WERT | real | Abgleichswert LL bei niedriger UBatt (dnslbv) |
+| STAT_DNSLBV_EINH | string | Einheit von dnslbv: [Upmin] |
+| STAT_DNFSACMV_WERT | real | Abgleichswert LL mit Klimaanlage mit Fahrstufe (dnfsacmv) |
+| STAT_DNFSACMV_EINH | string | Einheit von dnfsacmv: [Upmin] |
+| STAT_DNFSMV_WERT | real | Abgleichswert LL mit Fahrstufe (dnfsmv) |
+| STAT_DNFSMV_EINH | string | Einheit von dnfsmv: [Upmin] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-llabg-vorgeben"></a>
+### STEUERN_LLABG_VORGEBEN
+
+LL-Abgleichswerte flüchtig vorgeben
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DNLLMV | int | Abgleichswert LL ohne Fahrstufe (dnllmv) |
+| DNSACMV | int | Abgleichswert LL mit Klimaanlage ohne Fahrstufe (dnsacmv) |
+| DNSLBV | int | Abgleichswert LL bei niedriger UBatt (dnslbv) |
+| DNFSACMV | int | Abgleichswert LL mit Klimaanlage mit Fahrstufe (dnfsacmv) |
+| DNFSMV | int | Abgleichswert LL mit Fahrstufe (dnfsmv) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-llabg-programmieren"></a>
+### STEUERN_LLABG_PROGRAMMIEREN
+
+LL-Abgleichswerte nicht flüchtig vorgeben
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DNLLMV | int | Abgleichswert LL ohne Fahrstufe (dnllmv) |
+| DNSACMV | int | Abgleichswert LL mit Klimaanlage ohne Fahrstufe (dnsacmv) |
+| DNSLBV | int | Abgleichswert LL bei niedriger UBatt (dnslbv) |
+| DNFSACMV | int | Abgleichswert LL mit Klimaanlage mit Fahrstufe (dnfsacmv) |
+| DNFSMV | int | Abgleichswert LL mit Fahrstufe (dnfsmv) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-lshvk"></a>
+### STEUERN_LSHVK
+
+Ansteuerung Lambdasondenheizung vor Kat
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-lshvk"></a>
+### STEUERN_ENDE_LSHVK
+
+Ansteuerung Lambdasondenheizung vor Kat beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-lshhk"></a>
+### STEUERN_LSHHK
+
+Ansteuerung Lambdasondenheizung hinter Kat
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Sollvorgabe resdhlsu für Tastverhältnis (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-lshhk"></a>
+### STEUERN_ENDE_LSHHK
+
+Ansteuerung Lambdasondenheizung hinter Kat beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-mil"></a>
+### STEUERN_MIL
+
+Ansteuerung MIL
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-mil"></a>
+### STEUERN_ENDE_MIL
+
+Ansteuerung MIL beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-eml"></a>
+### STEUERN_EML
+
+Ansteuerung EML
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-eml"></a>
+### STEUERN_ENDE_EML
+
+Ansteuerung EML beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ekp"></a>
+### STEUERN_EKP
+
+Ansteuerung elektrische Kraftstoffpumpe
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-ekp"></a>
+### STEUERN_ENDE_EKP
+
+Ansteuerung EKP beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-waput"></a>
+### STEUERN_WAPUT
+
+Ansteuerung Wasserpumpe Turbolader
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...20 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-waput"></a>
+### STEUERN_ENDE_WAPUT
+
+Ansteuerung Wasserpumpe Turbolader beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-e-luefter"></a>
+### STEUERN_E_LUEFTER
+
+Ansteuerung E-Lüfter
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Tastverhältnis tamldia (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-e-luefter"></a>
+### STEUERN_ENDE_E_LUEFTER
+
+Ansteuerung E-Lüfter beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-dk"></a>
+### STEUERN_DK
+
+Ansteuerung Drosselklappe
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Tastverhältnis wdktest_w (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-dk"></a>
+### STEUERN_ENDE_DK
+
+Ansteuerung Drosselklappe beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-dmtlp"></a>
+### STEUERN_DMTLP
+
+Ansteuerung DMTL-Pumpe
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-dmtlp"></a>
+### STEUERN_ENDE_DMTLP
+
+Ansteuerung DMTL-Pumpe beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-dmtlv"></a>
+### STEUERN_DMTLV
+
+Ansteuerung DMTL-Ventil
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteuerung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-dmtlv"></a>
+### STEUERN_ENDE_DMTLV
+
+Ansteuerung DMTL-Ventil beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-dmtlh"></a>
+### STEUERN_DMTLH
+
+Ansteuerung DMTL-Heizung
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-dmtlh"></a>
+### STEUERN_ENDE_DMTLH
+
+Ansteuerung DMTL-Heizung beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-kfk"></a>
+### STEUERN_KFK
+
+Ansteuerung Kennfeldthermostat
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-kfk"></a>
+### STEUERN_ENDE_KFK
+
+Ansteuerung Kennfeldthermostat beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-tev"></a>
+### STEUERN_TEV
+
+Ansteuerung Tankentlüftungsventil
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Tastverhältnis wdktest_w (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-tev"></a>
+### STEUERN_ENDE_TEV
+
+Ansteuerung Tankentlüftungsventil beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-vanos-einlass"></a>
+### STEUERN_VANOS_EINLASS
+
+Ansteuerung Vanos Einlass-Ventil
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Tastverhältnis wdktest_w (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-vanos-einlass"></a>
+### STEUERN_ENDE_VANOS_EINLASS
+
+Ansteuerung VANOS Einlass-Ventil beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ulv"></a>
+### STEUERN_ULV
+
+Ansteuerung Umluftventil
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-ulv"></a>
+### STEUERN_ENDE_ULV
+
+Ansteuerung Umluftventil beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-wgv"></a>
+### STEUERN_WGV
+
+Ansteuerung Wastegate-Ventil
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PERIODENDAUER | unsigned long | Periode PWM-Ansteuer-Signal (0 ms...2550 ms) |
+| TASTVERHAELTNIS | int | Tastverhältnis wdktest_w (0%...100%) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-wgv"></a>
+### STEUERN_ENDE_WGV
+
+Ansteuerung Wastegate-Ventil beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-rbm-mode9"></a>
+### STATUS_RBM_MODE9
+
+Lesen der Rate-Based-Monitoring-Werte Mode 9
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_M9_OBDCYC_WERT | unsigned int | Anzahl der OBD-Fahrzyklen (DIUMPR_ctGenDenom) |
+| STAT_M9_IGNCYC_WERT | unsigned int | Anzahl der Fahrzyklen (DIUMPR_ctIgn) |
+| STAT_M9KAT_NUMERATOR_WERT | unsigned int | Numeratorwert des kleinsten Ratio innerhalb der Kat-Gruppe |
+| STAT_M9KAT_DENUMERATOR_WERT | unsigned int | Denumeratorwert des kleinsten Ratio innerhalb der Kat-Gruppe |
+| STAT_M9OXS_NUMERATOR_WERT | unsigned int | Numeratorwert des kleinsten Ratio innerhalb der O2-Gruppe |
+| STAT_M9OXS_DENUMERATOR_WERT | unsigned int | Denumeratorwert des kleinsten Ratio innerhalb der O2-Gruppe |
+| STAT_M9EGR_NUMERATOR_WERT | unsigned int | Numeratorwert des kleinsten Ratio innerhalb der EGR-Gruppe |
+| STAT_M9EGR_DENUMERATOR_WERT | unsigned int | Denumeratorwert des kleinsten Ratio innerhalb der EGR-Gruppe |
+| STAT_M9EVAP_NUMERATOR_WERT | unsigned int | Numeratorwert des kleinsten Ratio innerhalb der EVAP-Gruppe |
+| STAT_M9EVAP_DENUMERATOR_WERT | unsigned int | Denumeratorwert des kleinsten Ratio innerhalb der EVAP-Gruppe |
+| STAT_M9SO2_NUMERATOR_WERT | unsigned int | Numeratorwert des kleinsten Ratio innerhalb der SO2-Gruppe |
+| STAT_M9SO2_DENUMERATOR_WERT | unsigned int | Denumeratorwert des kleinsten Ratio innerhalb der SO2-Gruppe |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-schalterstati"></a>
+### STATUS_SCHALTERSTATI
+
+Auslesen der Schalterstati
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_KL15_EIN | int | Bedingung KL15 ein (B_kl15) |
+| STAT_ESTART_EIN | int | Bedingung Startrelais (B_estart) |
+| STAT_KUPPL_EIN | int | Bedingung Kupplung betaetigt (B_kuppl) |
+| STAT_BL_EIN | int | Bedingung Bremsschalter ein (B_br) |
+| STAT_BR_EIN | int | Bedingung Bremslichttestschalter ein (B_bl) |
+| STAT_KO_EIN | int | Bedingung Klimakompressor ein (B_ko) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-funktionsstati"></a>
+### STATUS_FUNKTIONSSTATI
+
+Auslesen der Funktionsstati
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_LL_EIN | int | Bedingung Leerlauf (B_ll) |
+| STAT_VL_EIN | int | Bedingung Vollast (B_vl) |
+| STAT_SBBHK_EIN | int | Bedingung Lambdasondenbereitschaft hinter Kat (B_sbbhk) |
+| STAT_SBBVK_EIN | int | Bedingung Lambdasondenbereitschaft vor Kat (B_sbbvk) |
+| STAT_LR_EIN | int | Bedingung Lambdaregelung ein (B_lr) |
+| STAT_PN_EIN | int | Bedingung Park-Neutral ein (B_pn) |
+| STAT_ECULOCK_EIN | int | Bedingung EWS=OK ein (B_eculock) |
+| STAT_TEHB_EIN | int | Bedingung Tankentlüftung m. hoher Beladung ein (B_tehb) |
+| STAT_SA_EIN | int | Bedingung Schubabschneiden ein (B_sa) |
+| STAT_LRNRDY_EIN | int | Bedingung UMA Lernerfolg (B_lrnrdy) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ubatt"></a>
+### STATUS_UBATT
+
+Auslesen der Batteriespannung
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_UBATT_WERT | real | Batteriespannung (ub) |
+| STAT_UBATT_EINH | string | Einheit von ub [V] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-motordrehzahl"></a>
+### STATUS_MOTORDREHZAHL
+
+Auslesen der Motordrehzahl
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_MOTORDREHZAHL_WERT | real | Motordrehzahl (nmot_w) |
+| STAT_MOTORDREHZAHL_EINH | string | Einheit von nmot_w [Upmin] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-motortemperatur"></a>
+### STATUS_MOTORTEMPERATUR
+
+Auslesen der Motortemperatur
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_MOTORTEMPERATUR_WERT | real | Motortemperatur (tmot) |
+| STAT_MOTORTEMPERATUR_EINH | string | Einheit von tmot [Grad C] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-ansauglufttemperatur"></a>
+### STATUS_ANSAUGLUFTTEMPERATUR
+
+Auslesen der Ansauglufttemperatur
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_AN_LUFTTEMPERATUR_WERT | real | Ansauglufttemperatur (tans) |
+| STAT_AN_LUFTTEMPERATUR_EINH | string | Einheit von tans [Grad C] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-pwg-poti-spannung"></a>
+### STATUS_PWG_POTI_SPANNUNG
+
+Auslesen der Pedalwertgeber-Stati
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwerte (="OKAY" wenn fehlerfrei) |
+| STAT_PWG_POTI_SPANNUNG_1_WERT | real | Spannung PWG-Poti 1 (upwg1_w) |
+| STAT_PWG_POTI_SPANNUNG_1_EINH | string | Einheit von upwg1_w [V] |
+| STAT_PWG_POTI_SPANNUNG_2_WERT | real | Spannung PWG-Poti 2 (upwg2_w) |
+| STAT_PWG_POTI_SPANNUNG_2_EINH | string | Einheit von upwg1_w [V] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwerte |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwerte |
+
+<a id="job-status-lmm-masse"></a>
+### STATUS_LMM_MASSE
+
+Auslesen des Luftmassenstroms bei Fz. mit HFM (US-Variante)  =&gt; Luftmassenstrom über mshfm_w
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwerte (="OKAY" wenn fehlerfrei) |
+| STAT_MSHFM_WERT | real | Luftmassenstrom mshfm_w |
+| STAT_MSHFM_EINH | string | Einheit von mshfm_w [kg/h] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwerte |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwerte |
+
+<a id="job-status-ulsvk"></a>
+### STATUS_ULSVK
+
+Auslesen Lambdasondenspannung vor Kat
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_ULSVK_WERT | real | Lambdasondenspannung vor Kat (uulsuv_w) |
+| STAT_ULSVK_EINH | string | Einheit von uulsuv_w [V] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-ulshk"></a>
+### STATUS_ULSHK
+
+Auslesen Lambdasondenspannung hinter Kat
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_ULSHK_WERT | real | Lambdasondenspannung hinter Kat (uushk_w) |
+| STAT_ULSHK_EINH | string | Einheit von uushk_w [V] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-int"></a>
+### STATUS_INT
+
+Auslesen des Lambdaregler-Ausgangs
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_INT_WERT | real | Lambdaregler-Ausgang (fr_w) |
+| STAT_INT_EINH | string | Einheit von fr_w [-] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-mul"></a>
+### STATUS_MUL
+
+Multipikativer Gemischadaptionsfaktor der Lambdaregelung
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_MUL_WERT | real | Multipikativer Gemischadaptionsfaktor (frai_w) |
+| STAT_MUL_EINH | string | Einheit von frai_w [-] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-add"></a>
+### STATUS_ADD
+
+Additiver Gemischadaptionsfaktor der Lambdaregelung
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_ADD_WERT | real | Additive Adaptionsfaktor Gemischregelung (ora_w) |
+| STAT_ADD_EINH | string | Einheit von ora_w [%] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG zum Auslesen Messwert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG auf Auslesen Messwert |
+
+<a id="job-status-laufunruhe"></a>
+### STATUS_LAUFUNRUHE
+
+Auslesen der Laufunruhewerte
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung bei Auslesen Messwert (="OKAY" wenn fehlerfrei) |
+| STAT_LUTSFI1_WERT | real | Laufunruhewert Zylinder 1 (lutskzyl_w[2]) |
+| STAT_LUTSFI1_EINH | string | Einheit von lutskzyl_w[2] [sec-1] |
+| STAT_LUTSFI2_WERT | real | Laufunruhewert Zylinder 2 (lutskzyl_w[1]) |
+| STAT_LUTSFI2_EINH | string | Einheit von lutskzyl_w[1] [sec-1] |
+| STAT_LUTSFI3_WERT | real | Laufunruhewert Zylinder 3 (lutskzyl_w[3]) |
+| STAT_LUTSFI3_EINH | string | Einheit von lutskzyl_w[3] [sec-1] |
+| STAT_LUTSFI4_WERT | real | Laufunruhewert Zylinder 4 (lutskzyl_w[0]) |
+| STAT_LUTSFI4_EINH | string | Einheit von lutskzyl_w[0] [sec-1] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-msa"></a>
+### STATUS_MSA
+
+0x22402F STATUS_MSA     MSA (MotorStopAutomatik) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STAT_MSA | unsigned long | Status MSA und Funktionsabschalter Stmsa   Min: 0 Max: 4294967295 |
+| STAT_STAT_B_MSAFZG | unsigned long | Ausgabe von B_msafzg  1 bedeutet MSA-Fahrzeug und 0 bedeutet kein MSA-Fahrzeug. Dieser Wert ist nur fuer die SGBD von Bedeutung. 1BIT IDENTICAL |
+| STAT_STAT_MSAAV | unsigned long | Status MSA aktiv und bereit und Abschaltverhinderer Stmsaav   Min: 0 Max: 4294967295 |
+| STAT_STAT_MSAEV | unsigned long | Status MSA Einschaltverhinderer Stmsaev   Min: 0 Max: 4294967295 |
+| STAT_STAT_MSAAA | unsigned long | Status MSA Auschaltaufforderer Stmsaaa   Min: 0 Max: 4294967295 |
+| STAT_STAT_MSAEA | unsigned long | Status MSA Einschaltaufforderer Stmsaea   Min: 0 Max: 4294967295 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-msaring"></a>
+### STATUS_MSARING
+
+0x22401C STATUS_MSARING Ringspeicher Motor-Start/Stop Automatik (MSA) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_MSA_INDEXRS | unsigned long | Ringspeicher-Index Msa_indexrs   Min: 0 Max: 20 |
+| STAT_AV12 | unsigned long | Msa_arravrs[59] Bit 7 (most significant bit) --- Abschaltverhinderer Nr. 12 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV12AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV12AK_EINH | string | km |
+| STAT_AV12DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV12DEAK_EINH | string | km |
+| STAT_AV12HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV11 | unsigned long | Abschaltverhinderer Nr. 11 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV11AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV11AK_EINH | string | km |
+| STAT_AV11DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV11DEAK_EINH | string | km |
+| STAT_AV11HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV10 | unsigned long | Abschaltverhinderer Nr. 10 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV10AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV10AK_EINH | string | km |
+| STAT_AV10DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV10DEAK_EINH | string | km |
+| STAT_AV10HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV09 | unsigned long | Abschaltverhinderer Nr. 09 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV09AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV09AK_EINH | string | km |
+| STAT_AV09DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV09DEAK_EINH | string | km |
+| STAT_AV09HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV08 | unsigned long | Abschaltverhinderer Nr. 08 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV08AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV08AK_EINH | string | km |
+| STAT_AV08DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV08DEAK_EINH | string | km |
+| STAT_AV08HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV07 | unsigned long | Abschaltverhinderer Nr. 07 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV07AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV07AK_EINH | string | km |
+| STAT_AV07DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV07DEAK_EINH | string | km |
+| STAT_AV07HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV06 | unsigned long | Abschaltverhinderer Nr. 06 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV06AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV06AK_EINH | string | km |
+| STAT_AV06DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV06DEAK_EINH | string | km |
+| STAT_AV06HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV05 | unsigned long | Abschaltverhinderer Nr. 05 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV05AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV05AK_EINH | string | km |
+| STAT_AV05DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV05DEAK_EINH | string | km |
+| STAT_AV05HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV04 | unsigned long | Abschaltverhinderer Nr. 04 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV04AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV04AK_EINH | string | km |
+| STAT_AV04DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV04DEAK_EINH | string | km |
+| STAT_AV04HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV03 | unsigned long | Abschaltverhinderer Nr. 03 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV03AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV03AK_EINH | string | km |
+| STAT_AV03DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV03DEAK_EINH | string | km |
+| STAT_AV03HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV02 | unsigned long | Abschaltverhinderer Nr. 02 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV02AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV02AK_EINH | string | km |
+| STAT_AV02DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV02DEAK_EINH | string | km |
+| STAT_AV02HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| STAT_AV01 | unsigned long | Msa_arravrs[4] Bit 7 (most significant bit) --- Abschaltverhinderer Nr. 01 aktuell aktiv 1BIT IDENTICAL |
+| STAT_AV01AK_WERT | unsigned long | AV wurde zuletzt aktiviert (Flanke pos.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV01AK_EINH | string | km |
+| STAT_AV01DEAK_WERT | unsigned long | AV wurde zuletzt deaktiviert (Flanke neg.) vor Kilometer MSARING_13BIT_KM   Einheit: km   Min: 8191 Max: 8191 |
+| STAT_AV01DEAK_EINH | string | km |
+| STAT_AV01HFK | unsigned long | Auftretenshaeufigkeit (total) MSARING_13BIT_HFK   Min: 8191 Max: 8191 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-nullgang-erkennung"></a>
+### STATUS_NULLGANG_ERKENNUNG
+
+0x22402E STATUS_NULLGANG_ERKENNUNG     Nullgang Erkennung auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_PHY_NG_POSITION_WERT | real | Aktuelle Position Nullgangsensor Tvngang   Einheit: %   Min: 0 Max: 655.35 |
+| STAT_PHY_NG_POSITION_EINH | string | percent |
+| STAT_PHY_NG_LERN_WERT | real | angelernter Wert Nullgangsensor Tvneutral   Einheit: %   Min: 0 Max: 655.35 |
+| STAT_PHY_NG_LERN_EINH | string | percent |
+| STAT_STAT_NG_ERKANNT | unsigned long | Status Nullgangerkennung (Fahrzeug befindet sich aktuell im Nullgang) (0=falsch 1= wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_STAT_NG_GELERNT | unsigned long | Nullgangsensor ist bereits eingelernt (0=falsch 1= wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_STAT_KUP_BETAETIGT | unsigned long | Kupplung betaetigt (0=falsch 1= wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_STAT_MOT_DREHT | unsigned long | Motor laeuft (0=falsch 1= wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_STAT_NG_IM_LF | unsigned long | Sensorwert im Lernfenster (kein Gang eingelegt) (0=falsch 1= wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-msa-deak"></a>
+### STEUERN_MSA_DEAK
+
+0x2E5F8E07 STEUERN_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren vorgeben   NO_CON keine Vorraussetzungen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-msa-deak"></a>
+### STATUS_MSA_DEAK
+
+0x225F8E STATUS_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STAT_MSA_DEAK | unsigned long | MSA (MotorStopAutomatik) deaktiviert (0=falsch 1=wahr) 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-msa-deak"></a>
+### STEUERN_ENDE_MSA_DEAK
+
+0x2E5F8E00 STEUERN_ENDE_MSA_DEAK     MSA (MotorStopAutomatik) deaktivieren Vorgeben beenden  NO_CON keine Vorraussetzungen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-msa-deak-av"></a>
+### STEUERN_MSA_DEAK_AV
+
+0x2E5F8F07 STEUERN_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) vorgeben   NO_CON keine Vorraussetzungen
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SW_STAT_MSA_DEAK_AV_WERT | unsigned long | Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) Swmsaav   Min: 0 Max: 4294967295 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-msa-deak-av"></a>
+### STATUS_MSA_DEAK_AV
+
+0x225F8F STATUS_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STAT_MSA_DEAK_AV | unsigned long | Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) Swmsaav   Min: 0 Max: 4294967295 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-msa-deak-av"></a>
+### STEUERN_ENDE_MSA_DEAK_AV
+
+0x2E5F8F00 STEUERN_ENDE_MSA_DEAK_AV     Selektive Deaktivierung Abschaltverhinderer MSA (MotorStopAutomatik) Vorgeben beenden   NO_CON keine Vorraussetzungen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-msaring-hfkreset"></a>
+### STEUERN_MSARING_HFKRESET
+
+0x2E5F89 STEUERN_MSARING_HFKRESET MSARING Haeufigkeitszaehler Reset
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-kup"></a>
+### STATUS_KUP
+
+0x300401 STATUS_KUP     Kupplungsschalter auslesen NO_CON keine Vorraussetzungen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_STAT_KUP_WERT | real | Status Kupplungsschalter 1BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.609375 |
+| STAT_STAT_KUP_EINH | string | percent |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-nullgang-schreiben"></a>
+### STEUERN_NULLGANG_SCHREIBEN
+
+0x2E5F8A STEUERN_NULLGANG_SCHREIBEN Schreiben Nullgang Lernwert
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_NGS_WERT | real | Nullgang Lernwert Tvneutral   Einheit: %   Min: 0 Max: 655.35 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-nullgang-lernen"></a>
+### STEUERN_NULLGANG_LERNEN
+
+0x312E STEUERN_NULLGANG_LERNEN Ansteuern Nullgang lernen (Der Nullgang-Lernwert ist nichtfluechtig so abzulegen, dass er bei Reprogrammierung nicht überschrieben wird.)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-codierung-msa"></a>
+### STEUERN_CODIERUNG_MSA
+
+0x2E3250 STEUERN_CODIERUNG_MSA Codierung fuer MSA vorgeben  Dieser Service muss waehrend der ganzen Lebensdauer des Fahrzeugs ausfuehrbar sein. Betriebsstundenzaehler und km-Stand haben also keinen Einfluss auf diesen Service.
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SW_CODIERUNG_MSA_WERT | unsigned long | Codierung fuer MSA, 0 = kein MSA-Fahrzeug, 1 = MSA-Fahrzeug, 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-codierung-msa"></a>
+### STATUS_CODIERUNG_MSA
+
+0x223250 STATUS_CODIERUNG_MSA Codierung fuer MSA auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_CODIERUNG_MSA | unsigned long | Codierung fuer MSA, 0 = kein MSA-Fahrzeug, 1 = MSA-Fahrzeug, 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-msa-deak-dauerhaft"></a>
+### STEUERN_MSA_DEAK_DAUERHAFT
+
+0x2E5F8E08 STEUERN_MSA_DEAK_DAUERHAFT MSA (MotorStopAutomatik) MSA dauerhaft (ueber Zuendungswechsel hinweg) deaktivieren vorgeben  Der Diagnosejob zur dauerhaften MSA Deaktivierung ist an den Km-Zaehler zu koppeln. Nach Ablauf von 250 km, wird die permanente MSA Deaktivierung automatisch zurueckgenommen (d.h. MSA permanent aktiviert) und der Job zur dauerhaften MSA Deaktivierung kann nicht mehr ausgefuehrt werden. Dadurch wird noch ein mal mehr sichergestellt, dass im Feld MSA aktiv ist und MSA nicht dauerhaft deaktiviert werden kann. Bei deaktivierter MSA ist kein FS zu erzeugen. Bei deaktivierter MSA muessen alle MSA Diagnosen aktiv bleiben. NO_CON
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-startzeitenspeicher"></a>
+### STATUS_STARTZEITENSPEICHER
+
+Auslesen Startverhinderer Aktivierung: Klemme 15 = EIN STAT_BEDKURZ sind die Startverhinderer zwischen 1s &lt; tstart &lt; 4s STAT_BEDLANG sind die Startverhinderer wo tstart &gt; 4s ist
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_BEDKURZ1 | unsigned long | Startverhinderer Block BEDKURZ1 |
+| STAT_BEDKURZ2 | unsigned long | Startverhinderer Block BEDKURZ2 |
+| STAT_BEDKURZ3 | unsigned long | Startverhinderer Block BEDKURZ3 |
+| STAT_BEDKURZ4 | unsigned long | Startverhinderer Block BEDKURZ4 |
+| STAT_BEDKURZ5 | unsigned long | Startverhinderer Block BEDKURZ5 |
+| STAT_BEDLANG1 | unsigned long | Startverhinderer Block BEDLANG1 |
+| STAT_BEDLANG2 | unsigned long | Startverhinderer Block BEDLANG2 |
+| STAT_BEDLANG3 | unsigned long | Startverhinderer Block BEDLANG3 |
+| STAT_BEDLANG4 | unsigned long | Startverhinderer Block BEDLANG4 |
+| STAT_BEDLANG5 | unsigned long | Startverhinderer Block BEDLANG5 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-ident-ibs"></a>
+### IDENT_IBS
+
+$22 40 21 BMW Nr, Seriennummer, SW/HW Index
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| ID_BMW_NR | string | BMW-Teilenummer 7 stellig |
+| SERIENNUMMER | unsigned long | Wert von snibs_l (BMW-Seriennummer) |
+| ZIF_PROGRAMMSTAND | int | Wert von ibswbase (Programm Referenz) |
+| ZIF_STATUS | int | Wert von ibswchang (Programm Revision) |
+| HW_REF | int | Wert von ibhwversi (Hardware Referenz) |
+
+<a id="job-status-generator-info"></a>
+### STATUS_GENERATOR_INFO
+
+Auslesen des Infospeicher der Generator-Diagnose
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_DGEN_UB1_WERT | real | Mittelwert Batteriespg. (stdgub1_w) über applizierte Zeit x (zB. 2 min) |
+| STAT_DGEN_UB1_EINH | string | Einheit von stdgub1_w [V] |
+| STAT_DGEN_UB2_WERT | real | Mittelwert Batteriespg. (stdgub2_w) über applizierte Zeit Y (zB. 10 min) |
+| STAT_DGEN_UB2_EINH | string | Einheit von stdgub2_w [V] |
+| STAT_DGEN_UB3_WERT | real | Mittelwert Batteriespg. (stdgbz_w) über applizierte Zeit Z (zB. 30 min) |
+| STAT_DGEN_UB3_EINH | string | Einheit von stdgbz_w [V] |
+| STAT_DGEN_UB_ERR_WERT | unsigned long | Fehlerstati zur Batteriespannung (stdgube) |
+| STAT_DGEN_UG1_WERT | real | Mittelwert Generatorsp. (stdgug1_w) über applizierte Zeit x (zB. 2 min) |
+| STAT_DGEN_UG1_EINH | string | Einheit von stdgug1_w [V] |
+| STAT_DGEN_UG2_WERT | real | Mittelwert Generatorsp. (stdgug2_w) über applizierte Zeit Y (zB. 10 min) |
+| STAT_DGEN_UG2_EINH | string | Einheit von stdgug2_w [V] |
+| STAT_DGEN_UG3_WERT | real | Mittelwert Generatorsp. (stdgnz_w) über applizierte Zeit Z (zB. 30 min) |
+| STAT_DGEN_UG3_EINH | string | Einheit von stdgnz_w [V] |
+| STAT_DGEN_UG_ERR_WERT | unsigned long | Fehlerstati zur Generatorspannung (stdguge) |
+| STAT_DGEN_IERRGRZ1_WERT | real | Mittelwert Erregerstrombegrenzung (stdggr1) über applizierbare Zeit X (zB. 2 min) |
+| STAT_DGEN_IERRGRZ1_EINH | string | Einheit von stdggr1 [A] |
+| STAT_DGEN_IERRGRZ2_WERT | real | Mittelwert Erregerstrombegrenzung (stdggr2) über applizierbare Zeit X (zB. 10 min) |
+| STAT_DGEN_IERRGRZ2_EINH | string | Einheit von stdggr2 [A] |
+| STAT_DGEN_IERRGRZ3_WERT | real | Mittelwert Erregerstrombegrenzung (stdggrn) über applizierbare Zeit X (zB. 30 min) |
+| STAT_DGEN_IERRGRZ3_EINH | string | Einheit von stdggrn [A] |
+| STAT_DGEN_IERRGRZ_ERR_WERT | unsigned long | Fehlerstati zur Erregerstrombegrenzung (stdggre) |
+| STAT_DGEN_UB1_MDS1_WERT | real | Mittelwert Batteriespg. (stdgub11_w) über appl. Zeit x (zB. 2 min) Messdatensatz1 |
+| STAT_DGEN_UB1_MDS1_EINH | string | Einheit von stdgub11_w [V] |
+| STAT_DGEN_UB2_MDS1_WERT | real | Mittelwert Batteriespg. (stdgub21_w) über appl. Zeit Y (zB. 10 min) Messdatensatz1 |
+| STAT_DGEN_UB2_MDS1_EINH | string | Einheit von stdgub21_w [V] |
+| STAT_DGEN_UB3_MDS1_WERT | real | Mittelwert Batteriespg. (stdgbzm1_w) über appl. Zeit Z (zB. 30 min) Messdatensatz1 |
+| STAT_DGEN_UB3_MDS1_EINH | string | Einheit von stdgbzm1_w [V] |
+| STAT_DGEN_UB_MDS1_ERR_WERT | unsigned long | Fehlerstati zur Batteriespannung Messdatensatz1 (stdgubemd1) |
+| STAT_DGEN_UG1_MDS1_WERT | real | Mittelwert Generatorsp. (stdgug11_w) über appl. Zeit x (zB. 2 min) Messdatensatz1 |
+| STAT_DGEN_UG1_MDS1_EINH | string | Einheit von stdgug11_w [V] |
+| STAT_DGEN_UG2_MDS1_WERT | real | Mittelwert Generatorsp. (stdgug21_w) über appl. Zeit Y (zB. 10 min) Messdatensatz1 |
+| STAT_DGEN_UG2_MDS1_EINH | string | Einheit von stdgug21_w [V] |
+| STAT_DGEN_UG3_MDS1_WERT | real | Mittelwert Generatorsp. (stdgnzm1_w) über appl. Zeit Z (zB. 30 min) Messdatensatz1 |
+| STAT_DGEN_UG3_MDS1_EINH | string | Einheit von stdgnzm1_w [V] |
+| STAT_DGEN_UG_MDS1_ERR_WERT | unsigned long | Fehlerstati zur Generatorsp. Messdatensatz1 (stdgugemd1) |
+| STAT_DGEN_IERRGRZ1_MDS1_WERT | real | Mittelw. Erregerstrombegr. (stdggr1md1) über appl. Zeit x (zB. 2 min) Messdatensatz1 |
+| STAT_DGEN_IERRGRZ1_MDS1_EINH | string | Einheit von stdggr1md1 [A] |
+| STAT_DGEN_IERRGRZ2_MDS1_WERT | real | Mittelw. Erregerstrombegr. (stdggr2md1) über appl. Zeit Y (zB. 10 min) Messdatensatz1 |
+| STAT_DGEN_IERRGRZ2_MDS1_EINH | string | Einheit von stdggr2md1 [A] |
+| STAT_DGEN_IERRGRZ3_MDS1_WERT | real | Mittelw. Erregerstrombegr. (stdggrnmd1) über appl. Zeit Z (zB. 30 min) Messdatensatz1 |
+| STAT_DGEN_IERRGRZ3_MDS1_EINH | string | Einheit von stdggrnmd1 [A] |
+| STAT_DGEN_IERRGRZ_MDS1_ERR_WERT | unsigned long | Fehlerstati zur Erregerstrombegr. Messdatensatz1 (stdggremd1) |
+| STAT_DGEN_UB1_MDS2_WERT | real | Mittelwert Batteriespg. (stdgub12_w) über appl. Zeit x (zB. 2 min) Messdatensatz2 |
+| STAT_DGEN_UB1_MDS2_EINH | string | Einheit von stdgub12_w [V] |
+| STAT_DGEN_UB2_MDS2_WERT | real | Mittelwert Batteriespg. (stdgub22_w) über appl. Zeit Y (zB. 10 min) Messdatensatz2 |
+| STAT_DGEN_UB2_MDS2_EINH | string | Einheit von stdgub22_w [V] |
+| STAT_DGEN_UB3_MDS2_WERT | real | Mittelwert Batteriespg. (stdgbzm2_w) über appl. Zeit Z (zB. 30 min) Messdatensatz2 |
+| STAT_DGEN_UB3_MDS2_EINH | string | Einheit von stdgbzm2_w [V] |
+| STAT_DGEN_UB_MDS2_ERR_WERT | unsigned long | Fehlerstati zur Batteriespannung Messdatensatz1 (stdgubemd1) |
+| STAT_DGEN_UG1_MDS2_WERT | real | Mittelwert Generatorsp. (stdgug12_w) über appl. Zeit x (zB. 2 min) Messdatensatz2 |
+| STAT_DGEN_UG1_MDS2_EINH | string | Einheit von stdgug12_w [V] |
+| STAT_DGEN_UG2_MDS2_WERT | real | Mittelwert Generatorsp. (stdgug22) über appl. Zeit Y (zB. 10 min) Messdatensatz2 |
+| STAT_DGEN_UG2_MDS2_EINH | string | Einheit von stdgug22 [V] |
+| STAT_DGEN_UG3_MDS2_WERT | real | Mittelwert Generatorsp. (stdgnzm2_w) über appl. Zeit Z (zB. 30 min) Messdatensatz2 |
+| STAT_DGEN_UG3_MDS2_EINH | string | Einheit von stdgnzm2_w [V] |
+| STAT_DGEN_UG_MDS2_ERR_WERT | unsigned long | Fehlerstati zur Generatorsp. Messdatensatz1 (stdgugemd1) |
+| STAT_DGEN_IERRGRZ1_MDS2_WERT | real | Mittelw. Erregerstrombegr. (stdggr1md2) über appl. Zeit x (zB. 2 min) Messdatensatz2 |
+| STAT_DGEN_IERRGRZ1_MDS2_EINH | string | Einheit von stdggr1md2 [A] |
+| STAT_DGEN_IERRGRZ2_MDS2_WERT | real | Mittelw. Erregerstrombegr. (stdggr2md2) über appl. Zeit Y (zB. 10 min) Messdatensatz2 |
+| STAT_DGEN_IERRGRZ2_MDS2_EINH | string | Einheit von stdggr2md2 [A] |
+| STAT_DGEN_IERRGRZ3_MDS2_WERT | real | Mittelw. Erregerstrombegr. (stdggrnmd2) über appl. Zeit Z (zB. 30 min) Messdatensatz2 |
+| STAT_DGEN_IERRGRZ3_MDS2_EINH | string | Einheit von stdggrnmd2 [A] |
+| STAT_DGEN_IERRGRZ_MDS2_ERR_WERT | unsigned long | Fehlerstati zur Erregerstrombegr. Messdatensatz2 (stdggremd2) |
+| STAT_DGEN_TRIGGER_MDS1_WERT | unsigned long | Trigger Statuswortablage MDS1 (stdgemd1_w) |
+| STAT_DGEN_TRIGGER_MDS2_WERT | unsigned long | Trigger Statuswortablage MDS2 (stdgemd2_w) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-bzeinfo"></a>
+### STATUS_BZEINFO
+
+Auslesen Infospeicher Batterie Zustands Erkennung (BZE)
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_QV_OUT_M_WERT | real | Gemittelter Kapazitätsverlust (qvoutm) |
+| STAT_QV_OUT_M_EINH | string | Einheit von qvoutm [%] |
+| STAT_QV_QUALI_M_WERT | real | Qualitätsindex f. gemittelten QV-Wert (qvqualim) |
+| STAT_QV_QUALI_M_EINH | string | Einheit von qvqualim [%] |
+| STAT_QVM_STATUS | long | Prozessstatus / Trend für gemittelten Qv-Wert (qvstatus) |
+| STAT_QV_OUT_1_WERT | long | Kapazitätsverlust letzter Start (qvout1) |
+| STAT_QV_OUT_1_EINH | string | Einheit qvout1 [Ah] |
+| STAT_QV_OUT_2_WERT | long | Kapazitätsverlust 2-letzter Start (qvout2) |
+| STAT_QV_OUT_2_EINH | string | Einheit qvout2 [Ah] |
+| STAT_QV_OUT_3_WERT | long | Kapazitätsverlust 3-etzter Start (qvout3) |
+| STAT_QV_OUT_3_EINH | string | Einheit qvout3 [Ah] |
+| STAT_QV_OUT_4_WERT | long | Kapazitätsverlust 4-letzter Start (qvout4) |
+| STAT_QV_OUT_4_EINH | string | Einheit qvout4 [Ah] |
+| STAT_QV_OUT_5_WERT | long | Kapazitätsverlust 5-letzter Start (qvout5) |
+| STAT_QV_OUT_5_EINH | string | Einheit qvout5 [Ah] |
+| STAT_QV_QUALI_1_WERT | real | Qualitätsindex f. letzten QV-Wert (qvquali1) |
+| STAT_QV_QUALI_1_EINH | string | Einheit von qvquali1 [%] |
+| STAT_QV_QUALI_2_WERT | real | Qualitätsindex f. letzten QV-Wert (qvquali2) |
+| STAT_QV_QUALI_2_EINH | string | Einheit von qvquali2 [%] |
+| STAT_QV_QUALI_3_WERT | real | Qualitätsindex f. letzten QV-Wert (qvquali3) |
+| STAT_QV_QUALI_3_EINH | string | Einheit von qvquali3 [%] |
+| STAT_QV_QUALI_4_WERT | real | Qualitätsindex f. letzten QV-Wert (qvquali4) |
+| STAT_QV_QUALI_4_EINH | string | Einheit von qvquali4 [%] |
+| STAT_QV_QUALI_5_WERT | real | Qualitätsindex f. letzten QV-Wert (qvquali5) |
+| STAT_QV_QUALI_5_EINH | string | Einheit von qvquali5 [%] |
+| STAT_QV_TD_1_WERT | unsigned long | Zeit seit QV_out_1 Berechnung (qvtd1_w) |
+| STAT_QV_TD_1_EINH | string | Einheit von qvtd1_w [s] |
+| STAT_QV_TD_2_WERT | unsigned long | Zeit zwischen QV_out_1 und QV_out_2 (qvtd2_w) |
+| STAT_QV_TD_2_EINH | string | Einheit von qvtd2_w [s] |
+| STAT_QV_TD_3_WERT | unsigned long | Zeit zwischen QV_out_2 und QV_out_3 (qvtd3_w) |
+| STAT_QV_TD_3_EINH | string | Einheit von qvtd3_w [s] |
+| STAT_QV_TD_4_WERT | unsigned long | Zeit zwischen QV_out_3 und QV_out_4 (qvtd4_w) |
+| STAT_QV_TD_4_EINH | string | Einheit von qvtd4_w [s] |
+| STAT_QV_TD_5_WERT | unsigned long | Zeit zwischen QV_out_4 und QV_out_5 (qvtd5_w) |
+| STAT_QV_TD_5_EINH | string | Einheit von qvtd5_w [s] |
+| STAT_QVC_STATUS_1_WERT | real | Ausgang für Schlüsselgröße 1 (qvcstat1) |
+| STAT_QVC_STATUS_1_EINH | string | Einheit von qvcstat1 [%] |
+| STAT_QVC_STATUS_2_WERT | real | Ausgang für Schlüsselgröße 2 (qvcstat2) |
+| STAT_QVC_STATUS_2_EINH | string | Einheit von qvcstat2 [%] |
+| STAT_QVC_STATUS_3_WERT | real | Ausgang für Schlüsselgröße 3 (qvcstat3) |
+| STAT_QVC_STATUS_3_EINH | string | Einheit von qvcstat3 [%] |
+| STAT_QVC_STATUS_4_WERT | real | Ausgang für Schlüsselgröße 4 (qvcstat4) |
+| STAT_QVC_STATUS_4_EINH | string | Einheit von qvcstat4 [%] |
+| STAT_QV_NV_ZH_WERT | unsigned long | Anzahl der Hystereseauswertungen (qvnvzh_l) |
+| STAT_QV_NV_EZM_WERT | real | Mittlerer Fehler für gesamte Hystereseberechnung (qvnvezm_w) |
+| STAT_QV_H2O_WERT | real | Bisheriger Wasserverlust der Batterie (qvh2o_w) |
+| STAT_QV_H2O_QUAL_WERT | real | Qualitätswert für Wasserverlust Batterie (qvh2oqual) |
+| STAT_QV_H2O_QUAL_EINH | string | Einheit von qvh2oqual |
+| STAT_QV_STATUS | unsigned long | Statuswort BZE (bitfield_bze) 0 = Wasserverlust OK 2 = Wasserverlust zu hoch |
+| STAT_QV_H2O_STATUS | unsigned long | Status für Entwicklung Wasserverlust (qvh2ostat) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-pm-info-1"></a>
+### STATUS_SYSTEMCHECK_PM_INFO_1
+
+Auslesen Bytefeld 1 Batterie Powermanagement
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_RUHESTROMANALYSE_MODE_WERT | int | Mode=1: Nicht-Layer-PST (Ruhestromwerte werden als Histogramm ausgegeben) Mode=2: Layer-PST (Ruhestromwerte werden bitcodiert für 32 Zyklen ausgegeben) |
+| STAT_BATTERIELADUNG_BILANZ_WERT | real | Differenz LADUNG - ENTLADUNG in Ah 0 - 19088 |
+| STAT_BATTERIELADUNG_BILANZ_EINH | string | Einheit |
+| STAT_BATTERIELADUNG_GESAMT_WERT | real | Batterie Ladungen in Ah 0 - 19088 |
+| STAT_BATTERIELADUNG_GESAMT_EINH | string | Einheit |
+| STAT_BATTERIEENTLADUNG_GESAMT_WERT | real | Batterie Ladungen in Ah 0 - 19088 |
+| STAT_BATTERIEENTLADUNG_GESAMT_EINH | string | Einheit |
+| STAT_ZEIT_IM_LADUNGSBEREICH_0_20_WERT | real | Bereich 0-65535h |
+| STAT_ZEIT_IM_LADUNGSBEREICH_0_20_EINH | string | Einheit |
+| STAT_ZEIT_IM_LADUNGSBEREICH_20_40_WERT | real | Bereich 0-65535h |
+| STAT_ZEIT_IM_LADUNGSBEREICH_20_40_EINH | string | Einheit |
+| STAT_ZEIT_IM_LADUNGSBEREICH_40_60_WERT | real | Bereich 0-65535h |
+| STAT_ZEIT_IM_LADUNGSBEREICH_40_60_EINH | string | Einheit |
+| STAT_ZEIT_IM_LADUNGSBEREICH_60_80_WERT | real | Bereich 0-65535h |
+| STAT_ZEIT_IM_LADUNGSBEREICH_60_80_EINH | string | Einheit |
+| STAT_ZEIT_IM_LADUNGSBEREICH_80_100_WERT | real | Bereich 0-65535h |
+| STAT_ZEIT_IM_LADUNGSBEREICH_80_100_EINH | string | Einheit |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_BIS_0_WERT | real | Zeitdauer 0 - 327675 Minuten |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_BIS_0_EINH | string | Einheit |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_0_20_WERT | real | Zeitdauer 0 - 327675 Minuten |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_0_20_EINH | string | Einheit |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_20_40_WERT | real | Zeitdauer 0 - 327675 Minuten |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_20_40_EINH | string | Einheit |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_40_60_WERT | real | Zeitdauer 0 - 327675 Minuten |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_40_60_EINH | string | Einheit |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_AB_60_WERT | real | Zeitdauer 0 - 327675 Minuten |
+| STAT_ZEIT_IM_TEMPERATURBEREICH_AB_60_EINH | string | Einheit |
+| STAT_KM_STAND_AKTUELL_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_AKTUELL_EINH | string | Einheit |
+| STAT_KM_STAND_VOR_1_TAG_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_VOR_1_TAG_EINH | string | Einheit |
+| STAT_KM_STAND_VOR_2_TAG_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_VOR_2_TAG_EINH | string | Einheit |
+| STAT_KM_STAND_VOR_3_TAG_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_VOR_3_TAG_EINH | string | Einheit |
+| STAT_KM_STAND_VOR_4_TAG_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_VOR_4_TAG_EINH | string | Einheit |
+| STAT_KM_STAND_VOR_5_TAG_WERT | real | 0 - 655350 km |
+| STAT_KM_STAND_VOR_5_TAG_EINH | string | Einheit |
+| STAT_BATTERIETAUSCH_LETZTER_WERT | real | 0 - 655350 km |
+| STAT_BATTERIETAUSCH_LETZTER_EINH | string | Einheit |
+| STAT_BATTERIETAUSCH_ZWEITLETZTER_WERT | real | 0 - 655350 km |
+| STAT_BATTERIETAUSCH_ZWEITLETZTER_EINH | string | Einheit |
+| STAT_BATTERIETAUSCH_DRITTLETZTER_WERT | real | 0 - 655350 km |
+| STAT_BATTERIETAUSCH_DRITTLETZTER_EINH | string | Einheit |
+| STAT_BATTERIETAUSCH_VIERTLETZTER_WERT | real | 0 - 655350 km |
+| STAT_BATTERIETAUSCH_VIERTLETZTER_EINH | string | Einheit |
+| STAT_BATTERIETAUSCH_FUENFTLETZTER_WERT | real | 0 - 655350 km |
+| STAT_BATTERIETAUSCH_FUENFTLETZTER_EINH | string | Einheit |
+| STAT_BATTENTLADUNG_GESAMT_BEI_MOTOR_LAEUFT_WERT | real | 0 - 19088 Ah |
+| STAT_BATTENTLADUNG_GESAMT_BEI_MOTOR_LAEUFT_EINH | string | Einheit Ah |
+| STAT_RUHESTROM_AKTUELL | string | Text |
+| STAT_RUHESTROM_VOR_1_ZYKLUS | string | Text |
+| STAT_RUHESTROM_VOR_2_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_3_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_4_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_5_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_6_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_7_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_8_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_9_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_10_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_11_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_12_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_13_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_14_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_15_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_16_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_17_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_18_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_19_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_20_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_21_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_22_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_23_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_24_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_25_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_26_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_27_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_28_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_29_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_30_ZYKLEN | string | Text |
+| STAT_RUHESTROM_VOR_31_ZYKLEN | string | Text |
+| STAT_IBS_FEHLERZAEHLER_BSD_PARITY_WERT | real | Anzahl 0 - 65535 |
+| STAT_IBS_FEHLERZAEHLER_BSD_PARITY_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_WATCHDOG_RESET_WERT | real | Anzahl 0 - 65535 |
+| STAT_IBS_FEHLERZAEHLER_WATCHDOG_RESET_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_POWER_ON_RESET_WERT | real | Anzahl 0 - 65535 |
+| STAT_IBS_FEHLERZAEHLER_POWER_ON_RESET_EINH | string | Einheit |
+| STAT_KTBS_FEHLERZAEHLER_BSD_ERWEITERT_WERT | real | Anzahl 0 - 65535 |
+| STAT_KTBS_FEHLERZAEHLER_BSD_ERWEITERT_EINH | string | Einheit |
+| STAT_KTIBS_FEHLERZAEHLER_BSD_WERT | real | Anzahl 0 - 65535 |
+| STAT_KTIBS_FEHLERZAEHLER_BSD_EINH | string | Einheit |
+| STAT_KTIBS_FEHLERZAEHLER_EBSD_CHECKSUMME_WERT | real | Anzahl 0 - 65535 |
+| STAT_KTIBS_FEHLERZAEHLER_EBSD_CHECKSUMME_EINH | string | Einheit |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-pm-info-2"></a>
+### STATUS_SYSTEMCHECK_PM_INFO_2
+
+Auslesen Bytefeld 2 Batterie Powermanagement
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_BATTERIE_KAPAZITAET_WERT | real | Batterie Kapazitaet in Ah 0 - 255 |
+| STAT_BATTERIE_KAPAZITAET_EINH | string | Einheit |
+| STAT_SOH_WERT | real | Bereich -100% - 161,12% |
+| STAT_SOH_EINH | string | Einheit |
+| STAT_SOC_FIT_WERT | real | Bereich 0-100% |
+| STAT_SOC_FIT_EINH | string | Einheit |
+| STAT_TEMP_SAISON_WERT | real | Bereich -48C-147,84C |
+| STAT_TEMP_SAISON_EINH | string | Einheit C |
+| STAT_KALIBRIER_EVENT_CNT_WERT | real | Kalibrieranzahl 0 - 255 |
+| STAT_KALIBRIER_EVENT_CNT_EINH | string | Einheit |
+| STAT_Q_SOC_AKTUELL_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_AKTUELL_EINH | string | Einheit |
+| STAT_Q_SOC_VOR_1_TAG_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_VOR_1_TAG_EINH | string | Einheit |
+| STAT_Q_SOC_VOR_2_TAG_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_VOR_2_TAG_EINH | string | Einheit |
+| STAT_Q_SOC_VOR_3_TAG_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_VOR_3_TAG_EINH | string | Einheit |
+| STAT_Q_SOC_VOR_4_TAG_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_VOR_4_TAG_EINH | string | Einheit |
+| STAT_Q_SOC_VOR_5_TAG_WERT | real | Kapazitaet 0 - 1188 Ah |
+| STAT_Q_SOC_VOR_5_TAG_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_AKTUELL_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_AKTUELL_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_1_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_1_TAG_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_2_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_2_TAG_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_3_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_3_TAG_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_4_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_4_TAG_EINH | string | Einheit |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_5_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_STARTFAEHIGKEITSGRENZE_VOR_5_TAG_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_AKTUELL_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_AKTUELL_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_VOR_1_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_VOR_1_TAG_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_VOR_2_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_VOR_2_TAG_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_VOR_3_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_VOR_3_TAG_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_VOR_4_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_VOR_4_TAG_EINH | string | Einheit |
+| STAT_LADUNGSZUSTAND_VOR_5_TAG_WERT | real | Kapazitaet 0 - 100% |
+| STAT_LADUNGSZUSTAND_VOR_5_TAG_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_DOWNLOAD_CHECKSUMME_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_DOWNLOAD_CHECKSUMME_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_EEPROM_DIAGNOSE_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_EEPROM_DIAGNOSE_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_RAM_DIAGNOSE_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_RAM_DIAGNOSE_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_PROM_DIAGNOSE_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_PROM_DIAGNOSE_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_I2C_NAC_DIAGNOSE_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_I2C_NAC_DIAGNOSE_EINH | string | Einheit |
+| STAT_IBS_FEHLERZAEHLER_I2C_BUS_COLLISION_WERT | real | Anzahl 0 - 255 |
+| STAT_IBS_FEHLERZAEHLER_I2C_BUS_COLLISION_EINH | string | Einheit |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-pm-histogram-reset"></a>
+### STEUERN_PM_HISTOGRAM_RESET
+
+0x2E5FF504 STEUERN_PM_HISTOGRAM_RESET Löschen der Powermanagement-Infofelder Aktivierung: Klemme 15 = EIN Activation: LV_IGK = 1
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-pm-messemode"></a>
+### START_SYSTEMCHECK_PM_MESSEMODE
+
+Anstoßen DiagnoseFunktion PM-Messmode
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-pm-messemode"></a>
+### STATUS_SYSTEMCHECK_PM_MESSEMODE
+
+0x33F6 STATUS_SYSTEMCHECK_PM_MESSEMODE Auslesen Messemode
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_SYSTEMCHECK_PM_MESSEMODE_TEXT | string | Funktionsstatus Powermanagement Messemode 1BYTE FUNKTIONSSTATUS |
+| STAT_SYSTEMCHECK_PM_MESSEMODE_WERT | int |  |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-pm-messemode"></a>
+### STOP_SYSTEMCHECK_PM_MESSEMODE
+
+Systemdiagnose BatterieSensor Reset beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-batterietausch-registrieren"></a>
+### STEUERN_BATTERIETAUSCH_REGISTRIEREN
+
+0x3130001000 STEUERN_BATTERIETAUSCH_REGISTRIEREN Batterietausch registrieren Aktivierung: Klemme 15 = EIN UND Drehzahl = 0 1/min Activation: LV_IGK = 1 UND LV_ES = 1
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ruhestrommessung"></a>
+### STEUERN_RUHESTROMMESSUNG
+
+Ansteuern Ruhestrompruefung mit IBS
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| I_MAX_WERT | real | Maximale Ruhestromschwelle (ecomxi) min = 0.0 A, max = 0.3188 A |
+| MSB_WERT | real | Messartbedingungen (ecomsb) min = 0.0 s, max = 12.75 s |
+| MZ_WERT | real | Dauer Mittelwertmessung (ecomz) min = 0.0 s, max = 12.75 s |
+| TO_WERT | real | ECOS Messung Timeout (ecotimo) min = 0.0 s, max = 25.5 s |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ruhestrommessung"></a>
+### STATUS_RUHESTROMMESSUNG
+
+Auslesen Status Ruhestromprüfung mit IBS
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_FS_RUHESTROM_WERT | int | Wert Funktionsstatus Ruhestrom (ecojobstat) |
+| STAT_FS_RUHESTROM_TEXT | string | Text Funktionsstatus Ruhestrom (ecojobstat) |
+| STAT_STAT_RUHESTROM_WERT | real | Ruhestrom (ecores_w) |
+| STAT_STAT_RUHESTROM_EINH | string | Einheit ecores_w: [A] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-evausbl"></a>
+### START_SYSTEMCHECK_EVAUSBL
+
+Ausblenden von EVs
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| VENTIL_NR | int | Gibt die auszublendenden Ventile an (binaer) Bit0 = 1 =&gt; EV1 wird ausgeblendet Bit1 = 1 =&gt; EV2 wird ausgeblendet Bit2 = 1 =&gt; EV3 wird ausgeblendet Bit3 = 1 =&gt; EV4 wird ausgeblendet Bit4...Bit7 = 0 (nicht belegt) =&gt; Eingabewert: min = 0, max = 15 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-evausbl"></a>
+### STATUS_SYSTEMCHECK_EVAUSBL
+
+Ausgabe Ausblendstatus EV1-EV4
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_EV1_AUSBL | int | Ausblendstatus von EV1 (1=ausgeblendet, 0=nicht ausgeblendet) |
+| STAT_EV2_AUSBL | int | Ausblendstatus von EV2 (1=ausgeblendet, 0=nicht ausgeblendet) |
+| STAT_EV3_AUSBL | int | Ausblendstatus von EV3 (1=ausgeblendet, 0=nicht ausgeblendet) |
+| STAT_EV4_AUSBL | int | Ausblendstatus von EV4 (1=ausgeblendet, 0=nicht ausgeblendet) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-evausbl"></a>
+### STOP_SYSTEMCHECK_EVAUSBL
+
+Ausblenden von EVs beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-tev-func"></a>
+### START_SYSTEMCHECK_TEV_FUNC
+
+Anstoßen Systemtest TEV
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-tev-func"></a>
+### STATUS_SYSTEMCHECK_TEV_FUNC
+
+Auslesen Status Systemtest TEV
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_SYSTEMCHECK_TEV_FUNC_WERT | int | Status-Wert der TEV-Diagnose |
+| STAT_SYSTEMCHECK_TEV_FUNC_TEXT | string | Status-Text der TEV-Diagnose |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-tev-func"></a>
+### STOP_SYSTEMCHECK_TEV_FUNC
+
+Stop Systemtest TEV
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-llerh"></a>
+### START_SYSTEMCHECK_LLERH
+
+Anstoßen Systemtest LL-Erhöhung über Tester
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| LL_WERT | int | Eingabewert = 400....2200 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-llerh"></a>
+### STATUS_SYSTEMCHECK_LLERH
+
+Diagnosestatus LLERH (a) Diag. läuft (llsstat = 0) =&gt; wirksame LL-Drehzahl = die über den Tester vorgegebene (b) Diag. läuft nicht (llsstat = 5) =&gt; wirksame LL-Drehzahl = Kennlinienwert
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_LL_WERT | int | Wert Diagnosestatus llsstat (=0, wenn Diag. läuft /=5, wenn Diag.nicht läuft) |
+| STAT_LL_TEXT | string | Text Diagnosestatus |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-llerh"></a>
+### STOP_SYSTEMCHECK_LLERH
+
+Systemtest LL-Erhöhung beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-dmtl"></a>
+### START_SYSTEMCHECK_DMTL
+
+Anstoßen Tankdiagnose DMTL
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-dmtl"></a>
+### STATUS_SYSTEMCHECK_DMTL
+
+Status Tankdiagnose DMTL
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_FS_DMTL_WERT | int | Funktionsstatus der DMTL-Diagnose (stpdmtl) |
+| STAT_FS_DMTL_TEXT | string | Text zu stpdmtl |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-dmtl"></a>
+### STOP_SYSTEMCHECK_DMTL
+
+Tankdiagnose DMTL beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-lsvk"></a>
+### START_SYSTEMCHECK_LSVK
+
+Anstoßen Systemdiagnose LS vor KAT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-lsvk"></a>
+### STATUS_SYSTEMCHECK_LSVK
+
+Status Systemdiagnose LS vor KAT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_FS_LSVK_WERT | int | Wert des Funktionsstatus LSVK B_dylsuav = 1 ==&gt; LS-Dynamikuntersuchung noch aktiv B_dylsu = 1 ==&gt; LS-Dynamikuntersuchung beendet |
+| STAT_FS_LSVK_TEXT | string | Text des Funktionsstatus LSVK |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-lsvk"></a>
+### STOP_SYSTEMCHECK_LSVK
+
+Systemdiagnose LS vor KAT beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-lshk"></a>
+### START_SYSTEMCHECK_LSHK
+
+Anstoßen Systemtest LS hinter KAT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-lshk"></a>
+### STOP_SYSTEMCHECK_LSHK
+
+Systemtest LS hinter KAT beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-kat"></a>
+### START_SYSTEMCHECK_KAT
+
+Anstoßen Kurztest KAT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-kat"></a>
+### STATUS_SYSTEMCHECK_KAT
+
+Auslesen Status Systemtest KAT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_SYSTEMCHECK_KAT_WERT | int | Status-Wert der Kat-Diagnose |
+| STAT_SYSTEMCHECK_KAT_TEXT | string | Status-Text der Kat-Diagnose |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-kat"></a>
+### STOP_SYSTEMCHECK_KAT
+
+Kurztest KAT beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-gemischadapt-sperr"></a>
+### START_SYSTEMCHECK_GEMISCHADAPT_SPERR
+
+Anstoßen Systemtest 'Gemischadaption sperren'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-gemischadapt-sperr"></a>
+### STATUS_SYSTEMCHECK_GEMISCHADAPT_SPERR
+
+Status der Diagnose 'Gemischadaption sperren'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_DFAD_WERT | int | Statuswert der Diagnose 'Gemischadaption sperren' (B_lraen) |
+| STAT_DFAD_TEXT | string | Statustext der Diagnose |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-gemischadapt-sperr"></a>
+### STOP_SYSTEMCHECK_GEMISCHADAPT_SPERR
+
+Systemtest 'Gemischadaption sperren' beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-grundadapt"></a>
+### START_SYSTEMCHECK_GRUNDADAPT
+
+Anstoßen Systemtest 'Grundadaption starten'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-grundadapt"></a>
+### STATUS_SYSTEMCHECK_GRUNDADAPT
+
+Status der Diagnose 'Grundadaption starten'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_GAS_WERT | int | Statuswert der Diagnose 'Grundadaption starten' (B_gap) |
+| STAT_GAS_TEXT | string | Statustext der Diagnose |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-grundadapt"></a>
+### STOP_SYSTEMCHECK_GRUNDADAPT
+
+Systemtest 'Grundadaption starten' beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-l-regelung-aus"></a>
+### START_SYSTEMCHECK_L_REGELUNG_AUS
+
+Anstoßen Systemtest 'Lambdaregelung aus'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-l-regelung-aus"></a>
+### STATUS_SYSTEMCHECK_L_REGELUNG_AUS
+
+Auslesen Diagnosestatus 'Lambdaregelung aus'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_L_REGELUNG_WERT | int | Statuswert Diagnose L-Regelung-Aus (flglrs) |
+| STAT_L_REGELUNG_TEXT | string | Statustext Diagnose L-Regelung-Aus |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-l-regelung-aus"></a>
+### STOP_SYSTEMCHECK_L_REGELUNG_AUS
+
+Stop Systemtest 'Lambdaregelung aus'
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-start-systemcheck-igr-aus"></a>
+### START_SYSTEMCHECK_IGR_AUS
+
+Start Diagnose IGR deaktivieren
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-systemcheck-igr-aus"></a>
+### STATUS_SYSTEMCHECK_IGR_AUS
+
+Status IGR-Deaktivieren lesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_FS_IGRD_WERT | int | Funktionsstatus intelligente Generatorregelung Deaktivierung IGR = erfolgt =&gt; Statuswert = 5 /B_diagigr = 1 Deaktivierung IGR != erfolgt =&gt; Statuswert = 0 /B_diagigr = 0 |
+| STAT_FS_IGRD_TEXT | string | Text Funktionsstatus IGR deaktivieren |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-stop-systemcheck-igr-aus"></a>
+### STOP_SYSTEMCHECK_IGR_AUS
+
+Diagnose 'IGR deaktivieren' beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ews"></a>
+### STATUS_EWS
+
+KWP 2000: $22 ReadDataByCommonIdentifier CommonIdentifier=0xC000 Zurücklesen verschiedener interner Stati für EWS
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_EWS3_CAPABLE | int | 0 Das SG beherrscht kein EWS3 1 Das SG beherrscht EWS3 |
+| STAT_EWS4_CAPABLE | int | 0 Das SG beherrscht kein EWS4 1 Das SG beherrscht EWS4 |
+| STAT_EWS3_ACTIVE | int | 0 EWS3 ist nicht (mehr) aktiv 1 EWS3 ist aktiv (oder lässt sich aktivieren) |
+| STAT_EWS4_ACTIVE | int | 0 EWS4 ist nicht aktiv 1 EWS4 ist aktiv |
+| STAT_EWS4_SERVER_SK_LOCKED | int | 0 SecretKey server lässt sich noch direkt schreiben 1 SecretKey server lässt sich nicht mehr schreiben/lesen |
+| STAT_EWS4_CLIENT_SK_LOCKED | int | 0 SecretKey client lässt sich noch direkt schreiben 1 SecretKey client lässt sich nicht mehr schreiben/lesen |
+| STAT_CLIENT_AUTHENTICATED | int | 0 Freigabe von Zuendung und Einspritzung (noch) nicht erteilt (noch nicht versucht oder Kommunikation gestört, Motorlauf gesperrt) 1 Freigabe von Zuendung und Einspritzung erteilt (Challenge-Response erfolgreich) 2 Freigabe von Zuendung und Einspritzung abgelehnt (Challenge-Response fehlgeschlagen, falsche Response, Kommunikation i.O.) 3 nicht definiert |
+| STAT_CLIENT_AUTHENTICATED_TXT | string | Text |
+| STAT_FREE_SK0 | int | 0..0xFD Freie Flashablagen 0xFE    Freie Flashablage nicht begrenzt 0xFF    Fehlerkennzeichnung |
+| _STAT_FREE_SK0_TXT | string | Text |
+| STAT_FREE_SK1 | int | 0..0xFD Freie Flashablagen 0xFE    Freie Flashablage nicht begrenzt 0xFF    Fehlerkennzeichnung |
+| _STAT_FREE_SK1_TXT | string | Text |
+| STAT_VERSION | int | 0x01 Direktschreiben des SecretKey |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ews4-sk"></a>
+### STATUS_EWS4_SK
+
+KWP 2000: $22 ReadDataByCommonIdentifier CommonIdentifier=0xC002 Lesen des SecretKey des Server sowie Client für EWS4
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_EWS4_SERVER_SK | binary | SecretKey Server |
+| STAT_EWS4_CLIENT_SK | binary | SecretKey Client |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ews4-sk"></a>
+### STEUERN_EWS4_SK
+
+17 "EWS4-data" schreiben KWP 2000: $2E ReadDataByCommonIdentifier CommonIdentifier=0xC001
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | Byte0 LOCK_SERVER_SK LOCK_CLIENT_SK WRITE_SERVER_SK WRITE_CLIENT_SK |
+| DATA | string | Byte1...16 16 Byte Daten (SecretKey), falls MODE = WRITE_SERVER_SK/WRITE_CLIENT_SK, "0x01,0x02,.." KEINE Daten nötig, falls MODE = LOCK_SERVER_SK/LOCK_CLIENT_SK |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-energiesparmode"></a>
+### STATUS_ENERGIESPARMODE
+
+Auslesen des Energiesparmodus
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_ESM_WERT | int | Wert Energiesparmode (fetrawemod) fetrawemod = 0 =&gt; Energiesparmode = inaktiv fetrawemod = 1 =&gt; Fertigungs-Mode = aktiv fetrawemod = 2 =&gt; Transport-Mode = aktiv fetrawemod = 4 =&gt; Werkstatt-Mode = aktiv |
+| STAT_ESM_TEXT | string | Text zu fetrawemod |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-fehlercode"></a>
+### STATUS_FEHLERCODE
+
+Auslesen der Zyklusflags einzelner Fehlerpfade
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FEHLER_CODE | int | Eingabewert = 0x2710....0x5D0B |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_FEHLERFLAG | int | Letzter Wert aus dem vorherigen Fahrzyklus Das Verhalten dieses Bits entspricht dem Fehlerflags |
+| STAT_ZYKLUSFLAG | int | Teststatus (Zyklusflag) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ekp-deaktivierung"></a>
+### STEUERN_EKP_DEAKTIVIERUNG
+
+Deaktivierung der elektrische Kraftstoffpumpe Nur eine Zustandsänderung pro Driving Cycle möglich!
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STATUS_EKP | string | "ein" -&gt; EKP ein "aus" -&gt; EKP aus table DigitalArgument TEXT Default: "ein" |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-ekp-deaktivierung"></a>
+### STATUS_EKP_DEAKTIVIERUNG
+
+Status der elektrische Kraftstoffpumpe
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_EKP_WERT | int | Status EKP ("1" = Aktiviert  "0" = Deaktiviert) |
+| STAT_EKP_TEXT | string | Status EKP als Text |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-kgeh"></a>
+### STEUERN_KGEH
+
+Ansteuerung Heizung Kurbelgehäuseentlüftung
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-kgeh"></a>
+### STEUERN_ENDE_KGEH
+
+Ansteuerung Heizung Kurbelgehäuseentlüftung
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-msv"></a>
+### STEUERN_MSV
+
+Ansteuerung des Mengensteuerventils
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RAILDRUCK | string | Vorgabe des Raildrucks prsoll_w (5...8 MPa) |
+| TIMEOUT | unsigned long | Dauer der Ansteurung (0 s...510 s) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-ende-msv"></a>
+### STEUERN_ENDE_MSV
+
+Ansteuerung des Mengensteuerventils beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-betriebsstundenzaehler"></a>
+### STATUS_BETRIEBSSTUNDENZAEHLER
+
+$ 22 5A B4 Status Betriebsstundenzaehler auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| STAT_BSZ_WERT | int | Status Betriebsstundenzaehler lesen 0 = &lt;10h, 1= &gt;= 10h, 2 = unbekannt |
+| STAT_BSZ_TEXT | string | Status Betriebsstundenzaehler |
+| STAT_TRT_WERT | real | Status Betriebsstundenzaehler lesen Variable TotalRunningTime |
+| STAT_TRT_EINH | string | Einheit von den Betriebsstunden |
+
+<a id="job-ident-gen"></a>
+### IDENT_GEN
+
+Identifikationsdaten Generator Aktivierung: Klemme 15 = EIN Activation:
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_GEN_MANUFAK_WERT | unsigned long | Herstellercode Generator 1 GEN_MANUFAK   Min: 0 Max: 255 |
+| STAT_GEN_MANUFAK_STRING | string | Herstellercode Generator 1  |
+| STAT_GEN_MANUFAK_TEXT | string | Herstellercode Generator 1 als Text  |
+| STAT_GEN_TYPKENN_WERT | unsigned long | Generatortyp Generator 1 GEN_TYPKENN   Min: 0 Max: 255 |
+| STAT_GEN_TYPKENN_STRING | string | Generatortyp Generator 1  |
+| STAT_GEN_TYPKENN_TEXT | string | Generatortyp Generator 1 als Text  |
+| STAT_BSDGENREGV_WERT | unsigned long | Reglerversion Generator 1 BSDGENREGV   Min: 0 Max: 255 |
+| STAT_BSDGENREGV_STRING | string | Reglerversion Generator 1  |
+| STAT_BSDGENCV_WERT | unsigned long | Chipversion Generator 1 BSDGENCV   Min: 0 Max: 255 |
+| STAT_BSDGENCV_STRING | string | Chipversion Generator 1  |
+| STAT_UREGNOM_WERT | unsigned long | Nominale Generatorspannung UREGNOM   Min: 0 Max: 255 |
+| STAT_UREGNOM_STRING | string | Nominale Generatorspannung  |
+| STAT_UREGNOM_TEXT | string | Nominale Generatorspannung als Text  |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-amuene"></a>
+### STATUS_AMUENE
+
+Status AMUENE
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_ANZ | unsigned int | Status Anzahl (anznmax) |
+| STAT_ANZ_EINH | string | Einheit von anz [-] |
+| STAT_NMAX | unsigned int | Status nmax (nmaxvk_w) |
+| STAT_NMAX_EINH | string | Einheit von nmax [Upmin] |
+| STAT_KMSTNMAX | unsigned int | Status Kmstand (kmstnmax) |
+| STAT_KMSTNMAX_EINH | string | Einheit von Kmstnmax [Km] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-powerfail"></a>
+### STEUERN_POWERFAIL
+
+Ansteuerung Heizung Kurbelgehäuseentlüftung
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-readiness"></a>
+### STATUS_READINESS
+
+Auslesen Readiness Systemchecks
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_ANZ_FEHLERCODES | int | Anzahl Fehler im Fehlerspeicher |
+| STAT_MIL | int | Status MIL (0 = MIL off, 1 = MIL on) |
+| STAT_AUSSETZERERKENNUNG | string | Überwachung Aussetzererkennung |
+| STAT_KRAFTSTOFSYSTEM | string | Überwachung Kraftstoffsystem |
+| STAT_GLOBALE_KOMPONENTEN | string | Überwachung globale Komponenten |
+| STAT_KAT_EIN | string | Überwachung Katdiagnose |
+| STAT_HEIZUNG_KAT | string | Überwachung Katalysatorheizung |
+| STAT_CDTES | string | Überwachung Tankentlueftungssystem |
+| STAT_CDSLS | string | Überwachung Sekundärluftsystem |
+| STAT_KLIMA | string | Überwachung Klima-Kühlflüssigkeit |
+| STAT_LAMBDA | string | Überwachung Diagnosefreigabe Lambdasonde |
+| STAT_LHEIZUNG | string | Überwachung Diagnosefreigabe Lambdasondenheizung |
+| STAT_EGR | string | Überwachung Diagnosefreigabe Abgasrueckfuehrung |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-messwertblock-lesen"></a>
+### MESSWERTBLOCK_LESEN
+
+0x2CF0 MESSWERTBLOCK_LESEN DDLI Messwerte auf Basis Übergabestring aus DME auslesen Aktivierung: Klemme 15 = EIN Activation: LV_IGK = 1
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STRING_IN | string | Werte aus DDLI Liste Format 0x58XX,0x42YY,0x43ZZ,... |
+| TRENNZEICHEN | string | Werte aus DDLI Liste Format 0x58XX,0x42YY,0x43ZZ,... |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_ANZAHL_WERTE | int | Anzahl Messwerte 0 bis n dezimal ansteigend |
+| STAT_MESSWERT0_WERT | real | real Wert |
+| STAT_MESSWERT0_STRING | string | String mit 9 signifikanten Stellen |
+| STAT_MESSWERT0_TEXT | string | Text der Variablen aus INFO |
+| STAT_MESSWERT0_EINH | string | Einheit der Variablen |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG_L | binary | Hex-Auftrag an  SG Block löschen |
+| _TEL_ANTWORT_L | binary | Hex-Antwort von SG Block löschen |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an  SG Block schreiben |
+| _TEL_ANTWORT_S | binary | Hex-Antwort von SG Block schreiben |
+| _TEL_AUFTRAG_S | binary | Hex-Auftrag an  SG Block lesen |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG Block lesen |
+
+<a id="job-status-freischaltung"></a>
+### STATUS_FREISCHALTUNG
+
+SWT Enable status of JNav KWP2000: $31 StartRoutineByLocalIdentifier $1F SweepingTechnologies $F6 SWTGetStatus
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, if no error Possible Error Codes UNKNOWN ERROR SW NOT ACTIVATED |
+| STAT_JOB_STATUS_CODE | int | 0x00, if no error |
+| STAT_FSCENABLER | int | FSC-Status of SW-ID "00100001" |
+| STAT_FSCENABLER_TEXT | string | FSC-Status of SW-ID "00100001" |
+| STAT_FSCSHORT | int | FSC-Status of SW-ID "0008xxxx" |
+| STAT_FSCSHORT_TEXT | string | FSC-Status of SW-ID "0008xxxx" |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-schubblubbern"></a>
+### STEUERN_SCHUBBLUBBERN
+
+Schubblubbern vorgeben
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STATUS_SCHUBBLUBBERN | string | "ein" -&gt; Schubblubbern ein "aus" -&gt; Schubblubbern aus table DigitalArgument TEXT Default: "ein" |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-schubblubbern"></a>
+### STATUS_SCHUBBLUBBERN
+
+Status Schubblubbern
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | Status Jobausführung (="OKAY" wenn fehlerfrei) |
+| STAT_SCHUBBLUBBERN | int | Status Schubblubbern ("1" = Aktiviert  "0" = Deaktiviert) |
+| STAT_SCHUBBLUBBERN_TEXT | string | Status Schubblubbern als Text |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-msainfo"></a>
+### STATUS_MSAINFO
+
+0x224018 STATUS_MSAINFO Infospeicher Motor-Start/Stop Automatik (MSA) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_LADUNGSMENGE_GESAMT_WERT | real | Kumulierte, verbrauchte Ladungsmenge 2BYTE_in_0bis5242Ah   Einheit: Ah   Min: 0 Max: 5242.72 |
+| STAT_LADUNGSMENGE_GESAMT_EINH | string | Ah |
+| STAT_ANZAHL_MOTORSTART_GESAMT | unsigned long | Gesamtzahl Starts 3BYTE in 0 bis 16777214   Min: 0 Max: 16777214 |
+| STAT_ANZAHL_MSASTART_GESAMT | unsigned long | Anzahl MSA Starts 3BYTE in 0 bis 16777214   Min: 0 Max: 16777214 |
+| STAT_BATTSPG_DSOC_INTERVALL1_UNTER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &lt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG1 und K_DSOCMSADG2 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL1_UNTER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL2_UNTER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &lt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG2 und K_DSOCMSADG3 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL2_UNTER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL3_UNTER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &lt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG3 und K_DSOCMSADG4 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL3_UNTER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL4_UNTER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &lt; K_TEMPSCHW) mit DSOC groesser K_DSOCMSADG4 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL4_UNTER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL1_UEBER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &gt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG1 und K_DSOCMSADG2 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL1_UEBER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL2_UEBER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &gt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG2 und K_DSOCMSADG3 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL2_UEBER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL3_UEBER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &gt; K_TEMPSCHW) mit DSOC zw K_DSOCMSADG3 und K_DSOCMSADG4 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL3_UEBER_TGRENZ_EINH | string | V |
+| STAT_BATTSPG_DSOC_INTERVALL4_UEBER_TGRENZ_WERT | real | gemittelte Spannungslage bei MSA-Starts (T_batt_ibs &gt; K_TEMPSCHW) mit DSOC groesser K_DSOCMSADG4 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_BATTSPG_DSOC_INTERVALL4_UEBER_TGRENZ_EINH | string | V |
+| STAT_ZEIT_IN_MSA_GESAMT_WERT | unsigned long | Zeit in MSA 4BYTE in 0 bis 4294967294s   Einheit: s   Min: 0 Max: 4294967294 |
+| STAT_ZEIT_IN_MSA_GESAMT_EINH | string | second |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_UNTER_5S_WERT | real | Relative Haeufigkeit der Stops unter 5s 1BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.609375 |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_UNTER_5S_EINH | string | percent |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_ZWISCHEN_5S_20S_WERT | real | Relative Haeufigkeit der Stops zwischen 5s und 20s 1BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.609375 |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_ZWISCHEN_5S_20S_EINH | string | percent |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_ZWISCHEN_20S_45S_WERT | real | Relative Haeufigkeit der Stops zwischen 20s und 45s 1BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.609375 |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_ZWISCHEN_20S_45S_EINH | string | percent |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_UEBER_45S_WERT | real | Relative Haeufigkeit der Stops Ã¼ber 45s 1BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.609375 |
+| STAT_REL_HAEUFIGKEIT_STOPS_DAUER_UEBER_45S_EINH | string | percent |
+| STAT_MSA_STOP_1_MIN_SPANNUNG_WERT | real | minimale Spannungslage MSA Stop 1 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_MSA_STOP_1_MIN_SPANNUNG_EINH | string | V |
+| STAT_MSA_STOP_1_KM_BIT_WERT | unsigned long | km-Stand bei MSA-Stop 1 2BYTE in 0 bis 655340km   Einheit: km   Min: 0 Max: 655340 |
+| STAT_MSA_STOP_1_KM_BIT_EINH | string | kilometer |
+| STAT_MSA_STOP_1_TEMP_WERT | real | Temp MSA-Stop 1 MSA 1BYTE in -40 bis +214 grad C   Einheit: C   Min: 0 Max: 214 |
+| STAT_MSA_STOP_1_TEMP_EINH | string | degreeC |
+| STAT_MSA_STOP_1_AH_VERBRAUCH_WERT | unsigned long | verbrauchte Ladungsmenge MSA-Stop 1 MSA_1BYTE_in_0bis25500As   Einheit: As   Min: 0 Max: 25500 |
+| STAT_MSA_STOP_1_AH_VERBRAUCH_EINH | string | As |
+| STAT_MSA_STOP_1_DSOC | unsigned long | D_SoC bei MSA-Stop 1 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_MSA_STOP_2_MIN_SPANNUNG_WERT | real | minimale Spannungslage MSA Stop 2 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_MSA_STOP_2_MIN_SPANNUNG_EINH | string | V |
+| STAT_MSA_STOP_2_KM_BIT_WERT | unsigned long | km-Stand bei MSA-Stop 2 2BYTE in 0 bis 655340km   Einheit: km   Min: 0 Max: 655340 |
+| STAT_MSA_STOP_2_KM_BIT_EINH | string | kilometer |
+| STAT_MSA_STOP_2_TEMP_WERT | real | Temp MSA-Stop 2 MSA 1BYTE in -40 bis +214 grad C   Einheit: C   Min: 0 Max: 214 |
+| STAT_MSA_STOP_2_TEMP_EINH | string | degreeC |
+| STAT_MSA_STOP_2_AH_VERBRAUCH_WERT | unsigned long | verbrauchte Ladungsmenge MSA-Stop 2 MSA_1BYTE_in_0bis25500As   Einheit: As   Min: 0 Max: 25500 |
+| STAT_MSA_STOP_2_AH_VERBRAUCH_EINH | string | As |
+| STAT_MSA_STOP_2_DSOC | unsigned long | D_SoC bei MSA-Stop 2 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_MSA_STOP_3_MIN_SPANNUNG_WERT | real | minimale Spannungslage MSA Stop 3 MSA_1BYTE_in_7bis15Volt   Einheit: V   Min: 7 Max: 15.16 |
+| STAT_MSA_STOP_3_MIN_SPANNUNG_EINH | string | V |
+| STAT_MSA_STOP_3_KM_BIT_WERT | unsigned long | km-Stand bei MSA-Stop 3 2BYTE in 0 bis 655340km   Einheit: km   Min: 0 Max: 655340 |
+| STAT_MSA_STOP_3_KM_BIT_EINH | string | kilometer |
+| STAT_MSA_STOP_3_TEMP_WERT | real | Temp MSA-Stop 3 MSA 1BYTE in -40 bis +214 grad C   Einheit: C   Min: 0 Max: 214 |
+| STAT_MSA_STOP_3_TEMP_EINH | string | degreeC |
+| STAT_MSA_STOP_3_AH_VERBRAUCH_WERT | unsigned long | verbrauchte Ladungsmenge MSA-Stop 3 MSA_1BYTE_in_0bis25500As   Einheit: As   Min: 0 Max: 25500 |
+| STAT_MSA_STOP_3_AH_VERBRAUCH_EINH | string | As |
+| STAT_MSA_STOP_3_DSOC | unsigned long | D_SoC bei MSA-Stop 3 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_URSACHE_PMAV_VORHER_1_TEXT | string | vorletzter PMAV 1 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_PMAV_VORHER_1_WERT | int | vorletzter PMAV 1 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_LETZTER_PMAV_TEXT | string | letzter PMAV MSA 4BIT URSACHE AV |
+| STAT_URSACHE_LETZTER_PMAV_WERT | int | letzter PMAV MSA 4BIT URSACHE AV |
+| STAT_URSACHE_PMAV_VORHER_3_TEXT | string | vorletzter PMAV 3 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_PMAV_VORHER_3_WERT | int | vorletzter PMAV 3 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_PMAV_VORHER_2_TEXT | string | vorletzter PMAV 2 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_PMAV_VORHER_2_WERT | int | vorletzter PMAV 2 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_1_TEXT | string | Unterschied vorletzter AV 1 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_1_WERT | int | Unterschied vorletzter AV 1 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_AKTUELLER_AV_TEXT | string | Ursache aktueller AV MSA 4BIT URSACHE AV |
+| STAT_URSACHE_AKTUELLER_AV_WERT | int | Ursache aktueller AV MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_3_TEXT | string | Unterschied vorletzter AV 3 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_3_WERT | int | Unterschied vorletzter AV 3 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_2_TEXT | string | Unterschied vorletzter AV 2 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_2_WERT | int | Unterschied vorletzter AV 2 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_5_TEXT | string | Unterschied vorletzter AV 5 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_5_WERT | int | Unterschied vorletzter AV 5 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_4_TEXT | string | Unterschied vorletzter AV 4 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_4_WERT | int | Unterschied vorletzter AV 4 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_7_TEXT | string | Unterschied vorletzter AV 7 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_7_WERT | int | Unterschied vorletzter AV 7 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_6_TEXT | string | Unterschied vorletzter AV 6 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_6_WERT | int | Unterschied vorletzter AV 6 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_9_TEXT | string | Unterschied vorletzter AV 9 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_9_WERT | int | Unterschied vorletzter AV 9 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_8_TEXT | string | Unterschied vorletzter AV 8 MSA 4BIT URSACHE AV |
+| STAT_UNTERSCHIED_AV_VORHER_8_WERT | int | Unterschied vorletzter AV 8 MSA 4BIT URSACHE AV |
+| STAT_URSACHE_EA_VORHER_3_TEXT | string | EA vor 3 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_VORHER_3_WERT | int | EA vor 3 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_VORHER_2_TEXT | string | EA vor 2 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_VORHER_2_WERT | int | EA vor 2 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_VORHER_1_TEXT | string | EA vor 1 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_VORHER_1_WERT | int | EA vor 1 MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_TEXT | string | letzter EA MSA 2BIT URSACHE EA |
+| STAT_URSACHE_EA_WERT | int | letzter EA MSA 2BIT URSACHE EA |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-leminfo"></a>
+### STATUS_LEMINFO
+
+0x224017 STATUS_LEMINFO Infospeicher Leistungskoordination Elektrisch Mechanisch (LEM) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_ZR_USTAT_A | unsigned long | Haeufigkeitszaehler Zr_ustat_A 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_B | unsigned long | Haeufigkeitszaehler Zr_ustat_B 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_C | unsigned long | Haeufigkeitszaehler Zr_ustat_C 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_D | unsigned long | Haeufigkeitszaehler Zr_ustat_D 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_E | unsigned long | Haeufigkeitszaehler Zr_ustat_E 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_F | unsigned long | Haeufigkeitszaehler Zr_ustat_F 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_USTAT_G | unsigned long | Haeufigkeitszaehler Zr_ustat_G 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_UBSTUFE_L | unsigned long | Haeufigkeitszaehler Zr_ubstufe_L 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_ZR_UBSTUFE_H | unsigned long | Haeufigkeitszaehler Zr_ubstufe_H 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_ZR_UQUALI_A | unsigned long | Haeufigkeitszaehler Zr_uquali_A 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_ZR_UQUALI_B | unsigned long | Haeufigkeitszaehler Zr_uquali_B 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_ZR_UQUALI_C | unsigned long | Haeufigkeitszaehler Zr_uquali_C 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_ZR_IERRLLRED | unsigned long | Haeufigkeitszaehler Zr_ierrllred 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_TM_IERRLLRED_WERT | unsigned long | Mittelwert Tm_ierrllred 1BYTE_in_0bis255s   Einheit: s   Min: 0 Max: 255 |
+| STAT_TM_IERRLLRED_EINH | string | second |
+| STAT_ZR_IERRTRED | unsigned long | Haeufigkeitszaehler Zr_ierrtred 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_TM_IERRTRED_WERT | unsigned long | Mittelwert Tm_ierrtred 1BYTE in 0 bis 510s   Einheit: s   Min: 0 Max: 510 |
+| STAT_TM_IERRTRED_EINH | string | second |
+| STAT_TM_ENTLFUNK_WERT | unsigned long | Mittelwert Tm_entlfunk 1BYTE_in_0bis255s   Einheit: s   Min: 0 Max: 255 |
+| STAT_TM_ENTLFUNK_EINH | string | second |
+| STAT_ZR_ENTLFUNK | unsigned long | Haeufigkeitszaehler Zr_entlfunk 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_ENTLFUNKVOLL | unsigned long | Haeufigkeitszaehler Zr_entlfunkvoll 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_ENTLFUNKNIX | unsigned long | Haeufigkeitszaehler Zr_entlfunknix 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_ENTLFUNKTEIL | unsigned long | Haeufigkeitszaehler Zr_entlfunkteil 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_TM_ENTLSICH_WERT | unsigned long | Mittelwert Tm_entlsich 1BYTE_in_0bis255s   Einheit: s   Min: 0 Max: 255 |
+| STAT_TM_ENTLSICH_EINH | string | second |
+| STAT_ZR_ENTLSICH | unsigned long | Haeufigkeitszaehler Zr_entelsich 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_ZR_ENTLSICHVOLL | unsigned long | Haeufigkeitszaehler Zr_entelsichvoll 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-igrinfo"></a>
+### STATUS_IGRINFO
+
+0x224016 STATUS_IGRINFO Infospeicher Intelligente Generator Regelung (IGR) auslesen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_IGR1_BITS7 | unsigned long | Begrenzung 2 1BIT IDENTICAL |
+| STAT_IGR1_BITS6 | unsigned long | Begrenzung 1 1BIT IDENTICAL |
+| STAT_IGR1_BITS5 | unsigned long | Regeneration 1BIT IDENTICAL |
+| STAT_IGR1_BITS4 | unsigned long | IGR-Medium 1BIT IDENTICAL |
+| STAT_IGR1_BITS3 | unsigned long | IGR-High 1BIT IDENTICAL |
+| STAT_IGR1_BITS2 | unsigned long | IGR-Low 1BIT IDENTICAL |
+| STAT_IGR1_BITS1 | unsigned long | Diagnosejob gesetzt 1BIT IDENTICAL |
+| STAT_IGR1_BITS0 | unsigned long | IGR codiert 1BIT IDENTICAL |
+| STAT_IGR2_BITS7 | unsigned long | Zyklisierung MSA 1BIT IDENTICAL |
+| STAT_IGR2_BITS6 | unsigned long | Begrenzung DS 1BIT IDENTICAL |
+| STAT_IGR2_BITS5 | unsigned long | Begrenzung TS 1BIT IDENTICAL |
+| STAT_IGR2_BITS4 | unsigned long | Begrenzung TB 1BIT IDENTICAL |
+| STAT_IGR2_BITS3 | unsigned long | Begrenzung M 1BIT IDENTICAL |
+| STAT_IGR2_BITS2 | unsigned long | Begrenzung G 1BIT IDENTICAL |
+| STAT_IGR2_BITS1 | unsigned long | Begrenzung W 1BIT IDENTICAL |
+| STAT_IGR2_BITS0 | unsigned long | Begrenzung L 1BIT IDENTICAL |
+| STAT_IGR3_BITS7 | unsigned long | IGR Res2 1BIT IDENTICAL |
+| STAT_IGR3_BITS6 | unsigned long | IGR Res1 1BIT IDENTICAL |
+| STAT_IGR3_BITS5 | unsigned long | IGR-Hi Aktiv 1BIT IDENTICAL |
+| STAT_IGR3_BITS4 | unsigned long | IGR-Med Aktiv 1BIT IDENTICAL |
+| STAT_IGR3_BITS3 | unsigned long | IGR-Low Aktiv 1BIT IDENTICAL |
+| STAT_IGR3_BITS2 | unsigned long | IGR-Hi Enabled 1BIT IDENTICAL |
+| STAT_IGR3_BITS1 | unsigned long | IGR-Med Enabled 1BIT IDENTICAL |
+| STAT_IGR3_BITS0 | unsigned long | IGR-Low Enabled 1BIT IDENTICAL |
+| STAT_IGR_PR1 | unsigned long | Level BN Soll 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_IGR_PR2 | unsigned long | Level Soll 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_IGR_ANTL_WERT | real | Anteil Low 2BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.9969482421875 |
+| STAT_IGR_ANTL_EINH | string | percent |
+| STAT_IGR_ANTM_WERT | real | Anteil Medium 2BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.9969482421875 |
+| STAT_IGR_ANTM_EINH | string | percent |
+| STAT_IGR_ANTH_WERT | real | Anteil High 2BYTE in 0 bis 100 Prozent   Einheit: %   Min: 0 Max: 99.9969482421875 |
+| STAT_IGR_ANTH_EINH | string | percent |
+| STAT_IGR_11 | unsigned long | Anteil 11 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_IGR_12 | unsigned long | Anteil 12 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_IGR_M_AGO_WERT | unsigned long | Abstand zu letzter Mediumphase 1BYTE_in_0bis255min   Einheit: min   Min: 0 Max: 255 |
+| STAT_IGR_M_AGO_EINH | string | Minute |
+| STAT_IGR_H_AGO_WERT | unsigned long | Abstand zu letzter Highphase 1BYTE_in_0bis255min   Einheit: min   Min: 0 Max: 255 |
+| STAT_IGR_H_AGO_EINH | string | Minute |
+| STAT_IGR_BSA1 | unsigned long | Zaehler Low 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_IGR_QLAD_WERT | real | Bilanz Low 2BYTE_in_0bis19088Ah   Einheit: Ah   Min: 0 Max: 19088.1 |
+| STAT_IGR_QLAD_EINH | string | Ah |
+| STAT_IGR_QLAD_M_WERT | long | Bilanz Medium IGRINFO_1BYTE_in_minus128bis127Ah   Einheit: Ah   Min: -128 Max: 127 |
+| STAT_IGR_QLAD_M_EINH | string | Ah |
+| STAT_IGR_QELAD_WERT | real | Bilanz High 2BYTE_in_0bis19088Ah   Einheit: Ah   Min: 0 Max: 19088.1 |
+| STAT_IGR_QELAD_EINH | string | Ah |
+| STAT_IGR_TMED_WERT | unsigned long | Dauer letzte Mediumphase 1BYTE_in_0bis255min   Einheit: min   Min: 0 Max: 255 |
+| STAT_IGR_TMED_EINH | string | Minute |
+| STAT_IGR_THIGH_WERT | unsigned long | Dauer letzte Highphase 1BYTE_in_0bis255min   Einheit: min   Min: 0 Max: 255 |
+| STAT_IGR_THIGH_EINH | string | Minute |
+| STAT_IGR_TCODE | unsigned long | Dauer iGR-Codiert 2BYTE in 0 bis 65534   Min: 0 Max: 65534 |
+| STAT_IGR_HIGH | unsigned long | Zaehler High 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_REG_ZR | unsigned long | Einfachzaehler 1BYTE in 0 bis 255   Min: 0 Max: 255 |
+| STAT_REG_SEIT_WERT | unsigned long | Zeit seit letzter R 1BYTE_in_0bis255h   Einheit: h   Min: 0 Max: 255 |
+| STAT_REG_SEIT_EINH | string | h |
+| STAT_REG_DAUER_WERT | unsigned long | Dauer letzte R 1BYTE_in_0bis255h   Einheit: h   Min: 0 Max: 255 |
+| STAT_REG_DAUER_EINH | string | h |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-lesen-individualdata-liste"></a>
+### LESEN_INDIVIDUALDATA_LISTE
+
+Lesen eines Listeneintrags der Individualisierungsdaten KWP2000: $21 ReadDataByLocalIdentifier (not used) $01 recordLocalIdentifier (not used)
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_LISTENTRY | unsigned int | Nummer des angeforderten Listenelements (0,1,2,...) 0x0000 = Anforderung, das 1. Listelement zu senden 0x0001 = Anforderung, das 2. Listelement zu senden |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RET_ENTRYNR | unsigned int | Nummer des zurückgegebenen Listenelements (0,1,2,...) |
+| RET_STATUS | unsigned char | Information ob aktuelles Listenelement das Letzte ist 0xFF	letztes Listenelement 0xFE	Listenelement nicht gefunden 0x00 	nicht letztes Listenelement |
+| RET_FROMWHERE | unsigned char | Strategienummer 0x01	via 22 5F 8B |
+| RET_DATA | binary | Listentry zur Individualdaten-Abfrage 1.Byte, Diagnoseadresse (for future use), diese gibt Auskunft von welchem SG die Individualdaten verwaltet werden. z.B. 0x63  2.Byte:	Sind die Daten Car- oder Key- Memory relevant? 0x01	CarMemory relevant 0x02	KeyMemory relevant 0x03	CarMemory relevant und KeyMemory relevant  3.Byte:	 Strategienummer 0x01	via 22 5F 8B  4.Byte und Folgende siehe Spec Datenrettung  |
+| RET_COMMENT | string | Kommentarspalte des Entries |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+
+<a id="job-lese-individualdata"></a>
+### LESE_INDIVIDUALDATA
+
+Lesen von Individualisierungsdaten Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_KEYID | unsigned char | 0x00       CarMemory 0x01..0x04 Schlüsselnummer dem der RET_DATA zugeordnet ist 0xFF	   Aktuell gesteckter Schlüssel ist RET_DATA zugeordnet (not used) |
+| ARG_BLOCKNR | unsigned long | Zu übertragende Blocknummer (Zähler) bei langen Datenstreams z.B. 0x01020304 (4 Bytes) falls nicht verwendet als Dummy mitschleifen |
+| ARG_FROMWHERE | unsigned char | Strategienummer 0x01	= PM Recovery 0x02	= AD Recovery |
+| ARG_INQY_LEN | unsigned char | Länge des folgenden Anfragedatenstreams (not used) z.B. 0x02 für 2 Byte |
+| ARG_INQY_DATA | string | ASCII-codiert Anfrage Individualdatenstream (not used) |
+| ARG_RESP_LEN | unsigned char | Länge der folgenden Information wie die Antwort erhalten wird. Also ein Antwortfilter bzw. -hinweis (not used) |
+| ARG_RESP_DATA | string | ASCII-codiert Information wie die Antwort erhalten wird: Also ein Antwortfilter bzw. -hinweis (not used) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RET_STATUS | unsigned char | 0xFF letztes oder einziges element des Datenstreams 0x00 es folgen weitere Datenstreamstücke |
+| RET_BLOCKNR | unsigned long | Übertragende Blocknummer (Zähler) bei langen Datenstreams z.B. 0x01020304 falls nicht verwendet als Dummy mitschleifen |
+| RET_LEN | int | Länge des Individualisierungs Datenstream oder -streamstücks |
+| RET_DATA | binary | Individualisierungs Datenstream |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-schreiben-individualdata"></a>
+### SCHREIBEN_INDIVIDUALDATA
+
+Schreiben von Individualisierungsdaten Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ARG_KEYID | unsigned char | 0x00       CarMemory 0x01..0x04 Schlüsselnummer dem der ARG_DATA zugeordnet ist 0xFF	   Aktuell gesteckter Schlüssel ist ARG_DATA zugeordnet (not used) |
+| ARG_BLOCKNR | unsigned long | Zu übertragende Blocknummer (Zähler) bei langen Datenstreams z.B. 0x01020304 (4 Bytes) falls nicht verwendet als Dummy mitschleifen |
+| ARG_FROMWHERE | unsigned char | Strategienummer 0x01	= PM Recovery 0x02	= AD Recovery |
+| ARG_STATUS | unsigned char | 0xFF letztes oder einziges element des Datenstreams 0x00 es folgen weitere Datenstreamstücke |
+| ARG_WRITE_LEN | unsigned char | Länge des folgenden Schreibauftrags z.B. 0x02 für 2 Byte |
+| ARG_WRITE_DATA | string | ASCII-codiert Schreibauftrag für Individualdatenstream (not used) |
+| ARG_W_RESP_LEN | unsigned char | Optional, Laenge des folgenden Antwortfilters  (not used) z.B. 0x02 für 2 Byte |
+| ARG_W_RESP_DATA | string | ASCII-codiert, Optional, Antwortfilter des Schreibauftrags (not used) |
+| ARG_LEN | int | Länge des Individualisierungs Datenstream oder -streamstücks |
+| ARG_DATA | string | ASCII-codiert Datenstream |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| RET_STATUS | unsigned char | Rückmeldungen, Fehlercodes z.B. OK 0x00 oder NOTOK 0x01 |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-kraftstoffverbrauch-lesen"></a>
+### KRAFTSTOFFVERBRAUCH_LESEN
+
+Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| DATEN_REF_PROGRAMM_STAND | string | BBxh |
+| RAM_LESEN_WERT | binary | Ausgelesener Wert |
+| RAM_LESEN_EINH | string | Einheit des ausgelesenen Wertes [HEX] |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+## Tables
+
+### Index
+
+- [KONZEPT_TABELLE](#table-konzept-tabelle) (5 × 2)
+- [JOBRESULT](#table-jobresult) (95 × 2)
+- [LIEFERANTEN](#table-lieferanten) (118 × 2)
+- [FARTTEXTE](#table-farttexte) (14 × 2)
+- [DIGITALARGUMENT](#table-digitalargument) (17 × 2)
+- [AUTHENTISIERUNG](#table-authentisierung) (4 × 2)
+- [DIAGMODE](#table-diagmode) (14 × 3)
+- [BAUDRATE](#table-baudrate) (7 × 3)
+- [PROGRAMMIERSTATUS](#table-programmierstatus) (19 × 2)
+- [VERBAUORTTABELLE](#table-verbauorttabelle) (132 × 3)
+- [PARTNRTABELLE](#table-partnrtabelle) (1 × 3)
+- [MESSWERTEMODE](#table-messwertemode) (14 × 3)
+- [CBSKENNUNG](#table-cbskennung) (20 × 3)
+- [JOBRESULTEXTENDED](#table-jobresultextended) (1 × 2)
+- [SG_DIAGNOSEKONZEPT](#table-sg-diagnosekonzept) (4 × 2)
+- [FDETAILSTRUKTUR](#table-fdetailstruktur) (7 × 2)
+- [HORTTEXTE](#table-horttexte) (1 × 2)
+- [IORTTEXTE](#table-iorttexte) (1 × 2)
+- [STAT_RUHESTROM](#table-stat-ruhestrom) (17 × 2)
+- [MOTORSG_TABLE_MSA_URSACHE_AV](#table-motorsg-table-msa-ursache-av) (16 × 2)
+- [MOTORSG_TABLE_MSA_URSACHE_EA](#table-motorsg-table-msa-ursache-ea) (4 × 2)
+- [TINDIVIDUALDATALISTE](#table-tindividualdataliste) (1 × 17)
+- [FORTTEXTE](#table-forttexte) (498 × 2)
+- [FARTTEXTEINDIVIDUELL](#table-farttexteindividuell) (277 × 2)
+- [FARTTYP](#table-farttyp) (497 × 5)
+- [FUMWELTTEXTE](#table-fumwelttexte) (148 × 9)
+- [FUMWELTMATRIX](#table-fumweltmatrix) (453 × 5)
+- [FARTTEXTEERWEITERT](#table-farttexteerweitert) (12 × 3)
+- [MESSWERTETAB](#table-messwertetab) (241 × 12)
+- [BETRIEBSARTEN](#table-betriebsarten) (7 × 2)
+- [DIAGNOSESTATI](#table-diagnosestati) (10 × 2)
+- [TEVSTATUS](#table-tevstatus) (8 × 2)
+- [LAMBDASTATUS](#table-lambdastatus) (6 × 2)
+- [KATSTATUS](#table-katstatus) (6 × 2)
+- [DMTLSTATUS](#table-dmtlstatus) (24 × 2)
+- [FETRAWESTATUS](#table-fetrawestatus) (5 × 2)
+- [SPEICHERSEGMENT](#table-speichersegment) (12 × 3)
+- [BITS](#table-bits) (27 × 4)
+- [BETRIEBSSTUNDENSTATUS](#table-betriebsstundenstatus) (4 × 2)
+- [STATUS_GENMANUFAK](#table-status-genmanufak) (7 × 2)
+- [STATUS_GENTYPKENN](#table-status-gentypkenn) (28 × 2)
+- [_MOTORSG_TABLE_FS](#table-motorsg-table-fs) (11 × 2)
+- [RDYSTATUS](#table-rdystatus) (3 × 2)
+
+<a id="table-konzept-tabelle"></a>
+### KONZEPT_TABELLE
+
+Dimensions: 5 rows × 2 columns
+
+| NR | KONZEPT_TEXT |
+| --- | --- |
+| 0x10 | D-CAN |
+| 0x0F | BMW-FAST |
+| 0x0D | KWP2000* |
+| 0x0C | KWP2000 |
+| 0x06 | DS2 |
+
+<a id="table-jobresult"></a>
+### JOBRESULT
+
+Dimensions: 95 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x10 | ERROR_ECU_GENERAL_REJECT |
+| 0x11 | ERROR_ECU_SERVICE_NOT_SUPPORTED |
+| 0x12 | ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT |
+| 0x21 | ERROR_ECU_BUSY_REPEAT_REQUEST |
+| 0x22 | ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR |
+| 0x23 | ERROR_ECU_ROUTINE_NOT_COMPLETE |
+| 0x31 | ERROR_ECU_REQUEST_OUT_OF_RANGE |
+| 0x33 | ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED |
+| 0x36 | ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS |
+| 0x37 | ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED |
+| 0x40 | ERROR_ECU_DOWNLOAD_NOT_ACCEPTED |
+| 0x41 | ERROR_ECU_IMPROPER_DOWNLOAD_TYPE |
+| 0x42 | ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS |
+| 0x43 | ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x50 | ERROR_ECU_UPLOAD_NOT_ACCEPTED |
+| 0x51 | ERROR_ECU_IMPROPER_UPLOAD_TYPE |
+| 0x52 | ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS |
+| 0x53 | ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x71 | ERROR_ECU_TRANSFER_SUSPENDED |
+| 0x72 | ERROR_ECU_TRANSFER_ABORTED |
+| 0x74 | ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER |
+| 0x75 | ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER |
+| 0x76 | ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE |
+| 0x77 | ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR |
+| 0x78 | ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING |
+| 0x79 | ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER |
+| 0x80 | ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE |
+| ?00? | OKAY |
+| ?02? | ERROR_ECU_INCORRECT_RESPONSE_ID |
+| ?03? | ERROR_ECU_INCORRECT_LEN |
+| ?04? | ERROR_ECU_INCORRECT_LIN_RESPONSE_ID |
+| ?05? | ERROR_ECU_INCORRECT_LIN_LEN |
+| ?10? | ERROR_F_CODE |
+| ?11? | ERROR_TABLE |
+| ?12? | ERROR_INTERPRETATION |
+| ?13? | ERROR_F_POS |
+| ?20? | ERROR_SEGMENT |
+| ?21? | ERROR_ADDRESS |
+| ?22? | ERROR_NUMBER |
+| ?30? | ERROR_DATA |
+| ?40? | ERROR_MODE |
+| ?41? | ERROR_BAUDRATE |
+| ?50? | ERROR_BYTE1 |
+| ?51? | ERROR_BYTE2 |
+| ?52? | ERROR_BYTE3 |
+| ?60? | ERROR_DATA_OUT_OF_RANGE |
+| ?70? | ERROR_NUMBER_ARGUMENT |
+| ?71? | ERROR_RANGE_ARGUMENT |
+| ?72? | ERROR_VERIFY |
+| ?73? | ERROR_NO_BIN_BUFFER |
+| ?74? | ERROR_BIN_BUFFER |
+| ?75? | ERROR_DATA_TYPE |
+| ?76? | ERROR_CHECKSUM |
+| ?80? | ERROR_FLASH_SIGNATURE_CHECK |
+| ?81? | ERROR_VEHICLE_IDENTIFICATION_NR |
+| ?82? | ERROR_PROGRAMMING_DATE |
+| ?83? | ERROR_ASSEMBLY_NR |
+| ?84? | ERROR_CALIBRATION_DATASET_NR |
+| ?85? | ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR |
+| ?86? | ERROR_REPAIR_SHOP_NR |
+| ?87? | ERROR_TESTER_SERIAL_NR |
+| ?88? | ERROR_MILAGE |
+| ?89? | ERROR_PROGRAMMING_REFERENCE |
+| ?8A? | ERROR_NO_FREE_UIF |
+| ?8B? | ERROR_MAX_UIF |
+| ?8C? | ERROR_SIZE_UIF |
+| ?8D? | ERROR_LEVEL |
+| ?8E? | ERROR_KEY |
+| ?8F? | ERROR_AUTHENTICATION |
+| ?90? | ERROR_NO_DREF |
+| ?91? | ERROR_CHECK_PECUHN |
+| ?92? | ERROR_CHECK_PRGREF |
+| ?93? | ERROR_AIF_NR |
+| ?94? | ERROR_CHECK_DREF |
+| ?95? | ERROR_CHECK_HWREF |
+| ?96? | ERROR_CHECK_HWREF |
+| ?97? | ERROR_CHECK_PRGREFB |
+| ?98? | ERROR_CHECK_VMECUH*NB |
+| ?99? | ERROR_CHECK_PRGREFB |
+| ?9A? | ERROR_CHECK_VMECUH*N |
+| ?9B? | ERROR_MOST_CAN_GATEWAY_DISABLE |
+| ?9C? | ERROR_NO_P2MIN |
+| ?9D? | ERROR_NO_P2MAX |
+| ?9E? | ERROR_NO_P3MIN |
+| ?9F? | ERROR_NO_P3MAX |
+| ?A0? | ERROR_NO_P4MIN |
+| ?B0? | ERROR_DIAG_PROT |
+| ?B1? | ERROR_SG_ADRESSE |
+| ?B2? | ERROR_SG_MAXANZAHL_AIF |
+| ?B3? | ERROR_SG_GROESSE_AIF |
+| ?B4? | ERROR_SG_ENDEKENNUNG_AIF |
+| ?B5? | ERROR_SG_AUTHENTISIERUNG |
+| ?C0? | ERROR_TELEGRAM_LEN_OUT_OFF_RANGE |
+| ?F0? | ERROR_ARGUMENT |
+| 0xXY | ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE |
+
+<a id="table-lieferanten"></a>
+### LIEFERANTEN
+
+Dimensions: 118 rows × 2 columns
+
+| LIEF_NR | LIEF_TEXT |
+| --- | --- |
+| 0x01 | Reinshagen =&gt; Delphi |
+| 0x02 | Kostal |
+| 0x03 | Hella |
+| 0x04 | Siemens |
+| 0x05 | Eaton |
+| 0x06 | UTA |
+| 0x07 | Helbako |
+| 0x08 | Bosch |
+| 0x09 | Loewe =&gt; Lear |
+| 0x10 | VDO |
+| 0x11 | Valeo |
+| 0x12 | MBB |
+| 0x13 | Kammerer |
+| 0x14 | SWF |
+| 0x15 | Blaupunkt |
+| 0x16 | Philips |
+| 0x17 | Alpine |
+| 0x18 | Continental Teves |
+| 0x19 | Elektromatik Suedafrika |
+| 0x20 | Becker |
+| 0x21 | Preh |
+| 0x22 | Alps |
+| 0x23 | Motorola |
+| 0x24 | Temic |
+| 0x25 | Webasto |
+| 0x26 | MotoMeter |
+| 0x27 | Delphi PHI |
+| 0x28 | DODUCO =&gt; BERU |
+| 0x29 | DENSO |
+| 0x30 | NEC |
+| 0x31 | DASA |
+| 0x32 | Pioneer |
+| 0x33 | Jatco |
+| 0x34 | Fuba |
+| 0x35 | UK-NSI |
+| 0x36 | AABG |
+| 0x37 | Dunlop |
+| 0x38 | Sachs |
+| 0x39 | ITT |
+| 0x40 | FTE |
+| 0x41 | Megamos |
+| 0x42 | TRW |
+| 0x43 | Wabco |
+| 0x44 | ISAD Electronic Systems |
+| 0x45 | HEC (Hella Electronics Corporation) |
+| 0x46 | Gemel |
+| 0x47 | ZF |
+| 0x48 | GMPT |
+| 0x49 | Harman Kardon |
+| 0x50 | Remes |
+| 0x51 | ZF Lenksysteme |
+| 0x52 | Magneti Marelli |
+| 0x53 | Borg Instruments |
+| 0x54 | GETRAG |
+| 0x55 | BHTC (Behr Hella Thermocontrol) |
+| 0x56 | Siemens VDO Automotive |
+| 0x57 | Visteon |
+| 0x58 | Autoliv |
+| 0x59 | Haberl |
+| 0x60 | Magna Steyr |
+| 0x61 | Marquardt |
+| 0x62 | AB-Elektronik |
+| 0x63 | Siemens VDO Borg |
+| 0x64 | Hirschmann Electronics |
+| 0x65 | Hoerbiger Electronics |
+| 0x66 | Thyssen Krupp Automotive Mechatronics |
+| 0x67 | Gentex GmbH |
+| 0x68 | Atena GmbH |
+| 0x69 | Magna-Donelly |
+| 0x70 | Koyo Steering Europe |
+| 0x71 | NSI B.V |
+| 0x72 | AISIN AW CO.LTD |
+| 0x73 | Shorlock |
+| 0x74 | Schrader |
+| 0x75 | BERU Electronics GmbH |
+| 0x76 | CEL |
+| 0x77 | Audio Mobil |
+| 0x78 | rd electronic |
+| 0x79 | iSYS RTS GmbH |
+| 0x80 | Westfalia Automotive GmbH |
+| 0x81 | Tyco Electronics |
+| 0x82 | Paragon AG |
+| 0x83 | IEE S.A |
+| 0x84 | TEMIC AUTOMOTIVE of NA |
+| 0x85 | AKsys GmbH |
+| 0x86 | META System |
+| 0x87 | Hülsbeck & Fürst GmbH & Co KG |
+| 0x88 | Mann & Hummel Automotive GmbH |
+| 0x89 | Brose Fahrzeugteile GmbH & Co |
+| 0x90 | Keihin |
+| 0x91 | Vimercati S.p.A. |
+| 0x92 | CRH |
+| 0x93 | TPO Display Corp. |
+| 0x94 | KÜSTER Automotive Control |
+| 0x95 | Hitachi Automotive |
+| 0x96 | Continental Automotive |
+| 0x97 | TI-Automotive |
+| 0x98 | Hydro |
+| 0x99 | Johnson Controls |
+| 0x9A | Takata- Petri |
+| 0x9B | Mitsubishi Electric B.V. (Melco) |
+| 0x9C | Autokabel |
+| 0x9D | GKN-Driveline |
+| 0x9E | Zollner Elektronik AG |
+| 0x9F | PEIKER acustics GmbH |
+| 0xA0 | Bosal-Oris |
+| 0xA1 | Cobasys |
+| 0xA2 | Lighting Reutlingen GmbH |
+| 0xA3 | CONTI VDO |
+| 0xA4 | ADC Automotive Distance Control Systems GmbH |
+| 0xA5 | Funkwerk Dabendorf GmbH |
+| 0xA6 | Lame |
+| 0xA7 | Magna/Closures |
+| 0xA8 | Wanyu |
+| 0xA9 | Thyssen Krupp Presta |
+| 0xAA | ArvinMeritor |
+| 0xAB | Kongsberg Automotive GmbH |
+| 0xFF | unbekannter Hersteller |
+
+<a id="table-farttexte"></a>
+### FARTTEXTE
+
+Dimensions: 14 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | kein passendes Fehlersymptom |
+| 0x01 | Signal oder Wert oberhalb Schwelle |
+| 0x02 | Signal oder Wert unterhalb Schwelle |
+| 0x04 | kein Signal oder Wert |
+| 0x08 | unplausibles Signal oder Wert |
+| 0x10 | Testbedingungen erfüllt |
+| 0x11 | Testbedingungen noch nicht erfüllt |
+| 0x20 | Fehler bisher nicht aufgetreten |
+| 0x21 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x22 | Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase) |
+| 0x23 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x30 | Fehler würde kein Aufleuchten einer Warnlampe verursachen |
+| 0x31 | Fehler würde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-digitalargument"></a>
+### DIGITALARGUMENT
+
+Dimensions: 17 rows × 2 columns
+
+| TEXT | WERT |
+| --- | --- |
+| ein | 1 |
+| aus | 0 |
+| ja | 1 |
+| nein | 0 |
+| auf | 1 |
+| ab | 0 |
+| an | 1 |
+| yes | 1 |
+| no | 0 |
+| on | 1 |
+| off | 0 |
+| up | 1 |
+| down | 0 |
+| true | 1 |
+| false | 0 |
+| 1 | 1 |
+| 0 | 0 |
+
+<a id="table-authentisierung"></a>
+### AUTHENTISIERUNG
+
+Dimensions: 4 rows × 2 columns
+
+| AUTH_NR | AUTH_TEXT |
+| --- | --- |
+| 0x01 | Simple |
+| 0x02 | Symetrisch |
+| 0x03 | Asymetrisch |
+| 0xFF | Keine |
+
+<a id="table-diagmode"></a>
+### DIAGMODE
+
+Dimensions: 14 rows × 3 columns
+
+| NR | MODE | MODE_TEXT |
+| --- | --- | --- |
+| 0x81 | DEFAULT | DefaultMode |
+| 0x82 | PT | PeriodicTransmissions |
+| 0x84 | EOLSSM | EndOfLineSystemSupplierMode |
+| 0x85 | ECUPM | ECUProgrammingMode |
+| 0x86 | ECUDM | ECUDevelopmentMode |
+| 0x87 | ECUAM | ECUAdjustmentMode |
+| 0x88 | ECUVCM | ECUVariantCodingMode |
+| 0x89 | ECUSM | ECUSafetyMode |
+| 0xFA | SSS_A | SystemSupplierSpecific (A) |
+| 0xFB | SSS_B | SystemSupplierSpecific (B) |
+| 0xFC | SSS_C | SystemSupplierSpecific (C) |
+| 0xFD | SSS_D | SystemSupplierSpecific (D) |
+| 0xFE | SSS_E | SystemSupplierSpecific (E) |
+| 0xXY | -- | unbekannter Diagnose-Mode |
+
+<a id="table-baudrate"></a>
+### BAUDRATE
+
+Dimensions: 7 rows × 3 columns
+
+| NR | BAUD | BAUD_TEXT |
+| --- | --- | --- |
+| 0x01 | PC9600 | Baudrate 9.6 kBaud |
+| 0x02 | PC19200 | Baudrate 19.2 kBaud |
+| 0x03 | PC38400 | Baudrate 38.4 kBaud |
+| 0x04 | PC57600 | Baudrate 57.6 kBaud |
+| 0x05 | PC115200 | Baudrate 115.2 kBaud |
+| 0x06 | SB | Specific Baudrate |
+| 0xXY | -- | unbekannte Baudrate |
+
+<a id="table-programmierstatus"></a>
+### PROGRAMMIERSTATUS
+
+Dimensions: 19 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x00 | Anlieferzustand |
+| 0x01 | Normalbetrieb |
+| 0x02 | nicht benutzt |
+| 0x03 | Speicher gelöscht |
+| 0x04 | nicht benutzt |
+| 0x05 | Signaturprüfung PAF nicht durchgeführt |
+| 0x06 | Signaturprüfung DAF nicht durchgeführt |
+| 0x07 | Programmprogrammiersitzung aktiv |
+| 0x08 | Datenprogrammiersitzung aktiv |
+| 0x09 | Hardwarereferenzeintrag fehlerhaft |
+| 0x0A | Programmreferenzeintrag fehlerhaft |
+| 0x0B | Referenzierungsfehler Hardware -&gt; Programm |
+| 0x0C | Programm nicht vorhanden oder nicht vollständig |
+| 0x0D | Datenreferenzeintrag fehlerhaft |
+| 0x0E | Referenzierungsfehler Programm -&gt; Daten |
+| 0x0F | Daten nicht vorhanden oder nicht vollständig |
+| 0x10 | Reserviert fuer BMW |
+| 0x80 | Reserviert fuer Zulieferer |
+| 0xXY | unbekannter Programmierstatus |
+
+<a id="table-verbauorttabelle"></a>
+### VERBAUORTTABELLE
+
+Dimensions: 132 rows × 3 columns
+
+| ORT | ORTTEXT | LIN_2_FORMAT |
+| --- | --- | --- |
+| 0x0100 | Batteriesensor BSD | - |
+| 0x0150 | Ölqualitätsensor BSD | - |
+| 0x0200 | Elektrische Wasserpumpe BSD | - |
+| 0x0250 | Elektrische Kraftstoffpumpe BSD | - |
+| 0x0300 | Generator 1 | - |
+| 0x0350 | Generator 2 | - |
+| 0x03A0 | Druck- Temperatursensor Tank | 1 |
+| 0x03C0 | EAC-Sensor | - |
+| 0x0400 | Schaltzentrum Lenksäule | - |
+| 0x0500 | DSC Sensor-Cluster | - |
+| 0x0600 | Nahbereichsradarsensor links | - |
+| 0x0700 | Nahbereichsradarsensor rechts | - |
+| 0x0800 | Funkempfänger | - |
+| 0x0900 | Elektrische Lenksäulenverriegelung | - |
+| 0x0A00 | Regen- Lichtsensor | - |
+| 0x290A00 | DSC Hydraulikblock | - |
+| 0x0B00 | Nightvision Kamera | - |
+| 0x0C00 | TLC Kamera | - |
+| 0x0D00 | Spurwechselradarsensor hinten links | - |
+| 0x0E00 | Heckklima Bedienteil rechts | 1 |
+| 0x0F00 | Rearview Kamera hinten | 1 |
+| 0x1000 | Topview Kamera Außenspiegel links | 1 |
+| 0x1100 | Topview Kamera Außenspiegel rechts | 1 |
+| 0x1200 | Sideview Kamera Stoßfänger vorne links | 1 |
+| 0x1300 | Sideview Kamera Stoßfänger vorne rechts | 1 |
+| 0x1400 | Wischermotor | 1 |
+| 0x1500 | Regen- Lichtsensor | 1 |
+| 0x1600 | Innenspiegel | 1 |
+| 0x1700 | Garagentoröffner | 1 |
+| 0x1800 | AUC-Sensor | 1 |
+| 0x1900 | Druck- Temperatursensor | 1 |
+| 0x1A20 | Schalterblock Sitzheizung hinten links | 1 |
+| 0x1A40 | Schalterblock Sitzheizung hinten rechts | 1 |
+| 0x1A60 | Sitzheizung Fahrer | 1 |
+| 0x1A80 | Sitzheizung Beifahrer | 1 |
+| 0x1AA0 | Sitzheizung Fahrer hinten | 1 |
+| 0x1AC0 | Sitzheizung Beifahrer hinten | 1 |
+| 0x1B00 | Schalterblock Sitzmemory/-massage Fahrer | 1 |
+| 0x1C00 | Schalterblock Sitzmemory/-massage Beifahrer | 1 |
+| 0x1C80 | Sitzverstellschalter Beifahrer über Fond | 1 |
+| 0x1D00 | Sonnenrollo Seitenfenster Fahrer | 1 |
+| 0x1E00 | Sonnenrollo Seitenfenster Beifahrer | 1 |
+| 0x1E40 | Heckklappenemblem | 1 |
+| 0x1F00 | KAFAS Kamera | 1 |
+| 0x2000 | Automatische Anhängevorrichtung | 1 |
+| 0x2100 | SINE | 1 |
+| 0x2110 | DWA Mikrowellensensor vorne rechts | 1 |
+| 0x2120 | DWA Mikrowellensensor hinten rechts | 1 |
+| 0x2130 | DWA Mikrowellensensor hinten links | 1 |
+| 0x2140 | DWA Mikrowellensensor vorne links | 1 |
+| 0x2150 | DWA Mikrowellensensor hinten | 1 |
+| 0x2180 | DWA Ultraschallsensor | 1 |
+| 0x2200 | Aussenspiegel Fahrer | - |
+| 0x2300 | Aussenspiegel Beifahrer | - |
+| 0x2400 | Schaltzentrum Tür | 1 |
+| 0x2500 | Schalterblock Sitz Fahrer | 1 |
+| 0x2600 | Schalterblock Sitz Beifahrer | 1 |
+| 0x2700 | Gurtbringer Fahrer | 1 |
+| 0x2800 | Gurtbringer Beifahrer | 1 |
+| 0x2900 | Treibermodul Scheinwerfer links | 1 |
+| 0x2A00 | Treibermodul Scheinwerfer rechts | 1 |
+| 0x2B00 | Bedieneinheit Fahrerassistenzsysteme | 1 |
+| 0x2C00 | Bedieneinheit Licht | 1 |
+| 0x2D00 | Smart Opener | 1 |
+| 0x2E00 | LED-Hauptlicht-Modul links | 1 |
+| 0x2F00 | LED-Hauptlicht-Modul rechts | 1 |
+| 0x0910 | Elektrische Lenksäulenverriegelung | 1 |
+| 0x3200 | Funkempfänger | 1 |
+| 0x3300 | Funkempfänger 2 | 1 |
+| 0x3400 | Türgriffelektronik Fahrer | - |
+| 0x3500 | Türgriffelektronik Beifahrer | - |
+| 0x3600 | Türgriffelektronik Fahrer hinten | - |
+| 0x3700 | Türgriffelektronik Beifahrer hinten | - |
+| 0x3800 | Telestart-Handsender 1 | - |
+| 0x3900 | Telestart-Handsender 2 | - |
+| 0x3A00 | Fond-Fernbedienung | - |
+| 0x3B00 | Elektrische Wasserpumpe | 1 |
+| 0x3B10 | Elektrische Wasserpumpe 1 | 1 |
+| 0x3B20 | Elektrische Wasserpumpe 2 | 1 |
+| 0x3B80 | Elektrische Zusatzwasserpumpe | 1 |
+| 0x3C00 | Batteriesensor LIN | - |
+| 0x3D00 | Aktives Kühlklappensystem | 1 |
+| 0x3E00 | PCU(DCDC) | 1 |
+| 0x3F00 | Startergenerator | 1 |
+| 0x3F80 | Generator | 1 |
+| 0x4000 | Sitzverstellschalter Fahrer | 1 |
+| 0x4100 | Sitzverstellschalter Beifahrer | 1 |
+| 0x4200 | Sitzverstellschalter Fahrer hinten | 1 |
+| 0x4300 | Sitzverstellschalter Beifahrer hinten | 1 |
+| 0x4400 | Gepäckraumschalter links | 1 |
+| 0x4500 | Gepäckraumschalter rechts | 1 |
+| 0x4A00 | Fond-Klimaanlage | 1 |
+| 0x4B00 | Elektrischer Klimakompressor | 1 |
+| 0x4C00 | Klimabedienteil | 1 |
+| 0x4D00 | Gebläseregler | 1 |
+| 0x4E00 | Klappenmotor | 0 |
+| 0x4F00 | Elektrischer Kältemittelverdichter eKMV | 1 |
+| 0x4F80 | Elektrischer Zuheizer PTC | 1 |
+| 0x5000 | PMA Sensor links | 1 |
+| 0x5100 | PMA Sensor rechts | 1 |
+| 0x5200 | CID-Klappe | - |
+| 0x5300 | Schaltzentrum Lenksäule | 1 |
+| 0x5400 | Multifunktionslenkrad | 1 |
+| 0x5500 | Lenkradelektronik | 1 |
+| 0x5600 | CID | - |
+| 0x5700 | Satellit Upfront links | 0 |
+| 0x5708 | Satellit Upfront rechts | 0 |
+| 0x5710 | Satellit Tür links | 0 |
+| 0x5718 | Satellit Tür rechts | 0 |
+| 0x5720 | Satellit B-Säule links X | 0 |
+| 0x5728 | Satellit B-Säule rechts X | 0 |
+| 0x5730 | Satellit B-Säule links Y | 0 |
+| 0x5738 | Satellit B-Säule rechts Y | 0 |
+| 0x5740 | Satellit Zentralsensor X | 0 |
+| 0x5748 | Satellit Zentralsensor Y | 0 |
+| 0x5750 | Satellit Zentralsensor Low g Y | 0 |
+| 0x5758 | Satellit Zentralsensor Low g Z | 0 |
+| 0x5760 | Satellit Zentralsensor Roll Achse | 0 |
+| 0x5768 | Fussgängerschutz Sensor links | 0 |
+| 0x5770 | Fussgängerschutz Sensor rechts | 0 |
+| 0x5778 | Fussgängerschutz Sensor mitte | 0 |
+| 0x5780 | Fussgängerschutzsensor statisch | 0 |
+| 0x5788 | Satellit C-Säule links Y | 0 |
+| 0x5790 | Satellit C-Säule rechts Y | 0 |
+| 0x5798 | Satellit Zentrale Körperschall | 0 |
+| 0x57A0 | Kapazitive Insassen- Sensorik CIS | 1 |
+| 0x57A8 | Sitzbelegungserkennung Beifahrer SBR | 1 |
+| 0x57B0 | Fussgängerschutzsensor dynamisch 1 | 0 |
+| 0x57B8 | Fussgängerschutzsensor dynamisch 2 | 0 |
+| 0x5800 | HUD | 1 |
+| 0x5900 | Audio-Bedienteil | 1 |
+| 0xFFFF | unbekannter Verbauort | - |
+
+<a id="table-partnrtabelle"></a>
+### PARTNRTABELLE
+
+Dimensions: 1 rows × 3 columns
+
+| PART_NR | BMW_NR | KOMMENTAR |
+| --- | --- | --- |
+| -- | -- | unbekannte Teilenummer |
+
+<a id="table-messwertemode"></a>
+### MESSWERTEMODE
+
+Dimensions: 14 rows × 3 columns
+
+| TEXT | WERT | KOMMENTAR |
+| --- | --- | --- |
+| ein | 1 | Argument ARG.   Messwertblock im SG löschen, neu schreiben und lesen |
+| aus | 0 | Argument ARG.   Messwertblock nur lesen |
+| ja | 1 | Argument ARG.   Messwertblock im SG löschen, neu schreiben und lesen |
+| nein | 0 | Argument ARG.   Messwertblock nur lesen |
+| yes | 1 | Argument ARG.   Messwertblock im SG löschen, neu schreiben und lesen |
+| no | 0 | Argument ARG.   Messwertblock nur lesen |
+| on | 1 | Argument ARG.   Messwertblock im SG löschen, neu schreiben und lesen |
+| off | 0 | Argument ARG.   Messwertblock nur lesen |
+| 1 | 1 | Argument ARG.   Messwertblock im SG löschen, neu schreiben und lesen |
+| 0 | 0 | Argument ARG.   Messwertblock nur lesen |
+| 3 | 3 | Argument ID.    Messwertblock im SG löschen, neu schreiben und lesen |
+| 2 | 2 | Argument ID.    Messwertblock nur lesen |
+| 5 | 5 | Argument LABEL. Messwertblock im SG löschen, neu schreiben und lesen |
+| 4 | 4 | Argument LABEL. Messwertblock nur lesen |
+
+<a id="table-cbskennung"></a>
+### CBSKENNUNG
+
+Dimensions: 20 rows × 3 columns
+
+| NR | CBS_K | CBS_K_TEXT |
+| --- | --- | --- |
+| 0x01 | Oel | Motoroel |
+| 0x02 | Br_v | Bremsbelag vorne |
+| 0x03 | Brfl | Bremsfluessigkeit |
+| 0x04 | Filt | Mikrofilter |
+| 0x06 | Br_h | Bremsbelag hinten |
+| 0x07 | CSF | Dieselpartikelfilter |
+| 0x08 | Batt | Batterie |
+| 0x09 | QMV | QMV-H-Oel |
+| 0x10 | ZKrz | Zuendkerzen |
+| 0x11 | Sic | Sichtpruefung/Fahrzeug-Check |
+| 0x12 | Kfl | Kuehlfluessigkeit |
+| 0x13 | H2 | H2-Check |
+| 0x14 | Ueb | Uebergabedurchsicht |
+| 0x15 | Efk | Einfahrkontrolle |
+| 0x16 | DAD | Additiv fuer Partikelfilter |
+| 0x20 | TUV | §Fahrzeuguntersuchung |
+| 0x21 | AU | §Abgasuntersuchung |
+| 0x23 | DKG | DK-Getriebeoel |
+| 0x0A | ZKrz_a | Zuendkerzen adaptiv |
+| 0x0D | NOx_a | NOx-Additiv |
+
+<a id="table-jobresultextended"></a>
+### JOBRESULTEXTENDED
+
+Dimensions: 1 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-sg-diagnosekonzept"></a>
+### SG_DIAGNOSEKONZEPT
+
+Dimensions: 4 rows × 2 columns
+
+| RANG | KONZEPT_TEXT |
+| --- | --- |
+| 1 | BMW-FAST |
+| 2 | KWP2000* |
+| - | KWP2000 |
+| - | DS2 |
+
+<a id="table-fdetailstruktur"></a>
+### FDETAILSTRUKTUR
+
+Dimensions: 7 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_ART_IND | ja |
+| F_ART_ERW | 00654321 |
+| F_PCODE | ja |
+| F_PCODE7 | nein |
+| F_HFK | ja |
+| F_LZ | ja |
+| F_UWB_ERW | ja |
+
+<a id="table-horttexte"></a>
+### HORTTEXTE
+
+Dimensions: 1 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-iorttexte"></a>
+### IORTTEXTE
+
+Dimensions: 1 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-stat-ruhestrom"></a>
+### STAT_RUHESTROM
+
+Dimensions: 17 rows × 2 columns
+
+| WERT | TEXT |
+| --- | --- |
+| 0x00 | 0 keine Ruhestromverletzung, keine Standverbraucher aktiv |
+| 0x01 | 1 Ruhestrom 80 bis 200mA aktiv, keine Standverbraucher aktiv |
+| 0x02 | 2 Ruhestrom 200 bis 1000mA aktiv, keine Standverbraucher aktiv |
+| 0x03 | 3 Ruhestrom über 1000mA aktiv, keine Standverbraucher aktiv |
+| 0x04 | 4 keine Ruhestromverletzung, Standverbraucher Licht aktiv |
+| 0x05 | 5 Ruhestrom 80 bis 200mA aktiv, Standverbraucher Licht aktiv |
+| 0x06 | 6 Ruhestrom 200 bis 1000mA aktiv, Standverbraucher Licht aktiv |
+| 0x07 | 7 Ruhestrom über 1000mA aktiv, Standverbraucher Licht aktiv |
+| 0x08 | 8 keine Ruhestromverletzung, Standverbraucher Standheizung aktiv |
+| 0x09 | 9 Ruhestrom 80 bis 200mA aktiv, Standverbraucher Standheizung aktiv |
+| 0x0A | 10 Ruhestrom 200 bis 1000mA aktiv, Standverbraucher Standheizung aktiv |
+| 0x0B | 11 Ruhestrom über 1000mA aktiv, Standverbraucher Standheizung aktiv |
+| 0x0C | 12 keine Ruhestromverletzung, Standverbraucher Sonstige aktiv |
+| 0x0D | 13 Ruhestrom 80 bis 200mA aktiv, Standverbraucher Sonstige aktiv |
+| 0x0E | 14 Ruhestrom 200 bis 1000mA aktiv, Standverbraucher Sonstige aktiv |
+| 0x0F | 15 Ruhestrom über 1000mA aktiv, Standverbraucher Sonstige aktiv |
+| 0xFF | FF Status unbekannt |
+
+<a id="table-motorsg-table-msa-ursache-av"></a>
+### MOTORSG_TABLE_MSA_URSACHE_AV
+
+Dimensions: 16 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0 | Ursache AV ausserhalb PM |
+| 1 | Batterieladezustand-Erkennung nicht plausibel und FIT-Korrektur |
+| 2 | Batterieladezustand-Erkennung nicht plausibel |
+| 3 | FIT-Korrektur |
+| 4 | Batterieladezustand zu niedrig  |
+| 5 | Batterieladezustand zu niedrig und (Startspannung zu niedrig ODER Bordnetzstrom zu hoch ODER T_batt zu hoch) |
+| 6 | T_batt zu hoch |
+| 7 | T_batt zu hoch und (Startspannung zu niedrig ODER Bordnetzstrom zu hoch) |
+| 8 | Startspannung zu niedrig |
+| 9 | Startspannung zu niedrig und Bordnetzstrom zu hoch |
+| 10 | Bordnetzstrom zu hoch |
+| 11 | Reserve-Prio 1 |
+| 12 | Reserve-Prio 2 |
+| 13 | Reserve-Prio 3 |
+| 14 | Reserve-Prio 4 |
+| 15 | ungueltig |
+
+<a id="table-motorsg-table-msa-ursache-ea"></a>
+### MOTORSG_TABLE_MSA_URSACHE_EA
+
+Dimensions: 4 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0 | kein EA |
+| 1 | EA infolge I_BN |
+| 2 | EA infolge D_SoC |
+| 3 | nicht definiert |
+
+<a id="table-tindividualdataliste"></a>
+### TINDIVIDUALDATALISTE
+
+Dimensions: 1 rows × 17 columns
+
+| ENTRYNR | ISLAST | FROMWHERE | DIAG | CARORKEY | USECASE | TESTER_ALGO | RESERVED | INQY_LEN | INQY_DATA | RESP_LEN | RESP_DATA | WRITE_LEN | WRITE_DATA | W_RESP_LEN | W_RESP_DATA | COMMENT |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x0000 | 0xFF | 01 | 12 | 02 | 000F | 01 | 00 | 00 |  | 00 |  | 00 |  | 00 |  | PM.Recovery |
+
+<a id="table-forttexte"></a>
+### FORTTEXTE
+
+Dimensions: 498 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0x2710 | DFES_DTCM.DFC_CFCmax_C  -  Tankdeckel |
+| 0x2711 | DFES_DTCM.DFC_CFCmin_C  -  Tankdeckel |
+| 0x2718 | DFES_DTCM.DFC_DHDMTEmax_C  -  DMTL-Heizung, Ansteuerung |
+| 0x2719 | DFES_DTCM.DFC_DHDMTEmin_C  -  DMTL-Heizung, Ansteuerung |
+| 0x271B | DFES_DTCM.DFC_DHDMTEsig_C  -  DMTL-Heizung, Ansteuerung |
+| 0x271C | DFES_DTCM.DFC_DKVBDEmax_C  -  Kraftstoffversorgungssystem |
+| 0x2727 | DFES_DTCM.DFC_DMMVEmax_C  -  DMTL-Magnetventil, Ansteuerung |
+| 0x2728 | DFES_DTCM.DFC_DMMVEmin_C  -  DMTL-Magnetventil, Ansteuerung |
+| 0x272A | DFES_DTCM.DFC_DMMVEsig_C  -  DMTL-Magnetventil, Ansteuerung |
+| 0x272B | DFES_DTCM.DFC_DMPMEmax_C  -  DMTL-Pumpenmotor, Ansteuerung |
+| 0x272C | DFES_DTCM.DFC_DMPMEmin_C  -  DMTL-Pumpenmotor, Ansteuerung |
+| 0x272E | DFES_DTCM.DFC_DMPMEsig_C  -  DMTL-Pumpenmotor, Ansteuerung |
+| 0x272F | DFES_DTCM.DFC_DMTKmax_C  -  DMTL, Feinstleck |
+| 0x2733 | DFES_DTCM.DFC_DMTLmax_C  -  DMTL, Modulfehler |
+| 0x2734 | DFES_DTCM.DFC_DMTLmin_C  -  DMTL, Modulfehler |
+| 0x2735 | DFES_DTCM.DFC_DMTLnpl_C  -  DMTL, Modulfehler |
+| 0x2736 | DFES_DTCM.DFC_DMTLsig_C  -  DMTL, Modulfehler |
+| 0x2737 | DFES_DTCM.DFC_DPMEEmax_C  -  DMTL-Leckdiagnosepumpe, Ansteuerung |
+| 0x2738 | DFES_DTCM.DFC_DPMEEmin_C  -  DMTL-Leckdiagnosepumpe, Ansteuerung |
+| 0x273A | DFES_DTCM.DFC_DPMEEsig_C  -  DMTL-Leckdiagnosepumpe, Ansteuerung |
+| 0x273B | DFES_DTCM.DFC_DTEVmax_C  -  Tankentlüftungsventil, mechanisch |
+| 0x273C | DFES_DTCM.DFC_DTEVmin_C  -  Tankentlüftungsventil, mechanisch |
+| 0x273D | DFES_DTCM.DFC_DZKU0npl_C  -  Zündspule Zylinder 1, Zündkreisüberwachung |
+| 0x273E | DFES_DTCM.DFC_DZKU1npl_C  -  Zündspule Zylinder 3, Zündkreisüberwachung |
+| 0x273F | DFES_DTCM.DFC_DZKU2npl_C  -  Zündspule Zylinder 4, Zündkreisüberwachung |
+| 0x2740 | DFES_DTCM.DFC_DZKU3npl_C  -  Zündspule Zylinder 2, Zündkreisüberwachung |
+| 0x2745 | DFES_DTCM.DFC_FRAmax_C  -  Multiplikative Gemischadaption |
+| 0x2746 | DFES_DTCM.DFC_FRAmin_C  -  Multiplikative Gemischadaption |
+| 0x2755 | DFES_DTCM.DFC_FSTEmax_C  -  Kraftstoff-Füllstandsgeber |
+| 0x2756 | DFES_DTCM.DFC_FSTEmin_C  -  Kraftstoff-Füllstandsgeber |
+| 0x2757 | DFES_DTCM.DFC_FSTEnpl_C  -  Kraftstoff-Füllstandsgeber |
+| 0x2758 | DFES_DTCM.DFC_FSTEsig_C  -  Kraftstoff-Füllstandsgeber |
+| 0x275D | DFES_DTCM.DFC_FSTRmax_C  -  Kraftstoff-Füllstandsgeber |
+| 0x275E | DFES_DTCM.DFC_FSTRmin_C  -  Kraftstoff-Füllstandsgeber |
+| 0x275F | DFES_DTCM.DFC_FSTRnpl_C  -  Kraftstoff-Füllstandsgeber |
+| 0x276A | DFES_DTCM.DFC_KATmin_C  -  Katalysatorkonvertierung |
+| 0x276D | DFES_DTCM.DFC_KPEmax_C  -  Kraftstoffpumpe, Ansteuerung |
+| 0x276E | DFES_DTCM.DFC_KPEmin_C  -  Kraftstoffpumpe, Ansteuerung |
+| 0x2770 | DFES_DTCM.DFC_KPEsig_C  -  Kraftstoffpumpe, Ansteuerung |
+| 0x2771 | DFES_DTCM.DFC_MD00max_C  -  Verbrennungsaussetzer, Zylinder 1 |
+| 0x2772 | DFES_DTCM.DFC_MD00min_C  -  Verbrennungsaussetzer, Zylinder 1 |
+| 0x2773 | DFES_DTCM.DFC_MD00npl_C  -  Verbrennungsaussetzer, Zylinder 1 |
+| 0x2775 | DFES_DTCM.DFC_MD01max_C  -  Verbrennungsaussetzer, Zylinder 3 |
+| 0x2776 | DFES_DTCM.DFC_MD01min_C  -  Verbrennungsaussetzer, Zylinder 3 |
+| 0x2777 | DFES_DTCM.DFC_MD01npl_C  -  Verbrennungsaussetzer, Zylinder 3 |
+| 0x2779 | DFES_DTCM.DFC_MD02max_C  -  Verbrennungsaussetzer, Zylinder 4 |
+| 0x277A | DFES_DTCM.DFC_MD02min_C  -  Verbrennungsaussetzer, Zylinder 4 |
+| 0x277B | DFES_DTCM.DFC_MD02npl_C  -  Verbrennungsaussetzer, Zylinder 4 |
+| 0x277D | DFES_DTCM.DFC_MD03max_C  -  Verbrennungsaussetzer, Zylinder 2 |
+| 0x277E | DFES_DTCM.DFC_MD03min_C  -  Verbrennungsaussetzer, Zylinder 2 |
+| 0x277F | DFES_DTCM.DFC_MD03npl_C  -  Verbrennungsaussetzer, Zylinder 2 |
+| 0x2781 | DFES_DTCM.DFC_MDmax_C  -  Verbrennungsaussetzer, mehrere Zylinder |
+| 0x2782 | DFES_DTCM.DFC_MDmin_C  -  Verbrennungsaussetzer, mehrere Zylinder |
+| 0x2783 | DFES_DTCM.DFC_MDnpl_C  -  Verbrennungsaussetzer, mehrere Zylinder |
+| 0x2785 | DFES_DTCM.DFC_ORAmax_C  -  Additive Gemischadaption |
+| 0x2786 | DFES_DTCM.DFC_ORAmin_C  -  Additive Gemischadaption |
+| 0x27AB | DFES_DTCM.DFC_TANKLnpl_C  -  Tankfüllstand |
+| 0x27AC | DFES_DTCM.DFC_TESGmax_C  -  DMTL, Grobleck |
+| 0x27B0 | DFES_DTCM.DFC_TESmin_C  -  Tankentlüftungssystem, Funktion |
+| 0x27B1 | DFES_DTCM.DFC_TEVEmax_C  -  Tankentlüftungsventil, Ansteuerung |
+| 0x27B2 | DFES_DTCM.DFC_TEVEmin_C  -  Tankentlüftungsventil, Ansteuerung |
+| 0x27B4 | DFES_DTCM.DFC_TEVEsig_C  -  Tankentlüftungsventil, Ansteuerung |
+| 0x27C4 | DFES_DTCM.DFC_FSTESmax_C  -  Kraftstoff-Füllstandsgeber |
+| 0x27C5 | DFES_DTCM.DFC_FSTESmin_C  -  Kraftstoff-Füllstandsgeber |
+| 0x27C6 | DFES_DTCM.DFC_FSTESsig_C  -  Kraftstoff-Füllstandsgeber |
+| 0x27CE | DFES_DTCM.DFC_INVLVBCDmax_C  -  Kraftstoffversorgungssystem |
+| 0x27CF | DFES_DTCM.DFC_DKVBDE1max_C  -  Kraftstoffversorgungssystem |
+| 0x27D0 | DFES_DTCM.DFC_DKVBDE2max_C  -  Kraftstoffversorgungssystem |
+| 0x2848 | DFES_DTCM.DFC_DSKVmax_C  -  Kraftststoffdrucksensor |
+| 0x2849 | DFES_DTCM.DFC_DSKVmin_C  -  Kraftststoffdrucksensor |
+| 0x2877 | DFES_DTCM.DFC_ENWSEmax_C  -  VANOS-Magnetventil Einlass, Ansteuerung |
+| 0x2878 | DFES_DTCM.DFC_ENWSEmin_C  -  VANOS-Magnetventil Einlass, Ansteuerung |
+| 0x287A | DFES_DTCM.DFC_ENWSEsig_C  -  VANOS-Magnetventil Einlass, Ansteuerung |
+| 0x287D | DFES_DTCM.DFC_ENWSnpl_C  -  VANOS, Einlass: Stellerbewegung |
+| 0x287E | DFES_DTCM.DFC_ENWSsig_C  -  VANOS, Einlass: Stellerbewegung |
+| 0x287F | DFES_DTCM.DFC_HDRmax_C  -  Hochdrucksystem |
+| 0x2880 | DFES_DTCM.DFC_HDRmin_C  -  Hochdrucksystem |
+| 0x2881 | DFES_DTCM.DFC_LDEmax_C  -  Wastegate-Ventil, Ansteuerung |
+| 0x2882 | DFES_DTCM.DFC_LDEmin_C  -  Wastegate-Ventil, Ansteuerung |
+| 0x2883 | DFES_DTCM.DFC_LDEsig_C  -  Wastegate-Ventil, Ansteuerung |
+| 0x2884 | DFES_DTCM.DFC_LDRmax_C  -  Ladedruck-Regelabweichung, Plausibilität |
+| 0x2885 | DFES_DTCM.DFC_LDRmin_C  -  Ladedruck-Regelabweichung, Plausibilität |
+| 0x289C | DFES_DTCM.DFC_NWVPEnpl_C  -  VANOS, Einlass: Verriegelungsposition |
+| 0x289D | DFES_DTCM.DFC_PVDEmax_C  -  Ladedrucksensor, elektrisch |
+| 0x289E | DFES_DTCM.DFC_PVDEmin_C  -  Ladedrucksensor, elektrisch |
+| 0x28A2 | DFES_DTCM.DFC_PVDRmax_C  -  Ladedrucksensor, Plausibilität |
+| 0x28A3 | DFES_DTCM.DFC_PVDRmin_C  -  Ladedrucksensor, Plausibilität |
+| 0x28A4 | DFES_DTCM.DFC_PVDRnpl_C  -  Ladedrucksensor, Plausibilität |
+| 0x28A5 | DFES_DTCM.DFC_PVDRsig_C  -  Ladedrucksensor, Plausibilität |
+| 0x28AA | DFES_DTCM.DFC_SUVRnpl_C  -  Schubumluftventil, Plausibilität |
+| 0x28AC | DFES_DTCM.DFC_SV_DVCVEmax_C  -  Mengensteuerventil, Ansteuerung |
+| 0x28AD | DFES_DTCM.DFC_SV_DVCVEmin_C  -  Mengensteuerventil, Ansteuerung |
+| 0x28AE | DFES_DTCM.DFC_SV_DVCVEsig_C  -  Mengensteuerventil, Ansteuerung |
+| 0x28AF | DFES_DTCM.DFC_UVSEmax_C  -  Schubumluftventil, Ansteuerung |
+| 0x28B0 | DFES_DTCM.DFC_UVSEmin_C  -  Schubumluftventil, Ansteuerung |
+| 0x28B1 | DFES_DTCM.DFC_UVSEsig_C  -  Schubumluftventil, Ansteuerung |
+| 0x28BE | DFES_DTCM.DFC_DSKVRmax_C  -  Kraftstoffdruck, Plausibilität |
+| 0x28BF | DFES_DTCM.DFC_DSKVRmin_C  -  Kraftstoffdruck, Plausibilität |
+| 0x28C0 | DFES_DTCM.DFC_DSKVRsig_C  -  Kraftstoffdruck, Plausibilität |
+| 0x28C1 | DFES_DTCM.DFC_DSKVRnpl_C  -  Kraftstoffdruck, Plausibilität |
+| 0x2968 | DFES_DTCM.DFC_EpmCaSI1ErrSig_C  -  Einlassnockenwellensensor |
+| 0x297C | DFES_DTCM.DFC_EpmCaSI1MntErr_C  -  Einlassnockenwelle, Mechanik |
+| 0x2969 | DFES_DTCM.DFC_EpmCaSI1NoSig_C  -  Einlassnockenwellensensor |
+| 0x296A | DFES_DTCM.DFC_EpmCaSI1OfsErr_C  -  Einlassnockenwellensensor |
+| 0x296E | DFES_DTCM.DFC_EpmCrSErrsig_C  -  Kurbelwellensensor |
+| 0x296F | DFES_DTCM.DFC_EpmCrSNosig_C  -  Kurbelwellensensor |
+| 0x2970 | DFES_DTCM.DFC_LLRHmax_C  -  Leerlaufregelung im Homogenbetrieb |
+| 0x2971 | DFES_DTCM.DFC_LLRHmin_C  -  Leerlaufregelung im Homogenbetrieb |
+| 0x2972 | DFES_DTCM.DFC_LLRKHmax_C  -  Leerlaufregelung, Katalysatorheizen |
+| 0x2973 | DFES_DTCM.DFC_LLRKHmin_C  -  Leerlaufregelung, Katalysatorheizen |
+| 0x2982 | DFES_DTCM.DFC_EpmCaSI1NoSigMax_C  -  Einlassnockenwellensensor |
+| 0x2983 | DFES_DTCM.DFC_EpmCaSI1NoSigMin_C  -  Einlassnockenwellensensor |
+| 0x2A35 | DFES_DTCM.DFC_DYLSUmin_C  -  Lambdasonde vor Katalysator, Dynamik |
+| 0x2A3C | DFES_DTCM.DFC_FTDLAmax_C  -  Lambdasonde vor Katalysator, Trimmregelung |
+| 0x2A3D | DFES_DTCM.DFC_FTDLAmin_C  -  Lambdasonde vor Katalysator, Trimmregelung |
+| 0x2A47 | DFES_DTCM.DFC_HELSUsig_C  -  Lambdasonde vor Katalysator, Heizereinkopplung |
+| 0x2A50 | DFES_DTCM.DFC_HSHEmax_C  -  Lambdasondenbeheizung nach Katalysator, Ansteuerung |
+| 0x2A51 | DFES_DTCM.DFC_HSHEmin_C  -  Lambdasondenbeheizung nach Katalysator, Ansteuerung |
+| 0x2A53 | DFES_DTCM.DFC_HSHEsig_C  -  Lambdasondenbeheizung nach Katalysator, Ansteuerung |
+| 0x2A56 | DFES_DTCM.DFC_HSHnpl_C  -  Lambdasondenheizung nach Katalysator, Funktion |
+| 0x2A60 | DFES_DTCM.DFC_HSVEmax_C  -  Lambdasondenheizung vor Katalysator, Ansteuerung |
+| 0x2A61 | DFES_DTCM.DFC_HSVEmin_C  -  Lambdasondenheizung vor Katalysator, Ansteuerung |
+| 0x2A63 | DFES_DTCM.DFC_HSVEsig_C  -  Lambdasondenheizung vor Katalysator, Ansteuerung |
+| 0x2A64 | DFES_DTCM.DFC_HSVmax_C  -  Lambdasondenheizung vor Katalysator, Funktion |
+| 0x2A66 | DFES_DTCM.DFC_HSVnpl_C  -  Lambdasondenheizung vor Katalysator, Funktion |
+| 0x2A67 | DFES_DTCM.DFC_HSVsig_C  -  Lambdasondenheizung vor Katalysator, Funktion |
+| 0x2A6C | DFES_DTCM.DFC_ICLSUmax_C  -  DME, interner Fehler |
+| 0x2A6D | DFES_DTCM.DFC_ICLSUmin_C  -  DME, interner Fehler |
+| 0x2A6E | DFES_DTCM.DFC_ICLSUnpl_C  -  DME, interner Fehler |
+| 0x2A6F | DFES_DTCM.DFC_ICLSUsig_C  -  DME, interner Fehler |
+| 0x2A74 | DFES_DTCM.DFC_LASHmax_C  -  Lambdasonde nach Katalysator, Alterung |
+| 0x2A75 | DFES_DTCM.DFC_LASHmin_C  -  Lambdasonde nach Katalysator, Alterung |
+| 0x2A76 | DFES_DTCM.DFC_LASHnpl_C  -  Lambdasonde nach Katalysator, Alterung |
+| 0x2A77 | DFES_DTCM.DFC_LASHsig_C  -  Lambdasonde nach Katalysator, Alterung |
+| 0x2A7C | DFES_DTCM.DFC_LSHmax_C  -  Lambdasonde nach Katalysator, elektrisch |
+| 0x2A7D | DFES_DTCM.DFC_LSHmin_C  -  Lambdasonde nach Katalysator, elektrisch |
+| 0x2A7E | DFES_DTCM.DFC_LSHnpl_C  -  Lambdasonde nach Katalysator, elektrisch |
+| 0x2A7F | DFES_DTCM.DFC_LSHsig_C  -  Lambdasonde nach Katalysator, elektrisch |
+| 0x2A8B | DFES_DTCM.DFC_LSUIAsig_C  -  Lambdasonde vor Katalysator, Abgleichleitung |
+| 0x2A90 | DFES_DTCM.DFC_LSUIPmax_C  -  Lambdasonde vor Katalysator, Pumpstromleitung |
+| 0x2A92 | DFES_DTCM.DFC_LSUIPnpl_C  -  Lambdasonde vor Katalysator, Pumpstromleitung |
+| 0x2A93 | DFES_DTCM.DFC_LSUIPsig_C  -  Lambdasonde vor Katalysator, Pumpstromleitung |
+| 0x2A98 | DFES_DTCM.DFC_LSUKSmax_C  -  Lambdasonde vor Katalysator, Sondenleitungen |
+| 0x2A99 | DFES_DTCM.DFC_LSUKSmin_C  -  Lambdasonde vor Katalysator, Sondenleitungen |
+| 0x2AA3 | DFES_DTCM.DFC_LSUUNsig_C  -  Lambdasonde vor Katalysator, Nernstleitung |
+| 0x2AAB | DFES_DTCM.DFC_LSUVMsig_C  -  Lambdasonde vor Katalysator, virtuelle Masse |
+| 0x2AB4 | DFES_DTCM.DFC_LSVEmax_C  -  Lambdasonde vor Katalysator, elektrisch |
+| 0x2AB8 | DFES_DTCM.DFC_LSVmax_C  -  Lambdasonde vor Katalysator, elektrisch |
+| 0x2AC1 | DFES_DTCM.DFC_PLLSUmax_C  -  Lambdasonde vor Katalysator, Plausibilität |
+| 0x2AC2 | DFES_DTCM.DFC_PLLSUmin_C  -  Lambdasonde vor Katalysator, Plausibilität |
+| 0x2AC3 | DFES_DTCM.DFC_PLLSUnpl_C  -  Lambdasonde vor Katalysator, Plausibilität |
+| 0x2AC4 | DFES_DTCM.DFC_PLLSUsig_C  -  Lambdasonde vor Katalysator, Plausibilität |
+| 0x2ACB | DFES_DTCM.DFC_ULSUnpl_C  -  Lambdasonde vor Katalysator, Anschluss |
+| 0x2ACD | DFES_DTCM.DFC_DYLSHsig_C  -  Lambdasonde nach Katalysator, Dynamik im Schubbetrieb |
+| 0x2AD2 | DFES_DTCM.DFC_DYLSHmax_C  -  Lambdasonde nach Kat(alysator), Dynamik im Schubbetrieb |
+| 0x2AD8 | DFES_DTCM.DFC_Tle6232Spi1_C  -  DME, interner Fehler |
+| 0x2AF8 | DFES_DTCM.DFC_BWFnpl_C  -  Fahrpedalmodul Bewegungserkennung |
+| 0x2B01 | DFES_DTCM.DFC_DK1Pmax_C  -  Drosselklappenpotentiometer 1 |
+| 0x2B02 | DFES_DTCM.DFC_DK1Pmin_C  -  Drosselklappenpotentiometer 1 |
+| 0x2B03 | DFES_DTCM.DFC_DK1Pnpl_C  -  Drosselklappenpotentiometer 1 |
+| 0x2B05 | DFES_DTCM.DFC_DK2Pmax_C  -  Drosselklappenpotentiometer 2 |
+| 0x2B06 | DFES_DTCM.DFC_DK2Pmin_C  -  Drosselklappenpotentiometer 2 |
+| 0x2B07 | DFES_DTCM.DFC_DK2Pnpl_C  -  Drosselklappenpotentiometer 2 |
+| 0x2B0B | DFES_DTCM.DFC_DKnpl_C  -  Drosselklappenpotentiometer |
+| 0x2B1D | DFES_DTCM.DFC_DVEEmax_C  -  Drosselklappensteller, Ansteuerung |
+| 0x2B1E | DFES_DTCM.DFC_DVEEmin_C  -  Drosselklappensteller, Ansteuerung |
+| 0x2B1F | DFES_DTCM.DFC_DVEEnpl_C  -  Drosselklappensteller, Ansteuerung |
+| 0x2B20 | DFES_DTCM.DFC_DVEEsig_C  -  Drosselklappensteller, Ansteuerung |
+| 0x2B21 | DFES_DTCM.DFC_DVEFmax_C  -  Drosselklappensteller, schliessende Federprüfung |
+| 0x2B22 | DFES_DTCM.DFC_DVEFmin_C  -  Drosselklappensteller, schliessende Federprüfung |
+| 0x2B25 | DFES_DTCM.DFC_DVEFOmax_C  -  Drosselklappensteller, öffnende Federprüfung |
+| 0x2B26 | DFES_DTCM.DFC_DVEFOmin_C  -  Drosselklappensteller, öffnende Federprüfung |
+| 0x2B2B | DFES_DTCM.DFC_DVELnpl_C  -  Drosselklappensteller, Positionsüberwachung |
+| 0x2B2F | DFES_DTCM.DFC_DVENnpl_C  -  Drosselklappensteller, Notluftpunkt |
+| 0x2B31 | DFES_DTCM.DFC_DVERmax_C  -  Drosselklappensteller, Regelbereich |
+| 0x2B32 | DFES_DTCM.DFC_DVERmin_C  -  Drosselklappensteller, Regelbereich |
+| 0x2B37 | DFES_DTCM.DFC_DVETnpl_C  -  Drosselklappensteller |
+| 0x2B39 | DFES_DTCM.DFC_DVEUBmax_C  -  Drosselklappensteller, Abbruch Adaption wegen Umweltbedingungen |
+| 0x2B3A | DFES_DTCM.DFC_DVEUBmin_C  -  Drosselklappensteller, Abbruch Adaption wegen Umweltbedingungen |
+| 0x2B3F | DFES_DTCM.DFC_DVEUnpl_C  -  Drosselklappensteller |
+| 0x2B43 | DFES_DTCM.DFC_DVEUWnpl_C  -  Drosselklappensteller |
+| 0x2B47 | DFES_DTCM.DFC_DVEVnpl_C  -  Drosselklappensteller, Verstärkerabgleich |
+| 0x2B49 | DFES_DTCM.DFC_FP1Pmax_C  -  Fahrpedalmodul, Pedalwertgeber Signal 1 |
+| 0x2B4A | DFES_DTCM.DFC_FP1Pmin_C  -  Fahrpedalmodul, Pedalwertgeber Signal 1 |
+| 0x2B4B | DFES_DTCM.DFC_FP1Pnpl_C  -  Fahrpedalmodul, Pedalwertgeber Signal 1 |
+| 0x2B4C | DFES_DTCM.DFC_FP2Pmax_C  -  Fahrpedalmodul, Pedalwertgeber Signal 2 |
+| 0x2B4D | DFES_DTCM.DFC_FP2Pmin_C  -  Fahrpedalmodul, Pedalwertgeber Signal 2 |
+| 0x2B4E | DFES_DTCM.DFC_FPPnpl_C  -  Fahrpedalmodul, Pedalwertgeber |
+| 0x2B4F | DFES_DTCM.DFC_HFMEmax_C  -  Luftmassenmesser, Signal |
+| 0x2B50 | DFES_DTCM.DFC_HFMEmin_C  -  Luftmassenmesser, Signal |
+| 0x2B51 | DFES_DTCM.DFC_HFMEsig_C  -  Luftmassenmesser, Signal |
+| 0x2B59 | DFES_DTCM.DFC_HFMRmax_C  -  Luftmassenmesser, Plausibilität |
+| 0x2B5A | DFES_DTCM.DFC_HFMRmin_C  -  Luftmassenmesser, Plausibilität |
+| 0x2B5B | DFES_DTCM.DFC_HFMRnpl_C  -  Luftmassenmesser, Plausibilität |
+| 0x2B5C | DFES_DTCM.DFC_HFMRsig_C   -  Luftmassenmesser, Plausibilität |
+| 0x2B5E | DFES_DTCM.DFC_KHFMEmax_C  -  Luftmassenmesser, Korrektursignal |
+| 0x2B5F | DFES_DTCM.DFC_KHFMEmin_C  -  Luftmassenmesser, Korrektursignal |
+| 0x2B64 | DFES_DTCM.DFC_LZSRnpl_C  -  Saugrohr, Falschluft |
+| 0x2B67 | DFES_DTCM.DFC_MSLAMmax_C  -  Luftmassenstrom, Plausibilität |
+| 0x2B6C | DFES_DTCM.DFC_PSREmax_C  -  Saugrohrdrucksensor, elektrisch |
+| 0x2B6D | DFES_DTCM.DFC_PSREmin_C  -  Saugrohrdrucksensor, elektrisch |
+| 0x2B71 | DFES_DTCM.DFC_PSRRmax_C  -  Saugrohrdrucksensor, Plausibilität |
+| 0x2B72 | DFES_DTCM.DFC_PSRRmin_C  -  Saugrohrdrucksensor, Plausibilität |
+| 0x2B73 | DFES_DTCM.DFC_PSRRnpl_C  -  Saugrohrdrucksensor, Plausibilität |
+| 0x2B74 | DFES_DTCM.DFC_PSRRsig_C  -  Saugrohrdrucksensor, Plausibilität |
+| 0x2BC0 | DFES_DTCM.DFC_AdcIADC0Cal_C  -  DME, interner Fehler |
+| 0x2BC1 | DFES_DTCM.DFC_AdcIADC0Conv_C  -  DME, interner Fehler |
+| 0x2BC2 | DFES_DTCM.DFC_AdcIADC1Cal_C  -  DME, interner Fehler |
+| 0x2BC3 | DFES_DTCM.DFC_AdcIADC1Conv_C  -  DME, interner Fehler |
+| 0x2BC4 | DFES_DTCM.DFC_Cj945SpiCom1_C  -  DME, interner Fehler: Treiber CJ945 |
+| 0x2BC5 | DFES_DTCM.DFC_Cy320SpiCom_C  -  DME, interner Fehler: Treiber CY320 |
+| 0x2BC6 | DFES_DTCM.DFC_EEPEraseErr_C  -  DME, interner Fehler |
+| 0x2BC7 | DFES_DTCM.DFC_EEPRdErr_C  -  DME, interner Fehler |
+| 0x2BC8 | DFES_DTCM.DFC_EEPWrErr_C  -  DME, interner Fehler |
+| 0x2BCB | DFES_DTCM.DFC_MDBmax_C  -  Überwachung Motordrehmoment-Begrenzung |
+| 0x2BCC | DFES_DTCM.DFC_MoCComctErrMM_C  -  DME, interner Fehler |
+| 0x2BCD | DFES_DTCM.DFC_MonUMaxSupply1_C  -  DME, interner Fehler: Treiber CJ945 |
+| 0x2BCE | DFES_DTCM.DFC_MonUMinSupply1_C  -  DME, interner Fehler: Treiber CJ945 |
+| 0x2BCF | DFES_DTCM.DFC_OCWDAActv_C  -  DME, interner Fehler: Watchdog-Ausgang |
+| 0x2BD0 | DFES_DTCM.DFC_OCWDACom_C  -  DME, interner Fehler: Watchdog-Ausgang |
+| 0x2BD1 | DFES_DTCM.DFC_OCWDAOvrVltg_C  -  DME, interner Fehler: Watchdog-Ausgang |
+| 0x2BD2 | DFES_DTCM.DFC_SSpMon1_C  -  Überwachung Versorgungsspannung 1, Treiber CY320 |
+| 0x2BD3 | DFES_DTCM.DFC_SSpMon2_C  -  Überwachung Versorgungsspannung 2, Treiber CY320 |
+| 0x2BD4 | DFES_DTCM.DFC_SSpMon3_C  -  Überwachung Versorgungsspannung 3, Treiber CY320 |
+| 0x2BD5 | DFES_DTCM.DFC_SWReset_0_C  -  DME, interner Fehler |
+| 0x2BD6 | DFES_DTCM.DFC_SWReset_1_C  -  DME, interner Fehler |
+| 0x2BD7 | DFES_DTCM.DFC_SWReset_2_C  -  DME, interner Fehler |
+| 0x2BD9 | DFES_DTCM.DFC_UFMVnpl_C  -  DME, interner Fehler |
+| 0x2BDA | DFES_DTCM.DFC_UFNCnpl_C  -  DME, interner Fehler |
+| 0x2BDB | DFES_DTCM.DFC_UFPRnpl_C  -  DME, interner Fehler |
+| 0x2BDC | DFES_DTCM.DFC_UFRKCnpl_C  -  DME, interner Fehler |
+| 0x2BDD | DFES_DTCM.DFC_UFSGAmax_C  -  DME, interner Fehler |
+| 0x2BDE | DFES_DTCM.DFC_UFSGAmin_C  -  DME, interner Fehler |
+| 0x2BDF | DFES_DTCM.DFC_UFSGAsig_C  -  DME, interner Fehler |
+| 0x2BE0 | DFES_DTCM.DFC_UFSGBmax_C  -  DME, interner Fehler |
+| 0x2BE1 | DFES_DTCM.DFC_UFSGBmin_C  -  DME, interner Fehler |
+| 0x2BE2 | DFES_DTCM.DFC_UFSGBsig_C  -  DME, interner Fehler |
+| 0x2BE3 | DFES_DTCM.DFC_UFSGCmax_C  -  DME, interner Fehler |
+| 0x2BE4 | DFES_DTCM.DFC_UFSGCmin_C  -  DME, interner Fehler |
+| 0x2BE5 | DFES_DTCM.DFC_UFSGCnpl_C  -  DME, interner Fehler |
+| 0x2BE6 | DFES_DTCM.DFC_UFSGDmax_C  -  DME, interner Fehler |
+| 0x2BE8 | DFES_DTCM.DFC_UFSPSCnpl_C  -  DME, interner Fehler |
+| 0x2BE9 | DFES_DTCM.DFC_WDAmax_C  -  DME, interner Fehler |
+| 0x2BEA | DFES_DTCM.DFC_WDAmin_C  -  DME, interner Fehler |
+| 0x2BEB | DFES_DTCM.DFC_WDAsig_C  -  DME, interner Fehler |
+| 0x2C8D | DFES_DTCM.DFC_PMBATmin_C  -  Powermanagement, Batterieüberwachung |
+| 0x2C8E | DFES_DTCM.DFC_PMBATnpl_C  -  Powermanagement, Batterieüberwachung |
+| 0x2C90 | DFES_DTCM.DFC_PMBNmax_C  -  Powermanagement, Bordnetzüberwachung |
+| 0x2C91 | DFES_DTCM.DFC_PMBNmin_C  -  Powermanagement, Bordnetzüberwachung |
+| 0x2C93 | DFES_DTCM.DFC_PMBNsig_C  -  Powermanagement, Bordnetzüberwachung |
+| 0x2C96 | DFES_DTCM.DFC_PMRUHVnpl_C  -  Powermanagement, Ruhestromverletzung |
+| 0x2C98 | DFES_DTCM.DFC_UBmax_C  -  Bordnetzspannung |
+| 0x2C99 | DFES_DTCM.DFC_UBmin_C  -  Bordnetzspannung |
+| 0x2C9A | DFES_DTCM.DFC_UBnpl_C  -  Bordnetzspannung |
+| 0x2C9C | DFES_DTCM.DFC_UBRmax_C  -  Bordnetzspannung, DME-Hauptrelais |
+| 0x2C9D | DFES_DTCM.DFC_UBRmin_C  -  Bordnetzspannung, DME-Hauptrelais |
+| 0x2C9E | DFES_DTCM.DFC_UBRnpl_C  -  Bordnetzspannung, DME-Hauptrelais |
+| 0x2DBD | DFES_DTCM.DFC_AINJREmax_C  -  Hochdruckeinspritzung, Relaisansteuerung |
+| 0x2DBE | DFES_DTCM.DFC_AINJREmin_C  -  Hochdruckeinspritzung, Relaisansteuerung |
+| 0x2DBF | DFES_DTCM.DFC_AINJREsig_C  -  Hochdruckeinspritzung, Relaisansteuerung |
+| 0x2D53 | DFES_DTCM.DFC_DKRSA_C  -  Klopfregelung, Fehlerprüfung |
+| 0x2D64 | DFES_DTCM.DFC_HDEVH_MAX_0_C  - Hochdruckeinspritzventil 1 Highside, Ansteuerung |
+| 0x2D65 | DFES_DTCM.DFC_HDEVH_MAX_1_C  -  Hochdruckeinspritzventil 3 Highside, Ansteuerung |
+| 0x2D66 | DFES_DTCM.DFC_HDEVH_MAX_2_C  - Hochdruckeinspritzventil 4 Highside, Ansteuerung |
+| 0x2D67 | DFES_DTCM.DFC_HDEVH_MAX_3_C  - Hochdruckeinspritzventil 2 Highside, Ansteuerung |
+| 0x2D68 | DFES_DTCM.DFC_HDEVH_MIN_0_C  - Hochdruckeinspritzventil 1 Highside, Ansteuerung |
+| 0x2D69 | DFES_DTCM.DFC_HDEVH_MIN_1_C  - Hochdruckeinspritzventil 3 Highside, Ansteuerung |
+| 0x2D6A | DFES_DTCM.DFC_HDEVH_MIN_2_C  - Hochdruckeinspritzventil 4 Highside, Ansteuerung |
+| 0x2D6B | DFES_DTCM.DFC_HDEVH_MIN_3_C  - Hochdruckeinspritzventil 2 Highside, Ansteuerung |
+| 0x2D6C | DFES_DTCM.DFC_HDEVH_NPL_0_C  - Hochdruckeinspritzventil 1 Highside, Ansteuerung |
+| 0x2D6D | DFES_DTCM.DFC_HDEVH_NPL_1_C  - Hochdruckeinspritzventil 3 Highside, Ansteuerung |
+| 0x2D6E | DFES_DTCM.DFC_HDEVH_NPL_2_C  - Hochdruckeinspritzventil 4 Highside, Ansteuerung |
+| 0x2D6F | DFES_DTCM.DFC_HDEVH_NPL_3_C  - Hochdruckeinspritzventil 2 Highside, Ansteuerung |
+| 0x2D70 | DFES_DTCM.DFC_HDEVK_MIN_C  -  DME, interner Fehler |
+| 0x2D71 | DFES_DTCM.DFC_HDEVK_NPL_C  -  DME, interner Fehler |
+| 0x2D72 | DFES_DTCM.DFC_HDEVK_SIG_C  -  DME, interner Fehler |
+| 0x2D73 | DFES_DTCM.DFC_HDEVL_MAX_0_C  - Hochdruckeinspritzventil 1 Lowside, Ansteuerung |
+| 0x2D74 | DFES_DTCM.DFC_HDEVL_MAX_1_C  - Hochdruckeinspritzventil 3 Lowside, Ansteuerung |
+| 0x2D75 | DFES_DTCM.DFC_HDEVL_MAX_2_C  - Hochdruckeinspritzventil 4 Lowside, Ansteuerung |
+| 0x2D76 | DFES_DTCM.DFC_HDEVL_MAX_3_C  - Hochdruckeinspritzventil 2 Lowside, Ansteuerung |
+| 0x2D77 | DFES_DTCM.DFC_HDEVL_MIN_0_C  - Hochdruckeinspritzventil 1 Lowside, Ansteuerung |
+| 0x2D78 | DFES_DTCM.DFC_HDEVL_MIN_1_C  - Hochdruckeinspritzventil 3 Lowside, Ansteuerung |
+| 0x2D79 | DFES_DTCM.DFC_HDEVL_MIN_2_C  - Hochdruckeinspritzventil 4 Lowside, Ansteuerung |
+| 0x2D7A | DFES_DTCM.DFC_HDEVL_MIN_3_C  - Hochdruckeinspritzventil 2 Lowside, Ansteuerung |
+| 0x2D7B | DFES_DTCM.DFC_HDEVL_NPL_0_C  - Hochdruckeinspritzventil 1 Lowside, Ansteuerung |
+| 0x2D7C | DFES_DTCM.DFC_HDEVL_NPL_1_C  - Hochdruckeinspritzventil 3 Lowside, Ansteuerung |
+| 0x2D7D | DFES_DTCM.DFC_HDEVL_NPL_2_C  - Hochdruckeinspritzventil 4 Lowside, Ansteuerung |
+| 0x2D7E | DFES_DTCM.DFC_HDEVL_NPL_3_C  - Hochdruckeinspritzventil 2 Lowside, Ansteuerung |
+| 0x2D7F | DFES_DTCM.DFC_HDEVL_SIG_0_C  - Hochdruckeinspritzventil 1 Lowside, Ansteuerung |
+| 0x2D80 | DFES_DTCM.DFC_HDEVL_SIG_1_C  - Hochdruckeinspritzventil 3 Lowside, Ansteuerung |
+| 0x2D81 | DFES_DTCM.DFC_HDEVL_SIG_2_C  - Hochdruckeinspritzventil 4 Lowside, Ansteuerung |
+| 0x2D82 | DFES_DTCM.DFC_HDEVL_SIG_3_C  - Hochdruckeinspritzventil 2 Lowside, Ansteuerung |
+| 0x2DA5 | DFES_DTCM.DFC_HEV02max_C  -  Hochdruckeinspritzventil 4, mechanisch |
+| 0x2DA8 | DFES_DTCM.DFC_HEV03max_C  -  Hochdruckeinspritzventil 2, mechanisch |
+| 0x2DAB | DFES_DTCM.DFC_HEV01max_C  -  Hochdruckeinspritzventil 3, mechanisch |
+| 0x2DAE | DFES_DTCM.DFC_HEV00max_C  -  Hochdruckeinspritzventil 1, mechanisch |
+| 0x2DB1 | DFES_DTCM.DFC_HEVE1max_C  -  Hochdruckeinspritzventile 2 und 4, elektrisch |
+| 0x2DB4 | DFES_DTCM.DFC_HEVE0max_C  -  Hochdruckeinspritzventile 1 und 3, elektrisch |
+| 0x2D8B | DFES_DTCM.DFC_KnDetSens1PortAmax_C  -  Klopfsensor, elektrisch |
+| 0x2D8C | DFES_DTCM.DFC_KnDetSens1PortAmin_C  -  Klopfsensor, elektrisch |
+| 0x2D8D | DFES_DTCM.DFC_KnDetSens1PortBmax_C  -  Klopfsensor, elektrisch |
+| 0x2D8E | DFES_DTCM.DFC_KnDetSens1PortBmin_C  -  Klopfsensor, elektrisch |
+| 0x2D9B | DFES_DTCM.DFC_KS1max_C  -  Klopfsensor, Signal |
+| 0x2D9C | DFES_DTCM.DFC_KS1min_C  -  Klopfsensor, Signal |
+| 0x2DA3 | DFES_DTCM.DFC_SKRKO11mx_C  -  Superklopfen |
+| 0x2DA4 | DFES_DTCM.DFC_STHDRmax_C  -  Hochdrucksystem, nach Start |
+| 0x2D50 | DFES_DTCM.DFC_SKRKOKRDWS_C  -  Superklopfen |
+| 0x2D51 | DFES_DTCM.DFC_SKRKOZBDU_C  -  Superklopfen |
+| 0x2D52 | DFES_DTCM.DFC_SKRKOEVAB_C  -  Superklopfen |
+| 0x2DC0 | DFES_DTCM.DFC_SKRKOISKmx_C  -  Superklopfen |
+| 0x2DC1 | DFES_DTCM.DFC_SKRKOISK2mx_C  -  Superklopfen |
+| 0x2DC2 | DFES_DTCM.DFC_SKRKOEVENT_C  -  Superklopfen |
+| 0x2DCA | DFES_DTCM.DFC_SKRKOEVAB0_C  -  Kraftstoffabschaltung wegen Superklopfen, Zyl. 4 |
+| 0x2DCB | DFES_DTCM.DFC_SKRKOEVAB1_C  -  Kraftstoffabschaltung wegen Superklopfen, Zyl. 2 |
+| 0x2DCC | DFES_DTCM.DFC_SKRKOEVAB2_C  -  Kraftstoffabschaltung wegen Superklopfen, Zyl. 1 |
+| 0x2DCD | DFES_DTCM.DFC_SKRKOEVAB3_C  -  Kraftstoffabschaltung wegen Superklopfen, Zyl. 3 |
+| 0x2E1A | DFES_DTCM.DFC_BSDnpl_C  -  Bitserielle Datenschnittstelle, Signal |
+| 0x2E1B | DFES_DTCM.DFC_BSDsig_C  -  Bitserielle Datenschnittstelle, Signal |
+| 0x2E1C | DFES_DTCM.DFC_GENCOMmax_C  -  BSD-Botschaft vom Generator fehlt |
+| 0x2E20 | DFES_DTCM.DFC_GENELBmax_C  -  Generator |
+| 0x2E24 | DFES_DTCM.DFC_GENELmax_C  -  Generator |
+| 0x2E28 | DFES_DTCM.DFC_GENHTBmax_C  -  Generator |
+| 0x2E2C | DFES_DTCM.DFC_GENHTmax_C  -  Generator |
+| 0x2E30 | DFES_DTCM.DFC_GENmax_C  -  Generator |
+| 0x2E31 | DFES_DTCM.DFC_GENmin_C  -  Generator |
+| 0x2E32 | DFES_DTCM.DFC_GENnpl_C  -  Generator |
+| 0x2E33 | DFES_DTCM.DFC_GENsig_C  -  Generator |
+| 0x2E34 | DFES_DTCM.DFC_GENMEmax_C  -  Generator |
+| 0x2E38 | DFES_DTCM.DFC_GENREGmax_C  -  Generator |
+| 0x2E3C | DFES_DTCM.DFC_GENUPLmax_C  -  Generator |
+| 0x2E4F | DFES_DTCM.DFC_BSDD0sig_C  -  BSD-Botschaft vom intelligenten Batteriesensor fehlt |
+| 0x2E67 | DFES_DTCM.DFC_BSDD6sig_C  -  BSD-Botschaft vom Generator fehlt |
+| 0x2E40 | DFES_DTCM.DFC_IBSAmax_C  -  Intelligenter Batteriesensor, Eigendiagnose 2 |
+| 0x2E42 | DFES_DTCM.DFC_IBSAnpl_C  -  Intelligenter Batteriesensor, Eigendiagnose 2 |
+| 0x2E43 | DFES_DTCM.DFC_IBSAsig_C  -  Intelligenter Batteriesensor, Eigendiagnose 2 |
+| 0x2E44 | DFES_DTCM.DFC_IBSKmax_C  -  Intelligenter Batteriesensor, Signalübertragung |
+| 0x2E46 | DFES_DTCM.DFC_IBSKnpl_C  -  Intelligenter Batteriesensor, Signalübertragung |
+| 0x2E47 | DFES_DTCM.DFC_IBSKsig_C  -  Intelligenter Batteriesensor, Signalübertragung |
+| 0x2E48 | DFES_DTCM.DFC_IBSPmax_C  -  Intelligenter Batteriesensor, Eigendiagnose 1 |
+| 0x2E4A | DFES_DTCM.DFC_IBSPnpl_C  -  Intelligenter Batteriesensor, Eigendiagnose 1 |
+| 0x2E4B | DFES_DTCM.DFC_IBSPsig_C  -  Intelligenter Batteriesensor, Eigendiagnose 1 |
+| 0x2EE0 | DFES_DTCM.DFC_DSACmax_C  -  Kältemitteldrucksensor |
+| 0x2EE1 | DFES_DTCM.DFC_DSACmin_C  -  Kältemitteldrucksensor |
+| 0x2F38 | DFES_DTCM.DFC_DWAPUEmax_C  -  Schaltbare Wasserpumpe, Ansteuerung |
+| 0x2F39 | DFES_DTCM.DFC_DWAPUEmin_C  -  Schaltbare Wasserpumpe, Ansteuerung |
+| 0x2F3A | DFES_DTCM.DFC_DWAPUEsig_C  -  Schaltbare Wasserpumpe, Ansteuerung |
+| 0x2EE2 | DFES_DTCM.DFC_ETSmax_C  -  Kennfeldthermostat, Ansteuerung |
+| 0x2EE3 | DFES_DTCM.DFC_ETSmin_C  -  Kennfeldthermostat, Ansteuerung |
+| 0x2EE5 | DFES_DTCM.DFC_ETSsig_C  -  Kennfeldthermostat, Ansteuerung |
+| 0x2EE6 | DFES_DTCM.DFC_LUES1Emax_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 1 |
+| 0x2EE7 | DFES_DTCM.DFC_LUES1Emin_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 1 |
+| 0x2EE8 | DFES_DTCM.DFC_LUES1Esig_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 1 |
+| 0x2F3C | DFES_DTCM.DFC_LUES2Emax_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 2 |
+| 0x2F3D | DFES_DTCM.DFC_LUES2Emin_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 2 |
+| 0x2F3F | DFES_DTCM.DFC_LUES2Esig_C  -  Elektrolüfter, Ansteuerung Leistungsstufe 2 |
+| 0x2F40 | DFES_DTCM.DFC_OELHmax_C  -  Motorentlüftungsheizung, Ansteuerung |
+| 0x2F41 | DFES_DTCM.DFC_OELHmin_C  -  Motorentlüftungsheizung, Ansteuerung |
+| 0x2F42 | DFES_DTCM.DFC_OELHsig_C  -  Motorentlüftungsheizung, Ansteuerung |
+| 0x2EEE | DFES_DTCM.DFC_TACSmin_C  -  Ansauglufttemperatur bei Kaltstart |
+| 0x2EF1 | DFES_DTCM.DFC_TAEmax_C  -  Ansauglufttemperatursensor, Signal |
+| 0x2EF2 | DFES_DTCM.DFC_TAEmin_C  -  Ansauglufttemperatursensor, Signal |
+| 0x2EF9 | DFES_DTCM.DFC_TARmax_C  -  Ansauglufttemperatursensor, Plausibilität |
+| 0x2EFB | DFES_DTCM.DFC_TARnpl_C  -  Ansauglufttemperatursensor, Plausibilität |
+| 0x2EFD | DFES_DTCM.DFC_TASRmax_C  -  Ansauglufttemperatur hinter Drosselklappe |
+| 0x2EFE | DFES_DTCM.DFC_TASRmin_C  -  Ansauglufttemperatur hinter Drosselklappe |
+| 0x2F01 | DFES_DTCM.DFC_TAVDKmax_C  -  Ansauglufttemperatur vor Drosselklappe |
+| 0x2F02 | DFES_DTCM.DFC_TAVDKmin_C  -  Ansauglufttemperatur vor Drosselklappe |
+| 0x2F07 | DFES_DTCM.DFC_THMnpl_C  -  Kennfeldthermostat, Mechanik |
+| 0x2F09 | DFES_DTCM.DFC_TKAEmax_C  -  Temperatursensor Kühleraustritt, Signal |
+| 0x2F0A | DFES_DTCM.DFC_TKAEmin_C  -  Temperatursensor Kühleraustritt, Signal |
+| 0x2F15 | DFES_DTCM.DFC_TMCSmax_C  -  Kühlmitteltemperatursensor, Plausibilität |
+| 0x2F16 | DFES_DTCM.DFC_TMCSmin_C  -  Kühlmitteltemperatursensor, Plausibilität |
+| 0x2F19 | DFES_DTCM.DFC_TMEmax_C  -  Kühlmitteltemperatursensor, Signal |
+| 0x2F1A | DFES_DTCM.DFC_TMEmin_C  -  Kühlmitteltemperatursensor, Signal |
+| 0x2F21 | DFES_DTCM.DFC_TMPmax_C  -  Motortemperatur, Plausibilität |
+| 0x2F22 | DFES_DTCM.DFC_TMPmin_C  -  Motortemperatur, Plausibilität |
+| 0x2F23 | DFES_DTCM.DFC_TMPnpl_C  -  Motortemperatur, Plausibilität |
+| 0x2F24 | DFES_DTCM.DFC_TMPsig_C  -  Motortemperatur, Plausibilität |
+| 0x2F25 | DFES_DTCM.DFC_TUMEmax_C  -  Umgebungstemperatursensor, Signal |
+| 0x2F26 | DFES_DTCM.DFC_TUMEmin_C  -  Umgebungstemperatursensor, Signal |
+| 0x2F28 | DFES_DTCM.DFC_TUMEsig_C  -  Umgebungstemperatursensor, Signal |
+| 0x2F2F | DFES_DTCM.DFC_TUMPnpl_C  -  Umgebungstemperatursensor, Plausibilität |
+| 0x2F30 | DFES_DTCM.DFC_TUMPsig_C  -  Umgebungstemperatursensor, Plausibilität |
+| 0x2F35 | DFES_DTCM.DFC_ZWPEmax_C  -  Zusatzwasserpumpe, Ansteuerung |
+| 0x2F36 | DFES_DTCM.DFC_ZWPEmin_C  -  Zusatzwasserpumpe, Ansteuerung |
+| 0x2F37 | DFES_DTCM.DFC_ZWPEsig_C  -  Zusatzwasserpumpe, Ansteuerung |
+| 0x2F8A | DFES_DTCM.DFC_CNCLKDmax_C  -  Motorabstellzeit |
+| 0x2F8B | DFES_DTCM.DFC_CNCLKDmin_C  -  Motorabstellzeit |
+| 0x2F8C | DFES_DTCM.DFC_CNCLKEsig_C  -  Motorabstellzeit |
+| 0x2F8E | DFES_DTCM.DFC_CNCLKHmax_C  -  Motorabstellzeit, Plausibilität |
+| 0x2F8F | DFES_DTCM.DFC_CNCLKLmin_C  -  Motorabstellzeit, Plausibilität |
+| 0x2F92 | DFES_DTCM.DFC_CNCLKTmax_C  -  Motorabstellzeit |
+| 0x2F93 | DFES_DTCM.DFC_CNCLKTmin_C  -  Motorabstellzeit |
+| 0x2FAA | DFES_DTCM.DFC_BREMSnpl_C  -  Bremslichtschalter |
+| 0x2FAC | DFES_DTCM.DFC_CUHRnpl_C  -  Motorabstellzeit, Plausibilität |
+| 0x2FAD | DFES_DTCM.DFC_CUHRsig_C  -  Motorabstellzeit, Plausibilität |
+| 0x2FB7 | DFES_DTCM.DFC_FETRWEmin_C  -  Energiesparmodus |
+| 0x2FC1 | DFES_DTCM.DFC_KUPPLsig_C  -  Kupplungsschalter, Signal |
+| 0x2FC2 | DFES_DTCM.DFC_PBKVEmax_C  -  Bremsunterdrucksensor |
+| 0x2FC3 | DFES_DTCM.DFC_PBKVEmin_C  -  Bremsunterdrucksensor |
+| 0x2FC4 | DFES_DTCM.DFC_POELSnpl_C  -  Öldruckschalter, Plausibilität |
+| 0x2FC5 | DFES_DTCM.DFC_PUEmax_C  -  DME, interner Fehler |
+| 0x2FC6 | DFES_DTCM.DFC_PUEmin_C  -  DME, interner Fehler |
+| 0x2FCD | DFES_DTCM.DFC_PURmax_C  -  Umgebungsdrucksensor, Plausibilität |
+| 0x2FCE | DFES_DTCM.DFC_PURmin_C  -  Umgebungsdrucksensor, Plausibilität |
+| 0x2FCF | DFES_DTCM.DFC_PURnpl_C  -  Umgebungsdrucksensor, Plausibilität |
+| 0x2FD0 | DFES_DTCM.DFC_PURsig_C  -  Umgebungsdrucksensor, Plausibilität |
+| 0x2FD6 | DFES_DTCM.DFC_SIA_E1min_C  -  EWS-Manipulationsschutz |
+| 0x2FD7 | DFES_DTCM.DFC_SIA_E1npl_C  -  EWS-Manipulationsschutz |
+| 0x2FD9 | DFES_DTCM.DFC_SIA_E2max_C  -  Schnittstelle EWS-DME |
+| 0x2FDA | DFES_DTCM.DFC_SIA_E2min_C  -  Schnittstelle EWS-DME |
+| 0x2FDB | DFES_DTCM.DFC_SIA_E2npl_C  -  Schnittstelle EWS-DME |
+| 0x2FDC | DFES_DTCM.DFC_SIA_E2sig_C  -  Schnittstelle EWS-DME |
+| 0x2FDD | DFES_DTCM.DFC_SIA_E3max_C  -  DME, interner Fehler |
+| 0x2FDE | DFES_DTCM.DFC_SIA_E3min_C  -  DME, interner Fehler |
+| 0x2FDF | DFES_DTCM.DFC_SIA_E3npl_C  -  DME, interner Fehler |
+| 0x2FE0 | DFES_DTCM.DFC_SIA_E3sig_C  -  DME, interner Fehler |
+| 0x2FE2 | DFES_DTCM.DFC_SIA_E4min_C  -  Botschaft EWS-DME fehlerhaft |
+| 0x2FE4 | DFES_DTCM.DFC_SIA_E4sig_C  -  Botschaft EWS-DME fehlerhaft |
+| 0x2FE5 | DFES_DTCM.DFC_STAEmax_C  -  Starter, Ansteuerung |
+| 0x2FE6 | DFES_DTCM.DFC_STAEmin_C  -  Starter, Ansteuerung |
+| 0x2FE7 | DFES_DTCM.DFC_STAEsig_C  -  Starter, Ansteuerung |
+| 0x2FEA | DFES_DTCM.DFC_SWEmax_C  -  Schlechtwegstreckenerkennung |
+| 0x2FED | DFES_DTCM.DFC_SWEsig_C  -  Schlechtwegstreckenerkennung |
+| 0x2FF2 | DFES_DTCM.DFC_TSGmax_C  -  DME, interner Fehler |
+| 0x2FF3 | DFES_DTCM.DFC_TSGmin_C  -  DME, interner Fehler |
+| 0x2FF4 | DFES_DTCM.DFC_VATmax_C  -  Fahrzeuggeschwindigkeit, Plausibilität |
+| 0x2FF5 | DFES_DTCM.DFC_VATnpl_C  -  Fahrzeuggeschwindigkeit, Plausibilität |
+| 0x2FF6 | DFES_DTCM.DFC_VFZEmax_C  -  Fahrzeuggeschwindigkeit, Signal |
+| 0x2FF7 | DFES_DTCM.DFC_VFZEmin_C  -  Fahrzeuggeschwindigkeit, Signal |
+| 0x2FF9 | DFES_DTCM.DFC_VFZEsig_C  -  Fahrzeuggeschwindigkeit, Signal |
+| 0x2FFE | DFES_DTCM.DFC_VFZNPmax_C  -  Fahrzeuggeschwindigkeit, Plausibilität |
+| 0x2FFF | DFES_DTCM.DFC_VFZNPmin_C  -  Fahrzeuggeschwindigkeit, Plausibilität |
+| 0x3000 | DFES_DTCM.DFC_VFZNPnpl_C  -  Fahrzeuggeschwindigkeit, Plausibilität |
+| 0x3008 | DFES_DTCM.DFC_PBKVRmax_C  -  Bremsunterdrucksensor |
+| 0x3009 | DFES_DTCM.DFC_PBKVRmin_C  -  Bremsunterdrucksensor |
+| 0x300A | DFES_DTCM.DFC_PBKVRnpl_C  -  Bremsunterdrucksensor |
+| 0x3013 | DFES_DTCM.DFC_PBREMSUmax_C  -  Bremsunterdrucksensor |
+| 0x3014 | DFES_DTCM.DFC_PBREMSUmin_C  -  Bremsunterdrucksensor |
+| 0x3015 | DFES_DTCM.DFC_PBREMSUsig_C  -  Bremsunterdrucksensor |
+| 0x3016 | DFES_DTCM.DFC_PBREMSUnpl_C  -  Bremsunterdrucksensor |
+| 0x301C | DFES_DTCM.DFC_STAMSAmax  -  Freigabeleitung, MSA: Ansteuerung |
+| 0x301D | DFES_DTCM.DFC_STAMSAmin  -  Freigabeleitung, MSA: Ansteuerung |
+| 0x301E | DFES_DTCM.DFC_STAMSAsig  -  Freigabeleitung, MSA: Ansteuerung |
+| 0x3020 | DFES_DTCM.DFC_MSALTGmax_C  -  Freigabeleitung, MSA: Ansteuerung |
+| 0x3021 | DFES_DTCM.DFC_MSALTGmin_C  -  Freigabeleitung, MSA: Ansteuerung |
+| 0x3022 | DFES_DTCM.DFC_NGANGmax_C  -  Nullgangsensor, Signal |
+| 0x3023 | DFES_DTCM.DFC_NGANGmin_C  -  Nullgangsensor, Signal |
+| 0x3024 | DFES_DTCM.DFC_NGANGsig_C  -  Nullgangsensor, Signal |
+| 0x3025 | DFES_DTCM.DFC_NGANGnpl_C  -  Nullgangsensor, Signal |
+| 0x3026 | DFES_DTCM.DFC_NGLERNsig_C  -  Nullgangsensor, Lernen |
+| 0x3028 | DFES_DTCM.DFC_GbxNPosRNPosSRCMax_C  -  Nullgangsensor, Signal |
+| 0x3029 | DFES_DTCM.DFC_GbxNPosRNPosSRCMin_C  -  Nullgangsensor, Signal |
+| 0x302E | DFES_DTCM.DFC_GbxNPosShCirBatVltg_C  -  Nullgangsensor, Signal |
+| 0x302F | DFES_DTCM.DFC_GbxNPosShCirGnd_C  -  Nullgangsensor, Signal |
+| 0x3031 | DFES_DTCM.DFC_GbxNPosPwmPerSRC_C  -  Nullgangsensor, Signal |
+| 0x3032 | DFES_DTCM.DFC_GbxNPosPlaus_C  -  Nullgangsensor, Signal |
+| 0x3036 | DFES_DTCM.DFC_EMSInpl_C  -  DME, Manipulationsschutz |
+| 0x303E | DFES_DTCM.DFC_CODnpl_C  -  Kodierung, fehlt |
+| 0x3043 | DFES_DTCM.DFC_DPLKUPPnpl_C  -  Kupplungsschalter 10% |
+| 0x3044 | DFES_DTCM.DFC_SIA_E5max_C  -  Manipulationsschutz SWT: Drehzahlbegrenzung Stufe1 |
+| 0x3045 | DFES_DTCM.DFC_SIA_E5min_C  -  Manipulationsschutz SWT: Drehzahlbegrenzung Stufe2 |
+| 0x3046 | DFES_DTCM.DFC_SIA_E5sig_C  -  Manipulationsschutz SWT: Geschwindigkeitsbegrenzung |
+| 0x3091 | DFES_DTCM.DFC_CANAsig_C  -  PT-CAN Kommunikationsfehler |
+| 0x3094 | DFES_DTCM.DFC_CDSCmin_C  -  CAN-Botschaft DSC |
+| 0x3095 | DFES_DTCM.DFC_CDSCnpl_C  -  CAN-Botschaft DSC |
+| 0x3096 | DFES_DTCM.DFC_CDSCsig_C  -  CAN-Botschaft DSC fehlt |
+| 0x3097 | DFES_DTCM.DFC_CEGSmin_C  -  CAN-Botschaft EGS |
+| 0x3098 | DFES_DTCM.DFC_CEGSnpl_C  -  CAN-Botschaft EGS |
+| 0x3099 | DFES_DTCM.DFC_CEGSsig_C  -  CAN-Botschaft EGS fehlt |
+| 0x309D | DFES_DTCM.DFC_CIHKAsig_C  -  CAN-Botschaft IHKA fehlt |
+| 0x309F | DFES_DTCM.DFC_CINSmin_C  -  CAN-Botschaft KOMBI |
+| 0x30A0 | DFES_DTCM.DFC_CINSnpl_C  -  CAN-Botschaft KOMBI |
+| 0x30A1 | DFES_DTCM.DFC_CINSsig_C  -  CAN-Botschaft KOMBI fehlt |
+| 0x30A4 | DFES_DTCM.DFC_CSZLmin_C  -  CAN-Botschaft SZL |
+| 0x30A5 | DFES_DTCM.DFC_CSZLnpl_C  -  CAN-Botschaft SZL |
+| 0x30A6 | DFES_DTCM.DFC_CSZLsig_C  -  CAN-Botschaft SZL fehlt |
+| 0x30A7 | DFES_DTCM.DFC_X130npl_C  -  Botschaft (Klemmenstatus, 130) |
+| 0x30A8 | DFES_DTCM.DFC_X130sig_C  -  Botschaft (Klemmenstatus, 130) fehlt |
+| 0x30A9 | DFES_DTCM.DFC_X135sig_C  -  Botschaft (Status Crashabschaltung EKP, 135) fehlt |
+| 0x30AA | DFES_DTCM.DFC_X195sig_C  -  Botschaft (Bedienung MSA, 195) fehlt |
+| 0x30BA | DFES_DTCM.DFC_X1D2sig_C  -  Botschaft (Sportmodus EGS, 1D2) fehlt |
+| 0x30AC | DFES_DTCM.DFC_X2E4sig_C  -  Botschaft (Status Anhänger, 2E4) fehlt |
+| 0x30AD | DFES_DTCM.DFC_X2F8sig_C  -  Botschaft (Uhrzeit/ Datum, 2F8) fehlt |
+| 0x30AE | DFES_DTCM.DFC_X2FCsig_C  -  Botschaft (Status ZV Klappen, 2FC) fehlt |
+| 0x30AF | DFES_DTCM.DFC_X315npl_C  -  Botschaft (Fahrzeugmodus, 315) |
+| 0x30B0 | DFES_DTCM.DFC_X315sig_C  -  Botschaft (Fahrzeugmodus, 315) fehlt |
+| 0x30B2 | DFES_DTCM.DFC_X3B0sig_C  -  Botschaft (Status Rückwärtsgang, 3B0) fehlt |
+| 0x30B4 | DFES_DTCM.DFC_X3B5sig_C  -  Botschaft (Status Wasserventil, 3B5) fehlt |
+| 0x30B5 | DFES_DTCM.DFC_X580sig_C  -  Botschaft (Verbraucherstatus, 580) fehlt |
+| 0x30BB | DFES_DTCM.DFC_X5E0sig_C  -  Botschaft (Diagnosestatus OBD-Sensor, 5E0) fehlt |
+| 0x30B9 | DFES_DTCM.DFC_XC4sig_C  -   Botschaft (Lenkradwinkel, C4) fehlt |
+| 0x30C0 | DFES_DTCM.DFC_X2F1npl_C  -  Botschaft (Fahrererkennung, 2F1) |
+| 0x30C1 | DFES_DTCM.DFC_X2F1sig_C  -  Botschaft (Fahrererkennung, 2F1) fehlt |
+| 0x31BE | DFES_DTCM.DFC_X365sig_C  -  Botschaft (Klemmenanforderung, 365) fehlt |
+| 0x56CE | DFES_DTCM.DFC_SIA_E5max_C  -  Leistungssteigerung fehlerhaft |
+| 0xCD87 | DFES_DTCM.DFC_CANAsig_C  -  PT-CAN Kommunikationsfehler |
+| 0xFFFF | unbekannter Fehlerort |
+
+<a id="table-farttexteindividuell"></a>
+### FARTTEXTEINDIVIDUELL
+
+Dimensions: 277 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x0000 | kein passendes Fehlersymptom |
+| 0x1000 | Abbruch wegen Stromschwankungen bei Feinleckprüfung |
+| 0x1001 | Adernschluss oder Lambdasonde vergiftet |
+| 0x1002 | AD-Wandler defekt |
+| 0x1003 | AD-Wandler, keine AD-Wandlung möglich |
+| 0x1004 | AD-Wandler, Zeit für Selbstkalibrierung überschritten |
+| 0x1005 | Aliveprüfung  fehlerhaft |
+| 0x1006 | Ansauglufttemperatur zu hoch |
+| 0x1007 | Ansauglufttemperatur zu niedrig |
+| 0x1008 | Anzahl der Superklopfer zu hoch |
+| 0x1009 | Batterieloser Betrieb |
+| 0x100A | Bereichsverletzung nach oben |
+| 0x100B | Bereichsverletzung nach unten |
+| 0x100C | Boosterzeitfenster |
+| 0x100D | CAN-Botschaft unplausibel |
+| 0x100E | CAN-Bus Off oder CAN-Bus deffekt |
+| 0x100F | CAN-Uhrzeit unplausibel |
+| 0x1010 | CAS-Bus HW-Fehler |
+| 0x1011 | Drehzahl zu hoch |
+| 0x1012 | Drehzahl zu niedrig |
+| 0x1013 | Drosselklappensteller klemmt anhaltend |
+| 0x1014 | Drosselklappensteller klemmt kurzfristig |
+| 0x1015 | Druck im Kraftstoffsystem zu niedrig |
+| 0x1016 | Druck vor Drosselklappe unplausibel zu hoch |
+| 0x1017 | Druck vor Drosselklappe zu hoch |
+| 0x1018 | Druck vor Drosselklappe zu niedrig |
+| 0x1019 | Einlassnockenwelle beim Start nicht in Verriegelungsposition |
+| 0x101A | Elektrischer Fehler KS (Wackelkontakt) oder KS locker |
+| 0x101B | Empfangsfehler CAN-Bus |
+| 0x101C | Empfangsfehler der CAS-Schnittstelle, CRC-Fehler |
+| 0x101D | Empfangsfehler der CAS-Schnittstelle, Frame-Fehler |
+| 0x101E | Erweiterte Kommunikation gestört |
+| 0x101F | EWS-Daten, Checksummenfehler |
+| 0x1020 | EWS-Daten, kein freier Secret Key verfügbar |
+| 0x1021 | EWS-Daten, Schreibfehler FSC |
+| 0x1022 | EWS-Daten, Schreibfehler Secret Key |
+| 0x1023 | Feder öffnet nicht aus Notluftposition |
+| 0x1024 | Feder öffnet nicht von unterem mechanischen Anschlag |
+| 0x1025 | Fehler bei Diagnose erkannt |
+| 0x1026 | Fehler bei Prüfung der öffnenden Feder |
+| 0x1027 | Fehler bei Prüfung der Rückstellfeder |
+| 0x1028 | Fehler bei Prüfung Notluftposition |
+| 0x1029 | Fehler bei Vergleich der beiden normierten Potenziometer-Spannungen |
+| 0x102A | Fehler bei Verstärkerabgleich |
+| 0x102B | Fehler elektrisch |
+| 0x102C | Fehler mechanisch |
+| 0x102D | Fehlfunktion |
+| 0x102E | Fehlfunktion Drosselklappenpotentiometer 1 oder 2 |
+| 0x102F | Frage-/Antwort-Kommunikation fehlerhaft |
+| 0x1030 | Funktionsüberwachung, Prüfung Vorsteuerfaktoren |
+| 0x1031 | Gemisch zu fett |
+| 0x1032 | Gemisch zu mager |
+| 0x1033 | Generatortyp unplausibel |
+| 0x1034 | Geschwindigkeitssignal unplausibel |
+| 0x1035 | Gestörtes Kurbelwellensignal |
+| 0x1036 | Hardware, Überwachung ADC-Queue |
+| 0x1037 | HDEV-Endstufen-Baustein: SPI-Kommunikation fehlerhaft |
+| 0x1038 | HDEV-Endstufen-Baustein: SPI-Kommunikation unplausibel |
+| 0x1039 | HDEV-Endstufen-Baustein: SPI-Kommunikation, Signalfehler |
+| 0x103A | Heiztakteinkopplung auf Signal |
+| 0x103B | HFM-Signal zu hoch |
+| 0x103C | HFM-Signal zu niedrig |
+| 0x103D | IBS Softwareversion nicht kompatibel |
+| 0x103E | Innentemperatursensor: Wert zu hoch |
+| 0x103F | Innentemperatursensor: Wert zu niedrig |
+| 0x1040 | Innenwiderstand zu hoch |
+| 0x1041 | Interner Kommunikationsfehler |
+| 0x1042 | Kalibrierwiderstand im Steuergerät fehlerhaft |
+| 0x1043 | Kaltstart, Nebenschluss |
+| 0x1044 | Kaltstart, Nebenschluss erkannt |
+| 0x1045 | Katalysator-Wirkungsgrad zu niedrig |
+| 0x1046 | Kein authentisches Response erhalten |
+| 0x1047 | Kein Raddrehzahlsignal erhalten |
+| 0x1048 | Keine Signaländerung |
+| 0x1049 | KL15 Masseschluss (Pegel Wakeupleitung) |
+| 0x104A | KL15 Wakeupleitung (Pegel unplausibel) |
+| 0x104B | Klopfsensor defekt, Superklopfer im Notlauf |
+| 0x104C | Kommunikationsverlust |
+| 0x104D | Kontinuitätsfehler |
+| 0x104E | Kurzschluss |
+| 0x104F | Kurzschluss nach Masse |
+| 0x1050 | Kurzschluss nach Plus |
+| 0x1051 | Kurzschluss nach Plus oder Leitungsunterbrechung |
+| 0x1052 | Kurzschluss oder Leitungsunterbrechung |
+| 0x1053 | Kurzschluss Signalleitung mit Heizleitung |
+| 0x1054 | Kurzschluss, maximale Periodendauer überschritten |
+| 0x1055 | Kurzschluss, minimale Periodendauer unterschritten |
+| 0x1056 | Lageabweichung |
+| 0x1057 | Lambda-Regelung-Motortemperaturschwelle nach Wartezeit nicht erreicht |
+| 0x1058 | Lambdaregelwert oberhalb Schwelle infolge offener Pumpstromleitung  |
+| 0x1059 | Lambdasondenbaustein: Initialisierungsfehler |
+| 0x105A | Lambdasondenbaustein: Kommunikation SPI gestört |
+| 0x105B | Lambdasondenbaustein: Signalkreisadaptionswerte zu hoch |
+| 0x105C | Lambdasondenbaustein: Unterspannung |
+| 0x105D | Leckage 0.5 mm |
+| 0x105E | Leckage 1.0 mm |
+| 0x105F | Leckluft nach Drosselklappe festgestellt |
+| 0x1060 | Leitungsunterbrechung |
+| 0x1061 | Leitungsunterbrechung, Drehzahlsignal |
+| 0x1062 | Lernen unterer mechanischer Anschlag bei der Urinitialisierung abgebrochen |
+| 0x1063 | Lernen unterer mechanischer Anschlag beim Wiederlernen abgebrochen |
+| 0x1064 | Lernverbot: Batteriespannung zu niedrig |
+| 0x1065 | Lernverbot: Prüfbedingungen nicht erfüllt |
+| 0x1066 | Lesen EEPROM fehlerhaft |
+| 0x1067 | Löschen EEPROM fehlerhaft |
+| 0x1068 | Luftmasse gegenüber Modell zu hoch |
+| 0x1069 | Luftmasse gegenüber Modell zu niedrig |
+| 0x106A | Maximal zulässiges Sollmoment wird dauerhaft überschritten |
+| 0x106B | MIL-Ansteuerung unplausibel |
+| 0x106C | Mindestgeschwindigkeit im Schub nicht erreicht |
+| 0x106D | Mindestgeschwindigkeit unter Last nicht erreicht |
+| 0x106E | Minimalwert unterschritten |
+| 0x106F | Montage fehlerhaft |
+| 0x1070 | Motor mechanisch zu laut oder Klopfsensor außerhalb Toleranz (Empfindlichkeit) |
+| 0x1071 | Motorfunktionen, ADC-Überwachung |
+| 0x1072 | Motorfunktionen, RL-Überwachung |
+| 0x1073 | Motorfunktionen, Zündwinkelüberwachung |
+| 0x1074 | Motortemperatur unplausibel |
+| 0x1075 | Nernstzellenwiderstand oder Keramiktemperatur unplausibel, Leitungs- oder Heizungfehler |
+| 0x1076 | Noch kein Secret Key programmiert |
+| 0x1077 | Nockenwellen-Verstellsystem reagiert nicht auf Sollwertänderungen (NW klemmt) |
+| 0x1078 | Nockenwellen-Verstellsystem zu langsam (Schleppfehler über Zeit) |
+| 0x1079 | Obere Schwelle überschritten |
+| 0x107A | Offsetprüfung, System zu fett |
+| 0x107B | Offsetprüfung, System zu mager |
+| 0x107C | Offset über Grenzwert |
+| 0x107D | Pedalwertgeber 1oder 2 fehlerhaft oder außerhalb der Toleranz |
+| 0x107E | Powermanagement defekt |
+| 0x107F | Prüfergebnis unplausibel |
+| 0x1080 | Prüfsumme fehlerhaft |
+| 0x1081 | Pumpenstrom bei Referenzmessung zu hoch |
+| 0x1082 | Pumpenstrom bei Referenzmessung zu niedrig |
+| 0x1083 | Pumpenstrom bei Ventilprüfung zu hoch |
+| 0x1084 | Radgeschwindigkeit zu hoch |
+| 0x1085 | Regelabweichung zu groß, obere Schwelle überschritten |
+| 0x1086 | Regelabweichung zu groß, untere Schwelle unterschritten |
+| 0x1087 | RI-Regler dauerhaft am oberen Anschlag |
+| 0x1088 | Ruhestromverletzung erkannt |
+| 0x1089 | Schreiben EEPROM fehlerhaft |
+| 0x108A | Schubspannungsschwelle nicht erreicht oder Signal bei Vollast kleiner Schwelle |
+| 0x108B | Sensorwert zu hoch |
+| 0x108C | Sensorwert zu niedrig |
+| 0x108D | Signal fehlt |
+| 0x108E | Signal unplausibel |
+| 0x108F | Signal unplausibel zu Ersatzwert aus Füllung |
+| 0x1090 | Signal zu hoch |
+| 0x1091 | Signal zu hoch, dauerhaft zu fett |
+| 0x1092 | Signal zu niedrig |
+| 0x1093 | Signal zu niedrig, dauerhaft zu mager |
+| 0x1094 | Signalbereitschaft mangelhaft |
+| 0x1095 | Signal-Eingang A, Kurzschluss nach Masse |
+| 0x1096 | Signal-Eingang A, Kurzschluss nach Plus |
+| 0x1097 | Signal-Eingang B, Kurzschluss nach Masse |
+| 0x1098 | Signal-Eingang B, Kurzschluss nach Plus |
+| 0x1099 | Signalspannung im Schub zu klein infolge offener Pumpstromleitung |
+| 0x109A | Sonde dynamisch zu langsam |
+| 0x109B | Sonde nicht angesteckt, Sonde an Luft |
+| 0x109C | Sondensignal zu träge |
+| 0x109D | Spannung zu hoch |
+| 0x109E | Spannung zu niedrig |
+| 0x109F | Spannungsmessung fehlerhaft |
+| 0x10A0 | Strommessung fehlerhaft |
+| 0x10A1 | SW-Reset |
+| 0x10A2 | Systemfehler |
+| 0x10A3 | Tankdeckel offen bei Fahrt |
+| 0x10A4 | Tankdeckel offen im Nachlauf |
+| 0x10A5 | Tankentlüftungsventi klemmt geöffnet |
+| 0x10A6 | Tankentlüftungsventil klemmt geschlossen |
+| 0x10A7 | Tankfüllstand zu niedrig |
+| 0x10A8 | Tankfüllstandsignal unplausibel zu hoch |
+| 0x10A9 | Tauscherkennung ohne Adaption |
+| 0x10AA | Temperaturmessung fehlerhaft |
+| 0x10AB | Thermostat klemmt offen |
+| 0x10AC | Tiefentladung |
+| 0x10AD | Timeout EWS4 Telegramm |
+| 0x10AE | Überlastung: Übertemperatur oder Strom zu hoch |
+| 0x10AF | Überspannung |
+| 0x10B0 | Überspannungserkennung |
+| 0x10B1 | Übertemperatur |
+| 0x10B2 | Überwachung Eingangsgrößen, Kraftstoffkorrektur |
+| 0x10B3 | Überwachung Eingangsgrößen, Plausibilisierung relative / eingespritzte Kraftstoffmasse |
+| 0x10B4 | Überwachung Eingangsgrößen, Varianten Codierungsüberwachung |
+| 0x10B5 | Überwachung Fahrpedalmodul, Pedalwertgeber-, Zuleitung- oder SG-Fehler |
+| 0x10B6 | Überwachung Hardware, ADC-Testspannung ausserhalb zulässigem Bereich |
+| 0x10B7 | Überwachung Hardware, Fehler bei ADC-Queue Überwachung |
+| 0x10B8 | Überwachung Istmoment, Fehler in der Funktionsüberwachung Momentenvergleich |
+| 0x10B9 | Überwachung Kraftstoffdruck, Kraftstoffdrucksensor-, Zuleitung- oder SG-Fehler |
+| 0x10BA | Überwachung Lambdaplausibilisierung, Fehler bei Lambdasignal |
+| 0x10BB | Überwachung Motordrehzahl, Funktionsüberwachung Drehzahlgeber-, Zuleitung- oder SG-Fehler |
+| 0x10BC | Überwachung SPI-Kommunikation |
+| 0x10BD | Überwachung Überspannung, Fehler F/A-Kom. FR-UM aktiv, SG-Fehler |
+| 0x10BE | Überwachung Überspannung, SG-Fehler, Überspannung auf VCC aktiv |
+| 0x10BF | Überwachung Überspannung, SG-Fehler, Überspannung auf VCC geheilt |
+| 0x10C0 | Überwachung Versorgungsspannung |
+| 0x10C1 | Überwachungsmodulfehler |
+| 0x10C2 | Umgebungsdrucksensor, Kurzschluss nach Masse |
+| 0x10C3 | Umgebungsdrucksensor, Kurzschluss nach Plus |
+| 0x10C4 | Umgebungstemperatur höher als Modelltemperatur |
+| 0x10C5 | Umgebungstemperatur niedriger als Modelltemperatur |
+| 0x10C6 | Unplausible Periodendauer: Wackelkontakt mit hoher Frequenz |
+| 0x10C7 | Unplausible Periodendauer: Wackelkontakt mit niedriger Frequenz |
+| 0x10C8 | Untere Schwelle unterschritten |
+| 0x10C9 | Unterspannung |
+| 0x10CA | Ventil 1 oder 3 klemmt offen |
+| 0x10CB | Ventil 2 oder 4 klemmt offen |
+| 0x10CC | Ventil klemmt offen |
+| 0x10CD | Verbrennungsaussetzer betriebswarm, emissionsverschlechternd |
+| 0x10CE | Verbrennungsaussetzer im Warmlauf emissionsverschlechternd |
+| 0x10CF | Verbrennungsaussetzer mit  Zylinderabschaltung |
+| 0x10D0 | Vergleich aktueller mit letztem Fahrzyklus unplausibel |
+| 0x10D1 | Versorgungsspannung außerhalb der Schaltschwellen |
+| 0x10D2 | WDA-Activ mit unbekannter Ursache |
+| 0x10D3 | Wert zu hoch |
+| 0x10D4 | Motortemperatur gegenüber Modelltemperatur unplausibel zu hoch |
+| 0x10D5 | Motortemperatur gegenüber Modelltemperatur unplausibel zu niedrig |
+| 0x10D6 | Wert zu niedrig |
+| 0x10D7 | Windungsschluss |
+| 0x10D8 | Winkelversatz der äquidistanten Flanken zu hoch |
+| 0x10D9 | Zeitüberschreitung |
+| 0x10DA | Zeitüberschreitung, CAN-Uhrzeit nicht empfangen |
+| 0x10DB | Zündspule defekt |
+| 0x10DC | Signal unplausibel wegen festhängendem Tankfüllstandsgeber |
+| 0x10DD | Tankfüllstand größer als Tankvolumen |
+| 0x10DE | Abweichung zwischen Verbrauch und Füllstandsänderung |
+| 0x10DF | Druck vor Drosselklappe unplausibel zu niedrig |
+| 0x10E0 | Saugrohrdruck zu hoch |
+| 0x10E1 | Saugrohrdruck zu niedrig |
+| 0x10E2 | Saugrohrdruck unplausibel zu hoch |
+| 0x10E3 | Saugrohrdruck unplausibel zu niedrig |
+| 0x10E4 | Kraftstoffabschaltung wegen Superklopfer |
+| 0x10E5 | Drehmomentenbegrenzung durch zu hohe Anzahl von Superklopfer |
+| 0x10E6 | Dauerhafte Drehmomentenbegrenzung durch zu hohe Anzahl von Superklopfer |
+| 0x10E7 | Energiesparmodus aktiv |
+| 0x10E8 | Superklopfer erkannt |
+| 0x10E9 | Kombi hat Ungültigkeitssignal gesendet |
+| 0x10EA | DSC-Signal unplausibel gegenüber Kombi-Anzeige |
+| 0x10EB | Druck zu hoch |
+| 0x10EC | Druck zu niedrig |
+| 0x10ED | Kabelabfall |
+| 0x10EE | Druck unplausibel |
+| 0x10EF | Nullgangsensor konnte nicht gelernt werden |
+| 0x10F0 | Tastverhältnis &gt; 94 % |
+| 0x10F1 | Tastverhältnis &lt; 6 % |
+| 0x10F2 | Festliegend auf mager |
+| 0x10F3 | Festliegend auf fett |
+| 0x10F4 | Drehzahl- und Lastbegrenzung wegen kurzzeitig zu hohem Druck |
+| 0x10F5 | Notlauf mit Niederdruck wegen zu hohem Druck |
+| 0x10F6 | Notlauf mit Abschaltung Einspritzung wegen zu hohem Druck |
+| 0x10F7 | Bremsunterdruck zu gering |
+| 0x10F8 | Bremsunterdruck zu hoch |
+| 0x10F9 | Bremsunterdruck nicht plausibel |
+| 0x10FA | Periodendauer (250Hz) nicht korrekt |
+| 0x10FB | Freischaltung fehlgeschlagen |
+| 0x10FC | Steuergerät Kodierprozess, keine Kodierung |
+| 0x10FD | Checksumme Fehlerhaft |
+| 0x10FE | Druck zu hoch |
+| 0x10FF | Fehler elektrisch berechnet |
+| 0x1100 | Fehler Übertemperatur berechnet |
+| 0x1101 | Reglertyp unplausibel |
+| 0x1102 | Druck zu niedrig |
+| 0x1103 | Offset Minimum unterschritten |
+| 0x1104 | Offset Maximum überschritten |
+| 0x1105 | Kraftstoffabschaltung wegen Superklopfer, Zyl. 4 |
+| 0x1106 | Kraftstoffabschaltung wegen Superklopfer, Zyl. 2 |
+| 0x1107 | Kraftstoffabschaltung wegen Superklopfer, Zyl. 1 |
+| 0x1108 | Kraftstoffabschaltung wegen Superklopfer, Zyl. 3 |
+| 0x1109 | Funktionsüberwachung, Prüfung Vorsteuerfaktoren |
+| 0x110A | Zeit zu kurz in Korrelation zu Motorkühlmittel-Abkühlung |
+| 0x110B | Zeit zu lang in Korrelation zu Motorkühlmittel-Abkühlung |
+| 0x110C | zu schnell im Motorlauf |
+| 0x110D | zu langsam im Motorlauf |
+| 0x110E | zu schnell im Nachlauf |
+| 0x110F | zu langsam im Nachlauf |
+| 0x159E | Drehzahlbegrenzung Stufe1 |
+| 0x159F | Drehzahlbegrenzung Stufe2 |
+| 0x15A0 | Geschwindigkeitsbegrenzung |
+| 0xFFFF | unbekannte Fehlerart |
+
+<a id="table-farttyp"></a>
+### FARTTYP
+
+Dimensions: 497 rows × 5 columns
+
+| ORT | PLAUS | SIG | MIN | MAX |
+| --- | --- | --- | --- | --- |
+| 0x2710 | 0x0000 | 0x0000 | 0x0000 | 0x10A3 |
+| 0x2711 | 0x0000 | 0x0000 | 0x10A4 | 0x0000 |
+| 0x2718 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2719 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x271B | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x271C | 0x0000 | 0x0000 | 0x0000 | 0x1025 |
+| 0x2727 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2728 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x272A | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x272B | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x272C | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x272E | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x272F | 0x0000 | 0x0000 | 0x0000 | 0x105D |
+| 0x2733 | 0x0000 | 0x0000 | 0x0000 | 0x1081 |
+| 0x2734 | 0x0000 | 0x0000 | 0x1082 | 0x0000 |
+| 0x2735 | 0x1083 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2736 | 0x0000 | 0x1000 | 0x0000 | 0x0000 |
+| 0x2737 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2738 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x273A | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x273B | 0x0000 | 0x0000 | 0x0000 | 0x10A6 |
+| 0x273C | 0x0000 | 0x0000 | 0x10A5 | 0x0000 |
+| 0x273D | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x273E | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x273F | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2740 | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2745 | 0x0000 | 0x0000 | 0x0000 | 0x1031 |
+| 0x2746 | 0x0000 | 0x0000 | 0x1032 | 0x0000 |
+| 0x2755 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2756 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2757 | 0x10A8 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2758 | 0x0000 | 0x100D | 0x0000 | 0x0000 |
+| 0x275D | 0x0000 | 0x0000 | 0x0000 | 0x10DC |
+| 0x275E | 0x0000 | 0x0000 | 0x10DD | 0x0000 |
+| 0x275F | 0x10DE | 0x0000 | 0x0000 | 0x0000 |
+| 0x276A | 0x0000 | 0x0000 | 0x1045 | 0x0000 |
+| 0x276D | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x276E | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2770 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2771 | 0x0000 | 0x0000 | 0x0000 | 0x10CF |
+| 0x2772 | 0x0000 | 0x0000 | 0x10CD | 0x0000 |
+| 0x2773 | 0x10CE | 0x0000 | 0x0000 | 0x0000 |
+| 0x2775 | 0x0000 | 0x0000 | 0x0000 | 0x10CF |
+| 0x2776 | 0x0000 | 0x0000 | 0x10CD | 0x0000 |
+| 0x2777 | 0x10CE | 0x0000 | 0x0000 | 0x0000 |
+| 0x2779 | 0x0000 | 0x0000 | 0x0000 | 0x10CF |
+| 0x277A | 0x0000 | 0x0000 | 0x10CD | 0x0000 |
+| 0x277B | 0x10CE | 0x0000 | 0x0000 | 0x0000 |
+| 0x277D | 0x0000 | 0x0000 | 0x0000 | 0x10CF |
+| 0x277E | 0x0000 | 0x0000 | 0x10CD | 0x0000 |
+| 0x277F | 0x10CE | 0x0000 | 0x0000 | 0x0000 |
+| 0x2781 | 0x0000 | 0x0000 | 0x0000 | 0x10CF |
+| 0x2782 | 0x0000 | 0x0000 | 0x10CD | 0x0000 |
+| 0x2783 | 0x10CE | 0x0000 | 0x0000 | 0x0000 |
+| 0x2785 | 0x0000 | 0x0000 | 0x0000 | 0x1031 |
+| 0x2786 | 0x0000 | 0x0000 | 0x1032 | 0x0000 |
+| 0x27AB | 0x10A7 | 0x0000 | 0x0000 | 0x0000 |
+| 0x27AC | 0x0000 | 0x0000 | 0x0000 | 0x105E |
+| 0x27B0 | 0x0000 | 0x0000 | 0x102D | 0x0000 |
+| 0x27B1 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x27B2 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x27B4 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x27C4 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x27C5 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x27C6 | 0x0000 | 0x100D | 0x0000 | 0x0000 |
+| 0x27CE | 0x0000 | 0x0000 | 0x0000 | 0x10F4 |
+| 0x27CF | 0x0000 | 0x0000 | 0x0000 | 0x10F5 |
+| 0x27D0 | 0x0000 | 0x0000 | 0x0000 | 0x10F6 |
+| 0x2848 | 0x0000 | 0x0000 | 0x0000 | 0x1090 |
+| 0x2849 | 0x0000 | 0x0000 | 0x1092 | 0x0000 |
+| 0x2877 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2878 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x287A | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x287D | 0x1078 | 0x0000 | 0x0000 | 0x0000 |
+| 0x287E | 0x0000 | 0x1077 | 0x0000 | 0x0000 |
+| 0x287F | 0x0000 | 0x0000 | 0x0000 | 0x1085 |
+| 0x2880 | 0x0000 | 0x0000 | 0x1086 | 0x0000 |
+| 0x2881 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2882 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2883 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2884 | 0x0000 | 0x0000 | 0x0000 | 0x1085 |
+| 0x2885 | 0x0000 | 0x0000 | 0x1086 | 0x0000 |
+| 0x289C | 0x1019 | 0x0000 | 0x0000 | 0x0000 |
+| 0x289D | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x289E | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x28A2 | 0x0000 | 0x0000 | 0x0000 | 0x1017 |
+| 0x28A3 | 0x0000 | 0x0000 | 0x1018 | 0x0000 |
+| 0x28A4 | 0x1016 | 0x0000 | 0x0000 | 0x0000 |
+| 0x28A5 | 0x0000 | 0x10DF | 0x0000 | 0x0000 |
+| 0x28AA | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x28AC | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x28AD | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x28AE | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x28AF | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x28B0 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x28B1 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x28BE | 0x0000 | 0x0000 | 0x0000 | 0x10FE |
+| 0x28BF | 0x0000 | 0x0000 | 0x1102 | 0x0000 |
+| 0x28C0 | 0x0000 | 0x1103 | 0x0000 | 0x0000 |
+| 0x28C1 | 0x1104 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2968 | 0x0000 | 0x108E | 0x0000 | 0x0000 |
+| 0x2969 | 0x0000 | 0x0000 | 0x0000 | 0x108D |
+| 0x296A | 0x0000 | 0x10D8 | 0x0000 | 0x0000 |
+| 0x296E | 0x0000 | 0x0000 | 0x0000 | 0x1035 |
+| 0x296F | 0x0000 | 0x1061 | 0x0000 | 0x0000 |
+| 0x2970 | 0x0000 | 0x1011 | 0x0000 | 0x0000 |
+| 0x2971 | 0x0000 | 0x0000 | 0x0000 | 0x1012 |
+| 0x2972 | 0x0000 | 0x0000 | 0x1011 | 0x0000 |
+| 0x2973 | 0x0000 | 0x0000 | 0x0000 | 0x1012 |
+| 0x297C | 0x0000 | 0x0000 | 0x0000 | 0x106F |
+| 0x2982 | 0x0000 | 0x0000 | 0x0000 | 0x1051 |
+| 0x2983 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2A35 | 0x0000 | 0x0000 | 0x109C | 0x0000 |
+| 0x2A3C | 0x0000 | 0x0000 | 0x0000 | 0x107A |
+| 0x2A3D | 0x0000 | 0x0000 | 0x107B | 0x0000 |
+| 0x2A47 | 0x0000 | 0x1053 | 0x0000 | 0x0000 |
+| 0x2A50 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2A51 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2A53 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2A56 | 0x1040 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A60 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2A61 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2A63 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2A64 | 0x0000 | 0x0000 | 0x0000 | 0x1087 |
+| 0x2A66 | 0x1094 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A67 | 0x0000 | 0x1042 | 0x0000 | 0x0000 |
+| 0x2A6C | 0x0000 | 0x0000 | 0x0000 | 0x105B |
+| 0x2A6D | 0x0000 | 0x0000 | 0x105C | 0x0000 |
+| 0x2A6E | 0x1059 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A6F | 0x0000 | 0x105A | 0x0000 | 0x0000 |
+| 0x2A74 | 0x0000 | 0x0000 | 0x0000 | 0x1093 |
+| 0x2A75 | 0x0000 | 0x0000 | 0x1091 | 0x0000 |
+| 0x2A76 | 0x109A | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A77 | 0x0000 | 0x108A | 0x0000 | 0x0000 |
+| 0x2A7C | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2A7D | 0x0000 | 0x0000 | 0x1001 | 0x0000 |
+| 0x2A7E | 0x103A | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A7F | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2A8B | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2A90 | 0x0000 | 0x0000 | 0x0000 | 0x1058 |
+| 0x2A92 | 0x1099 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2A93 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2A98 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2A99 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2AA3 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2AAB | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2AB4 | 0x0000 | 0x0000 | 0x0000 | 0x1075 |
+| 0x2AB8 | 0x0000 | 0x0000 | 0x0000 | 0x107C |
+| 0x2AC1 | 0x0000 | 0x0000 | 0x0000 | 0x107A |
+| 0x2AC2 | 0x0000 | 0x0000 | 0x107B | 0x0000 |
+| 0x2AC3 | 0x10F2 | 0x0000 | 0x0000 | 0x1031 |
+| 0x2AC4 | 0x0000 | 0x10F3 | 0x1032 | 0x0000 |
+| 0x2ACB | 0x109B | 0x0000 | 0x0000 | 0x0000 |
+| 0x2ACD | 0x0000 | 0x109C | 0x0000 | 0x0000 |
+| 0x2AD2 | 0x0000 | 0x0000 | 0x0000 | 0x109C |
+| 0x2AD8 | 0x0000 | 0x0000 | 0x0000 | 0x10BC |
+| 0x2AF8 | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B01 | 0x0000 | 0x0000 | 0x0000 | 0x100A |
+| 0x2B02 | 0x0000 | 0x0000 | 0x100B | 0x0000 |
+| 0x2B03 | 0x108F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B05 | 0x0000 | 0x0000 | 0x0000 | 0x100A |
+| 0x2B06 | 0x0000 | 0x0000 | 0x100B | 0x0000 |
+| 0x2B07 | 0x108F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B0B | 0x102E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B1D | 0x0000 | 0x0000 | 0x0000 | 0x104E |
+| 0x2B1E | 0x0000 | 0x0000 | 0x10AE | 0x0000 |
+| 0x2B1F | 0x1041 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B20 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2B21 | 0x0000 | 0x0000 | 0x0000 | 0x1027 |
+| 0x2B22 | 0x0000 | 0x0000 | 0x1026 | 0x0000 |
+| 0x2B25 | 0x0000 | 0x0000 | 0x0000 | 0x1023 |
+| 0x2B26 | 0x0000 | 0x0000 | 0x1024 | 0x0000 |
+| 0x2B2B | 0x1056 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B2F | 0x1028 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B31 | 0x0000 | 0x0000 | 0x0000 | 0x1013 |
+| 0x2B32 | 0x0000 | 0x0000 | 0x1014 | 0x0000 |
+| 0x2B37 | 0x10A9 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B39 | 0x0000 | 0x0000 | 0x0000 | 0x1065 |
+| 0x2B3A | 0x0000 | 0x0000 | 0x1064 | 0x0000 |
+| 0x2B3F | 0x1062 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B43 | 0x1063 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B47 | 0x102A | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B49 | 0x0000 | 0x0000 | 0x0000 | 0x109D |
+| 0x2B4A | 0x0000 | 0x0000 | 0x109E | 0x0000 |
+| 0x2B4B | 0x1029 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B4C | 0x0000 | 0x0000 | 0x0000 | 0x109D |
+| 0x2B4D | 0x0000 | 0x0000 | 0x109E | 0x0000 |
+| 0x2B4E | 0x107D | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B4F | 0x0000 | 0x0000 | 0x0000 | 0x10C7 |
+| 0x2B50 | 0x0000 | 0x0000 | 0x10C6 | 0x0000 |
+| 0x2B51 | 0x0000 | 0x1052 | 0x0000 | 0x0000 |
+| 0x2B59 | 0x0000 | 0x0000 | 0x0000 | 0x103B |
+| 0x2B5A | 0x0000 | 0x0000 | 0x103C | 0x0000 |
+| 0x2B5B | 0x1068 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B5C | 0x0000 | 0x1069 | 0x0000 | 0x0000 |
+| 0x2B5E | 0x0000 | 0x0000 | 0x0000 | 0x1054 |
+| 0x2B5F | 0x0000 | 0x0000 | 0x1055 | 0x0000 |
+| 0x2B64 | 0x105F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B67 | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2B6C | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2B6D | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2B71 | 0x0000 | 0x0000 | 0x0000 | 0x10E0 |
+| 0x2B72 | 0x0000 | 0x0000 | 0x10E1 | 0x0000 |
+| 0x2B73 | 0x10E2 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2B74 | 0x0000 | 0x10E3 | 0x0000 | 0x0000 |
+| 0x2BC0 | 0x0000 | 0x0000 | 0x0000 | 0x1004 |
+| 0x2BC1 | 0x0000 | 0x0000 | 0x0000 | 0x1003 |
+| 0x2BC2 | 0x0000 | 0x0000 | 0x0000 | 0x1004 |
+| 0x2BC3 | 0x0000 | 0x0000 | 0x0000 | 0x1003 |
+| 0x2BC4 | 0x0000 | 0x0000 | 0x0000 | 0x10BC |
+| 0x2BC5 | 0x0000 | 0x0000 | 0x0000 | 0x10BC |
+| 0x2BC6 | 0x0000 | 0x0000 | 0x0000 | 0x1067 |
+| 0x2BC7 | 0x0000 | 0x0000 | 0x0000 | 0x1066 |
+| 0x2BC8 | 0x0000 | 0x0000 | 0x0000 | 0x1089 |
+| 0x2BCB | 0x0000 | 0x0000 | 0x0000 | 0x106A |
+| 0x2BCC | 0x0000 | 0x0000 | 0x0000 | 0x10C1 |
+| 0x2BCD | 0x0000 | 0x0000 | 0x0000 | 0x10C0 |
+| 0x2BCE | 0x0000 | 0x0000 | 0x0000 | 0x10C0 |
+| 0x2BCF | 0x0000 | 0x0000 | 0x0000 | 0x10D2 |
+| 0x2BD0 | 0x0000 | 0x0000 | 0x0000 | 0x102F |
+| 0x2BD1 | 0x0000 | 0x0000 | 0x0000 | 0x10B0 |
+| 0x2BD2 | 0x0000 | 0x0000 | 0x0000 | 0x10D1 |
+| 0x2BD3 | 0x0000 | 0x0000 | 0x0000 | 0x10D1 |
+| 0x2BD4 | 0x0000 | 0x0000 | 0x0000 | 0x10D1 |
+| 0x2BD5 | 0x0000 | 0x0000 | 0x0000 | 0x10A1 |
+| 0x2BD6 | 0x0000 | 0x0000 | 0x0000 | 0x10A1 |
+| 0x2BD7 | 0x0000 | 0x0000 | 0x0000 | 0x10A1 |
+| 0x2BD9 | 0x10B8 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BDA | 0x10BB | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BDB | 0x10B9 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BDC | 0x10BA | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BDD | 0x0000 | 0x0000 | 0x0000 | 0x1072 |
+| 0x2BDE | 0x0000 | 0x0000 | 0x1073 | 0x0000 |
+| 0x2BDF | 0x0000 | 0x1071 | 0x0000 | 0x0000 |
+| 0x2BE0 | 0x0000 | 0x0000 | 0x0000 | 0x10B2 |
+| 0x2BE1 | 0x0000 | 0x0000 | 0x10B3 | 0x0000 |
+| 0x2BE2 | 0x0000 | 0x10B4 | 0x0000 | 0x0000 |
+| 0x2BE3 | 0x0000 | 0x0000 | 0x0000 | 0x10B7 |
+| 0x2BE4 | 0x0000 | 0x0000 | 0x10B6 | 0x0000 |
+| 0x2BE5 | 0x1036 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BE6 | 0x0000 | 0x0000 | 0x0000 | 0x1030 |
+| 0x2BE8 | 0x10B5 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2BE9 | 0x0000 | 0x0000 | 0x0000 | 0x10BE |
+| 0x2BEA | 0x0000 | 0x0000 | 0x10BF | 0x0000 |
+| 0x2BEB | 0x0000 | 0x10BD | 0x0000 | 0x0000 |
+| 0x2C8D | 0x0000 | 0x0000 | 0x10AC | 0x0000 |
+| 0x2C8E | 0x107E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2C90 | 0x0000 | 0x0000 | 0x0000 | 0x10AF |
+| 0x2C91 | 0x0000 | 0x0000 | 0x10C9 | 0x0000 |
+| 0x2C93 | 0x0000 | 0x1009 | 0x0000 | 0x0000 |
+| 0x2C96 | 0x1088 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2C98 | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2C99 | 0x0000 | 0x0000 | 0x10D6 | 0x0000 |
+| 0x2C9A | 0x1002 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2C9C | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2C9D | 0x0000 | 0x0000 | 0x10D6 | 0x0000 |
+| 0x2C9E | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D50 | 0x0000 | 0x0000 | 0x0000 | 0x104B |
+| 0x2D51 | 0x0000 | 0x0000 | 0x0000 | 0x10DB |
+| 0x2D52 | 0x0000 | 0x0000 | 0x0000 | 0x10E4 |
+| 0x2D53 | 0x0000 | 0x0000 | 0x0000 | 0x102D |
+| 0x2D64 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D65 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D66 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D67 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D68 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D69 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D6A | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D6B | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D6C | 0x10D7 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D6D | 0x10D7 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D6E | 0x10D7 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D6F | 0x10D7 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D70 | 0x0000 | 0x0000 | 0x1037 | 0x0000 |
+| 0x2D71 | 0x1038 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D72 | 0x0000 | 0x1039 | 0x0000 | 0x0000 |
+| 0x2D73 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D74 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D75 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D76 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2D77 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D78 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D79 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D7A | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2D7B | 0x100C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D7C | 0x100C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D7D | 0x100C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D7E | 0x100C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2D7F | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2D80 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2D81 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2D82 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2D8B | 0x0000 | 0x0000 | 0x0000 | 0x1096 |
+| 0x2D8C | 0x0000 | 0x0000 | 0x1095 | 0x0000 |
+| 0x2D8D | 0x0000 | 0x0000 | 0x0000 | 0x1098 |
+| 0x2D8E | 0x0000 | 0x0000 | 0x1097 | 0x0000 |
+| 0x2D9B | 0x0000 | 0x0000 | 0x0000 | 0x1070 |
+| 0x2D9C | 0x0000 | 0x0000 | 0x101A | 0x0000 |
+| 0x2DA3 | 0x0000 | 0x0000 | 0x0000 | 0x1008 |
+| 0x2DA4 | 0x0000 | 0x0000 | 0x0000 | 0x1015 |
+| 0x2DA5 | 0x0000 | 0x0000 | 0x0000 | 0x10CC |
+| 0x2DA8 | 0x0000 | 0x0000 | 0x0000 | 0x10CC |
+| 0x2DAB | 0x0000 | 0x0000 | 0x0000 | 0x10CC |
+| 0x2DAE | 0x0000 | 0x0000 | 0x0000 | 0x10CC |
+| 0x2DB1 | 0x0000 | 0x0000 | 0x0000 | 0x10CA |
+| 0x2DB4 | 0x0000 | 0x0000 | 0x0000 | 0x10CB |
+| 0x2DBD | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2DBE | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2DBF | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2DC0 | 0x0000 | 0x0000 | 0x0000 | 0x10E5 |
+| 0x2DC1 | 0x0000 | 0x0000 | 0x0000 | 0x10E6 |
+| 0x2DC2 | 0x0000 | 0x0000 | 0x0000 | 0x10E8 |
+| 0x2DCA | 0x0000 | 0x0000 | 0x0000 | 0x1105 |
+| 0x2DCB | 0x0000 | 0x0000 | 0x0000 | 0x1106 |
+| 0x2DCC | 0x0000 | 0x0000 | 0x0000 | 0x1107 |
+| 0x2DCD | 0x0000 | 0x0000 | 0x0000 | 0x1108 |
+| 0x2E1A | 0x1033 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2E1B | 0x0000 | 0x104C | 0x0000 | 0x0000 |
+| 0x2E1C | 0x0000 | 0x0000 | 0x0000 | 0x10D9 |
+| 0x2E20 | 0x0000 | 0x0000 | 0x0000 | 0x10FF |
+| 0x2E24 | 0x0000 | 0x0000 | 0x0000 | 0x102B |
+| 0x2E28 | 0x0000 | 0x0000 | 0x0000 | 0x1100 |
+| 0x2E2C | 0x0000 | 0x0000 | 0x0000 | 0x10B1 |
+| 0x2E30 | 0x0000 | 0x0000 | 0x0000 | 0x10B1 |
+| 0x2E31 | 0x0000 | 0x0000 | 0x1033 | 0x0000 |
+| 0x2E32 | 0x102C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2E33 | 0x0000 | 0x102B | 0x0000 | 0x0000 |
+| 0x2E34 | 0x0000 | 0x0000 | 0x0000 | 0x102C |
+| 0x2E38 | 0x0000 | 0x0000 | 0x0000 | 0x1101 |
+| 0x2E3C | 0x0000 | 0x0000 | 0x0000 | 0x1033 |
+| 0x2E40 | 0x0000 | 0x0000 | 0x0000 | 0x1049 |
+| 0x2E42 | 0x104A | 0x0000 | 0x0000 | 0x0000 |
+| 0x2E43 | 0x0000 | 0x10A2 | 0x0000 | 0x0000 |
+| 0x2E44 | 0x0000 | 0x0000 | 0x0000 | 0x101E |
+| 0x2E46 | 0x103D | 0x0000 | 0x0000 | 0x0000 |
+| 0x2E47 | 0x0000 | 0x104C | 0x0000 | 0x0000 |
+| 0x2E48 | 0x0000 | 0x0000 | 0x0000 | 0x10AA |
+| 0x2E4A | 0x10A0 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2E4B | 0x0000 | 0x109F | 0x0000 | 0x0000 |
+| 0x2E4F | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x2E67 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x2EE0 | 0x0000 | 0x0000 | 0x0000 | 0x108B |
+| 0x2EE1 | 0x0000 | 0x0000 | 0x108C | 0x0000 |
+| 0x2EE2 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2EE3 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2EE5 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2EE6 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2EE7 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2EE8 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2EEE | 0x0000 | 0x0000 | 0x106E | 0x0000 |
+| 0x2EF1 | 0x0000 | 0x0000 | 0x0000 | 0x1006 |
+| 0x2EF2 | 0x0000 | 0x0000 | 0x1007 | 0x0000 |
+| 0x2EF9 | 0x0000 | 0x0000 | 0x0000 | 0x1006 |
+| 0x2EFB | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2EFD | 0x0000 | 0x0000 | 0x0000 | 0x1006 |
+| 0x2EFE | 0x0000 | 0x0000 | 0x1007 | 0x0000 |
+| 0x2F01 | 0x0000 | 0x0000 | 0x0000 | 0x1006 |
+| 0x2F02 | 0x0000 | 0x0000 | 0x1007 | 0x0000 |
+| 0x2F07 | 0x10AB | 0x0000 | 0x0000 | 0x0000 |
+| 0x2F09 | 0x0000 | 0x0000 | 0x0000 | 0x1079 |
+| 0x2F0A | 0x0000 | 0x0000 | 0x10C8 | 0x0000 |
+| 0x2F15 | 0x0000 | 0x0000 | 0x0000 | 0x1043 |
+| 0x2F16 | 0x0000 | 0x0000 | 0x1044 | 0x0000 |
+| 0x2F19 | 0x0000 | 0x0000 | 0x0000 | 0x104F |
+| 0x2F1A | 0x0000 | 0x0000 | 0x1051 | 0x0000 |
+| 0x2F21 | 0x0000 | 0x0000 | 0x0000 | 0x10D4 |
+| 0x2F22 | 0x0000 | 0x0000 | 0x10D5 | 0x0000 |
+| 0x2F23 | 0x1074 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2F24 | 0x0000 | 0x1057 | 0x0000 | 0x0000 |
+| 0x2F25 | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2F26 | 0x0000 | 0x0000 | 0x10D6 | 0x0000 |
+| 0x2F28 | 0x0000 | 0x100D | 0x0000 | 0x0000 |
+| 0x2F2F | 0x10C4 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2F30 | 0x0000 | 0x10C5 | 0x0000 | 0x0000 |
+| 0x2F35 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2F36 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2F37 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2F38 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2F39 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2F3A | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2F3C | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2F3D | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2F3F | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2F40 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2F41 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2F42 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2F8A | 0x0000 | 0x0000 | 0x0000 | 0x110F |
+| 0x2F8B | 0x0000 | 0x0000 | 0x110C | 0x0000 |
+| 0x2F8C | 0x0000 | 0x108D | 0x0000 | 0x0000 |
+| 0x2F8E | 0x0000 | 0x0000 | 0x0000 | 0x110A |
+| 0x2F8F | 0x0000 | 0x0000 | 0x1109 | 0x0000 |
+| 0x2F92 | 0x0000 | 0x0000 | 0x0000 | 0x110D |
+| 0x2F93 | 0x0000 | 0x0000 | 0x110E | 0x0000 |
+| 0x2FAA | 0x107F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FAC | 0x100F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FAD | 0x0000 | 0x10DA | 0x0000 | 0x0000 |
+| 0x2FB7 | 0x0000 | 0x0000 | 0x10E7 | 0x0000 |
+| 0x2FC1 | 0x0000 | 0x108D | 0x0000 | 0x0000 |
+| 0x2FC2 | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2FC3 | 0x0000 | 0x0000 | 0x10D6 | 0x0000 |
+| 0x2FC4 | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FC5 | 0x0000 | 0x0000 | 0x0000 | 0x10C3 |
+| 0x2FC6 | 0x0000 | 0x0000 | 0x10C2 | 0x0000 |
+| 0x2FCD | 0x0000 | 0x0000 | 0x0000 | 0x10D3 |
+| 0x2FCE | 0x0000 | 0x0000 | 0x10D6 | 0x0000 |
+| 0x2FCF | 0x10D0 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FD0 | 0x0000 | 0x104D | 0x0000 | 0x0000 |
+| 0x2FD6 | 0x0000 | 0x0000 | 0x1076 | 0x0000 |
+| 0x2FD7 | 0x1046 | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FD9 | 0x0000 | 0x0000 | 0x0000 | 0x1010 |
+| 0x2FDA | 0x0000 | 0x0000 | 0x101D | 0x0000 |
+| 0x2FDB | 0x101C | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FDC | 0x0000 | 0x10AD | 0x0000 | 0x0000 |
+| 0x2FDD | 0x0000 | 0x0000 | 0x0000 | 0x1020 |
+| 0x2FDE | 0x0000 | 0x0000 | 0x1021 | 0x0000 |
+| 0x2FDF | 0x101F | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FE0 | 0x0000 | 0x1022 | 0x0000 | 0x0000 |
+| 0x2FE2 | 0x0000 | 0x0000 | 0x101B | 0x0000 |
+| 0x2FE4 | 0x0000 | 0x10AD | 0x0000 | 0x0000 |
+| 0x2FE5 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x2FE6 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x2FE7 | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x2FEA | 0x0000 | 0x0000 | 0x0000 | 0x1084 |
+| 0x2FED | 0x0000 | 0x1047 | 0x0000 | 0x0000 |
+| 0x2FF2 | 0x0000 | 0x0000 | 0x0000 | 0x103E |
+| 0x2FF3 | 0x0000 | 0x0000 | 0x103F | 0x0000 |
+| 0x2FF4 | 0x0000 | 0x0000 | 0x0000 | 0x10E9 |
+| 0x2FF5 | 0x10EA | 0x0000 | 0x0000 | 0x0000 |
+| 0x2FF6 | 0x0000 | 0x0000 | 0x0000 | 0x1090 |
+| 0x2FF7 | 0x0000 | 0x0000 | 0x1048 | 0x0000 |
+| 0x2FF9 | 0x0000 | 0x100D | 0x0000 | 0x0000 |
+| 0x2FFE | 0x0000 | 0x0000 | 0x0000 | 0x106D |
+| 0x2FFF | 0x0000 | 0x0000 | 0x106C | 0x0000 |
+| 0x3000 | 0x1034 | 0x0000 | 0x0000 | 0x0000 |
+| 0x3008 | 0x0000 | 0x0000 | 0x0000 | 0x10F7 |
+| 0x3009 | 0x0000 | 0x0000 | 0x10F8 | 0x0000 |
+| 0x300A | 0x10F9 | 0x0000 | 0x0000 | 0x0000 |
+| 0x3013 | 0x0000 | 0x0000 | 0x0000 | 0x10EB |
+| 0x3014 | 0x0000 | 0x0000 | 0x10EC | 0x0000 |
+| 0x3015 | 0x0000 | 0x10ED | 0x0000 | 0x0000 |
+| 0x3016 | 0x10EE | 0x0000 | 0x0000 | 0x0000 |
+| 0x301C | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x301D | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x301E | 0x0000 | 0x1060 | 0x0000 | 0x0000 |
+| 0x3020 | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x3021 | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x3022 | 0x0000 | 0x0000 | 0x0000 | 0x10F0 |
+| 0x3023 | 0x0000 | 0x0000 | 0x10F1 | 0x0000 |
+| 0x3024 | 0x0000 | 0x1050 | 0x0000 | 0x0000 |
+| 0x3025 | 0x104F | 0x0000 | 0x0000 | 0x0000 |
+| 0x3026 | 0x0000 | 0x10EF | 0x0000 | 0x0000 |
+| 0x3028 | 0x0000 | 0x0000 | 0x0000 | 0x10F0 |
+| 0x3029 | 0x0000 | 0x0000 | 0x10F1 | 0x0000 |
+| 0x302E | 0x0000 | 0x0000 | 0x0000 | 0x1050 |
+| 0x302F | 0x0000 | 0x0000 | 0x104F | 0x0000 |
+| 0x3031 | 0x0000 | 0x0000 | 0x0000 | 0x10FA |
+| 0x3032 | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x3036 | 0x10FD | 0x0000 | 0x0000 | 0x0000 |
+| 0x303E | 0x10FC | 0x0000 | 0x0000 | 0x0000 |
+| 0x3043 | 0x108E | 0x0000 | 0x0000 | 0x0000 |
+| 0x3044 | 0x0000 | 0x0000 | 0x0000 | 0x159E |
+| 0x3045 | 0x0000 | 0x0000 | 0x159F | 0x0000 |
+| 0x3046 | 0x0000 | 0x15A0 | 0x0000 | 0x0000 |
+| 0x3091 | 0x0000 | 0x100E | 0x0000 | 0x0000 |
+| 0x3094 | 0x0000 | 0x0000 | 0x1005 | 0x0000 |
+| 0x3095 | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x3096 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x3097 | 0x0000 | 0x0000 | 0x1005 | 0x0000 |
+| 0x3098 | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x3099 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x309D | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x309F | 0x0000 | 0x0000 | 0x1005 | 0x0000 |
+| 0x30A0 | 0x106B | 0x0000 | 0x0000 | 0x0000 |
+| 0x30A1 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30A4 | 0x0000 | 0x0000 | 0x1005 | 0x0000 |
+| 0x30A5 | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x30A6 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30A7 | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x30A8 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30A9 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30AA | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30AC | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30AD | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30AE | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30AF | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x30B0 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30B2 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30B4 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30B5 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30B9 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30BA | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30BB | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x30C0 | 0x1080 | 0x0000 | 0x0000 | 0x0000 |
+| 0x30C1 | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x31BE | 0x0000 | 0x10D9 | 0x0000 | 0x0000 |
+| 0x56CE | 0x0000 | 0x0000 | 0x0000 | 0x10FB |
+| 0xCD87 | 0x0000 | 0x100E | 0x0000 | 0x0000 |
+
+<a id="table-fumwelttexte"></a>
+### FUMWELTTEXTE
+
+Dimensions: 148 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x0000 | Zeit nach Start  (tnse_w ) | s | - | unsigned char | - | 25,6 | 1 | 0,0 |
+| 0x0001 | Umgebungsdruck  (pu) | hPa | - | unsigned char | - | 5,0 | 1 | 0,0 |
+| 0x0002 | Zustand Lamdaregelung  (flglrs) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0004 | Relative Luftmasse  (rml) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x0005 | Motortemperatur  (tmot) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0006 | Lambda-Regler-Ausgang  (fr_w) | - | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| 0x0007 | Additive Gemischkorrektur der Gemischadaption  (ora_w) | % | - | signed char | - | 0,2 | 1 | 0,0 |
+| 0x000A | Istwert Raildruck  (prist_w) | MPa | - | unsigned char | - | 0,0588 | 1 | 0,0 |
+| 0x000B | Saugrohrdruck  (ps) | hPa | - | unsigned char | - | 10,0 | 1 | 0,0 |
+| 0x000C | Drehzahl  (nmot) | Upmin | - | unsigned char | - | 40,0 | 1 | 0,0 |
+| 0x000D | Fahrzeuggeschwindigkeit  (vfzg) | km/h | - | unsigned char | - | 1,25 | 1 | 0,0 |
+| 0x000E | Zündzeitpunkt Zylinder 1  (zwout) | Grad KW | - | signed char | - | 0,75 | 1 | 0,0 |
+| 0x000F | Ansauglufttemperatur  (tans) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0013 | Relative Luftfüllung  (rl) | % | - | unsigned char | - | 0,75 | 1 | 0,0 |
+| 0x0014 | Fahrpedalwinkel  (wped) | %PED | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x0015 | Batteriespannung  (ub) | V | - | unsigned char | - | 0,0942 | 1 | 0,0 |
+| 0x0016 | Lambdasollwert bezogen auf Einbauort  (lamsons_w) | - | - | unsigned char | - | 0,0625 | 1 | 0,0 |
+| 0x0017 | Umgebungstemperatur  (tumg) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0018 | Luftmassenfluss gefiltert  (ml) | kg/h | - | unsigned char | - | 4 | 1 | 0,0 |
+| 0x001A | Istwinkel Nockenwelle Einlass  (wnwe_w) | Grad KW | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x001B | Sollwinkel Nockenwelle Einlass  (wnwse_w) | Grad KW | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x001E | Ansauglufttemperatur, linearisiert  (tanslin) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x001F | Motortemperatur, linearisiert  (tmotlin) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0021 | Steuergeräte-Innentemperatur  (tsg) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0022 | Motoröltemperatur  (toel) | Grad C | - | unsigned char | - | 1,0 | 1 | -60,0 |
+| 0x0023 | Abstellzeit  (tabst_w) | s | - | unsigned char | - | 256,0 | 1 | 0,0 |
+| 0x0026 | Drosselklappenwinkel aus Poti 1 (wdk1) | %DK | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x0027 | Tastverhältnis für Lambdasondenheizung vor Kat  (tahrlszu_w) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x0029 | Heizleistung der Lambdasonde hinter Kat  (phlsnh) | - | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| 0x002B | Bedingung externer Momenteneingriff  (B_miext) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x002C | Lambdasondenistwert, korrigiert um Zusatzamplitude  (lamzak_w) | - | - | unsigned char | - | 0,0625 | 1 | 0,0 |
+| 0x002D | Korrekturwert der LSU-Spannung vor Kat  (kusvk_w) | V | - | signed char | - | 0,001953125 | 1 | 0,0 |
+| 0x002E | Lambdaamplitude nach Filterung  (lamsam_w) | - | - | signed char | - | 0,0625 | 1 | 0,0 |
+| 0x002F | Abgastemperatur nach Katalysator aus Modell  (tkatm) | Grad C | - | unsigned char | - | 5,0 | 1 | -50,0 |
+| 0x0030 | Dynamikwert der LSU  (dynlsu_w) | - | - | unsigned char | - | 0,015625 | 1 | 0,0 |
+| 0x0034 | Umgebungsdruck  (pur_w) | hPa | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| 0x0035 | Herstellercode Generator  (genmanufak) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0036 | Gefilterter Drehzahlgradient  (ngfil) | 1/min/s | - | signed char | - | 100,0 | 1 | 0,0 |
+| 0x0038 | Schalter Klemme 50 von CAN  (S_ckl50) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0039 | Bedingung Sicherheitskraftstoffabschaltung  (B_dkpu) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x003A | Bedingung Startanforderung  (B_staanf) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x003B | Füllstand Kraftstofftank  (fstt) | l | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x003C | Batteriespannung; vom AD-Wandler erfasster Wert  (wub) | V | - | unsigned char | - | 0,0942 | 1 | 0,0 |
+| 0x003D | Betriebszeit  (top_w) | min | - | unsigned char | - | 1536,0 | 1 | 0,0 |
+| 0x003E | Notlaufposition Drosselklappe; EEPROM-Wert  (wdknlpr) | %DK | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x003F | Sollwert DK-Winkel bezogen auf unteren Anschlag  (wdks) | %DK | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x0040 | Notlaufposition Drosselklappe  (wdknlp) | %DK | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x0042 | Kennung Generatortyp  (gentypkenn) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0044 | Chiptemperatur Generator  (tchip) | Grad C | - | unsigned char | - | 1,0 | 1 | -40,0 |
+| 0x0045 | ADC-Wert Lambdasondenspannung vor Kat  (uulsuv_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0046 | Spannung PWG-Poti 1  (upwg1_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0047 | Spannung PWG-Poti 2  (upwg2_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0049 | ADC-Wert Lambdasondenspannung nach Kat  (uushk_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x004C | Spannung Drosselklappen-Poti 2  (udkp2_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x004D | Massenstrom Tankentlüftung in das Saugrohr  (mste_w) | kg/h | - | unsigned char | - | 0,078125 | 1 | 0,1 |
+| 0x004E | Spannung Drosselklappen-Poti 1  (udkp1_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0050 | ADC-Wert Motortemperatur  (wtmot_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0051 | ADC-Wert Ansauglufttemperatur  (wtans) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0055 | Schneller Mittelwert des Lambdaregelfaktors  (frm_w) | - | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| 0x0057 | Erregerstrom Generator  (ierr) | - | - | unsigned char | - | 0,125 | 1 | 0,0 |
+| 0x0058 | Drosselklappenwinkel bezogen auf unteren Anschlag  (wdkba) | %DK | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| 0x0059 | Pumpenstrom Referenzleck  (iptrefr_w) | mA | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| 0x005A | Pumpenstrom bei Grobleckmessung  (iptglmn_w) | mA | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| 0x005C | Innenwiderstand Lambdasonde nach Kat (HB)  (rinh_w) | Ohm | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| 0x005E | Innenwiderstand Lambdasonde nach Kat (LB)  (rinh_w) | Ohm | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| 0x0060 | Innenwiderstand Lambdasonde vor Kat (HB)  (rinlsu_w) | Ohm | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| 0x0063 | Innenwiderstand Lambdasonde vor Kat (LB)  (rinlsu_w) | Ohm | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| 0x0067 | Kilometerstand  (kmstand) | km | - | unsigned char | - | 2560,0 | 1 | 0,0 |
+| 0x0068 | Status Standverbraucher registriert Teil 1  (statsvreg1) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0069 | Status Standverbraucher registriert Teil 2  (statsvreg2) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x006A | Batteriespannung von IBS gemessen (ubatt_w) | V | - | unsigned char | - | 0,064 | 1 | 6 |
+| 0x006B | Zeit, Ruhestrom liegt bei 80..200mA  (t2hstshort) | min | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| 0x006C | Zeit, Ruhestrom liegt bei 200..1000mA  (t3hstshort) | min | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| 0x006E | Zeit, Ruhestrom ist größer als 1000mA (t4hstshort) | min | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| 0x006F | Multiplikative Gemischkorrektur der Gemischadaption  (fra_w) | - | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| 0x0070 | ADC-Wert Umgebungsdruck  (udsu_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0072 | Reglerversion Generator (bsdgenregv) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0074 | Periodendauer des Nullgangsensorsignals (GbxNPos_tiPwmPer) | ms | - | unsigned char | - | 0,0256 | 1 | 0,0 |
+| 0x0075 | Status Nullgangerkennung (stngang) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0078 | I-Anteil der stetigen LRHK  (dlahi_w) | - | - | unsigned char | - | 0,00048828125 | 1 | 0,0 |
+| 0x007A | Zustand Fahrgeschwindigkeitsregler  (zstfgr) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x007F | Tastverhältnis E-Lüfter  (taml) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x0081 | Ist-Gang  (gangi) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x0082 | Motorstarttemperatur  (tmst) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x0083 | Spannung Klopfwerte Zylinder 1  (rkr_w[0]) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0085 | Spannung Klopfwerte Zylinder 3  (rkr_w[1]) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0087 | Auslastungsgrad Generator  (dfsiggen) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x0088 | Spannung Klopfwerte Zylinder 4  (rkr_w[2]) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0089 | Lambda-Istwert  (lamsoni_w) | - | - | unsigned char | - | 0,0625 | 1 | 0,0 |
+| 0x008B | Zeit nach Startende  (tnst_w) | s | - | unsigned char | - | 25,6 | 1 | 0,0 |
+| 0x008C | Keramiktemperatur der LSU  (tkerlsu_w) | Grad C | - | unsigned char | - | 6,0 | 1 | -273,15 |
+| 0x008D | Aktuelle Zeit Leckmessung  (tdmlka_w) | s | - | unsigned char | - | 1,6 | 1 | 0,0 |
+| 0x008E | Pumpenstrom Tankdiagnose  (iptes_w) | mA | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| 0x0090 | Spannung Klopfwerte Zylinder 2  (rkr_w[3]) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x0091 | Kupplungsmotormoment Istwert  (mkist_w) | Nm | - | unsigned char | - | 4,0 | 1 | -220,0 |
+| 0x0096 | Abgastemperatur hinter Kat  (tanhkm_w) | Grad C | - | unsigned char | - | 6,0 | 1 | -273,15 |
+| 0x0098 | Sollspannung Generator  (ugen) | V | - | unsigned char | - | 0,1 | 1 | 10,6 |
+| 0x009A | Sauerstoffspeichervermögen des Katalysators  (oscdkta_w) | mg | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| 0x00AE | Peridendauer für Massenstrom aus HFM  (tpmshfm_w) | us | - | unsigned char | - | 25,6 | 1 | 0,0 |
+| 0x00B0 | Zähler für Lerndauer eines DK-Lernsteps  (lrnstep_c) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00B1 | Funkenbrenndauer Zylinder 1  (dztbd_w[0]) | ms | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00B3 | Funkenbrenndauer Zylinder 3  (dztbd_w[1]) | ms | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00B5 | Funkenbrenndauer Zylinder 2  (dztbd_w[3]) | ms | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00B6 | Funkenbrenndauer Zylinder 4  (dztbd_w[2]) | ms | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00B7 | Aktueller Bremsdruck  (pbrems) | bar | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00B8 | Motordrehzahl in der Funktionsüberwachung  (nmot_um) | Upmin | - | unsigned char | - | 40,0 | 1 | 0,0 |
+| 0x00B9 | Pedalsollwert in der Funktionsüberwachung  (spsn_um) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00BC | Relative Luftfüllung in der Funktionsüberwachung  (rl_um) | % | - | unsigned char | - | 0,75 | 1 | 0,0 |
+| 0x00BF | Indiziertes Soll-Motormoment MSR  (mimsr) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x00C1 | Korrigierte Segmentdauer  (tsk_l) | us | - | unsigned char | - | 6553,6 | 1 | 0,0 |
+| 0x00C2 | Bedingung Kupplungspedal betätigt  (B_kuppl) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00C3 | MSA NGLERN Eingangstastverhältnis  (tngang_w) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x00C4 | MSA Bremsunterdruck  (dpbkvur_w) | hPa | - | signed char | - | 7,8125 | 1 | 0,0 |
+| 0x00C5 | Kraftstofftemperatur  (tkrst) | Grad C | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| 0x00C6 | Abgasmassenstrom ohne Kraftstoffanteil  (msaovhk_w) | kg/h | - | unsigned char | - | 3,2 | 1 | 0,0 |
+| 0x00C7 | Spannung Drucksensor Bremskraftverstärker  (udsbkv_w) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00C8 | Kupplung durchgetreten  (B_kupp1) | - | - | unsigned char | - | 0,0 | 1 | 0,0 |
+| 0x00C9 | SWT-Fehlercode  (SiaT_Res_St) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00CA | PD-Anteil langsam Leerlaufregelung  (dmllrp_w) | % | - | signed char | - | 0,390625 | 1 | 0,0 |
+| 0x00CB | PD-Anteil schnell Leerlaufregelung  (dmllrpz_w) | % | - | signed char | - | 0,390625 | 1 | 0,0 |
+| 0x00D5 | koordiniertes Moment für Füllung  (milsol_w) | % | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x00D7 | Maximaler modellierter Saugrohrdruck  (psrmmx_w) | hPa | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| 0x00D8 | Minimaler modellierter Saugrohrdruck  (psrmmn_w) | hPa | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| 0x00DD | Summenzähler Aussetzer  (fzabgs_w) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00DE | Funktionsinterner Zähler  (ivzabg_w) | - | - | unsigned char | - | 10,0 | 1 | 0,0 |
+| 0x00E0 | Abgleich-Faktor DK-Modell  (eisydkfkaf) | - | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| 0x00E1 | Abgleich-Offset DK-Modell  (eisydkkoff) | kg/h | - | signed char | - | 8,0 | 1 | 0,0 |
+| 0x00E2 | Abgleich-Faktor EV-Modell  (eisyevfkaf) | - | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| 0x00E3 | Abgleich-Offset EV-Modell  (eisyevkoff) | kg/h | - | signed char | - | 8,0 | 1 | 0,0 |
+| 0x00E4 | Ist-Betriebsart  (bdemod) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00E7 | Spannung Pedalwertgeber 1 Überwachung  (sp1s_um) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00E8 | Spannung Pedalwertgeber 2 Überwachung  (sp2s_um) | V | - | unsigned char | - | 0,00976525 | 1 | 0,0 |
+| 0x00E9 | Heizleistungsanforderung für Lambdasondenheizung  (prhrlsu_w) | % | - | unsigned char | - | 0,78125 | 1 | 0,0 |
+| 0x00EB | EGAS-Pfad  (egaspfad) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00EC | Momenten-Pfad in Funktion und Funktionsüberwachung  (mpfad) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00ED | Spannung Drosselklappen-Poti 1 am unteren Anschlag  (udkp1a) | V | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| 0x00EF | Tankfüllstand  (tfstq1l) | l | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00F0 | STATE_PWM_VCV | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00F2 | Bedingung Ladedruckregler aktiv  (B_ldr) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00F3 | Druck vor Drosselklappe  (pvd_w) | hPa | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| 0x00F4 | Solldruck vor Drosselklappe  (pvds_w) | hPa | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| 0x00F7 | Kühlmitteldruck in der Klimaanlage  (pac) | hPa | - | unsigned char | - | 154,2 | 1 | 0,0 |
+| 0x00F8 | Intelligenter Batteriesensor Fehler 1  (ibsderrs1) | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| 0x00F9 | Intelligenter Batteriesensor Fehler 2  (ibsderrs2) | - | - | unsigned char | - | 256 | 1 | 0,0 |
+| 0x00FA | Gefilterter Faktor Tankentlüftungs-Adaption  (fteadf) | - | - | signed char | - | 0,5 | 1 | 0,0 |
+| 0x00FD | Sollwert Raildruckregelung  (prsoll_w) | MPa | - | unsigned char | - | 0,0588 | 1 | 0,0 |
+| 0x00FE | PWM_VCV | - | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| 0x00FF | Umweltbedingung unbekannt | - | - | unsigned char | - | 1,0 | 1 | 0,0 |
+
+<a id="table-fumweltmatrix"></a>
+### FUMWELTMATRIX
+
+Dimensions: 453 rows × 5 columns
+
+| ORT | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| 0x2710 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x2711 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x2718 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2719 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x271B | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x271C | 0x000A | 0x00F0 | 0x00FE | 0x00C5 |
+| 0x2727 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2728 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x272A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x272B | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x272C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x272E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x272F | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x2733 | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x2734 | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x2735 | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x2736 | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x2738 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x273A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x273B | 0x000C | 0x000B | 0x000D | 0x00FA |
+| 0x273D | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x273E | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x273F | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x2740 | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x2745 | 0x000C | 0x0006 | 0x0089 | 0x006F |
+| 0x2746 | 0x000C | 0x0006 | 0x0089 | 0x006F |
+| 0x2755 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x2756 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x2757 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x2758 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x275D | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x275E | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x275F | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x276A | 0x0089 | 0x00C6 | 0x009A | 0x0096 |
+| 0x276D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x276E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2770 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2771 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2772 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2773 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2775 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2776 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2777 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2779 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x277A | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x277B | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x277D | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x277E | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x277F | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2781 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2782 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2783 | 0x0036 | 0x00E4 | 0x00C1 | 0x000A |
+| 0x2785 | 0x000C | 0x0006 | 0x0089 | 0x0007 |
+| 0x2786 | 0x000C | 0x0006 | 0x0089 | 0x0007 |
+| 0x27AB | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x27AC | 0x003B | 0x0001 | 0x0017 | 0x0015 |
+| 0x27B0 | 0x000C | 0x000B | 0x000D | 0x00FA |
+| 0x27B1 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x27B2 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x27B4 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x27C4 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x27C5 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x27C6 | 0x000C | 0x003B | 0x00EF | 0x000D |
+| 0x27CE | 0x000A | 0x00F0 | 0x00FE | 0x00C5 |
+| 0x27CF | 0x0015 | 0x00F0 | 0x00FE | 0x00C5 |
+| 0x27D0 | 0x0015 | 0x00F0 | 0x00FE | 0x00C5 |
+| 0x2848 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x2849 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x2877 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2878 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x287A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x287D | 0x001A | 0x001B | 0x0005 | 0x00E4 |
+| 0x287E | 0x000C | 0x0013 | 0x0005 | 0x00E4 |
+| 0x287F | 0x000A | 0x00F0 | 0x00FE | 0x00C5 |
+| 0x2880 | 0x000A | 0x00FD | 0x00FE | 0x00C5 |
+| 0x2881 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2882 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2883 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2884 | 0x000F | 0x00F3 | 0x00F4 | 0x00F2 |
+| 0x2885 | 0x000F | 0x00F3 | 0x00F4 | 0x00F2 |
+| 0x289C | 0x000C | 0x0005 | 0x001A | 0x001B |
+| 0x289D | 0x000C | 0x00F3 | 0x0058 | 0x0015 |
+| 0x289E | 0x000C | 0x00F3 | 0x0058 | 0x0015 |
+| 0x28A2 | 0x000C | 0x00F3 | 0x0001 | 0x000B |
+| 0x28A3 | 0x000C | 0x00F3 | 0x0001 | 0x000B |
+| 0x28A4 | 0x000C | 0x00F3 | 0x0001 | 0x000B |
+| 0x28A5 | 0x000C | 0x00F3 | 0x0001 | 0x000B |
+| 0x28AA | 0x000F | 0x00F3 | 0x00F4 | 0x0015 |
+| 0x28AC | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28AD | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28AE | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28AF | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28B0 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28B1 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x28BE | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x28BF | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x28C0 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x28C1 | 0x000C | 0x0005 | 0x003B | 0x0015 |
+| 0x2968 | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x2969 | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x296A | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x296E | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x296F | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x2970 | 0x000C | 0x0013 | 0x0058 | 0x0015 |
+| 0x297C | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x2982 | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x2983 | 0x000C | 0x0005 | 0x0017 | 0x0015 |
+| 0x2A35 | 0x0030 | 0x0055 | 0x002E | 0x0045 |
+| 0x2A3C | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2A3D | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2A50 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2A51 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2A53 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2A56 | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A60 | 0x008C | 0x008B | 0x000D | 0x0015 |
+| 0x2A61 | 0x008C | 0x008B | 0x000D | 0x0015 |
+| 0x2A63 | 0x008C | 0x008B | 0x000D | 0x0015 |
+| 0x2A64 | 0x0096 | 0x008C | 0x0027 | 0x008B |
+| 0x2A66 | 0x0096 | 0x008C | 0x0027 | 0x008B |
+| 0x2A67 | 0x0096 | 0x008C | 0x0027 | 0x008B |
+| 0x2A6C | 0x0015 | 0x008B | 0x002D | 0x0045 |
+| 0x2A6D | 0x0015 | 0x008B | 0x002D | 0x0045 |
+| 0x2A6E | 0x0015 | 0x008B | 0x002D | 0x0045 |
+| 0x2A6F | 0x0015 | 0x008B | 0x002D | 0x0045 |
+| 0x2A74 | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A75 | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A77 | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A7C | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A7D | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A7E | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A7F | 0x005C | 0x005E | 0x002F | 0x0049 |
+| 0x2A8B | 0x008C | 0x0016 | 0x002D | 0x0045 |
+| 0x2A90 | 0x008C | 0x0016 | 0x002D | 0x0045 |
+| 0x2A92 | 0x008C | 0x0016 | 0x002D | 0x0045 |
+| 0x2A93 | 0x008C | 0x0016 | 0x002D | 0x0045 |
+| 0x2A98 | 0x0015 | 0x000D | 0x002D | 0x0045 |
+| 0x2A99 | 0x0015 | 0x000D | 0x002D | 0x0045 |
+| 0x2AA3 | 0x008C | 0x0016 | 0x002D | 0x0045 |
+| 0x2AAB | 0x0015 | 0x0016 | 0x002D | 0x0045 |
+| 0x2AB4 | 0x0096 | 0x008C | 0x0027 | 0x008B |
+| 0x2AC1 | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2AC2 | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2AC3 | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2AC4 | 0x0049 | 0x0045 | 0x0078 | 0x0055 |
+| 0x2ACB | 0x0015 | 0x008B | 0x002D | 0x0045 |
+| 0x2ACD | 0x0030 | 0x0055 | 0x002E | 0x0045 |
+| 0x2AD2 | 0x0030 | 0x0055 | 0x002E | 0x0045 |
+| 0x2AD8 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2B01 | 0x000C | 0x0017 | 0x004C | 0x003F |
+| 0x2B02 | 0x000C | 0x0017 | 0x004C | 0x003F |
+| 0x2B03 | 0x000C | 0x0017 | 0x004C | 0x003F |
+| 0x2B05 | 0x000C | 0x0017 | 0x004E | 0x003F |
+| 0x2B06 | 0x000C | 0x0017 | 0x004E | 0x003F |
+| 0x2B07 | 0x000C | 0x0017 | 0x004E | 0x003F |
+| 0x2B0B | 0x000C | 0x004E | 0x004C | 0x0058 |
+| 0x2B1D | 0x0005 | 0x003F | 0x0058 | 0x0015 |
+| 0x2B1E | 0x0005 | 0x003F | 0x0058 | 0x0015 |
+| 0x2B1F | 0x0005 | 0x003F | 0x0058 | 0x0015 |
+| 0x2B20 | 0x0005 | 0x003F | 0x0058 | 0x0015 |
+| 0x2B21 | 0x000F | 0x0040 | 0x0058 | 0x0015 |
+| 0x2B22 | 0x000F | 0x0040 | 0x0058 | 0x0015 |
+| 0x2B25 | 0x000F | 0x0040 | 0x0058 | 0x0015 |
+| 0x2B26 | 0x000F | 0x0040 | 0x0058 | 0x0015 |
+| 0x2B2B | 0x000F | 0x003F | 0x003E | 0x0015 |
+| 0x2B2F | 0x000F | 0x0040 | 0x0058 | 0x0015 |
+| 0x2B31 | 0x000F | 0x003F | 0x0058 | 0x0015 |
+| 0x2B32 | 0x000F | 0x003F | 0x0058 | 0x0015 |
+| 0x2B39 | 0x000C | 0x000F | 0x0014 | 0x0015 |
+| 0x2B3A | 0x000C | 0x000F | 0x0014 | 0x0015 |
+| 0x2B3F | 0x000F | 0x004E | 0x00ED | 0x0015 |
+| 0x2B43 | 0x000C | 0x000F | 0x0014 | 0x0015 |
+| 0x2B47 | 0x000F | 0x004E | 0x00ED | 0x0015 |
+| 0x2B49 | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4A | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4B | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4C | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4D | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4E | 0x000C | 0x0046 | 0x0047 | 0x0014 |
+| 0x2B4F | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B50 | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B51 | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B59 | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B5A | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B5B | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B5C | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2B5E | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B5F | 0x000C | 0x000F | 0x0058 | 0x00AE |
+| 0x2B64 | 0x000C | 0x0058 | 0x0089 | 0x006F |
+| 0x2B6C | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x2B6D | 0x000C | 0x0013 | 0x0005 | 0x0015 |
+| 0x2B71 | 0x00F3 | 0x000B | 0x0058 | 0x0001 |
+| 0x2B72 | 0x00F3 | 0x000B | 0x0058 | 0x0001 |
+| 0x2B73 | 0x00D7 | 0x000B | 0x0058 | 0x0001 |
+| 0x2B74 | 0x00D8 | 0x000B | 0x0058 | 0x0001 |
+| 0x2BC0 | 0x0026 | 0x0021 | 0x0046 | 0x0047 |
+| 0x2BC1 | 0x0026 | 0x0021 | 0x0046 | 0x0047 |
+| 0x2BC2 | 0x0026 | 0x0021 | 0x0046 | 0x0047 |
+| 0x2BC3 | 0x0026 | 0x0021 | 0x0046 | 0x0047 |
+| 0x2BC4 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BC5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BC6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BC7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BC8 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BCB | 0x000C | 0x0013 | 0x0005 | 0x0014 |
+| 0x2BCC | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BCD | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BCE | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BCF | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD0 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD1 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD2 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD3 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD4 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2BD9 | 0x000C | 0x0013 | 0x0091 | 0x00EC |
+| 0x2BDA | 0x000C | 0x0058 | 0x00EB | 0x0014 |
+| 0x2BDB | 0x000C | 0x003B | 0x00FD | 0x00F0 |
+| 0x2BDC | 0x000C | 0x0021 | 0x0001 | 0x00BC |
+| 0x2BDD | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BDE | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BDF | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE0 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE1 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE2 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE3 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE4 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE5 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE6 | 0x000C | 0x000F | 0x0005 | 0x0015 |
+| 0x2BE8 | 0x0046 | 0x0047 | 0x00EB | 0x0014 |
+| 0x2BE9 | 0x000C | 0x0013 | 0x0091 | 0x00EC |
+| 0x2BEA | 0x000C | 0x0013 | 0x0091 | 0x00EC |
+| 0x2BEB | 0x000C | 0x0013 | 0x0091 | 0x00EC |
+| 0x2C8D | 0x0068 | 0x0069 | 0x0023 | 0x006A |
+| 0x2C8E | 0x0068 | 0x0069 | 0x0023 | 0x006A |
+| 0x2C90 | 0x000C | 0x0044 | 0x006A | 0x0098 |
+| 0x2C91 | 0x000C | 0x0044 | 0x006A | 0x0098 |
+| 0x2C93 | 0x000C | 0x0044 | 0x006A | 0x0098 |
+| 0x2C96 | 0x006B | 0x006C | 0x006E | 0x003D |
+| 0x2C98 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2C99 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2C9A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2C9C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2C9D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2C9E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D50 | 0x0083 | 0x0085 | 0x0088 | 0x0090 |
+| 0x2D51 | 0x00B1 | 0x00B5 | 0x00B3 | 0x00B6 |
+| 0x2D52 | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2D53 | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2D64 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D65 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D66 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D67 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D68 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D69 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6B | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D6F | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D70 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D71 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D72 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D73 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D74 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D75 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D76 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D77 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D78 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D79 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7B | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D7F | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D80 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D81 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D82 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D8B | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D8C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D8D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D8E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2D9B | 0x0083 | 0x0085 | 0x0088 | 0x0090 |
+| 0x2D9C | 0x0083 | 0x0085 | 0x0088 | 0x0090 |
+| 0x2DA5 | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DA8 | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DAB | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DAE | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DB1 | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DB4 | 0x00DD | 0x00DE | 0x0089 | 0x0091 |
+| 0x2DC0 | 0x0083 | 0x0085 | 0x0088 | 0x0090 |
+| 0x2DC1 | 0x0083 | 0x0085 | 0x0088 | 0x0090 |
+| 0x2DC2 | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2DCA | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2DCB | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2DCC | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2DCD | 0x000C | 0x0018 | 0x0083 | 0x000F |
+| 0x2E1C | 0x008B | 0x0035 | 0x0042 | 0x0015 |
+| 0x2E20 | 0x0057 | 0x0087 | 0x0098 | 0x0015 |
+| 0x2E24 | 0x0057 | 0x0087 | 0x0098 | 0x0015 |
+| 0x2E28 | 0x0057 | 0x0087 | 0x0044 | 0x0015 |
+| 0x2E2C | 0x0057 | 0x0087 | 0x0044 | 0x0015 |
+| 0x2E30 | 0x0098 | 0x0015 | 0x0057 | 0x0087 |
+| 0x2E31 | 0x0098 | 0x0015 | 0x0057 | 0x0087 |
+| 0x2E32 | 0x0098 | 0x0015 | 0x0057 | 0x0087 |
+| 0x2E33 | 0x0098 | 0x0015 | 0x0057 | 0x0087 |
+| 0x2E34 | 0x0057 | 0x0087 | 0x0098 | 0x0015 |
+| 0x2E38 | 0x0072 | 0x0035 | 0x0042 | 0x0015 |
+| 0x2E3C | 0x0072 | 0x0035 | 0x0042 | 0x0015 |
+| 0x2E40 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E42 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E43 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E44 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E46 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E47 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E48 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E4A | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E4B | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E4F | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2E67 | 0x000C | 0x00F8 | 0x00F9 | 0x0015 |
+| 0x2EE0 | 0x000C | 0x0001 | 0x0017 | 0x00F7 |
+| 0x2EE1 | 0x000C | 0x0001 | 0x0017 | 0x00F7 |
+| 0x2EE2 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EE3 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EE5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EE6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EE7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EE8 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2EEE | 0x000C | 0x0005 | 0x0017 | 0x0051 |
+| 0x2EF1 | 0x000C | 0x0005 | 0x0017 | 0x0051 |
+| 0x2EF2 | 0x000C | 0x0005 | 0x0017 | 0x0051 |
+| 0x2EF9 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2EFB | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F07 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F19 | 0x000C | 0x000F | 0x0005 | 0x0050 |
+| 0x2F1A | 0x000C | 0x000F | 0x0005 | 0x0050 |
+| 0x2F22 | 0x000F | 0x0018 | 0x0005 | 0x000D |
+| 0x2F23 | 0x000F | 0x0018 | 0x0005 | 0x000D |
+| 0x2F25 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F26 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F28 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F2F | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F30 | 0x000F | 0x0018 | 0x0005 | 0x0017 |
+| 0x2F35 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F36 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F37 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F38 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F39 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F3A | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F3C | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F3D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F3F | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F40 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F41 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F42 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2F8A | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F8B | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F8C | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F8E | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F8F | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F92 | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2F93 | 0x0023 | 0x0000 | 0x0017 | 0x0015 |
+| 0x2FAA | 0x000C | 0x0005 | 0x000D | 0x0015 |
+| 0x2FAC | 0x0023 | 0x008B | 0x0017 | 0x0015 |
+| 0x2FAD | 0x0023 | 0x008B | 0x0017 | 0x0015 |
+| 0x2FB7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FC1 | 0x000C | 0x0005 | 0x000D | 0x0081 |
+| 0x2FC2 | 0x00C4 | 0x00C7 | 0x000C | 0x00B7 |
+| 0x2FC3 | 0x00C4 | 0x00C7 | 0x000C | 0x00B7 |
+| 0x2FC4 | 0x000C | 0x0022 | 0x000D | 0x0023 |
+| 0x2FC5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FC6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FCD | 0x00F3 | 0x0013 | 0x0070 | 0x0001 |
+| 0x2FCE | 0x00F3 | 0x0013 | 0x0070 | 0x0001 |
+| 0x2FCF | 0x00F3 | 0x0013 | 0x0070 | 0x0001 |
+| 0x2FD0 | 0x00F3 | 0x0013 | 0x0070 | 0x0001 |
+| 0x2FD6 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FD7 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FD9 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDA | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDB | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDC | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDD | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDE | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FDF | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FE0 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FE2 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FE4 | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0x2FE5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FE6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FE7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FF2 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FF3 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x2FF4 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FF5 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FF6 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FF7 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FF9 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FFE | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x2FFF | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x3000 | 0x000C | 0x0013 | 0x000D | 0x0081 |
+| 0x300A | 0x00C4 | 0x00C7 | 0x000C | 0x00B7 |
+| 0x301C | 0x0015 | 0x000C | 0x003A | 0x0038 |
+| 0x301D | 0x0015 | 0x000C | 0x003A | 0x0038 |
+| 0x301E | 0x0015 | 0x000C | 0x003A | 0x0038 |
+| 0x3026 | 0x00C3 | 0x000C | 0x000D | 0x0075 |
+| 0x3028 | 0x00C3 | 0x000C | 0x000D | 0x0017 |
+| 0x3029 | 0x00C3 | 0x000C | 0x000D | 0x0017 |
+| 0x302E | 0x00C3 | 0x000C | 0x000D | 0x0017 |
+| 0x302F | 0x00C3 | 0x000C | 0x000D | 0x0017 |
+| 0x3031 | 0x0074 | 0x000C | 0x000D | 0x0017 |
+| 0x3032 | 0x00C3 | 0x000C | 0x0014 | 0x0091 |
+| 0x3036 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x303E | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3043 | 0x00C8 | 0x000C | 0x003A | 0x0038 |
+| 0x3044 | 0x00C9 | 0x000C | 0x008B | 0x0015 |
+| 0x3045 | 0x00C9 | 0x000C | 0x008B | 0x0015 |
+| 0x3046 | 0x00C9 | 0x000C | 0x008B | 0x0015 |
+| 0x3091 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3094 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3095 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3096 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3097 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3098 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x3099 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x309D | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x309F | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A0 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A1 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A4 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A6 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A7 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A8 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30A9 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30AA | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30AD | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30AE | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30AF | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30B0 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30B2 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30B5 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30BA | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30BB | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30C0 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x30C1 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x31BE | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0x56CE | 0x000C | 0x0021 | 0x008B | 0x0015 |
+| 0xCD87 | 0x000C | 0x0021 | 0x000D | 0x0015 |
+| 0xFFFF | 0x00FF | 0x00FF | 0x00FF | 0x00FF |
+
+<a id="table-farttexteerweitert"></a>
+### FARTTEXTEERWEITERT
+
+Dimensions: 12 rows × 3 columns
+
+| ARTMASKE | ARTNR | ARTTEXT |
+| --- | --- | --- |
+| xxxxxxx0 | 10 | --                          |
+| xxxxxxx1 | 11 | Diagnose aktiv            |
+| xxxxxx0x | 20 | --                          |
+| xxxxxx1x | 21 | Diagnose gestoppt         |
+| xxxxx0xx | 30 | --                          |
+| xxxxx1xx | 31 | Zyklus-Flag gesetzt       |
+| xxxx0xxx | 40 | --                          |
+| xxxx1xxx | 41 | Error-Flag gesetzt        |
+| xxx0xxxx | 50 | --                          |
+| xxx1xxxx | 51 | MIL ein                   |
+| xx0xxxxx | 60 | --                          |
+| xx1xxxxx | 61 | Fehler in Entprellphase   |
+
+<a id="table-messwertetab"></a>
+### MESSWERTETAB
+
+Dimensions: 241 rows × 12 columns
+
+| ARG | ID | RESULTNAME | INFO | EINHEIT | LABEL | L/H | DATENTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ABSCHKORR | 0x460D | STAT_KORREKTUR_ABSCHALTUNG_WERT | Korrekturwert Abschaltung | % | abschkor_w | - | unsigned integer | - | 0,004 | 1 | -100,0 |
+| AVKATF | 0x5A91 | STAT_KAT_DIAGNOSE_WERT | AmplitudenVerhältnis laafh/laafv gefiltert | - | avkatf | - | unsigned char | - | 0,00390625 | 1 | 0,0 |
+| B_ADMTMV | 0x5A67 | STAT_DMTLV_AKTIV_WERT | Bedingung DMTL-Magnetventil an | - | B_admtmv | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_ADMTPM | 0x5A66 | STAT_DMTLP_AKTIV_WERT | Bedingung DMTL-Pumpenmotor an | - | B_admtpm | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_BL | 0x5A60 | STAT_BREMSLICHTSCHALTER_AKTIV_WERT | Bedingung Bremslichtschalter betätigt | - | B_bl | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_BR | 0x5A61 | STAT_BREMSTESTSCHALTER_AKTIV_WERT | Bedingung Bremslichtschalter betätigt | - | B_br | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_DKPU | 0x5839 | STAT_SKA_AKTIV_WERT | Bedingung Sicherheitskraftstoffabschaltung (SKA) | - | B_dkpu | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_EKP | 0x5A1B | STAT_KRAFTSTOFFVERSORGUNG_AKTIV_WERT | Freigabe der EKP-Versorgung | - | B_ekp | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_EPCL | 0x5A6B | STAT_EPCL_AKTIV_WERT | EGAS Lampe Ein | - | B_epcl | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_ESTART | 0x4805 | STAT_KL50_AKTIV_WERT | Bedingung KL 50 ein | - | B_estart | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_FAWSP | 0x4802 | STAT_SPORTMODUS_AKTIV_WERT | Bedingung Sportmodus aktiv | - | B_fawsp | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_HSHA | 0x5A54 | STAT_HEIZUNG_LSHK_AKTIV_WERT | Bedingung Sonde hinter Kat ausreichend beheizt | - | B_hsha | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_HSTLSUA | 0x5A56 | STAT_HEIZUNG_LSVK_AKTIV_WERT | Bedingung Sonde vor Kat ausreichend beheizt | - | B_hstlsua | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_KL | 0x5A36 | STAT_KLOPFER_ERKANNT_AKTIV_WERT | Bedingung für erkannte Klopfer | - | B_kl | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_KOE | 0x4803 | STAT_KLIMAKOMPRESSOR_AKTIV_WERT | Bedingung für Kompressoreinschalten | - | B_koe | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_KUPPL | 0x4800 | STAT_KUPPLUNG_AKTIV_WERT | Bedingung Kupplungspedal betätigt | - | B_kuppl | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_LDR | 0x58F2 | STAT_LADEDRUCKREGELUNG_AKTIV_WERT | Bedingung Ladedruckregelung aktiv | - | B_ldr | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_LDUV | 0x5ADB | STAT_ANSTEUERUNG_UMLUFTVENTIL_AKTIV_WERT | Bedingung zum Ansteuern Endstufe Schubumluftventil | - | B_lduv | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_LL | 0x4809 | STAT_LEERLAUFBEDINGUNG_AKTIV_WERT | Bedingung Leerlauf aktiv | - | B_ll | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_LRFOFF | 0x4618 | STAT_GENERATOR_AKTIV_WERT | Drehzahlschwelle für LR-Funktion Generator 1 aktiv | - | B_lrfoff | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_MIEXT | 0x582B | STAT_EXT_MOMENTENEINGRIFF_AKTIV_WERT | Bedingung externer Momenteneingriff | - | B_miext | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_MIL | 0x5A69 | STAT_MIL_AKTIV_WERT | MIL Lampe Ein | - | B_mil | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_OELDR | 0x5A62 | STAT_OELDRUCKSCHALTER_AKTIV_WERT | Bedingung Öldruckschalter aktiv | - | B_oeldr | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_SBBHK | 0x5A52 | STAT_LSHK_BETRIEBSBEREIT_WERT | Status LS hinter Katalysator Bank 1 | 0/1 | B_sbbhk | - | unsigned char | - | 1 | 1 | 0 |
+| B_SBBVK | 0x4700 | STAT_LSVK_BETRIEBSBEREIT_WERT | Bedingung Sonde betriebsbereit vor Kat | - | B_sbbvk | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| B_STA | 0x5ABD | STAT_STARTERRELAIS_AKTIV_WERT | Starterrelais aktiv | - | B_sta | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| BDEMOD | 0x58E4 | STAT_BETRIEBSART_WERT | Ist-Betriebsart | - | bdemod | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| BSDGENCV | 0x4605 | STAT_CHIPVERSION_GENERATOR_WERT | Chipversion Generator 1 | - | Bsdgencv | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| BSDGENREGV | 0x4606 | STAT_REGLERVERSION_GENERATOR_WERT | Reglerversion Generator 1 | - | bsdgenregv | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| DFMONITOR | 0x460F | STAT_BATTERIELADEZUSTAND_WERT | Batterieladezustand | % | dfmonitor | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| DFSIGGEN | 0x4614 | STAT_DFSIGGEN_WERT | Auslastungsgrad Generator 1 | % | dfsiggen | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| DLAHI | 0x5878 | STAT_I_ANTEIL_LRHK_WERT | I-Anteil der stetigen LRHK | - | dlahi_w | - | unsigned char | - | 0,00048828125 | 1 | 0,0 |
+| DMLLRP | 0x58CA | STAT_DMLLRP_WERT | PD-Anteil langsam Leerlaufregelung | % | dmllrp_w | - | signed char | - | 0,390625 | 1 | 0,0 |
+| DYNLSU | 0x5830 | STAT_LSU_DYNAMIK_WERT | Dynamikwert der LSU | - | dynlsu_w | - | unsigned char | - | 0,015625 | 1 | 0,0 |
+| DZTBD_ZYL1 | 0x58B1 | STAT_FUNKENBRENNDAUER_ZYL1_WERT | Funkenbrenndauer Zylinder 1 | ms | dztbd_w[0] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| DZTBD_ZYL2 | 0x58B5 | STAT_FUNKENBRENNDAUER_ZYL2_WERT | Funkenbrenndauer Zylinder 2 | ms | dztbd_w[3] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| DZTBD_ZYL3 | 0x58B3 | STAT_FUNKENBRENNDAUER_ZYL3WERT | Funkenbrenndauer Zylinder 3 | ms | dztbd_w[1] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| DZTBD_ZYL4 | 0x58B6 | STAT_FUNKENBRENNDAUER_ZYL4_WERT | Funkenbrenndauer Zylinder 4 | ms | dztbd_w[2] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| EISYDKFKAF | 0x58E0 | STAT_ABGLEICH_DK_MODELL | Abgleich Drosselklappenmodell (Faktor) | - | eisydkfkaf | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| EISYEVFKAF | 0x58E2 | STAT_ABGLEICH_EINLASSVENTILMODELL | Abgleich Einlassventilmodell (Faktor) | - | eisyevfkaf | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| EGASPFAD | 0x58EB | STAT_EGASPFAD_WERT | EGAS-Pfad | - | egaspfad | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| FAC_PWM_VCV_BAS_AD_VAR_2 | 0x5AC8 | STAT_FAC_PWM_VCV_BAS_AD_VAR_2_WERT | Mult. Adaptionswert Mengenregelung | - | FAC_PWM_VCV_BAS_AD_VAR_2 | - | signed integer | - | 0,0015258789 | 1 | 0,0 |
+| FKDPWGPU | 0x5ADC | STAT_MUL_LADEDRUCKADAPTION_WERT | multiplikative Ladedruckadaption | - | fkdpwgpu_w | - | unsigned integer | - | 0,000030517578 | 1 | 0,0 |
+| FKMSDK | 0x5A19 | STAT_FKMSDK_WERT | Korrekturfaktor Massenstrom Nebenfüllungssignal | - | fkmsdk_w | - | unsigned integer | - | 0,00006103515625 | 1 | 0,0 |
+| FLGLRS | 0x5802 | STAT_ZUSTAND_LAMBDAREGELUNG_WERT | Zustand Lambdaregelung | - | flglrs | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| FOFSTAT | 0x5A99 | STAT_FUEL_OFF_ADAPTION_WERT | Status der fuel-off Adaption im aktuellen Betriebsbereich | - | fofstat | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| FR | 0x5806 | STAT_FR_WERT | Lambdaregler-Ausgang | - | fr_w | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| FRA | 0x5A89 | STAT_FRA_WERT | Multipikative Lambdaregelung | - | fra_w | - | unsigned integer | - | 0,000030517578125 | 1 | 0,0 |
+| FRAI | 0x5A80 | STAT_FRAI_WERT | multiplikative Gemischkorrektur der Gemischadaption | - | frai_w | - | unsigned integer | - | 0,000030517578125 | 1 | 0,0 |
+| FRM | 0x5855 | STAT_LAMBDAREGELFAKTOR_WERT | Schneller Mittelwert des Lambdaregelfaktors | - | frm_w | - | unsigned char | - | 0,0078125 | 1 | 0,0 |
+| FSTT | 0x583B | STAT_FUELLSTAND_KRAFTSTOFFTANK_WERT | Füllstand Kraftstofftank | l | fstt | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| FTEADF | 0x58FA | STAT_FTEADF_WERT | Gefilterter Faktor Tankentlüftungs-Adaption | - | fteadf | - | signed char | - | 0,5 | 1 | 0,0 |
+| FUEL_MASS_REQ_I_CTL_H_RES | 0x5ABE | STAT_FUEL_MASS_REQ_I_CTL_H_RES_WERT | I-Regler Mengenregelung | mg | FUEL_MASS_REQ_I_CTL_H_RES | - | signed long | - | 0,000033116340634 | 1 | 0,0 |
+| FZABGS | 0x58DD | STAT_SUMMENZAEHLER_AUSSETZER_WERT | Summenzähler Aussetzer | - | fzabgs_w | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| FZABGZYL1 | 0x5AF6 | STAT_ZYL1_ANZ_AUSSETZER_WERT | Aussetzerzähler Zylinder 1 | - | fzabgzyl_w[0] | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| FZABGZYL2 | 0x5AF7 | STAT_ZYL2_ANZ_AUSSETZER_WERT | Aussetzerzähler Zylinder 2 | - | fzabgzyl_w[3] | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| FZABGZYL3 | 0x5AF8 | STAT_ZYL3_ANZ_AUSSETZER_WERT | Aussetzerzähler Zylinder 3 | - | fzabgzyl_w[1] | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| FZABGZYL4 | 0x5AF9 | STAT_ZYL4_ANZ_AUSSETZER_WERT | Aussetzerzähler Zylinder 4 | - | fzabgzyl_w[2] | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| GANGI | 0x5881 | STAT_IST_GANG_WERT | Ist-Gang | - | gangi | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| GENMANUFAK | 0x4607 | STAT_HERSTELLERCODE_GENERATOR_WERT | Kennung Generator Hersteller | - | genmanufak | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| GENTYPKENN | 0x4608 | STAT_TYPKENNUNG_GENERATOR_WERT | Kennung Generatortyp | - | gentypkenn | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| IBSDERRS1 | 0x58F8 | STAT_IBS_FEHLER1_WERT | Intelligenter Batteriesensor Fehler 1 | - | ibsderrs1 | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| IBSDERRS2 | 0x58F9 | STAT_IBS_FEHLER2_WERT | Intelligenter Batteriesensor Fehler 2 | - | ibsderrs2 | - | unsigned char | - | 256 | 1 | 0,0 |
+| IERR | 0x4612 | STAT_IERR_WERT | Erregerstrom Generator 1 | A | ierr | - | unsigned char | - | 0,125 | 1 | 0,0 |
+| IERRFGRENZ | 0x4615 | STAT_IERRFGRENZ_WERT | Kopie begrenzter Erregerstrom Generator 1 | A | ierrfgrenz | - | unsigned char | - | 0,125 | 1 | 0,0 |
+| IPBUS | 0x5A1E | STAT_IPBUS_WERT | Differenz zwischen Umgebungsdruck und  Bremskraftverstärker-Druck von Drucksensor (Rohwert) | hPa | dpbkvur_w | - | signed integer | - | 0,0390625 | 1 | 0,0 |
+| IUBUS | 0x5A1D | STAT_IUBUS_WERT | Spannung Drucksensor Bremskraftverstärker | V | udsbkv_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| IPTES | 0x588E | STAT_PUMPENSTROM_TANKDIAGNOSE_WERT | Pumpenstrom Tankdiagnose | mA | iptes_w | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| IPTGLMN | 0x585A | STAT_PUMPENSTROM_GROBLECK_WERT | Pumpenstrom bei Grobleckmessung | mA | iptglmn_w | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| IPTREFR | 0x5859 | STAT_PUMPENSTROM_REFERENZLECK_WERT | Pumpenstrom Referenzleck | mA | iptrefr_w | - | unsigned char | - | 0,1953125 | 1 | 0,0 |
+| ISKN1R1 | 0x5AEA | STAT_ISKN1R1_WERT | Messwerte Superklopferkennung | - | iskn1r1_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN1R2 | 0x5AEB | STAT_ISKN1R2_WERT | Messwerte Superklopferkennung | - | iskn1r2_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN1R3 | 0x5AEC | STAT_ISKN1R3_WERT | Messwerte Superklopferkennung | - | iskn1r3_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN2R1 | 0x5AED | STAT_ISKN2R1_WERT | Messwerte Superklopferkennung | - | iskn2r1_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN2R2 | 0x5AEE | STAT_ISKN2R2_WERT | Messwerte Superklopferkennung | - | iskn2r2_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN2R3 | 0x5AEF | STAT_ISKN2R3_WERT | Messwerte Superklopferkennung | - | iskn2r3_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN3R1 | 0x5AF1 | STAT_ISKN3R1_WERT | Messwerte Superklopferkennung | - | iskn3r1_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN3R2 | 0x5AF2 | STAT_ISKN3R2_WERT | Messwerte Superklopferkennung | - | iskn3r2_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| ISKN3R3 | 0x5AF3 | STAT_ISKN3R3_WERT | Messwerte Superklopferkennung | - | iskn3r3_w | - | unsigned integer | - | 1,0 | 1 | 0,0 |
+| IVZABG | 0x58DE | STAT_FUNKINTERNER_ZAEHLER_WERT | Funktionsinterner Zähler | - | ivzabg_w | - | unsigned char | - | 10,0 | 1 | 0,0 |
+| KLDR | 0x5AAE | STAT_LADEDRUCKREGELUNG_KORR_WERT | Korrektur Ladedruckregelung | - | kldr_w | - | signed integer | - | 0,000030517578125 | 1 | 0,0 |
+| KMSTAND | 0x480A | STAT_KMSTAND_WERT | Wegstrecke_km auf 1km genau | km | kmstand_l | - | unsigned long | - | 1,0 | 1 | 0,0 |
+| KUSVK | 0x582D | STAT_KUSVK_WERT | Korrekturwert der LSU-Spannung vor Kat | V | kusvk_w | - | signed char | - | 0,001953125 | 1 | 0,0 |
+| KVA_KORR | 0x5A6C | STAT_KVA_KORR_WERT | Korrekturfaktor für die Kraftstoffmenge | % | kva_korr | - | signed char | - | 0,001 | 1 | 0,0 |
+| L_FGR | 0x5A6A | STAT_FGR_AKTIV_WERT | FGR Lampe Ein | - | L_fgr | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| LAENDER_FAK1 | 0x440D | STAT_LAENDERFAKTOR1_WERT | Länderfaktor 1 | - | ozlf1t | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| LAENDER_FAK1_COD | 0x440B | STAT_LAENDERFAKTOR1_CODIERT_WERT | CodingDataSet-ÖL-Länderfaktor1 - EEPROM | - | ozlf1c_eep | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| LAENDER_FAK2 | 0x440E | STAT_LAENDERFAKTOR2_WERT | Länderfaktor 2 | - | ozlf2t | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| LAENDER_FAK2_COD | 0x440C | STAT_LAENDERFAKTOR2_CODIERT_WERT | CodingDataSet-ÖL-Länderfaktor2 - EEPROM | - | ozlf2c_eep | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| LAMSAM | 0x582E | STAT_LAMSAM_WERT | Lambdaamplitude nach Filterung | - | lamsam_w | - | signed char | - | 0,0625 | 1 | 0,0 |
+| LAMSBG | 0x4704 | STAT_LAMBDA_SOLLBEGRENZUNG_WERT | Lambdasoll Begrenzung | - | lamsbg_w | - | unsigned integer | - | 0,000244140625 | 1 | 0,0 |
+| LAMSONI | 0x5A50 | STAT_LAMBDA_IST_WERT | Lambda-Istwert | - | lamsoni_w | - | unsigned integer | - | 0,000244140625 | 1 | 0,0 |
+| LAMSONS | 0x5816 | STAT_LAMBDA_SOLL_WERT | Lambda-Sollwert | - | lamsons_w | - | unsigned char | - | 0,0625 | 1 | 0,0 |
+| LAMZAK | 0x582C | STAT_LAMZAK_WERT | Lambdasondenistwert, korrigiert um Zusatzamplitude | - | lamzak_w | - | unsigned char | - | 0,0625 | 1 | 0,0 |
+| LDRA | 0x5AAD | STAT_LADEDRUCK_REGELABWEICHUNG_WERT | Ladedruckregelabweichung | - | ldra_w | - | signed integer | - | 0,00006103515625 | 1 | 0,0 |
+| LRNSTEP | 0x58B0 | STAT_DK_LERNSTEP_WERT | DK-Adaptionsschritt | - | lrnstep_c | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| LUTSKZYL4 | 0x5A30 | STAT_ZYL4_LAUFUNRUHE_WERT | Laufunruhe Zylinder 4 | sec-1 | lutskzyl_w[0] | - | signed integer | - | 0,007105427358 | 1 | 0,0 |
+| LUTSKZYL3 | 0x5A31 | STAT_ZYL3_LAUFUNRUHE_WERT | Laufunruhe Zylinder 3 | sec-1 | lutskzyl_w[3] | - | signed integer | - | 0,007105427358 | 1 | 0,0 |
+| LUTSKZYL2 | 0x5A32 | STAT_ZYL2_LAUFUNRUHE_WERT | Laufunruhe Zylinder 2 | sec-1 | lutskzyl_w[1] | - | signed integer | - | 0,007105427358 | 1 | 0,0 |
+| LUTSKZYL1 | 0x5A33 | STAT_ZYL1_LAUFUNRUHE_WERT | Laufunruhe Zylinder 1 | sec-1 | lutskzyl_w[2] | - | signed integer | - | 0,007105427358 | 1 | 0,0 |
+| MDGENVF | 0x4617 | STAT_MDGENVF_WERT | Gefiltertes Generatormoment absolut | % | mdgenvf_w | - | unsigned integer | - | 0,00152588 | 1 | 0,0 |
+| MILSOL | 0x58D5 | STAT_MILSOL_WERT | koordiniertes Moment für Füllung | % | milsol_w | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| MIMSR | 0x58BF | STAT_MIMSR_WERT | Indiziertes Soll-Motormoment MSR | % | mimsr | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| MKIST | 0x5891 | STAT_KUPPLUNGSMOTORMOMENT_IST_WERT | Kupplungsmotormoment Istwert | Nm | mkist_w | - | unsigned char | - | 4,0 | 1 | 0,0 |
+| ML | 0x5ABC | STAT_LUFTMASSE_WERT | Luftmassenfluss gefiltert | kg/h | ml_w | - | unsigned integer | - | 0,1 | 1 | 0,0 |
+| MPFAD | 0x58EC | STAT_MPFAD_WERT | Momenten-Pfad in Funktion und Funktionsüberwachung | - | mpfad | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| MSAOVHK | 0x58C6 | STAT_MSAOVHK_WERT | Abgasmassenstrom ohne Kraftstoffanteil | kg/h | msaovhk_w | - | unsigned char | - | 3,2 | 1 | 0,0 |
+| MSHFM | 0x4203 | STAT_MSHFM_WERT | Luftmassenstrom HFM | kg/h | mshfm_w | - | unsigned integer | - | 0,1 | 1 | 0,0 |
+| MSNDKO | 0x5A1A | STAT_MSNDKO_WERT | Leckluftmassenstrom über Drosselklappe | kg/h | msndko_w | - | unsigned integer | - | 0,1 | 1 | 0,0 |
+| MSTE | 0x584D | STAT_MSTE_WERT | Massenstrom Tankentlüftung in das Saugrohr | kg/h | mste_w | - | unsigned char | - | 0,078125 | 1 | 0,0 |
+| MSVLLKS | 0x5AB0 | STAT_MSVLLKS_WERT | Soll-Luftmassenstrom vor Ladeluftkühler | kg/h | msvllks_w | - | unsigned integer | - | 0,1 | 1 | 0,0 |
+| NGFIL | 0x5836 | STAT_DREHZAHLGRADIENT_WERT | Gefilterter Drehzahlgradient | 1/min/s | ngfil | - | signed char | - | 100,0 | 1 | 0,0 |
+| NMOT | 0x4807 | STAT_DREHZAHL_WERT | Motordrehzahl | Upmin | nmot_w | - | unsigned integer | - | 0,25 | 1 | 0,0 |
+| NMOT_UM | 0x58B8 | STAT_DREHZAHL_UEBERWACHUNG_WERT | Motordrehzahl in der Funktionsüberwachung | Upmin | nmot_um | - | unsigned char | - | 40,0 | 1 | 0,0 |
+| NSOL | 0x4808 | STAT_SOLLDREHZAHL_WERT | Leerlaufsolldrehzahl | Upmin | nsol_w | - | unsigned integer | - | 0,25 | 1 | 0,0 |
+| OFDPWGPU | 0x5ADD | STAT_ADD_LADEDRUCKADAPTION_WERT | additive Ladedruckadaption | hPa | ofdpwgpu_w | - | unsigned integer | - | 0,0390625 | 1 | 0,0 |
+| ORA | 0x5A8D | STAT_ORA_WERT | additive Gemischadaption Leerlauf Bank 1 | % | ora_w | - | signed integer | - | 0,046875 | 1 | 0,0 |
+| OSCDTKA | 0x589A | STAT_KAT_SPEICHERVERMOEGEN_WERT | Sauerstoffspeichervermögen des Katalysators | mg | oscdkta_w | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| OZKVBSM | 0x4403 | STAT_KRAFTSTOFFVERBRAUCH_WERT | Kraftstoffverbrauch seit letztem Service | - | ozkvbsm_ul | - | unsigned long | - | 0,00012207 | 1 | 0,0 |
+| PAC | 0x58F7 | STAT_KUEHLMITTELDRUCK_KLIMAANLAGE_WERT | Kühlmitteldruck in der Klimaanlage | hPa | pac | - | unsigned char | - | 154,2 | 1 | 0,0 |
+| PBREMS | 0x58B7 | STAT_BREMSDRUCK_WERT | Aktueller Bremsdruck | bar | pbrems | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| PHLSNH | 0x5A59 | STAT_LSHHK_WERT | Heizleistung der Lambdasonde hinter Kat | - | phlsnh | - | unsigned char | - | 0,01 | 1 | 0,0 |
+| PRHRLSU | 0x58E9 | STAT_PRHRLSU_WERT | Heizleistungsanforderung für Lambdasondenheizung | % | prhrlsu_w | - | unsigned char | - | 0,78125 | 1 | 0,0 |
+| PRIST | 0x5AC3 | STAT_RAILDRUCK_IST_WERT | Raildruck-Istwert (Absolutdruck) | MPa | prist_w | - | unsigned integer | - | 0,0005 | 1 | 0,0 |
+| PRSOLL | 0x5AC4 | STAT_RAILDRUCK_SOLL_WERT | Sollwert Raildruckregelung | MPa | prsoll_w | - | unsigned integer | - | 0,0005 | 1 | 0,0 |
+| PS | 0x4202 | STAT_SAUGROHRDRUCK_WERT | Saugrohrdruck | hPa | ps_w | - | unsigned integer | - | 0,0390626 | 1 | 0,001 |
+| PSRMMN | 0x58D8 | STAST_SAUGROHRDRUCK_MODELL_MIN_WERT | Minimaler modellierter Saugrohrdruck | hPa | psrmmn_w | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| PSRMMX | 0x58D7 | STAST_SAUGROHRDRUCK_MODELL_MAX_WERT | Maximaler modellierter Saugrohrdruck | hPa | psrmmx_w | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| PU | 0x4201 | STAT_UMGEBUNGSDRUCK_WERT | Umgebungsdruck | hPa | pu_w | - | unsigned integer | - | 0,0390625 | 1 | 0,0 |
+| PUR | 0x5834 | STAT_UMGEBUNGSDRUCK_SENSOR_WERT | Umgebungsdruck vom Sensor | hPa | pur_w | - | unsigned char | - | 7,8125 | 1 | 0,0 |
+| PVD | 0x4205 | STAT_LADEDRUCK_IST_WERT | Istwert Ladedruck | hPa | pvd_w | - | unsigned integer | - | 0,078125 | 1 | 0,0 |
+| PVDS | 0x5AD9 | STAT_LADEDRUCK_SOLL_WERT | Ladedruck Sollwert | hPa | pvds_w | - | unsigned integer | - | 0,078125 | 1 | 0,0 |
+| PWM_VCV | 0x5AC5 | STAT_TV_MENGENSTEUERVENTIL_WERT | Tastverhältnis Mengensteuerventil | % | PWM_VCV | - | unsigned integer | - | 0,0015258789 | 1 | 0,0 |
+| PWM_VCV_BAS_AD_VAR_2_ADD | 0x5AC7 | STAT_PWM_VCV_BAS_AD_VAR_2_ADD_WERT | Additive Adaptionswert Mengenregelung | % | PWM_VCV_BAS_AD_VAR_2_ADD | - | signed integer | - | 0,0015258789 | 1 | 0,0 |
+| PWM_VCV_MIN_AD | 0x5AC9 | STAT_PWM_VCV_MIN_AD_WERT | Gemittelter Adaptionwert Druckregelung | % | PWM_VCV_MIN_AD | - | signed integer | - | 0,0015258789 | 1 | 0,0 |
+| PWM_VCV_MIN_AD_1 | 0x5ACA | STAT_PWM_VCV_MIN_AD_1_WERT | Punkt 1 Adaption Druckregelungs-Kennlinie | % | PWM_VCV_MIN_AD_1 | - | signed integer | - | 0,0015258789 | 1 | 0,0 |
+| PWM_VCV_MIN_AD_2 | 0x5ACB | STAT_PWM_VCV_MIN_AD_2_WERT | Punkt 2 Adaption Druckregelungs-Kennlinie | % | PWM_VCV_MIN_AD_2 | - | signed integer | - | 0,0015258789 | 1 | 0,0 |
+| QSTRTFGK | 0x460E | STAT_ABST_STARTFAEHIGKEITSGRENZE_WERT | Abstand zur Startfähigkeitsgrenze | Ah | qstrtfgk_w | - | unsigned integer | - | 0,018204444 | 1 | 0,0 |
+| RINH_HB | 0x585C | STAT_INNENWIDERSTAND_LSHK_HB_WERT | Innenwiderstand Lambdasonde nach Kat | Ohm | rinh_w_HB | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| RINH_LB | 0x585E | STAT_INNENWIDERSTAND_LSHK_LB_WERT | Innenwiderstand Lambdasonde nach Kat | Ohm | rinh_w _LB | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| RINLSU_HB | 0x5860 | STAT_INNENWIDERSTAND_LSVK_HB_WERT | Innenwiderstand Lambdasonde vor Kat | Ohm | rinlsu_w_HB | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| RINLSU_LB | 0x5863 | STAT_INNENWIDERSTAND_LSVK_LB_WERT | Innenwiderstand Lambdasonde vor Kat | Ohm | rinlsu_w_LB | - | unsigned char | - | 2,0 | 1 | 0,0 |
+| RKAT | 0x5807 | STAT_RKAT_WERT | Additive Gemischkorrektur der Gemischadaption |  % | rkat_w | - | signed char | - | 0,2 | 1 | 0,0 |
+| RKR_ZYL1 | 0x5883 | STAT_SPANNUNG_KLOPFWERT_ZYL1_WERT | Spannung Klopfwerte Zylinder 1 | V | rkr_w[0] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| RKR_ZYL2 | 0x5890 | STAT_SPANNUNG_KLOPFWERT_ZYL2_WERT | Spannung Klopfwerte Zylinder 2 | V | rkr_w[3] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| RKR_ZYL3 | 0x5885 | STAT_SPANNUNG_KLOPFWERT_ZYL3_WERT | Spannung Klopfwerte Zylinder 3 | V | rkr_w[1] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| RKR_ZYL4 | 0x5888 | STAT_SPANNUNG_KLOPFWERT_ZYL4_WERT | Spannung Klopfwerte Zylinder 4 | V | rkr_w[2] | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| RKRNV6_ZYL1 | 0x5A37 | STAT_ZYL1_REFERENZPEGEL_KLOPFREGELUNG_WERT | Referenzpegel Klopfregelung Zyl. 1 (Bezugspunkt Verstärkung 6) | V | rkrnv6_w[0] | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| RKRNV6_ZYL2 | 0x5A38 | STAT_ZYL2_REFERENZPEGEL_KLOPFREGELUNG_WERT | Referenzpegel Klopfregelung Zyl. 2 (Bezugspunkt Verstärkung 6) | V | rkrnv6_w[3] | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| RKRNV6_ZYL3 | 0x5A39 | STAT_ZYL3_REFERENZPEGEL_KLOPFREGELUNG_WERT | Referenzpegel Klopfregelung Zyl. 3 (Bezugspunkt Verstärkung 6) | V | rkrnv6_w[1] | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| RKRNV6_ZYL4 | 0x5A3A | STAT_ZYL4_REFERENZPEGEL_KLOPFREGELUNG_WERT | Referenzpegel Klopfregelung Zyl. 4 (Bezugspunkt Verstärkung 6) | V | rkrnv6_w[2] | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| RL | 0x5813 | STAT_RELATIVE_LAST_WERT | Relative Last | % | rl | - | unsigned char | - | 0,75 | 1 | 0,0 |
+| RL_UM | 0x58BC | STAT_LUFTMASSE_UEBERWACHUNG_WERT | Relative Luftfüllung in der Funktionsüberwachung | % | rl_um | - | unsigned char | - | 0,75 | 1 | 0,0 |
+| RML | 0x5804 | STAT_BERECHNETE_LAST_WERT | Berechneter Lastwert | % | rml | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| SP1S_UM | 0x58E7 | STAT_SPANNUNG_PWG1_UEBERWACHUNG_WERT | Spannung Pedalwertgeber 1 Überwachung | V | sp1s_um | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| SP2S_UM | 0x58E8 | STAT_SPANNUNG_PWG2_UEBERWACHUNG_WERT | Spannung Pedalwertgeber 2 Überwachung | V | sp2s_um | - | unsigned char | - | 0,009765625 | 1 | 0,0 |
+| SPSN_UM | 0x58B9 | STAT_PEDALSOLLWERT_UEBERWACHUNG_WERT | Pedalsollwert Überwachung | V | spsn_um | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| ST_I_GEN | 0x4604 | STAT_GENERATORSTROM_WERT | Generatorstrom | A | st_i_gen | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| STATE_PWM_VCV | 0x5AC6 | STAT_STATE_PWM_VCV_WERT | Betriebsart Mengenregelung | - | STATE_PWM_VCV | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| STATSVREG1 | 0x5868 | STAT_STANDVERBRAUCHER_1_WERT | Status Standverbraucher registriert Teil 1 | - | statsvreg1 | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| STATSVREG2 | 0x5869 | STAT_STANDVERBRAUCHER_2_WERT | Status Standverbraucher registriert Teil2 | - | statsvreg2 | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| T2HSTSHORT | 0x586B | STAT_ZEIT_RUHESTROM_80_200_WERT | Zeit mit Ruhestrom 80 - 200 mA | min | t2hstshort | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| T3HSTSHORT | 0x586C | STAT_ZEIT_RUHESTROM_200_1000_WERT | Zeit, Ruhestrom liegt bei 200..1000mA | min | t3hstshort | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| T4HSTSHORT | 0x586E | STAT_ZEIT_RUHESTROM_AB1000_WERT | Zeit, Ruhestrom ist größer als 1000mA | min | t4hstshort | - | unsigned char | - | 14,93333 | 1 | 0,0 |
+| TABST | 0x5823 | STAT_ABSTELLZEIT_WERT | Abstellzeit | s | tabst_w | - | unsigned char | - | 256 | 1 | 0,0 |
+| TAHRLSU | 0x5A58 | STAT_TV_LSHVK_WERT | Tastverhältnis Lambdasondenheizung vor Kat | % | tahrlsu_w | - | unsigned integer | - | 0,0030517578125 | 1 | 0,0 |
+| TAML | 0x4611 | STAT_TV_E_LUEFTER_WERT | Tastverhältnis E-Lüfter | % | taml | - | unsigned char | - | 0,390625 | 1 | 0,0 |
+| TANHKM | 0x5896 | STAT_ABGASTEMPERATUR_HK_WERT | Abgastemperatur hinter Kat | °C | tanhkm_w | - | signed char | - | 6,0 | 1 | 0,0 |
+| TANS | 0x4200 | STAT_ANSAUGLUFTTEMPERATUR_WERT | Ansauglufttemperatur | °C | tans | - | unsigned char | - | 0.750 | 1 | -48,0 |
+| TANSLIN | 0x5AB6 | STAT_ANSAUGLUFTTEMPERATUR_LINEARISIERT_WERT | Ansauglufttemperatur, linearisiert | °C | tanslin | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| TATEOUT | 0x5A77 | STAT_TV_TEV_WERT | Tastverhältnis Tankentlüftungsventil | % | tateout_w | - | unsigned integer | - | 0,00152587890625 | 1 | 0,0 |
+| TCHIP | 0x4603 | STAT_CHIPTEMP_GENERATOR_WERT | Chiptemperatur Generator | °C | tchip | - | unsigned char | - | 1,0 | 1 | -40,0 |
+| TDMLKA | 0x588D | STAT_AKTUELLE_ZEIT_LECKMESSUNG_WERT | Aktuelle Zeit Leckmessung | s | tdmlka_w | - | unsigned char | - | 1,6 | 1 | 0,0 |
+| TFSTQ1L | 0x58EF | STAT_TANKFUELLSTAND_WERT | Tankfüllstand | l | tfstq1l | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| TIX_ZYL1 | 0x5A42 | STAT_ZYL1_EINSPRITZZEIT_WERT | Einspritzzeit Zylinder 1 | ms | tix_l[0] | - | unsigned long | - | 0,001 | 1 | 0,0 |
+| TIX_ZYL2 | 0x5A43 | STAT_ZYL2_EINSPRITZZEIT_WERT | Einspritzzeit Zylinder 2 | ms | tix_l[3] | - | unsigned long | - | 0,001 | 1 | 0,0 |
+| TIX_ZYL3 | 0x5A44 | STAT_ZYL3_EINSPRITZZEIT_WERT | Einspritzzeit Zylinder 3 | ms | tix_l[1] | - | unsigned long | - | 0,001 | 1 | 0,0 |
+| TIX_ZYL4 | 0x5A45 | STAT_ZYL4_EINSPRITZZEIT_WERT | Einspritzzeit Zylinder 4 | ms | tix_l[2] | - | unsigned long | - | 0,001 | 1 | 0,0 |
+| TKATM | 0x582F | STAT_TKATM_WERT | Abgastemperatur nach Katalysator aus Modell | °C | tkatm | - | unsigned char | - | 5,0 | 1 | -50,0 |
+| TKERLSU | 0x588C | STAT_KERAMIKTEMPERATUR_LSU_WERT | Keramiktemperatur der LSU | °C | tkerlsu_w | - | unsigned char | - | 6,0 | 1 | 0,0 |
+| TKRST | 0x5AD4 | STAT_KRAFTSTOFF_TEMPERATUR_WERT | Kraftstofftemperatur | °C | tkrst | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| TKWPWM | 0x5A74 | STAT_TV_KENNFELDTHERMOSTAT_WERT | Tastverhältnis Kennfeldthermostat | - | tkwpwm | - | signed integer | - | 0,1 | 1 | 0,0 |
+| TLRFGEN | 0x4616 | STAT_TLRFGEN_WERT | Vom Generator empfangene Load response Zeit | s | tlrfgen | - | unsigned char | - | 0,1 | 1 | 0,0 |
+| TMOT | 0x4300 | STAT_MOTORTEMPERATUR_WERT | Motortemperatur | °C | tmot | - | unsigned char | - | 0.750 | 1 | -48,0 |
+| TMOTLIN | 0x5AB7 | STAT_MOTORTEMPERATUR_LINEARISIERT_WERT | Motortemperatur, linearisiert | °C | tmotlin | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| TMST | 0x5882 | STAT_MOTORSTARTTEMPERATUR_WERT | Motorstarttemperatur | °C | tmst | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| TNSE | 0x5800 | STAT_TNSE_WERT | Zeitzähler ab Startende | s | tnse_w | - | unsigned char | - | 25,6 | 1 | 0,0 |
+| TNST | 0x588B | STAT_ZEIT_NACH_STARTENDE_WERT | Zeit nach Startende | s | tnst_w | - | unsigned char | - | 2,56 | 1 | 0,0 |
+| TOEL | 0x4402 | STAT_OELTEMPERATUR_WERT | Oeltemperatur | °C | toel | - | unsigned char | - | 1,000 | 1 | -60,0 |
+| TOP | 0x5AB4 | STAT_BETRIEBSSTUNDENZAEHLER_WERT | Betriebsstundenzähler | min | top_w | - | unsigned integer | - | 6,0 | 1 | 0,0 |
+| TPMSHFM | 0x5A20 | STAT_TPMSHFM_WERT | Peridendauer für Massenstrom aus HFM | us | tpmshfm_w | - | unsigned integer | - | 0,1 | 1 | 0,0 |
+| TSG | 0x4806 | STAT_SG_INNENTEMPERATUR_WERT | Steuergeräte-Innentemperatur | °C | tsg | - | unsigned char | - | 0,75 | 1 | -48,0 |
+| TSK | 0x58C1 | STAT_KORRiGIERTE_SEGMENTDAUER_WERT | Korrigierte Segmentdauer | us | tsk_l | - | unsigned char | - | 6553,6 | 1 | 0,0 |
+| TUMG | 0x4204 | STAT_UMGEBUNGSTEMPERATUR_WERT | Umgebungstemperatur | °C | tumg | - | unsigned char | - | 0.750 | 1 | -48,0 |
+| TVLDSTE | 0x5ADA | STAT_TV_LADEDRUCKSTELLER_WERT | Tastverhältnis Ladedrucksteller | % | tvldste_w | - | unsigned integer | - | 0,0015258789 | 1 | 0,0 |
+| UA10MO | 0x4702 | STAT_SPANNUNG_LSVK_WERT | Spannung Lambdasonde vor Kat mit Offsetkorrektur | V | ua10mo_w | - | unsigned integer | - | 0,00048828125 | 1 | 0,0 |
+| UB | 0x5815 | STAT_BATTERIESPANNUNG_WERT | Batteriespannung | V | ub | - | unsigned char | - | 0,0942 | 1 | 0,0 |
+| UB_ADC | 0x460C | STAT_BATTERIESPANNUNG_ADC_WERT | ADC-Wert Batteriespannung | V | wub_w | - | unsigned integer | - | 0,02355 | 1 | 0,0 |
+| UB_AKTUELL | 0x460A | STAT_BATTERIESPANNUNG_AKTUELLER_WERT | Aktuelle Batteriespannung | V | ubt | - | unsigned integer | - | 0,015 | 1 | 0,0 |
+| UB_IBS | 0x460B | STAT_BATTERIESPANNUNG_IBS_WERT | Batteriespannung vom IBS gemessen | V | ubatt_w | - | unsigned integer | - | 0,00025 | 1 | 6,0 |
+| UDKP1 | 0x5A06 | STAT_SPANNUNG_DK_POTI_1_WERT | Spannung Drosselklappe Potentiometer 1 | V | udkp1_w | - | unsigned integer | - | 0,001220703125 | 1 | 0,0 |
+| UDKP1A | 0x58ED | STAT_SPANNUNG_DK_POTI1_UA_WERT | Spannung Drosselklappen-Poti 1 am unteren Anschlag | V | udkp1a | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| UDKP2 | 0x5A07 | STAT_SPANNUNG_DK_POTI_2_WERT | Spannung Drosselklappe Potentiometer 2 | V | udkp2_w | - | unsigned integer | - | 0,001220703125 | 1 | 0,0 |
+| UDSAC | 0x5A15 | STAT_SPANNUNG_DRUCKSENSOR_ADC_WERT | ADC-Wert Spannung Drucksensor | V | udsac_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UDSS | 0x5AB8 | STAT_SPANNUNG_SAUGROHRDRUCK_WERT | Spannung Drucksensor Saugrohrdruck | V | udss_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UDSU | 0x5A0B | STAT_UMGEBUNGSDRUCK_ADC_WERT | ADC-Wert Umgebungsdruck | V | udsu_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UDSVD | 0x5A1F | STAT_SPANNUNG_LADEDRUCK_WERT | Spannung Drucksensor vor Drosselklappe | V | udsvd_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UFGEN | 0x4613 | STAT_UFGEN_WERT | Vom Generator empfangene Generatorsollspannung | V | ufgen | - | unsigned char | - | 0,1 | 1 | 10,6 |
+| UGEN | 0x4602 | STAT_SOLLSPANNUNG_GENERATOR_WERT | Generator Sollspannung | V | ugen | - | unsigned char | - | 0,1 | 1 | 10,6 |
+| UPRM | 0x5A16 | STAT_SPANNUNG_RAIL_DRUCKSENSOR_WERT | Mittlere Spannung Raildrucksensor | V | uprm_w | - | unsigned integer | - | 0,00030517578125 | 1 | 0,0 |
+| UPWG1 | 0x5A04 | STAT_SPANNUNG_PWG1_WERT | Spannung Pedalwertgeber 1 | V | upwg1_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UPWG2 | 0x5A05 | STAT_SPANNUNG_PWG2_WERT | Spannung Pedalwertgeber 2 | V | upwg2_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| USHK | 0x5A13 | STAT_SPANNUNG_LSHK_ADC_WERT | ADC-Wert Sondenspannung hinter Kat | V | ushk_w | - | unsigned integer | - | 0,0048828125 | 1 | -1,0 |
+| UULSUV | 0x5A11 | STAT_SPANNUNG_LSVK_ADC_WERT | ADC-Wert Sondenspannung vor Kat | V | uulsuv_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| UUSHK | 0x5849 | STAT_UUSHK_WERT | ADC-Wert Lambdasondenspannung nach Kat | V | uushk_w | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| VFF_MFF_SP_FUP_CTL | 0x5ABF | STAT_VFF_MFF_SP_FUP_CTL_WERT | Berechneter Durchfluss aus  rel. Krafttstoffüllung | l/h | VFF_MFF_SP_FUP_CTL | - | unsigned integer | - | 0,00389105058 | 1 | 0,0 |
+| VFF_VCV | 0x5AC0 | STAT_VFF_VCV_WERT | Reglerbehaftete Durchfluss | l/h | VFF_VCV | - | unsigned integer | - | 0,00389105058 | 1 | 0,0 |
+| VFZG | 0x5AB1 | STAT_FAHRZEUGGESCHWINDIGKEIT_WERT | Fahrzeuggeschwindigkeit | km/h | vfzg | - | unsigned char | - | 1,25 | 1 | 0,0 |
+| VSVLKSTK | 0x5AAF | STAT_VSVLKSTK_WERT | Sollvolumen vor Ladeluftkühler | - | vsvlkstk_w | - | unsigned integer | - | 0,03125 | 1 | 0,0 |
+| WDK1 | 0x5826 | STAT_DK_WINKEL_POTI1_WERT | Drosselklappenwinkel aus Poti 1 | %DK | wdk1 | - | unsigned char | - | 0,392156862745 | 1 | 0,0 |
+| WDKBA | 0x4600 | STAT_DK_WINKEL_IST_WERT | Aktueller Drosselklappenwinkel | %DK | wdkba_w | - | signed integer | - | 0,0244140625 | 1 | 0,0 |
+| WDKNLP | 0x5840 | STAT_DK_NOTLAUFPOSITION_WERT | Notlaufposition Drosselklappe | %DK | wdknlp | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| WDKNLPR | 0x583E | STAT_DK_NOTLAUFPOSITION_EEPROM_WERT | Notlaufposition Drosselklappe; EEPROM-Wert | %DK | wdknlpr | - | unsigned char | - | 0,3921568 | 1 | 0,0 |
+| WDKS | 0x4601 | STAT_DK_WINKEL_SOLL_WERT | Sollwert Drosselklappenwinkel | %DK | wdks_w | - | unsigned integer | - | 0,0015259022 | 1 | 0,0 |
+| WNWE | 0x4506 | STAT_EINLASSPREIZUNG_IST_WERT | Nockenwellenposition Istwert | Grad KW | wnwe_w | - | signed integer | - | 0,0078126 | 1 | 0,0 |
+| WNWSE | 0x4505 | STAT_EINLASSPREIZUNG_SOLL_WERT | Nockenwellenposition Sollwert | Grad KW | wnwse_w | - | signed integer | - | 0,0078125 | 1 | 0,0 |
+| WPED | 0x480B | STAT_FAHRPEDALWINKEL_WERT | Normierter Fahrpedalwinkel | %PED | wped_w | - | unsigned integer | - | 0,0015259022 | 1 | 0,0 |
+| WTANS | 0x5A08 | STAT_ANSAUGLUFTTEMPERATUR_ADC_WERT | ADC-Wert Ansauglufttemperatur | V | wtans | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| WTMOT | 0x5A09 | STAT_MOTORTEMPERATUR_ADC_WERT | ADC-Wert Motortemperatur | V | wtmot_w | - | unsigned integer | - | 0,0048828125 | 1 | 0,0 |
+| WTSG | 0x5A0E | STAT_SG_INNENTEMPERATUR_ADC_WERT | ADC-Wert Steuergeräte-Innentemperatur | V | wtsg | - | unsigned char | - | 0,01953125 | 1 | 0,0 |
+| WUBISO | 0x4609 | STAT_VERSORGUNGSSPANNUNG_ADC_WERT | ADC-Wert SG-Versorgungsspannung | V | wubiso_w | - | unsigned integer | - | 0,001 | 1 | 0,0 |
+| ZSTFGR | 0x5A6D | STAT_ZUSTAND_FGR_WERT | Zustand Fahrgeschwindigkeitsregler | - | zstfgr | - | unsigned char | - | 1,0 | 1 | 0,0 |
+| ZWCALCAR | 0x5A49 | STAT_ZYL1_ZUENDWINKEL_WERT | Zündwinkel Zylinder1 | Grad KW | zwcalcar[0] | - | signed char | - | 0,75 | 1 | 0,0 |
+| ZWOUT | 0x580E | STAT_ZUENDWINKEL_AUSGABE_WERT | Zündwinkel-Ausgabe | Grad KW | zwout  | - | signed char | - | 0,75 | 1 | 0,0 |
+| STAT_0x450E_WERT | 0x450E | STAT_0x450E_WERT | Nullpunktverschiebung in Grad KW für die WinkelversatzDiagnose | deg CrS | EpmCaS_phiDiffAvrgLim | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4510_WERT | 0x4510 | STAT_0x4510_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 0 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4511_WERT | 0x4511 | STAT_0x4511_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 1 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4512_WERT | 0x4512 | STAT_0x4512_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 2 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4513_WERT | 0x4513 | STAT_0x4513_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 3 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4514_WERT | 0x4514 | STAT_0x4514_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 4 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+| STAT_0x4515_WERT | 0x4515 | STAT_0x4515_WERT | Adaptierte Referenzposition einer NW-Flanke der Einlassnockenwelle Wert 5 | deg CrS | EpmCaS_phiAdapRefPosI1_mp | - | signed integer | - | 0,02197265625 | 1 | 0,0 |
+
+<a id="table-betriebsarten"></a>
+### BETRIEBSARTEN
+
+Dimensions: 7 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0 | KEINE |
+| 1 | UGD |
+| 2 | GD |
+| 3 | GD_KLEINER_HUB |
+| 6 | DKNOTL |
+| 7 | VVTNOTL1 |
+| 8 | VVTNOTL |
+
+<a id="table-diagnosestati"></a>
+### DIAGNOSESTATI
+
+Dimensions: 10 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0 | Funktion nicht gestartet |
+| 1 | Start-/Ansteuerbedingungen nicht erfuellt |
+| 2 | Uebergabeparameter nicht plausibel |
+| 3 | Funktion wartet auf Freigabe |
+| 4 | -- |
+| 5 | Funktion laeuft |
+| 6 | Funktion beendet (ohne Ergebnis) |
+| 7 | Funktion abgebrochen (kein Zyklus-/ Readiness-Flag gesetzt) |
+| 8 | Funktion vollstaendig durchlaufen (Zyklus-/ Readiness-Flag gesetzt), kein Fehler erkannt |
+| 9 | Funktion vollstaendig durchlaufen (Zyklus-/ Readiness-Flag gesetzt), Fehler erkannt |
+
+<a id="table-tevstatus"></a>
+### TEVSTATUS
+
+Dimensions: 8 rows × 2 columns
+
+| STATI | TEXT |
+| --- | --- |
+| 0x00 | Funktion noch nicht gestartet |
+| 0x01 | Start-/Ansteuerbedingungen nicht erfuellt |
+| 0x05 | Funktion läuft |
+| 0x06 | Funktion beendet (ohne Ergebnis) |
+| 0x07 | Funktion abgebrochen (kein Zyklusflag gesetzt) |
+| 0x08 | Funktion vollständig durchlaufen und kein Fehler erkannt |
+| 0x09 | Funktion vollständig durchlaufen und Fehler erkannt |
+| 0xFF | Status Systemtest kann nicht ausgegeben werden |
+
+<a id="table-lambdastatus"></a>
+### LAMBDASTATUS
+
+Dimensions: 6 rows × 2 columns
+
+| STATI | TEXT |
+| --- | --- |
+| 0x00 | Steuerbetrieb, Startbedingungen noch nicht erfuellt |
+| 0x01 | Regelbetrieb mit zwei Sonden |
+| 0x02 | Steuerbetrieb durch Betriebsbedingungen |
+| 0x04 | Steuerbetrieb nach Systemfehler |
+| 0x08 | Regelung mit nur einer Sonde (vor Kat) |
+| 0xXY | Status LSU-Diagnose kann nicht ausgegeben werden |
+
+<a id="table-katstatus"></a>
+### KATSTATUS
+
+Dimensions: 6 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0x00 | Funktion laeuft |
+| 0x01 | Start-/Ansteuerbedingungen nicht erfuellt |
+| 0x05 | Funktionsanforderung ueber Kurztest nicht gegeben |
+| 0x07 | Funktion abgebrochen aufgrund von Fehlereintraegen |
+| 0x08 | Funktion vollstaendig durchlaufen (Zyklus-Flag = 1), kein Fehler erkannt (Error-Flag = 0) |
+| 0x09 | Funktion vollstaendig durchlaufen (Zyklus-Flag = 1), Fehler erkannt (Error-Flag = 1) |
+
+<a id="table-dmtlstatus"></a>
+### DMTLSTATUS
+
+Dimensions: 24 rows × 2 columns
+
+| STAGE | TEXT |
+| --- | --- |
+| 0x00 | Funktion laeuft |
+| 0x01 | Referenzleckmessung laeuft |
+| 0x02 | Grobleckpruefung/verlaengerte Grobleckpruefung laeuft |
+| 0x03 | Feinstleckpruefung laeuft |
+| 0x04 | Referenzleckmessung 2 laeuft |
+| 0x05 | Funktion nicht aktiv |
+| 0x06 | Funktion beendet |
+| 0x0A | Funktion kann nicht gestartet werden |
+| 0x0B | Funktion nicht startbar  --&gt; Ubatt ausserhalb Bereich |
+| 0x0C | Funktion nicht startbar  --&gt; Schwankung Referenzstrom zu gross |
+| 0x0D | Funktion nicht startbar  --&gt; Elektrische Fehler liegen vor |
+| 0x0E | Funktion nicht startbar  --&gt; max. Diagnosedauer erreicht |
+| 0x0F | Funktion nicht startbar  --&gt; keine Grobleckfreigabe |
+| 0x14 | Funktion wurde abgebrochen |
+| 0x15 | Abbruch  --&gt;  Betankung erkannt |
+| 0x16 | Abbruch  --&gt;  Tankdeckel geoeffnet |
+| 0x17 | Abbruch  --&gt;  Ubatt-Schwankung zu gross |
+| 0x18 | Abbruch  --&gt;  Bedingung Kl.15 AUS/EIN erkannt |
+| 0x1E | Keinen Fehler erkannt |
+| 0x1F | Feinstleck erkannt |
+| 0x20 | Grobleck erkannt |
+| 0x21 | DMTL-Modul-Fehler erkannt |
+| 0x22 | Kein Grobleck erkannt |
+| 0xXY | Stagepointer unbekannt |
+
+<a id="table-fetrawestatus"></a>
+### FETRAWESTATUS
+
+Dimensions: 5 rows × 2 columns
+
+| STATUS | TEXT |
+| --- | --- |
+| 0x00 | Energiesparmode nicht aktiv |
+| 0x01 | Fertigungs-Mode aktiv |
+| 0x02 | Transport-Mode aktiv |
+| 0x04 | Werkstatt-Mode aktiv |
+| 0xXY | Unbekannter Status |
+
+<a id="table-speichersegment"></a>
+### SPEICHERSEGMENT
+
+Dimensions: 12 rows × 3 columns
+
+| SEG_BYTE | SEG_NAME | SEG_TEXT |
+| --- | --- | --- |
+| 0x00 | LAR | linearAdressRange |
+| 0x01 | ROMI | ROM / EPROM, internal |
+| 0x02 | ROMX | ROM / EPROM, external |
+| 0x03 | NVRAM | NV-RAM (characteristic zones, DTC memory |
+| 0x04 | RAMIS | RAM, internal (short MOV) |
+| 0x05 | RAMXX | RAM, external (x data MOV) |
+| 0x06 | FLASH | Flash EPROM, internal |
+| 0x07 | UIFM | User Info Field Memory |
+| 0x08 | VODM | Vehicle Order Data Memory |
+| 0x09 | FLASHX | Flash EPROM, external |
+| 0x0B | RAMIL | RAM, internal (long MOV / Register) |
+| 0xFF | ??? | unbekanntes Speichersegment |
+
+<a id="table-bits"></a>
+### BITS
+
+Dimensions: 27 rows × 4 columns
+
+| NAME | BYTE | MASK | VALUE |
+| --- | --- | --- | --- |
+| B_KL15 | 3 | 0x01 | 0x01 |
+| B_ESTART | 3 | 0x02 | 0x02 |
+| B_KUPPL | 3 | 0x04 | 0x04 |
+| B_BL | 3 | 0x08 | 0x08 |
+| B_BR | 3 | 0x10 | 0x10 |
+| B_KO | 3 | 0x80 | 0x80 |
+| B_LL | 4 | 0x01 | 0x01 |
+| B_VL | 4 | 0x02 | 0x02 |
+| B_SBBHK | 4 | 0x08 | 0x08 |
+| B_SBBVK | 4 | 0x20 | 0x20 |
+| B_LR | 4 | 0x80 | 0x80 |
+| B_SPORT | 3 | 0X02 | 0X02 |
+| B_KD | 3 | 0x04 | 0x04 |
+| B_PN | 3 | 0x08 | 0x08 |
+| B_ECULOCK | 3 | 0x10 | 0x10 |
+| B_TEHB | 3 | 0x20 | 0x20 |
+| B_SA | 3 | 0x40 | 0x40 |
+| B_LRNRDY | 3 | 0x80 | 0x80 |
+| B_MFL | 5 | 0x40 | 0x40 |
+| B_EGS | 6 | 0x40 | 0x40 |
+| B_HS | 6 | 0x10 | 0x10 |
+| B_ACC | 7 | 0x02 | 0x02 |
+| B_ASC | 7 | 0x10 | 0x10 |
+| B_KOV | 7 | 0x80 | 0x80 |
+| B_IBS | 8 | 0x80 | 0x80 |
+| B_OEL | 8 | 0x02 | 0x02 |
+| B_MSA | 8 | 0x01 | 0x01 |
+
+<a id="table-betriebsstundenstatus"></a>
+### BETRIEBSSTUNDENSTATUS
+
+Dimensions: 4 rows × 2 columns
+
+| WERT | UWTEXT |
+| --- | --- |
+| 0x00 | Betriebsstundenzaehler verstanden und akzeptiert (top_w &lt; 10h) |
+| 0x01 | Betriebsstundenzaehler verstanden aber nicht akzeptiert (top_w &gt; 10h) |
+| 0x02 | Betriebsstundenzaehler nicht verstanden und nicht akzeptiert |
+| 0xXY | Betriebsstundenzaehler kann nicht ausgegeben werden |
+
+<a id="table-status-genmanufak"></a>
+### STATUS_GENMANUFAK
+
+Dimensions: 7 rows × 2 columns
+
+| NR | HERSTELLER |
+| --- | --- |
+| 0x00 | Hersteller: Bosch |
+| 0x01 | Hersteller: Valeo |
+| 0x02 | Hersteller: Denso |
+| 0x03 | Hersteller: Hitachi |
+| 0x04 | Hersteller: nicht definiert |
+| 0x05 | Hersteller: Melco |
+| 0xFF | Hersteller: unbekannt |
+
+<a id="table-status-gentypkenn"></a>
+### STATUS_GENTYPKENN
+
+Dimensions: 28 rows × 2 columns
+
+| NR | TYP |
+| --- | --- |
+| 0x0001 | Generatortyp: C2.1 |
+| 0x0002 | Generatortyp: C2.4 |
+| 0x0003 | Generatortyp: H3.1 |
+| 0x0006 | Generatortyp: M2.5 |
+| 0x0009 | Generatortyp: C1.9 |
+| 0x000A | Generatortyp: M2.3 |
+| 0x000B | Generatortyp: H3.8 |
+| 0x000C | Generatortyp: E4 |
+| 0x000D | Generatortyp: M3.0 |
+| 0x0014 | Generatortyp: E8 |
+| 0x001C | Generatortyp: E8+ (mit BSD I) |
+| 0x001F | Generatortyp: E8+ (mit BSD II) |
+| 0x0100 | Generatortyp: SG7 |
+| 0x0103 | Generatortyp: TG23 |
+| 0x0104 | Generatortyp: SG9 |
+| 0x0108 | Generatortyp: SG12 |
+| 0x010C | Generatortyp: SG11 |
+| 0x0110 | Generatortyp: TG17 |
+| 0x0111 | Generatortyp: TG17 (mit Bosch) |
+| 0x0114 | Generatortyp: SG14 |
+| 0x0115 | Generatortyp: FG18 |
+| 0x0118 | Generatortyp: TG15 |
+| 0x0119 | Generatortyp: FG23 |
+| 0x0203 | Generatortyp: SC3 |
+| 0x0206 | Generatortyp: SC6 |
+| 0x0507 | Generatortyp: CL 8+ Prince |
+| 0x0513 | Generatortyp: CL 12+ Prince |
+| 0xFFFF | Generatortyp: unbekannt |
+
+<a id="table-motorsg-table-fs"></a>
+### _MOTORSG_TABLE_FS
+
+Dimensions: 11 rows × 2 columns
+
+| NR | TEXT |
+| --- | --- |
+| 0 | Funktion noch nicht gestartet |
+| 1 | Start-/Ansteuerbedingung nicht erfuellt |
+| 2 | Uebergabeparameter nicht plausibel |
+| 3 | Funktion wartet auf Freigabe |
+| 4 | -- |
+| 5 | Funktion laeuft |
+| 6 | Funktion beendet (ohne Ergebnis) |
+| 7 | Funktion abgebrochen (kein Zyklusflag/Readiness gesetzt) |
+| 8 | Funktion vollstaendig durchlaufen (Zyklusflag/Readiness gesetzt) und kein Fehler erkannt |
+| 9 | Funktion vollstaendig durchlaufen (Zyklusflag/Readiness gesetzt) und Fehler erkannt |
+| 255 | ungueltiger Wert |
+
+<a id="table-rdystatus"></a>
+### RDYSTATUS
+
+Dimensions: 3 rows × 2 columns
+
+| STATUS | TEXT |
+| --- | --- |
+| 0x00 | READY |
+| 0x01 | NOT READY |
+| 0x02 | MONITOR NOT SUPPORTED |

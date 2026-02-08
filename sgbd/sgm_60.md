@@ -1,0 +1,2422 @@
+# sgm_60.prg
+
+- Jobs: [67](#jobs)
+- Tables: [21](#tables)
+
+## INFO
+
+| Field | Value |
+| --- | --- |
+| ECU | Sicherheits Informations und Gatewaymodul |
+| ORIGIN | BMW TI-430 Ruediger Gall |
+| REVISION | 0.1 |
+| AUTHOR | BMW EE-53 Robert Schmidt |
+| COMMENT | Entwicklungsstand |
+| PACKAGE | 1.14 |
+| SPRACHE | deutsch |
+
+## Jobs
+
+### Index
+
+- [INITIALISIERUNG](#job-initialisierung) - Initialisierung und Kommunikationsparameter
+- [INFO](#job-info) - Information SGBD
+- [DIAGNOSEPROTOKOLL_LESEN](#job-diagnoseprotokoll-lesen) - Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+- [DIAGNOSEPROTOKOLL_SETZEN](#job-diagnoseprotokoll-setzen) - Wählt ein Diagnoseprotokoll aus
+- [IDENT](#job-ident) - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+- [FS_LESEN](#job-fs-lesen) - Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+- [FS_LESEN_DETAIL](#job-fs-lesen-detail) - Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+- [FS_LOESCHEN](#job-fs-loeschen) - Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+- [PRUEFSTEMPEL_LESEN](#job-pruefstempel-lesen) - Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [PRUEFSTEMPEL_SCHREIBEN](#job-pruefstempel-schreiben) - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+- [NORMALER_DATENVERKEHR](#job-normaler-datenverkehr) - Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+- [DIAGNOSE_AUFRECHT](#job-diagnose-aufrecht) - Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+- [C_CI_LESEN](#job-c-ci-lesen) - Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [C_FG_LESEN](#job-c-fg-lesen) - Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_FG_SCHREIBEN](#job-c-fg-schreiben) - Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+- [C_FG_AUFTRAG](#job-c-fg-auftrag) - Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+- [C_AEI_LESEN](#job-c-aei-lesen) - Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_SCHREIBEN](#job-c-aei-schreiben) - Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_AEI_AUFTRAG](#job-c-aei-auftrag) - Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+- [C_C_LESEN](#job-c-c-lesen) - Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_SCHREIBEN](#job-c-c-schreiben) - Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [C_C_AUFTRAG](#job-c-c-auftrag) - Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+- [SERIENNUMMER_LESEN](#job-seriennummer-lesen) - Hersteller Seriennummer lesen KWP2000: $1A ReadECUIdentification $89 SystemSupplierECUSerialNumber oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [ZIF_LESEN](#job-zif-lesen) - Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [ZIF_BACKUP_LESEN](#job-zif-backup-lesen) - Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [PHYSIKALISCHE_HW_NR_LESEN](#job-physikalische-hw-nr-lesen) - Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) Modus  : Default
+- [HARDWARE_REFERENZ_LESEN](#job-hardware-referenz-lesen) - Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+- [DATEN_REFERENZ_LESEN](#job-daten-referenz-lesen) - Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+- [FLASH_ZEITEN_LESEN](#job-flash-zeiten-lesen) - Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+- [FLASH_BLOCKLAENGE_LESEN](#job-flash-blocklaenge-lesen) - Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+- [AUTHENTISIERUNG_ZUFALLSZAHL_LESEN](#job-authentisierung-zufallszahl-lesen) - Authentisierung Zufallszahl des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $07 RequestForAuthentication Modus  : Default
+- [AUTHENTISIERUNG_START](#job-authentisierung-start) - Authentisierung pruefen KWP2000: $31 StartRoutineByLocalIdentifier $08 ReleaseAuthentication Modus  : Default
+- [FLASH_PROGRAMMIER_STATUS_LESEN](#job-flash-programmier-status-lesen) - Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+- [FLASH_SIGNATUR_PRUEFEN](#job-flash-signatur-pruefen) - Flash Signatur pruefen KWP2000: $31 StartRoutineByLocalIdentifier $09 CheckSignature Modus  : Default
+- [STEUERGERAETE_RESET](#job-steuergeraete-reset) - Seuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [FLASH_LOESCHEN](#job-flash-loeschen) - Flash loeschen Standard Flashjob KWP2000: $31 StartRoutineByLocalIdentifier $02 ClearMemory Modus  : Default
+- [FLASH_SCHREIBEN_ADRESSE](#job-flash-schreiben-adresse) - Vorbereitung fuer Flash schreiben Standard Flashjob KWP2000: $34 RequestDownload Modus  : Default
+- [FLASH_SCHREIBEN](#job-flash-schreiben) - Flash Daten schreiben Standard Flashjob KWP2000: $36 TransferData Modus  : Default
+- [FLASH_SCHREIBEN_ENDE](#job-flash-schreiben-ende) - Flashprogrammierung abschliessen Standard Flashjob KWP2000: $37 RequestTransferExit Modus  : Default
+- [AIF_LESEN](#job-aif-lesen) - Auslesen des Anwender Informations Feldes Standard Flashjob KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+- [AIF_SCHREIBEN](#job-aif-schreiben) - Schreiben des Anwender Informations Feldes Standard Flashjob KWP 2000: $3D WriteMemoryByAddress Modus   : Default
+- [PRUEFCODE_LESEN](#job-pruefcode-lesen) - Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+- [DIAGNOSE_ENDE](#job-diagnose-ende) - Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+- [DIAGNOSE_MODE](#job-diagnose-mode) - SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+- [SLEEP_MODE](#job-sleep-mode) - SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier $05 PowerDown $00 all ECU Modus  : Default
+- [SPEICHER_LESEN](#job-speicher-lesen) - Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+- [SPEICHER_SCHREIBEN](#job-speicher-schreiben) - Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+- [IS_LESEN](#job-is-lesen) - Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus $04 requestIdentifiedShadowMemoryDTCAndStatus
+- [IS_LESEN_DETAIL](#job-is-lesen-detail) - Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+- [IS_LOESCHEN](#job-is-loeschen) - Infospeicher loeschen KWP2000: $31 StartRoutineByLocalIdentifier $06 ClearDTCShadowMemory Modus  : Default
+- [HERSTELLERDATEN_LESEN](#job-herstellerdaten-lesen) - Herstellerdaten lesen KWP2000: $22 SG spezifische Daten lesen $00 Herstellerdaten lesen $04 Modus  : Default
+- [LSG_NR_U_HERSTELLDATUM_U_X_SCHREIBEN](#job-lsg-nr-u-herstelldatum-u-x-schreiben) - Laufende Steuergeraetenummer und Herstelldatum und kleines x von HWREF ZZZPPPx schreiben KWP2000: $2E SG spezifische Daten schreiben $00 LSG Nummer und Herstelldatum und x schreiben $05 0x FF FF FF FF ist keine gueltige SG Nummer 0x FF FF FF FF ist kein gueltiges Herstelldatum YY YY MM DD ist BCD-Format des Herstelldatum kleines x sollte Charakter sein Modus  : Default
+- [SYSTEMZEIT_LESEN](#job-systemzeit-lesen) - Systemzeit lesen KWP2000: $22 SG spezifische Daten lesen $00 Systemzeit lesen $02 Byte 1: Systemzeit gestartet: = 00 gestartet &lt;&gt; 00 nicht gestartet 0x FF FF FF FF FF ist keine gueltige Systemzeit Der Job liest nach Start aus dem RAM die aktuelle, sich aendernde Zeit aus Vor Systemzeitstart liest der Job aus EEPROM-Zellen (mit F...Fh gefuellt) Modus  : Default
+- [SYSTEMZEIT_STARTEN](#job-systemzeit-starten) - Systemzeit starten KWP2000: $31 SG spezifische Routine starten $50 Systemzeit starten !!! ACHTUNG !!! Beim Start der Systemzeit werden die Airbags scharfgeschaltet und versch. Daten irreversibel verriegelt bis zum naechsten Flash-Update (Fahrgestellnummer, etc.) Das Starten der Systemzeit funktioniert nur, wenn eine Fahrgestellnummer eingetragen wurde!!!
+- [STEUERN_ZURUECKNEHMEN_STEUERGERAETESTATUS](#job-steuern-zuruecknehmen-steuergeraetestatus) - Statusvorgaben zuruecknehmen KWP2000: $31 Steuergeraetespezifische Routine starten $20 Statusvorgaben zuruecknehmen $yz Status $yz zuruecknehmen Modus  : Default
+- [STEUERN_KOMMUNIKATIONSTEST_SENDE_EMPFANG_ANSTOSSEN](#job-steuern-kommunikationstest-sende-empfang-anstossen) - Statusvorgabe: Kommunikationstest Sende Empfang anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $27 Kommunikationstest Sende Empfang anstossen Modus  : Default
+- [STEUERN_SI_BUS_STATUS_LESEN_ANSTOSSEN](#job-steuern-si-bus-status-lesen-anstossen) - Statusvorgabe: SI-Bus-Status lesen anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $29 SI-Bus-Status lesen anstossen Modus  : Default
+- [SYSTEMZEIT_SCHREIBEN](#job-systemzeit-schreiben) - Systemzeit schreiben KWP2000: $2E SG spezifische Daten schreiben $00 Systemzeit schreiben $02 0x FF FF FF FF FF ist keine gueltige Systemzeit Modus  : Default
+- [STATUS_PREDRIVECHECK_ABRUFEN](#job-status-predrivecheck-abrufen) - Status Predrivecheck abrufen KWP2000: $22 Steuergeraetespezifische Daten lesen $00 $10 Predrivecheck Status abrufen Modus  : Default
+- [STEUERN_PREDRIVECHECK_STARTEN](#job-steuern-predrivecheck-starten) - Steuern: Predrivecheck starten KWP2000: $31 Steuergeraetespezifische Routine starten $2A Predrivecheck anstossen Modus  : Default
+- [STEUERN_STROMVERTEILER](#job-steuern-stromverteiler) - Steuerung der Stromverteiler KWP2000: $31 Steuergeraetespezifische Routine starten $32 Steuerung der Stromverteiler Nur bei Kl R aus! Modus  : Default
+- [STEUERN_STERNKOPPLER](#job-steuern-sternkoppler) - Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $33 Steuerung des Sternkopplers Nur bei Kl R aus! Modus  : Default
+- [STEUERN_SELBSTTEST_DV_SENSOREN_ANSTOSSEN](#job-steuern-selbsttest-dv-sensoren-anstossen) - Statusvorgabe: Selbsttest dV-Sensoren anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $35 Selbsttest dV-Sensoren anstossen Modus  : Default !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Job derzeit nicht unterstuetzt da keine dV-Sensoren zum Serienstart
+- [STEUERN_NOTRUF_ABSETZEN](#job-steuern-notruf-absetzen) - Statusvorgabe: Notruf an das Telefon absetzen KWP2000: $31 Steuergeraetespezifische Routine starten $34 Notruf an das Telefon absetzen Modus  : Default
+- [STEUERN_WANDLER_STROM](#job-steuern-wandler-strom) - Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $39 Wandlerstrom der Servotronic vorgeben Bei jeder Klemme! Modus  : Default
+- [STEUERN_WANDLER_PWM](#job-steuern-wandler-pwm) - Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $3A PWM des Wandlers der Servotronic vorgeben Bei jeder Klemme! Modus  : Default
+- [STATUS_LESEN](#job-status-lesen) - Steuergeraete Status lesen KWP2000: $22 SG spezifische Daten lesen $98 Steuergeraete Status lesen $00 Modus  : Default
+
+<a id="job-initialisierung"></a>
+### INITIALISIERUNG
+
+Initialisierung und Kommunikationsparameter
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DONE | int | 1, wenn Okay |
+
+<a id="job-info"></a>
+### INFO
+
+Information SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ECU | string | Steuergerät im Klartext |
+| ORIGIN | string | Steuergeräte-Verantwortlicher |
+| REVISION | string | Versions-Nummer |
+| AUTHOR | string | Namen aller Autoren |
+| COMMENT | string | wichtige Hinweise |
+| PACKAGE | string | Include-Paket-Nummer |
+| SPRACHE | string | deutsch, english |
+
+<a id="job-diagnoseprotokoll-lesen"></a>
+### DIAGNOSEPROTOKOLL_LESEN
+
+Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY oder ERROR_DIAG_PROT |
+| DIAG_PROT_IST | string | Gibt das aktuelle gewählte Protokoll aus table KONZEPT_TABELLE KONZEPT_TEXT |
+| DIAG_PROT_ANZAHL | int | Anzahl der Diagnoseprotokolle |
+| DIAG_PROT_NR1 | string | Alle möglichen Diagnose-Protokolle Falls mehrere Protokolle möglich sind werden die entsprechenden Results DIAG_PROT_NRx dynamisch erzeugt |
+
+<a id="job-diagnoseprotokoll-setzen"></a>
+### DIAGNOSEPROTOKOLL_SETZEN
+
+Wählt ein Diagnoseprotokoll aus
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DIAG_PROT | string | Diagnoseprotokoll table KONZEPT_TABELLE KONZEPT_TEXT |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY |
+
+<a id="job-ident"></a>
+### IDENT
+
+Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_BMW_NR | string | BMW-Teilenummer |
+| ID_HW_NR | string | BMW-Hardwarenummer |
+| ID_COD_INDEX | int | Codier-Index |
+| ID_DIAG_INDEX | int | Diagnose-Index |
+| ID_VAR_INDEX | int | Varianten-Index |
+| ID_DATUM_JAHR | int | Herstelldatum (Jahr) |
+| ID_DATUM_MONAT | int | Herstelldatum (Monat) |
+| ID_DATUM_TAG | int | Herstelldatum (Tag) |
+| ID_DATUM | string | Herstelldatum (TT.MM.JJJJ) |
+| ID_LIEF_NR | int | Lieferanten-Nummer |
+| ID_LIEF_TEXT | string | Lieferanten-Text table Lieferanten LIEF_TEXT |
+| ID_SW_NR_MCV | string | Softwarenummer (message catalogue version) |
+| ID_SW_NR_FSV | string | Softwarenummer (functional software version) |
+| ID_SW_NR_OSV | string | Softwarenummer (operating system version) |
+| ID_SW_NR_RES | string | Softwarenummer (reserved - currently unused) |
+| ID_SG_ADR | long | Steuergeraeteadresse |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen"></a>
+### FS_LESEN
+
+Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen-detail"></a>
+### FS_LESEN_DETAIL
+
+Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | gewaehlter Fehlercode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT |
+| F_PCODE | unsigned int | optional / Pflicht fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_PCODE7 | unsigned int | optional / fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE7_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE7_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_HFK | int | Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler |
+| F_LZ | int | Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler |
+| F_ART_ANZ | int | Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart |
+| F_UW_KM | long | Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-loeschen"></a>
+### FS_LOESCHEN
+
+Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-lesen"></a>
+### PRUEFSTEMPEL_LESEN
+
+Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-schreiben"></a>
+### PRUEFSTEMPEL_SCHREIBEN
+
+Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-normaler-datenverkehr"></a>
+### NORMALER_DATENVERKEHR
+
+Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FREIGEBEN | string | "ja"   -&gt; normalen Datenverkehr freigeben "nein" -&gt; normalen Datenverkehr sperren table DigitalArgument TEXT |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-aufrecht"></a>
+### DIAGNOSE_AUFRECHT
+
+Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SG_ANTWORT | string | "ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten |
+| FUNKTIONAL | string | "ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-ci-lesen"></a>
+### C_CI_LESEN
+
+Codierindex lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $9B Vehicle Manufacturer Coding Index oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_COD_INDEX | int | Codier-Index |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-lesen"></a>
+### C_FG_LESEN
+
+Fahrgestellnummer lesen Standard Codierjob KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FG_NR | string | Fahrgestellnummer 7-stellig |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-schreiben"></a>
+### C_FG_SCHREIBEN
+
+Fahrgestellnummer schreiben Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-fg-auftrag"></a>
+### C_FG_AUFTRAG
+
+Fahrgestellnummer schreiben und ruecklesen Standard Codierjob KWP2000: $3B WriteDataByLocalIdentifier $90 Vehicle Identification Number KWP2000: $1A ReadECUIdentification $90 Vehicle Identification Number Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FG_NR | string | Fahrgestellnummer (18-stellig) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-lesen"></a>
+### C_AEI_LESEN
+
+Aenderungsindex der Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-schreiben"></a>
+### C_AEI_SCHREIBEN
+
+Aenderungsindex der Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-aei-auftrag"></a>
+### C_AEI_AUFTRAG
+
+Aenderungsindex der Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3FFF ChangeIndexOfCodingData KWP2000: $22   ReadDataByCommonIdentifier $3FFF ChangeIndexOfCodingData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| COD_AE_INDEX | string | Aenderungsindex max. 2-stellig ASCII 'a', 'b', .., 'y', 'z', 'aa', 'ab', .., 'zy', 'zz' |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-lesen"></a>
+### C_C_LESEN
+
+Codierdaten lesen Standard Codierjob KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| CODIER_DATEN | binary | Codierdaten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-schreiben"></a>
+### C_C_SCHREIBEN
+
+Codierdaten schreiben Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-c-c-auftrag"></a>
+### C_C_AUFTRAG
+
+Codierdaten schreiben und ruecklesen Standard Codierjob KWP2000: $2E   WriteDataByCommonIdentifier $3000 - $3EFF CodingDataSet KWP2000: $22   ReadDataByCommonIdentifier $3000 - $3EFF CodingDataSet Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : Codierdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG |
+
+<a id="job-seriennummer-lesen"></a>
+### SERIENNUMMER_LESEN
+
+Hersteller Seriennummer lesen KWP2000: $1A ReadECUIdentification $89 SystemSupplierECUSerialNumber oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| SERIENNUMMER | string | Seriennummer des Steuergeraets |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-lesen"></a>
+### ZIF_LESEN
+
+Auslesen des Zulieferinfofeldes KWP2000: $22   ReadDataByCommonIdentifier $2503 ProgrammReferenz und KWP2000: $1A   ReadECUIdentification $91   VehicleManufacturerECUHardware*Number oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_PROGRAMM_REFERENZ | string | PRGREF ProgrammReferenz letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_SG_KENNUNG | string | ZZZ |
+| ZIF_PROJEKT | string | PPPxV |
+| ZIF_PROGRAMM_STAND | string | BBxh |
+| ZIF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BMW_HW | string | VMECUH*N vehicleManufacturerECUHardware*Number BMW Hardware Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_3 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_3 | binary | Hex-Antwort von SG |
+
+<a id="job-zif-backup-lesen"></a>
+### ZIF_BACKUP_LESEN
+
+Auslesen des Backups des Zulieferinfofeldes ProgrammReferenzBackup         PRGREFB vehicleManufECUHW*NumberBackup VMECUH*NB KWP2000: $22   ReadDataByCommonIdentifier $2500 PRBHW*B oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | "OKAY", wenn fehlerfrei |
+| ZIF_BACKUP_PROGRAMM_REFERENZ | string | PRGREFB ProgrammReferenzBackup letzter lauffaehiger Programmstand Format: ZZZPPPxVBBxh 12 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller |
+| ZIF_BACKUP_SG_KENNUNG | string | ZZZ |
+| ZIF_BACKUP_PROJEKT | string | PPPxV |
+| ZIF_BACKUP_PROGRAMM_STAND | string | BBxh |
+| ZIF_BACKUP_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| ZIF_BACKUP_BMW_HW | string | VMECUH*NB vehicleManufECUHW*NumberBackup BMW Hardware* Nummer |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-physikalische-hw-nr-lesen"></a>
+### PHYSIKALISCHE_HW_NR_LESEN
+
+Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PHYSIKALISCHE_HW_NR | string | Physikalische Hardware-Nummer |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-hardware-referenz-lesen"></a>
+### HARDWARE_REFERENZ_LESEN
+
+Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $2502 HWREF oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| HARDWARE_REFERENZ | string | Hardware Referenz Format: ZZZPPPx 7 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware |
+| HW_REF_SG_KENNUNG | string | ZZZ |
+| HW_REF_PROJEKT | string | PPPx |
+| HW_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-daten-referenz-lesen"></a>
+### DATEN_REFERENZ_LESEN
+
+Auslesen der Daten Referenz KWP2000: $22   ReadDataByCommonIdentifier $2504 DREF Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| DATEN_REFERENZ | string | Daten Referenz Format: ZZZPPPxVBBxhdxxxx 17 Byte ASCII ZZZ   : Hardwarelieferant PPP   : Hardwarerelevanz zum Programmstand x     : nicht programmrelevante Varianten der Hardware V     : Projektvariante BB    : Programmstand x     : nicht datenrelevanter Änderungsindex h     : Programmstandersteller d     : Datenstandersteller xxxx  : frei aber eindeutig belegt |
+| DATEN_REF_SG_KENNUNG | string | ZZZ |
+| DATEN_REF_PROJEKT | string | PPPxV |
+| DATEN_REF_PROGRAMM_STAND | string | BBxh |
+| DATEN_REF_DATENSATZ | string | dxxxx |
+| DATEN_REF_STATUS | int | Dateninhalt bei FF noch nicht beschrieben |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-zeiten-lesen"></a>
+### FLASH_ZEITEN_LESEN
+
+Auslesen der Flash Loeschzeit, Signaturtestzeit, Authentisierberechnungszeit und Resetzeit KWP2000: $22   ReadDataByCommonIdentifier $2501 Zeiten Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_LOESCHZEIT | int | Flash Loeschzeit in Sekunden |
+| FLASH_SIGNATURTESTZEIT | int | Flash Signaturtestzeit in Sekunden |
+| FLASH_RESETZEIT | int | Flash Resetzeit in Sekunden |
+| FLASH_AUTHENTISIERZEIT | int | Flash Authentisierberechnungszeit in Sekunden |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-blocklaenge-lesen"></a>
+### FLASH_BLOCKLAENGE_LESEN
+
+Auslesen des maximalen Blocklaenge beim Flashen KWP2000: $22   ReadDataByCommonIdentifier $2506 MaximaleBlockLaenge Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_BLOCKLAENGE_GESAMT | int | Flash Blocklaenge inclusive SID |
+| FLASH_BLOCKLAENGE_DATEN | int | Flash Datenlaenge |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-authentisierung-zufallszahl-lesen"></a>
+### AUTHENTISIERUNG_ZUFALLSZAHL_LESEN
+
+Authentisierung Zufallszahl des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $07 RequestForAuthentication Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| LEVEL | int |  |
+| USER_ID | long | optional |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ZUFALLSZAHL | binary | Zufallszahl |
+| AUTHENTISIERUNG | string | Authentisierungsart 'Keine'        Keine Authentisierung 'Simple'       Einfache Authentisierung 'Symetrisch'   Symetrische Authentisierung 'Asymetrisch'  Asymetrische Authentisierung |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-authentisierung-start"></a>
+### AUTHENTISIERUNG_START
+
+Authentisierung pruefen KWP2000: $31 StartRoutineByLocalIdentifier $08 ReleaseAuthentication Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : (unbenutzt) Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : Authentisierungszeit in Sekunden Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : (unbenutzt) Wortadresse (low/highbyte, low/highword) Byte 21,....        : Schluesseldaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-programmier-status-lesen"></a>
+### FLASH_PROGRAMMIER_STATUS_LESEN
+
+Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS_TEXT | string | table ProgrammierStatus STATUS_TEXT |
+| FLASH_PROGRAMMIER_STATUS | int | ProgrammierStatus 0 - 255 |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-signatur-pruefen"></a>
+### FLASH_SIGNATUR_PRUEFEN
+
+Flash Signatur pruefen KWP2000: $31 StartRoutineByLocalIdentifier $09 CheckSignature Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BEREICH | string | 'Programm' 'Daten' |
+| SIGNATURTESTZEIT | int | Zeit in Sekunden |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuergeraete-reset"></a>
+### STEUERGERAETE_RESET
+
+Seuergeraete reset ausloesen KWP2000: $11 ECUReset $01 PowerOn Modus  : Default  Nach dem Job muss die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-loeschen"></a>
+### FLASH_LOESCHEN
+
+Flash loeschen Standard Flashjob KWP2000: $31 StartRoutineByLocalIdentifier $02 ClearMemory Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : Loeschzeit in Sekunden (Byteparameter 1) Byte 5,6            : Loeschzeit in Sekunden (WordParameter 1 (low/high)) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_LOESCHEN_STATUS | int | Loeschstatus 1 = Speicher geloescht 2 = Speicher nicht geloescht 5 = Signaturpruefung PAF nicht durchgefuehrt |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben-adresse"></a>
+### FLASH_SCHREIBEN_ADRESSE
+
+Vorbereitung fuer Flash schreiben Standard Flashjob KWP2000: $34 RequestDownload Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_BLOCKLAENGE_DATEN | int | Flash Datenlaenge ohne Telegramm-Overhead |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben"></a>
+### FLASH_SCHREIBEN
+
+Flash Daten schreiben Standard Flashjob KWP2000: $36 TransferData Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : (unbenutzt) Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : (unbenutzt) Anzahl Wortdaten (low/high) Byte 17,18,19,20    : (unbenutzt) Wortadresse (low/highbyte, low/highword) Byte 21,....        : Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| FLASH_SCHREIBEN_ANZAHL | int | Anzahl FLASH_SCHREIBEN seit letztem FLASH_SCHREIBEN_ADRESSE |
+| FLASH_SCHREIBEN_STATUS | int | Programmierstatus 1 = Programmierung in Ordnung 2 = Programmierung nicht in Ordnung |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-flash-schreiben-ende"></a>
+### FLASH_SCHREIBEN_ENDE
+
+Flashprogrammierung abschliessen Standard Flashjob KWP2000: $37 RequestTransferExit Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BINAER_BUFFER | binary | Als Argument wird ein vorgefuellter Binaerbuffer uebergeben Der Binaerbuffer hat folgenden Aufbau Byte 0              : Datentyp (1:Daten, 2:Maskendaten) Byte 1              : (unbenutzt) Wortbreite (1:Byte, 2:Word, 3:DWord) Byte 2              : (unbenutzt) Byteordnung (0:LSB zuerst, 1 MSB zuerst) Byte 3              : Adressierung (0: freie Adressierung, 1:Blockadressierung) Byte 4              : (unbenutzt) Byteparameter 1 Byte 5,6            : (unbenutzt) WordParameter 1 (low/high) Byte 7,8            : (unbenutzt) WordParameter 2 (low/high) Byte 9,10,11,12     : (unbenutzt) Maske (linksbuendig) Byte 13,14          : Anzahl Bytedaten (low/high) Byte 15,16          : Anzahl Wortdaten (low/high) Byte 17,18,19,20    : Wortadresse (low/highbyte, low/highword) Byte 21,....        : (unbenutzt) Flashdaten Byte 21+Anzahl Daten: ETX (0x03) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-aif-lesen"></a>
+### AIF_LESEN
+
+Auslesen des Anwender Informations Feldes Standard Flashjob KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_NUMMER | int | ==0 : aktuelles AIF &gt; 0 : Nummer des zu lesenden AIF default = 0 : aktuelles AIF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_ADRESSE_HIGH | int | AIF Adresse des AIF, High-Word |
+| AIF_ADRESSE_LOW | int | AIF Adresse des AIF, Low-Word |
+| AIF_FG_NR | string | Fahrgestellnummer 7-stellig |
+| AIF_FG_NR_LANG | string | Fahrgestellnummer 17-stellig falls vorhanden, sonst 7-stellig |
+| AIF_DATUM | string | Datum der SG-Programmierung in der Form TT.MM.JJJJ |
+| AIF_ZB_NR | string | BMW/Rover Zusammenbaunummer |
+| AIF_SW_NR | string | BMW/Rover Datensatznummer - Softwarenummer |
+| AIF_BEHOERDEN_NR | string | BMW/Rover Behoerdennummer |
+| AIF_HAENDLER_NR | string | Haendlernummer |
+| AIF_SERIEN_NR | string | Tester Seriennummer |
+| AIF_KM | long | km-Stand bei der Programmierung |
+| AIF_PROG_NR | string | Programmstandsnummer |
+| AIF_ANZ_FREI | int | Anzahl noch vorhandener AIF-Eintraege |
+| AIF_ANZAHL_PROG | int | Anzahl Programmiervorgaenge |
+| AIF_ANZ_DATEN | int | Groesse des AIF-Eintrags |
+| AIF_GROESSE | int | Groesse des AIF |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+| _TEL_AUFTRAG_2 | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT_2 | binary | Hex-Antwort von SG |
+
+<a id="job-aif-schreiben"></a>
+### AIF_SCHREIBEN
+
+Schreiben des Anwender Informations Feldes Standard Flashjob KWP 2000: $3D WriteMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| AIF_FG_NR | string | Fahrgestellnummer 7-stellig oder 17-stellig |
+| AIF_DATUM | string | Datum der SG-Programmierung in der Form TT.MM.JJJJ oder TTMMJJ |
+| AIF_ZB_NR | string | BMW/Rover Zusammenbaunummer |
+| AIF_SW_NR | string | BMW/Rover Datensatznummer - Softwarenummer |
+| AIF_BEHOERDEN_NR | string | BMW/Rover Behoerdennummer |
+| AIF_HAENDLER_NR | string | Haendlernummer |
+| AIF_SERIEN_NR | string | Tester Seriennummer |
+| AIF_KM | long | km-Stand bei der Programmierung |
+| AIF_PROG_NR | string | Programmstandsnummer |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| AIF_NUMMER | int | Nummer des geschreibenen AIF |
+| AIF_DATEN | binary | AIF Hex-Daten |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG AIF lesen |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG AIF lesen |
+| _TEL_AUFTRAG2 | binary | Hex-Auftrag an SG AIF schreiben |
+| _TEL_ANTWORT2 | binary | Hex-Antwort von SG AIF schreiben |
+
+<a id="job-pruefcode-lesen"></a>
+### PRUEFCODE_LESEN
+
+Standard Pruefcode lesen fuer Kundendienst KWP2000: $1A ReadECUIdentification KWP2000: $18 ReadDiagnosticTroubleCodesByStatus KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| PRUEFCODE | binary | Pruefcode Daten |
+
+<a id="job-diagnose-ende"></a>
+### DIAGNOSE_ENDE
+
+Diagnosemode des SG beenden KWP2000: $20 StopDiagnosticSession Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-mode"></a>
+### DIAGNOSE_MODE
+
+SG in bestimmten Diagnosemode bringen KWP2000: $10 StartDiagnosticSession Modus  : einstellbar mit diesem Job  Wenn MODE = "ECUPM" ( ECUProgrammingMode ) muss nach dem Job die Steuergeraete-Resetzeit abgewartet werden. Danach ist das Steuergeraet wieder diagnosefaehig  siehe Job FLASH_ZEITEN_LESEN Result FLASH_RESETZEIT
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| MODE | string | gewuenschter Diagnose-Modus table DiagMode MODE MODE_TEXT Defaultwert: DEFAULT (DefaultMode) |
+| BAUDRATE | string | optionaler Parameter fuer die gewuenschte Baudrate table BaudRate BAUD |
+| SPEZIFISCHE_BAUDRATE_WERT | long | Parameter nur fuer BAUDRATE = 'SB' ( spezifische Baudrate ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-sleep-mode"></a>
+### SLEEP_MODE
+
+SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier $05 PowerDown $00 all ECU Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-lesen"></a>
+### SPEICHER_LESEN
+
+Auslesen des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse und Anzahl der Datenbytes KWP 2000: $23 ReadMemoryByAddress Modus   : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | table SpeicherSegment SEG_NAME SEG_TEXT |
+| ADRESSE | long | 0x000000 - 0xFFFFFF |
+| ANZAHL | int | 1 - n ( 254 ) |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DATEN | binary | ausgelesene Daten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-schreiben"></a>
+### SPEICHER_SCHREIBEN
+
+Beschreiben des Steuergeraete-Speichers Als Argumente werden uebergeben: Speichersegment, Start-Adresse, Anzahl der Datenbytes und Datenbytes (Datenbytes durch Komma getrennt) KWP2000: $3D WriteMemoryByAddress Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SEGMENT | string | table SpeicherSegment SEG_NAME SEG_TEXT |
+| ADRESSE | long | 0x000000 - 0xFFFFFF |
+| ANZAHL | int | 1 - n ( max. 249 ) |
+| DATEN | string | zu schreibende Daten (Anzahl siehe oben) z.B. 1,2,03,0x04,0x05... |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen"></a>
+### IS_LESEN
+
+Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus $04 requestIdentifiedShadowMemoryDTCAndStatus
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table IOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-lesen-detail"></a>
+### IS_LESEN_DETAIL
+
+Infospeicher lesen (alle Info-Meldungen / Ort und Art) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| F_CODE | int | gewaehlter Fehlercode |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_VERSION | int | Typ des Fehlerspeichers Fuer KWP-2000 immer 2 |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | long | Index fuer Fehlerort |
+| F_ORT_TEXT | string | Fehlerort als Text table IOrtTexte ORTTEXT |
+| F_SYMPTOM_NR | int | Fehlersymptom (Standard-Fehlerart) als Zahl |
+| F_SYMPTOM_TEXT | string | Fehlersymptom (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_READY_NR | int | Readyness Flag (Standard-Fehlerart) als Zahl |
+| F_READY_TEXT | string | Readyness Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_VORHANDEN_NR | int | Fehler vorhanden (Standard-Fehlerart) als Zahl |
+| F_VORHANDEN_TEXT | string | Fehler vorhanden (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_WARNUNG_NR | int | Warnlampen Flag (Standard-Fehlerart) als Zahl |
+| F_WARNUNG_TEXT | string | Warnlampen Flag (Standard-Fehlerart) als Text table IArtTexte ARTTEXT |
+| F_PCODE | unsigned int | optional / Pflicht fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_PCODE7 | unsigned int | optional / fuer abgasrelevante SG Wertebereich 0x0000 - 0xFFFF 0x0000: wenn nicht belegt |
+| F_PCODE7_STRING | string | 5 stelliger Text in der Form 'Pxxxx' '--': wenn nicht belegt '??': wenn nicht bekannt |
+| F_PCODE7_TEXT | string | Fehler als Klartext '': wenn nicht belegt table PCodeTexte TEXT |
+| F_HFK | int | Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler |
+| F_LZ | int | Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler |
+| F_ART_ANZ | int | Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart |
+| F_UW_KM | long | Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-is-loeschen"></a>
+### IS_LOESCHEN
+
+Infospeicher loeschen KWP2000: $31 StartRoutineByLocalIdentifier $06 ClearDTCShadowMemory Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-herstellerdaten-lesen"></a>
+### HERSTELLERDATEN_LESEN
+
+Herstellerdaten lesen KWP2000: $22 SG spezifische Daten lesen $00 Herstellerdaten lesen $04 Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| HD_BYTE_1 | unsigned int | Herstellerdaten Byte 1 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_2 | unsigned int | Herstellerdaten Byte 2 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_3 | unsigned int | Herstellerdaten Byte 3 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_4 | unsigned int | Herstellerdaten Byte 4 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_5 | unsigned int | Herstellerdaten Byte 5 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_6 | unsigned int | Herstellerdaten Byte 6 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_7 | unsigned int | Herstellerdaten Byte 7 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_8 | unsigned int | Herstellerdaten Byte 8 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_9 | unsigned int | Herstellerdaten Byte 9 0x0 - 0xFF bzw. 0 - 255 |
+| HD_BYTE_10 | unsigned int | Herstellerdaten Byte 10 0x0 - 0xFF bzw. 0 - 255 |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-lsg-nr-u-herstelldatum-u-x-schreiben"></a>
+### LSG_NR_U_HERSTELLDATUM_U_X_SCHREIBEN
+
+Laufende Steuergeraetenummer und Herstelldatum und kleines x von HWREF ZZZPPPx schreiben KWP2000: $2E SG spezifische Daten schreiben $00 LSG Nummer und Herstelldatum und x schreiben $05 0x FF FF FF FF ist keine gueltige SG Nummer 0x FF FF FF FF ist kein gueltiges Herstelldatum YY YY MM DD ist BCD-Format des Herstelldatum kleines x sollte Charakter sein Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| LAUFENDE_SG_NR | unsigned long | Laufende Steuergeraetenummer 4 Bytes 0x0 - 0xFF FF FF FF |
+| HERSTELLDATUM | unsigned long | Herstelldatum 4 Bytes BCD 0xYYYYMMDD |
+| KLEINES_X | string | kleines x muss Charakter sein 0-9 oder A-Z damit er im PAF-Filenamen erscheinen kann |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-systemzeit-lesen"></a>
+### SYSTEMZEIT_LESEN
+
+Systemzeit lesen KWP2000: $22 SG spezifische Daten lesen $00 Systemzeit lesen $02 Byte 1: Systemzeit gestartet: = 00 gestartet &lt;&gt; 00 nicht gestartet 0x FF FF FF FF FF ist keine gueltige Systemzeit Der Job liest nach Start aus dem RAM die aktuelle, sich aendernde Zeit aus Vor Systemzeitstart liest der Job aus EEPROM-Zellen (mit F...Fh gefuellt) Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| SZ_GESTARTET | unsigned int | Systemzeit gestartet: = 00 gestartet &lt;&gt; 00 nicht gestartet |
+| SZ_BYTE_1 | unsigned int | Systemzeit Byte 1 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_2 | unsigned int | Systemzeit Byte 2 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_3 | unsigned int | Systemzeit Byte 3 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_4 | unsigned int | Systemzeit Byte 4 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_5 | unsigned int | Systemzeit Byte 5 0x0 - 0xFF bzw. 0 - 255 |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-systemzeit-starten"></a>
+### SYSTEMZEIT_STARTEN
+
+Systemzeit starten KWP2000: $31 SG spezifische Routine starten $50 Systemzeit starten !!! ACHTUNG !!! Beim Start der Systemzeit werden die Airbags scharfgeschaltet und versch. Daten irreversibel verriegelt bis zum naechsten Flash-Update (Fahrgestellnummer, etc.) Das Starten der Systemzeit funktioniert nur, wenn eine Fahrgestellnummer eingetragen wurde!!!
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_INFO_GELESEN | string | Dient nur zur Sicherheit, wird nicht im Telegramm verwendet "ja" -&gt; Job ausfuehren "1"  -&gt; Job ausfuehren table DigitalArgument TEXT |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-zuruecknehmen-steuergeraetestatus"></a>
+### STEUERN_ZURUECKNEHMEN_STEUERGERAETESTATUS
+
+Statusvorgaben zuruecknehmen KWP2000: $31 Steuergeraetespezifische Routine starten $20 Statusvorgaben zuruecknehmen $yz Status $yz zuruecknehmen Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STATUS_ID | unsigned int | ID des zurueck zu nehmenden Status $00 = alle Stati zuruecknehmen |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-kommunikationstest-sende-empfang-anstossen"></a>
+### STEUERN_KOMMUNIKATIONSTEST_SENDE_EMPFANG_ANSTOSSEN
+
+Statusvorgabe: Kommunikationstest Sende Empfang anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $27 Kommunikationstest Sende Empfang anstossen Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DATENBYTE_1 | unsigned int | Frei waehlbares Datenbyte 1 |
+| DATENBYTE_2 | unsigned int | Frei waehlbares Datenbyte 2 |
+| DATENBYTE_3 | unsigned int | Frei waehlbares Datenbyte 3 |
+| DATENBYTE_4 | unsigned int | Frei waehlbares Datenbyte 4 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_DATENBYTE_1 | unsigned int | Rueckantwort des Datenbyte 1 |
+| STAT_DATENBYTE_2 | unsigned int | Rueckantwort des Datenbyte 2 |
+| STAT_DATENBYTE_3 | unsigned int | Rueckantwort des Datenbyte 3 |
+| STAT_DATENBYTE_4 | unsigned int | Rueckantwort des Datenbyte 4 |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-si-bus-status-lesen-anstossen"></a>
+### STEUERN_SI_BUS_STATUS_LESEN_ANSTOSSEN
+
+Statusvorgabe: SI-Bus-Status lesen anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $29 SI-Bus-Status lesen anstossen Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SI_BUS_ID | unsigned int | Zu lesende SI-Bus-ID |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_LAENGE | unsigned int | Anzahl der Datenbytes in der Rueckantwort |
+| STAT_DATENBYTES | binary | Rueckantwort Datenbytes |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-systemzeit-schreiben"></a>
+### SYSTEMZEIT_SCHREIBEN
+
+Systemzeit schreiben KWP2000: $2E SG spezifische Daten schreiben $00 Systemzeit schreiben $02 0x FF FF FF FF FF ist keine gueltige Systemzeit Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| SZ_BYTE_1 | unsigned int | Systemzeit Byte 1 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_2 | unsigned int | Systemzeit Byte 2 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_3 | unsigned int | Systemzeit Byte 3 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_4 | unsigned int | Systemzeit Byte 4 0x0 - 0xFF bzw. 0 - 255 |
+| SZ_BYTE_5 | unsigned int | Systemzeit Byte 5 0x0 - 0xFF bzw. 0 - 255 |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-predrivecheck-abrufen"></a>
+### STATUS_PREDRIVECHECK_ABRUFEN
+
+Status Predrivecheck abrufen KWP2000: $22 Steuergeraetespezifische Daten lesen $00 $10 Predrivecheck Status abrufen Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_PDCHECK_AKTIV | unsigned int | Status Pre-Drive-Check: 0 = kein PDC aktiv 1 = PDC aktiv |
+| STAT_PDC_SIM_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SIM_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SIM_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SIM_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Alle Airbag-Steuergeraete betriebsbereit! |
+| STAT_PDC_SIM_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SIM_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im System vorhandenen Zuendkreise sind zuendbereit! |
+| STAT_PDC_SZL_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SZL_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SZL_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SZL_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SZL_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SZL_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SASL_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SASL_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SASL_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SASL_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SASL_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SASL_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SASR_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SASR_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SASR_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SASR_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SASR_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SASR_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_STVR_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_STVR_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_STVR_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_STVR_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_STVR_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_STVR_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_STVL_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_STVL_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_STVL_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_STVL_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_STVL_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_STVL_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SSFA_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SSFA_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SSFA_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SSFA_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SSFA_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SSFA_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SSBF_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SSBF_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SSBF_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SSBF_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SSBF_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SSBF_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SBSL_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SBSL_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SBSL_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SBSL_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SBSL_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SBSL_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SBSR_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SBSR_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SBSR_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SBSR_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SBSR_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SBSR_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SSH_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SSH_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SSH_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SSH_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SSH_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SSH_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDC_SFZ_PHASE1_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen |
+| STAT_PDC_SFZ_PHASE2_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen |
+| STAT_PDC_SFZ_PHASE3_ABGESCHLOSSEN | unsigned int | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen |
+| STAT_PDC_SFZ_BETRIEBSBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! |
+| STAT_PDC_SFZ_NOTWENDIG | unsigned int | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig |
+| STAT_PDC_SFZ_ZUENDBEREIT | unsigned int | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle Zuendkreise im SG zuendbereit |
+| STAT_PDCHECK_AKTIV_TEXT | string | Status Pre-Drive-Check: 0x00 = kein PDC aktiv 0x01 = PDC aktiv Text fuer Entwicklung |
+| STAT_PDC_SIM_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SIM_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SIM_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SIM_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht alle SGs betriebsbereit 1 = alle SGs betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SIM_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SIM_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht alle SGs zuendbereit 1 =  alle SGs zuendbereit Alle im System vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SZL_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SZL_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SZL_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SZL_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SZL_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SZL_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SASL_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASL_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASL_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASL_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SASL_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SASL_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SASR_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASR_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASR_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SASR_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SASR_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SASR_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_STVL_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVL_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVL_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVL_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_STVL_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_STVL_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_STVR_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVR_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVR_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_STVR_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_STVR_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_STVR_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SSFA_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSFA_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSFA_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSFA_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SSFA_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SSFA_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SSBF_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSBF_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSBF_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSBF_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SSBF_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SSBF_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SBSL_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSL_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSL_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSL_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SBSL_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SBSL_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SBSR_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSR_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSR_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SBSR_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SBSR_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SBSR_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SSH_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSH_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSH_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SSH_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SSH_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SSH_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| STAT_PDC_SFZ_PHASE1_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 1 nicht abgeschlossen 1 = Phase 1 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SFZ_PHASE2_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 2 nicht abgeschlossen 1 = Phase 2 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SFZ_PHASE3_ABGESCHLOSSEN_TEXT | string | Status Pre-Drive-Check: 0 = Phase 3 nicht abgeschlossen 1 = Phase 3 abgeschlossen Text fuer Entwicklung |
+| STAT_PDC_SFZ_BETRIEBSBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht betriebsbereit 1 = betriebsbereit Betriebsbereitschaft auch ohne Zuendbereitschaft moeglich! Text fuer Entwicklung |
+| STAT_PDC_SFZ_NOTWENDIG_TEXT | string | Status Pre-Drive-Check: 0 = PDC nicht notwendig 1 = PDC notwendig Text fuer Entwicklung |
+| STAT_PDC_SFZ_ZUENDBEREIT_TEXT | string | Status Pre-Drive-Check: 0 = nicht zuendbereit 1 = zuendbereit Alle im SG vorhandenen Zuendkreise sind zuendbereit! Text fuer Entwicklung |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-predrivecheck-starten"></a>
+### STEUERN_PREDRIVECHECK_STARTEN
+
+Steuern: Predrivecheck starten KWP2000: $31 Steuergeraetespezifische Routine starten $2A Predrivecheck anstossen Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-stromverteiler"></a>
+### STEUERN_STROMVERTEILER
+
+Steuerung der Stromverteiler KWP2000: $31 Steuergeraetespezifische Routine starten $32 Steuerung der Stromverteiler Nur bei Kl R aus! Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT_ACTIVE | unsigned int | 0 = Timeout inactive, d.h. Ruecknahme explizit ueber Dienst oder nach Klemmenwechsel 1 = Timeout active, d.h. Ruecknahme explizit ueber Dienst oder nach Diagnosetimeout von 4s |
+| STROMVERTEILER_NR | unsigned int | Nummer des anzusprechenden Stromverteilers $00 bis $03 |
+| AUSGANG_NR_MODE | unsigned int | Alle Bitkombinationen moeglich! Bit0: Ausgang 1 ein Bit1: Ausgang 2 ein Bit2: Ausgang 3 ein Bit3: Ausgang 4 ein Bit4: Ausgang 1 Hochstrommode Bit5: Ausgang 2 Hochstrommode Bit6: Ausgang 3 Hochstrommode Bit7: Ausgang 4 Hochstrommode AB DER VERSION 0.52 DUERFEN ALLE AUSGAENGE IN DEN HOCHSTROMMODE GEHEN! |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-sternkoppler"></a>
+### STEUERN_STERNKOPPLER
+
+Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $33 Steuerung des Sternkopplers Nur bei Kl R aus! Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| TIMEOUT_ACTIVE | unsigned int | 0 = Timeout inactive, d.h. Ruecknahme explizit ueber Dienst oder nach Klemmenwechsel 1 = Timeout active, d.h. Ruecknahme explizit ueber Dienst oder nach Diagnosetimeout von 4s |
+| SK_AUSGANG_NR_0_7 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Ausgangs Bit0: Ausgang 0 ein (SIM)  SG intern Bit1: Ausgang 1 ein (ZGM)  Stecker Links Bit2: Ausgang 2 ein (SZL)  Stecker Links Bit3: Ausgang 3 ein (SASL) Stecker Links Bit4: Ausgang 4 ein (SASR) Stecker Links Bit5: Ausgang 5 ein (SFZ)  Stecker Links Bit6: Ausgang 6 ein (STVL) Stecker Links Bit7: Ausgang 7 ein (SSFA) Stecker Mitte |
+| SK_AUSGANG_NR_8_15 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Ausgangs Bit0: Ausgang 8  ein (SBSL) Stecker Mitte Bit1: Ausgang 9  ein (STVR) Stecker Mitte Bit2: Ausgang 10 ein (SSBF) Stecker Mitte Bit3: Ausgang 11 ein (SBSR) Stecker Mitte Bit4: Ausgang 12 ein (SSH)  Stecker Mitte Bit5: Ausgang 13 ein Bit6: Ausgang 14 ein Bit7: Ausgang 15 ein |
+| SK_AUSGANG_NR_16_19 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Ausgangs Bit0: Ausgang 16 ein Bit1: Ausgang 17 ein Bit2: Ausgang 18 ein Bit3: Ausgang 19 ein (100.40) SG intern Schaltnetzteil Bit4: Ausgang frei Bit5: Ausgang frei Bit6: Ausgang frei Bit7: Ausgang frei |
+| SK_EINGANG_NR_0_7 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Eingangs Bit0: Eingang 0 ein (SIM)  SG intern Bit1: Eingang 1 ein (ZGM)  Stecker Links Bit2: Eingang 2 ein (SZL)  Stecker Links Bit3: Eingang 3 ein (SASL) Stecker Links Bit4: Eingang 4 ein (SASR) Stecker Links Bit5: Eingang 5 ein (SFZ)  Stecker Links Bit6: Eingang 6 ein (STVL) Stecker Links Bit7: Eingang 7 ein (SSFA) Stecker Mitte |
+| SK_EINGANG_NR_8_15 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Eingangs Bit0: Eingang 8  ein (SBSL) Stecker Mitte Bit1: Eingang 9  ein (STVR) Stecker Mitte Bit2: Eingang 10 ein (SSBF) Stecker Mitte Bit3: Eingang 11 ein (SBSR) Stecker Mitte Bit4: Eingang 12 ein (SSH)  Stecker Mitte Bit5: Eingang 13 ein Bit6: Eingang 14 ein Bit7: Eingang 15 ein |
+| SK_EINGANG_NR_16_19 | unsigned int | Alle Bitkombinationen moeglich! Nummer des anzusprechenden Sternkoppler Eingangs Bit0: Eingang 16 ein Bit1: Eingang 17 ein Bit2: Eingang frei Bit3: Eingang frei Bit4: Eingang frei Bit5: Eingang frei Bit6: Eingang frei Bit7: Eingang frei |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-selbsttest-dv-sensoren-anstossen"></a>
+### STEUERN_SELBSTTEST_DV_SENSOREN_ANSTOSSEN
+
+Statusvorgabe: Selbsttest dV-Sensoren anstossen KWP2000: $31 Steuergeraetespezifische Routine starten $35 Selbsttest dV-Sensoren anstossen Modus  : Default !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Job derzeit nicht unterstuetzt da keine dV-Sensoren zum Serienstart
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_SENSOR_LI_WERT | unsigned int | ??? Grenzen Wird nachgeliefert, sobald bekannt! |
+| STAT_SENSOR_LI_EINH | string | ??? Einheit Wird nachgeliefert, sobald bekannt! |
+| STAT_SENSOR_RE_WERT | unsigned int | ??? Grenzen Wird nachgeliefert, sobald bekannt! |
+| STAT_SENSOR_RE_EINH | string | ??? Einheit Wird nachgeliefert, sobald bekannt! |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-notruf-absetzen"></a>
+### STEUERN_NOTRUF_ABSETZEN
+
+Statusvorgabe: Notruf an das Telefon absetzen KWP2000: $31 Steuergeraetespezifische Routine starten $34 Notruf an das Telefon absetzen Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-wandler-strom"></a>
+### STEUERN_WANDLER_STROM
+
+Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $39 Wandlerstrom der Servotronic vorgeben Bei jeder Klemme! Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STROMVORGABE_SERVO_WANDLER | unsigned int | 0xFF = Keine Aenderung der Stromvorgabe 0x00 - 0xFE = Stromvorgabe in 4 mA Schritten |
+| STROMVORGABE_ECO_WANDLER | unsigned int | 0xFF = Keine Aenderung der Stromvorgabe 0x00 - 0xFE = Stromvorgabe in 4 mA Schritten |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_JOB_ISTSTROM_SERVO_WANDLER_WERT | unsigned int | Status des Iststroms am Servotronic Wandler in 4 mA |
+| STAT_JOB_ISTSTROM_SERVO_WANDLER_EINH | string | Status des Iststroms am Servotronic Wandler in 4 mA |
+| STAT_JOB_ISTSTROM_ECO_WANDLER_WERT | unsigned int | Status des Iststroms am ECO Wandler in 4 mA |
+| STAT_JOB_ISTSTROM_ECO_WANDLER_EINH | string | Status des Iststroms am ECO Wandler in 4 mA |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-wandler-pwm"></a>
+### STEUERN_WANDLER_PWM
+
+Steuerung des Sternkopplers KWP2000: $31 Steuergeraetespezifische Routine starten $3A PWM des Wandlers der Servotronic vorgeben Bei jeder Klemme! Modus  : Default
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PWM_VORGABE_SERVO_WANDLER | unsigned int | 0xFF = Keine Aenderung der Vorgabe 0x00 - 0x64 = PWM Verhaeltnis Vorgabe in Prozent |
+| PWM_VORGABE_ECO_WANDLER | unsigned int | 0xFF = Keine Aenderung der Vorgabe 0x00 - 0x64 = PWM Verhaeltnis Vorgabe in Prozent |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| STAT_JOB_PWM_SERVO_WANDLER_WERT | unsigned int | PWM Status in Prozent des Servotronic Wandlers |
+| STAT_JOB_PWM_SERVO_WANDLER_EINH | string | PWM Status in Prozent des Servotronic Wandlers |
+| STAT_JOB_PWM_ECO_WANDLER_WERT | unsigned int | PWM Status in Prozent des ECO Wandlers |
+| STAT_JOB_PWM_ECO_WANDLER_EINH | string | PWM Status in Prozent des ECO Wandlers |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-lesen"></a>
+### STATUS_LESEN
+
+Steuergeraete Status lesen KWP2000: $22 SG spezifische Daten lesen $98 Steuergeraete Status lesen $00 Modus  : Default
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_READINESS_FLAG_BUS_AKTIV | unsigned int | (Bit 0:) Bus aktiv (&gt;16sek. seit letztem Loeschen) |
+| STAT_READINESS_FLAG_PREDRIVECHECK_DURCHGEFUEHRT | unsigned int | (Bit 1:) 0 =  Pre-Drive-Check nicht durchgefuehrt 1 =  Pre-Drive-Check vollstaendig durchgefuehrt |
+| STAT_READINESS_FLAG_SYSTEM_BETRIEBSFAEHIG | unsigned int | (Bit 2:) 1 = System betriebsfaehig d. h. Klemme R ein und Pre-Drive-Check erfolgt |
+| STAT_READINESS_FLAG_SYSTEM_ABGESCHALTET | unsigned int | (Bit 3:) 1 = System wurde abgeschaltet |
+| STAT_READINESS_FLAG_KLEMME_15_EIN | unsigned int | (Bit 4:) 1 = Klemme 15 ein |
+| STAT_KLEMMENSTATUS_BUS_KL_15_SIM_EIN | unsigned int | Klemmenstatus 15 vom SIM Byte 6 Bits 0,1 00: Kl. 15 aus 01: Kl. 15 ein 10: Signal ungueltig 11: Signal ungueltig |
+| STAT_KLEMMENSTATUS_BUS_KL_15_SIM_TEXT | string | Klemmenstatus 15 vom SIM Byte 6 Bits 0,1 00: Kl. 15 aus 01: Kl. 15 ein 10: Signal ungueltig 11: Signal ungueltig |
+| STAT_KLEMMENSTATUS_BUS_KL_R_SIM_EIN | unsigned int | Klemmenstatus R vom SIM Byte 6 Bits 2,3 00: Kl. R aus 01: Kl. R ein 10: Signal ungueltig 11: Signal ungueltig |
+| STAT_KLEMMENSTATUS_BUS_KL_R_SIM_TEXT | string | Klemmenstatus R vom SIM Byte 6 Bits 2,3 00: Kl. R aus 01: Kl. R ein 10: Signal ungueltig 11: Signal ungueltig |
+| STAT_SIM_SPG | unsigned int | Nur fuer Entwicklung Spannungsstatus vom SIM Byte 6 Bits 4,5 00: Unterspannung 01: Normalspannung 10: Ueberspannung 11: Signal ungueltig |
+| STAT_SIM_SPG_TEXT | string | Nur fuer Entwicklung Spannungsstatus vom SIM Byte 6 Bits 4,5 00: Unterspannung 01: Normalspannung 10: Ueberspannung 11: Signal ungueltig |
+| STAT_SIM_SPG_UNTERSPG_AKTIV | unsigned int | Spannungsstatus vom SIM Byte 6 Bits 4,5 1: Unterspannung |
+| STAT_SIM_SPG_NORMALSPG_AKTIV | unsigned int | Spannungsstatus vom SIM Byte 6 Bits 4,5 1: Normalspannung |
+| STAT_SIM_SPG_UEBERSPG_AKTIV | unsigned int | Spannungsstatus vom SIM Byte 6 Bits 4,5 1: Ueberspannung |
+| STAT_KM_AKTUELL_WERT | long | aktueller Kilometerstand |
+| STAT_KM_AKTUELL_EINH | string | KM |
+| STAT_SV_A_UEBERTEMP | unsigned int | 1 = Uebertemperatur |
+| STAT_SV_A_TEMPABSCHALTUNG | unsigned int | 1 = Temperaturabschaltung |
+| STAT_SV_A_AUSGANG1_AKTIV | unsigned int | (Bit 0:) 1 = Ausgang A1 aktiv |
+| STAT_SV_A_AUSGANG2_AKTIV | unsigned int | (Bit 1:) 1 = Ausgang A2 aktiv |
+| STAT_SV_A_AUSGANG3_AKTIV | unsigned int | (Bit 2:) 1 = Ausgang A3 aktiv |
+| STAT_SV_A_AUSGANG4_AKTIV | unsigned int | (Bit 3:) 1 = Ausgang A4 aktiv |
+| STAT_SV_A_HOCHMODE1_AKTIV | unsigned int | (Bit 4:) 1 = Ausgang A1 im Hochstrommode |
+| STAT_SV_A_HOCHMODE2_AKTIV | unsigned int | (Bit 5:) 1 = Ausgang A2 im Hochstrommode |
+| STAT_SV_A_HOCHMODE3_AKTIV | unsigned int | (Bit 6:) 1 = Ausgang A3 im Hochstrommode |
+| STAT_SV_A_HOCHMODE4_AKTIV | unsigned int | (Bit 7:) 1 = Ausgang A4 im Hochstrommode |
+| STAT_SV_A_AUSGANG1_UEBERSPG | unsigned int | (Bit 0:) 1 = Ausgang A1 Ueberspannung |
+| STAT_SV_A_AUSGANG2_UEBERSPG | unsigned int | (Bit 1:) 1 = Ausgang A2 Ueberspannung |
+| STAT_SV_A_AUSGANG3_UEBERSPG | unsigned int | (Bit 2:) 1 = Ausgang A3 Ueberspannung |
+| STAT_SV_A_AUSGANG4_UEBERSPG | unsigned int | (Bit 3:) 1 = Ausgang A4 Ueberspannung |
+| STAT_SV_A_AUSGANG1_UEBERSTROM | unsigned int | (Bit 4:) 1 = Ausgang A1 Ueberstrom |
+| STAT_SV_A_AUSGANG2_UEBERSTROM | unsigned int | (Bit 5:) 1 = Ausgang A2 Ueberstrom |
+| STAT_SV_A_AUSGANG3_UEBERSTROM | unsigned int | (Bit 6:) 1 = Ausgang A3 Ueberstrom |
+| STAT_SV_A_AUSGANG4_UEBERSTROM | unsigned int | (Bit 7:) 1 = Ausgang A4 Ueberstrom |
+| STAT_SV_B_UEBERTEMP | unsigned int | 1 = Uebertemperatur |
+| STAT_SV_B_TEMPABSCHALTUNG | unsigned int | 1 = Temperaturabschaltung |
+| STAT_SV_B_AUSGANG1_AKTIV | unsigned int | (Bit 0:) 1 = Ausgang B1 aktiv |
+| STAT_SV_B_AUSGANG2_AKTIV | unsigned int | (Bit 1:) 1 = Ausgang B2 aktiv |
+| STAT_SV_B_AUSGANG3_AKTIV | unsigned int | (Bit 2:) 1 = Ausgang B3 aktiv |
+| STAT_SV_B_AUSGANG4_AKTIV | unsigned int | (Bit 3:) 1 = Ausgang B4 aktiv |
+| STAT_SV_B_HOCHMODE1_AKTIV | unsigned int | (Bit 4:) 1 = Ausgang B1 im Hochstrommode |
+| STAT_SV_B_HOCHMODE2_AKTIV | unsigned int | (Bit 5:) 1 = Ausgang B2 im Hochstrommode |
+| STAT_SV_B_HOCHMODE3_AKTIV | unsigned int | (Bit 6:) 1 = Ausgang B3 im Hochstrommode |
+| STAT_SV_B_HOCHMODE4_AKTIV | unsigned int | (Bit 7:) 1 = Ausgang B4 im Hochstrommode |
+| STAT_SV_B_AUSGANG1_UEBERSPG | unsigned int | (Bit 0:) 1 = Ausgang B1 Ueberspannung |
+| STAT_SV_B_AUSGANG2_UEBERSPG | unsigned int | (Bit 1:) 1 = Ausgang B2 Ueberspannung |
+| STAT_SV_B_AUSGANG3_UEBERSPG | unsigned int | (Bit 2:) 1 = Ausgang B3 Ueberspannung |
+| STAT_SV_B_AUSGANG4_UEBERSPG | unsigned int | (Bit 3:) 1 = Ausgang B4 Ueberspannung |
+| STAT_SV_B_AUSGANG1_UEBERSTROM | unsigned int | (Bit 4:) 1 = Ausgang B1 Ueberstrom |
+| STAT_SV_B_AUSGANG2_UEBERSTROM | unsigned int | (Bit 5:) 1 = Ausgang B2 Ueberstrom |
+| STAT_SV_B_AUSGANG3_UEBERSTROM | unsigned int | (Bit 6:) 1 = Ausgang B3 Ueberstrom |
+| STAT_SV_B_AUSGANG4_UEBERSTROM | unsigned int | (Bit 7:) 1 = Ausgang B4 Ueberstrom |
+| STAT_SV_C_UEBERTEMP | unsigned int | 1 = Uebertemperatur |
+| STAT_SV_C_TEMPABSCHALTUNG | unsigned int | 1 = Temperaturabschaltung |
+| STAT_SV_C_AUSGANG1_AKTIV | unsigned int | (Bit 0:) 1 = Ausgang C1 aktiv |
+| STAT_SV_C_AUSGANG2_AKTIV | unsigned int | (Bit 1:) 1 = Ausgang C2 aktiv |
+| STAT_SV_C_AUSGANG3_AKTIV | unsigned int | (Bit 2:) 1 = Ausgang C3 aktiv |
+| STAT_SV_C_AUSGANG4_AKTIV | unsigned int | (Bit 3:) 1 = Ausgang C4 aktiv |
+| STAT_SV_C_HOCHMODE1_AKTIV | unsigned int | (Bit 4:) 1 = Ausgang C1 im Hochstrommode |
+| STAT_SV_C_HOCHMODE2_AKTIV | unsigned int | (Bit 5:) 1 = Ausgang C2 im Hochstrommode |
+| STAT_SV_C_HOCHMODE3_AKTIV | unsigned int | (Bit 6:) 1 = Ausgang C3 im Hochstrommode |
+| STAT_SV_C_HOCHMODE4_AKTIV | unsigned int | (Bit 7:) 1 = Ausgang C4 im Hochstrommode |
+| STAT_SV_C_AUSGANG1_UEBERSPG | unsigned int | (Bit 0:) 1 = Ausgang C1 Ueberspannung |
+| STAT_SV_C_AUSGANG2_UEBERSPG | unsigned int | (Bit 1:) 1 = Ausgang C2 Ueberspannung |
+| STAT_SV_C_AUSGANG3_UEBERSPG | unsigned int | (Bit 2:) 1 = Ausgang C3 Ueberspannung |
+| STAT_SV_C_AUSGANG4_UEBERSPG | unsigned int | (Bit 3:) 1 = Ausgang C4 Ueberspannung |
+| STAT_SV_C_AUSGANG1_UEBERSTROM | unsigned int | (Bit 4:) 1 = Ausgang C1 Ueberstrom |
+| STAT_SV_C_AUSGANG2_UEBERSTROM | unsigned int | (Bit 5:) 1 = Ausgang C2 Ueberstrom |
+| STAT_SV_C_AUSGANG3_UEBERSTROM | unsigned int | (Bit 6:) 1 = Ausgang C3 Ueberstrom |
+| STAT_SV_C_AUSGANG4_UEBERSTROM | unsigned int | (Bit 7:) 1 = Ausgang C4 Ueberstrom |
+| STAT_SV_D_UEBERTEMP | unsigned int | 1 = Uebertemperatur |
+| STAT_SV_D_TEMPABSCHALTUNG | unsigned int | 1 = Temperaturabschaltung |
+| STAT_SV_D_AUSGANG1_AKTIV | unsigned int | (Bit 0:) 1 = Ausgang D1 aktiv |
+| STAT_SV_D_AUSGANG2_AKTIV | unsigned int | (Bit 1:) 1 = Ausgang D2 aktiv |
+| STAT_SV_D_AUSGANG3_AKTIV | unsigned int | (Bit 2:) 1 = Ausgang D3 aktiv |
+| STAT_SV_D_AUSGANG4_AKTIV | unsigned int | (Bit 3:) 1 = Ausgang D4 aktiv |
+| STAT_SV_D_HOCHMODE1_AKTIV | unsigned int | (Bit 4:) 1 = Ausgang D1 im Hochstrommode |
+| STAT_SV_D_HOCHMODE2_AKTIV | unsigned int | (Bit 5:) 1 = Ausgang D2 im Hochstrommode |
+| STAT_SV_D_HOCHMODE3_AKTIV | unsigned int | (Bit 6:) 1 = Ausgang D3 im Hochstrommode |
+| STAT_SV_D_HOCHMODE4_AKTIV | unsigned int | (Bit 7:) 1 = Ausgang D4 im Hochstrommode |
+| STAT_SV_D_AUSGANG1_UEBERSPG | unsigned int | (Bit 0:) 1 = Ausgang D1 Ueberspannung |
+| STAT_SV_D_AUSGANG2_UEBERSPG | unsigned int | (Bit 1:) 1 = Ausgang D2 Ueberspannung |
+| STAT_SV_D_AUSGANG3_UEBERSPG | unsigned int | (Bit 2:) 1 = Ausgang D3 Ueberspannung |
+| STAT_SV_D_AUSGANG4_UEBERSPG | unsigned int | (Bit 3:) 1 = Ausgang D4 Ueberspannung |
+| STAT_SV_D_AUSGANG1_UEBERSTROM | unsigned int | (Bit 4:) 1 = Ausgang D1 Ueberstrom |
+| STAT_SV_D_AUSGANG2_UEBERSTROM | unsigned int | (Bit 5:) 1 = Ausgang D2 Ueberstrom |
+| STAT_SV_D_AUSGANG3_UEBERSTROM | unsigned int | (Bit 6:) 1 = Ausgang D3 Ueberstrom |
+| STAT_SV_D_AUSGANG4_UEBERSTROM | unsigned int | (Bit 7:) 1 = Ausgang D4 Ueberstrom |
+| STAT_STERNKOPPLER_AUS_FELD1 | unsigned int | Bit 0: Ausgang 0 ein Bit 1: Ausgang 1 ein Bit 2: Ausgang 2 ein Bit 3: Ausgang 3 ein Bit 4: Ausgang 4 ein Bit 5: Ausgang 5 ein Bit 6: Ausgang 6 ein Bit 7: Ausgang 7 ein |
+| STAT_STERNKOPPLER_AUS_FELD2 | unsigned int | Bit 0: Ausgang  8 ein Bit 1: Ausgang  9 ein Bit 2: Ausgang 10 ein Bit 3: Ausgang 11 ein Bit 4: Ausgang 12 ein Bit 5: Ausgang 13 ein Bit 6: Ausgang 14 ein Bit 7: Ausgang 15 ein |
+| STAT_STERNKOPPLER_AUS_FELD3 | unsigned int | Bit 0: Ausgang 16 ein Bit 1: Ausgang 17 ein Bit 2: Ausgang 18 ein Bit 3: Ausgang 19 ein (Schaltnetzteil 100.40) Bit 4: frei Bit 5: frei Bit 6: frei Bit 7: frei |
+| STAT_SK_AUS_0_AKTIV | unsigned int | Bit 0: Ausgang 0 ein |
+| STAT_SK_AUS_1_AKTIV | unsigned int | Bit 1: Ausgang 1 ein |
+| STAT_SK_AUS_2_AKTIV | unsigned int | Bit 2: Ausgang 2 ein |
+| STAT_SK_AUS_3_AKTIV | unsigned int | Bit 3: Ausgang 3 ein |
+| STAT_SK_AUS_4_AKTIV | unsigned int | Bit 4: Ausgang 4 ein |
+| STAT_SK_AUS_5_AKTIV | unsigned int | Bit 5: Ausgang 5 ein |
+| STAT_SK_AUS_6_AKTIV | unsigned int | Bit 6: Ausgang 6 ein |
+| STAT_SK_AUS_7_AKTIV | unsigned int | Bit 7: Ausgang 7 ein |
+| STAT_SK_AUS_8_AKTIV | unsigned int | Bit 0: Ausgang 8 ein |
+| STAT_SK_AUS_9_AKTIV | unsigned int | Bit 1: Ausgang 9 ein |
+| STAT_SK_AUS_10_AKTIV | unsigned int | Bit 2: Ausgang 10 ein |
+| STAT_SK_AUS_11_AKTIV | unsigned int | Bit 3: Ausgang 11 ein |
+| STAT_SK_AUS_12_AKTIV | unsigned int | Bit 4: Ausgang 12 ein |
+| STAT_SK_AUS_13_AKTIV | unsigned int | Bit 5: Ausgang 13 ein |
+| STAT_SK_AUS_14_AKTIV | unsigned int | Bit 6: Ausgang 14 ein |
+| STAT_SK_AUS_15_AKTIV | unsigned int | Bit 7: Ausgang 15 ein |
+| STAT_SK_AUS_16_AKTIV | unsigned int | Bit 0: Ausgang 16 ein |
+| STAT_SK_AUS_17_AKTIV | unsigned int | Bit 1: Ausgang 17 ein |
+| STAT_SK_AUS_18_AKTIV | unsigned int | Bit 2: Ausgang 18 ein |
+| STAT_SK_AUS_19_AKTIV | unsigned int | Bit 3: Ausgang 19 ein |
+| STAT_STERNKOPPLER_EIN_FELD1 | unsigned int | Bit 0: Eingang 0 ein Bit 1: Eingang 1 ein Bit 2: Eingang 2 ein Bit 3: Eingang 3 ein Bit 4: Eingang 4 ein Bit 5: Eingang 5 ein Bit 6: Eingang 6 ein Bit 7: Eingang 7 ein |
+| STAT_STERNKOPPLER_EIN_FELD2 | unsigned int | Bit 0: Eingang  8 ein Bit 1: Eingang  9 ein Bit 2: Eingang 10 ein Bit 3: Eingang 11 ein Bit 4: Eingang 12 ein Bit 5: Eingang 13 ein Bit 6: Eingang 14 ein Bit 7: Eingang 15 ein |
+| STAT_STERNKOPPLER_EIN_FELD3 | unsigned int | Bit 0: Eingang 16 ein Bit 1: Eingang 17 ein Bit 2: Eingang 18 ein Bit 3: Eingang 19 ein (Schaltnetzteil 100.40) Bit 4: frei Bit 5: frei Bit 6: frei Bit 7: frei |
+| STAT_SK_EIN_0_AKTIV | unsigned int | Bit 0: Eingang 0 ein |
+| STAT_SK_EIN_1_AKTIV | unsigned int | Bit 1: Eingang 1 ein |
+| STAT_SK_EIN_2_AKTIV | unsigned int | Bit 2: Eingang 2 ein |
+| STAT_SK_EIN_3_AKTIV | unsigned int | Bit 3: Eingang 3 ein |
+| STAT_SK_EIN_4_AKTIV | unsigned int | Bit 4: Eingang 4 ein |
+| STAT_SK_EIN_5_AKTIV | unsigned int | Bit 5: Eingang 5 ein |
+| STAT_SK_EIN_6_AKTIV | unsigned int | Bit 6: Eingang 6 ein |
+| STAT_SK_EIN_7_AKTIV | unsigned int | Bit 7: Eingang 7 ein |
+| STAT_SK_EIN_8_AKTIV | unsigned int | Bit 0: Eingang 8 ein |
+| STAT_SK_EIN_9_AKTIV | unsigned int | Bit 1: Eingang 9 ein |
+| STAT_SK_EIN_10_AKTIV | unsigned int | Bit 2: Eingang 10 ein |
+| STAT_SK_EIN_11_AKTIV | unsigned int | Bit 3: Eingang 11 ein |
+| STAT_SK_EIN_12_AKTIV | unsigned int | Bit 4: Eingang 12 ein |
+| STAT_SK_EIN_13_AKTIV | unsigned int | Bit 5: Eingang 13 ein |
+| STAT_SK_EIN_14_AKTIV | unsigned int | Bit 6: Eingang 14 ein |
+| STAT_SK_EIN_15_AKTIV | unsigned int | Bit 7: Eingang 15 ein |
+| STAT_SK_EIN_16_AKTIV | unsigned int | Bit 0: Eingang 16 ein |
+| STAT_SK_EIN_17_AKTIV | unsigned int | Bit 1: Eingang 17 ein |
+| STAT_SK_EIN_18_AKTIV | unsigned int | Bit 2: Eingang 18 ein |
+| STAT_SK_EIN_19_AKTIV | unsigned int | Bit 3: Eingang 19 ein |
+| STAT_SK_AUS_0_TEXT | string | Bit 0: Ausgang 0 ein Text fuer Entwicklung |
+| STAT_SK_AUS_1_TEXT | string | Bit 1: Ausgang 1 ein Text fuer Entwicklung |
+| STAT_SK_AUS_2_TEXT | string | Bit 2: Ausgang 2 ein Text fuer Entwicklung |
+| STAT_SK_AUS_3_TEXT | string | Bit 3: Ausgang 3 ein Text fuer Entwicklung |
+| STAT_SK_AUS_4_TEXT | string | Bit 4: Ausgang 4 ein Text fuer Entwicklung |
+| STAT_SK_AUS_5_TEXT | string | Bit 5: Ausgang 5 ein Text fuer Entwicklung |
+| STAT_SK_AUS_6_TEXT | string | Bit 6: Ausgang 6 ein Text fuer Entwicklung |
+| STAT_SK_AUS_7_TEXT | string | Bit 7: Ausgang 7 ein Text fuer Entwicklung |
+| STAT_SK_AUS_8_TEXT | string | Bit 0: Ausgang 8 ein Text fuer Entwicklung |
+| STAT_SK_AUS_9_TEXT | string | Bit 1: Ausgang 9 ein Text fuer Entwicklung |
+| STAT_SK_AUS_10_TEXT | string | Bit 2: Ausgang 10 ein Text fuer Entwicklung |
+| STAT_SK_AUS_11_TEXT | string | Bit 3: Ausgang 11 ein Text fuer Entwicklung |
+| STAT_SK_AUS_12_TEXT | string | Bit 4: Ausgang 12 ein Text fuer Entwicklung |
+| STAT_SK_AUS_13_TEXT | string | Bit 5: Ausgang 13 ein Text fuer Entwicklung |
+| STAT_SK_AUS_14_TEXT | string | Bit 6: Ausgang 14 ein Text fuer Entwicklung |
+| STAT_SK_AUS_15_TEXT | string | Bit 7: Ausgang 15 ein Text fuer Entwicklung |
+| STAT_SK_AUS_16_TEXT | string | Bit 0: Ausgang 16 ein Text fuer Entwicklung |
+| STAT_SK_AUS_17_TEXT | string | Bit 1: Ausgang 17 ein Text fuer Entwicklung |
+| STAT_SK_AUS_18_TEXT | string | Bit 2: Ausgang 18 ein Text fuer Entwicklung |
+| STAT_SK_AUS_19_TEXT | string | Bit 3: Ausgang 19 ein Text fuer Entwicklung |
+| STAT_SK_EIN_0_TEXT | string | Bit 0: Eingang 0 ein Text fuer Entwicklung |
+| STAT_SK_EIN_1_TEXT | string | Bit 1: Eingang 1 ein Text fuer Entwicklung |
+| STAT_SK_EIN_2_TEXT | string | Bit 2: Eingang 2 ein Text fuer Entwicklung |
+| STAT_SK_EIN_3_TEXT | string | Bit 3: Eingang 3 ein Text fuer Entwicklung |
+| STAT_SK_EIN_4_TEXT | string | Bit 4: Eingang 4 ein Text fuer Entwicklung |
+| STAT_SK_EIN_5_TEXT | string | Bit 5: Eingang 5 ein Text fuer Entwicklung |
+| STAT_SK_EIN_6_TEXT | string | Bit 6: Eingang 6 ein Text fuer Entwicklung |
+| STAT_SK_EIN_7_TEXT | string | Bit 7: Eingang 7 ein Text fuer Entwicklung |
+| STAT_SK_EIN_8_TEXT | string | Bit 0: Eingang 8 ein Text fuer Entwicklung |
+| STAT_SK_EIN_9_TEXT | string | Bit 1: Eingang 9 ein Text fuer Entwicklung |
+| STAT_SK_EIN_10_TEXT | string | Bit 2: Eingang 10 ein Text fuer Entwicklung |
+| STAT_SK_EIN_11_TEXT | string | Bit 3: Eingang 11 ein Text fuer Entwicklung |
+| STAT_SK_EIN_12_TEXT | string | Bit 4: Eingang 12 ein Text fuer Entwicklung |
+| STAT_SK_EIN_13_TEXT | string | Bit 5: Eingang 13 ein Text fuer Entwicklung |
+| STAT_SK_EIN_14_TEXT | string | Bit 6: Eingang 14 ein Text fuer Entwicklung |
+| STAT_SK_EIN_15_TEXT | string | Bit 7: Eingang 15 ein Text fuer Entwicklung |
+| STAT_SK_EIN_16_TEXT | string | Bit 0: Eingang 16 ein Text fuer Entwicklung |
+| STAT_SK_EIN_17_TEXT | string | Bit 1: Eingang 17 ein Text fuer Entwicklung |
+| STAT_SK_EIN_18_TEXT | string | Bit 2: Eingang 18 ein Text fuer Entwicklung |
+| STAT_SK_EIN_19_TEXT | string | Bit 3: Eingang 19 ein Text fuer Entwicklung |
+| STAT_DV_SENSOR_LI_WERT | unsigned int | Status dV-Sensor links, aktueller Messwert 0x0 - 0xFF bzw. 0 - 255 |
+| STAT_DV_SENSOR_LI_EINH | string | ??? tbd DV-Sensoren kommen erst nach Serienanlauf! |
+| STAT_DV_SENSOR_RE_WERT | unsigned int | Status dV-Sensor rechts, aktueller Messwert 0x0 - 0xFF bzw. 0 - 255 |
+| STAT_DV_SENSOR_RE_EINH | string | ??? tbd DV-Sensoren kommen erst nach Serienanlauf! |
+| STAT_SPANNUNG_ENERGIERESERVE_WERT | real | Status Spannung am Energiereservekondensator IO-Bereich: 350-400V Auflösung: 3,095 V/Bit |
+| STAT_SPANNUNG_ENERGIERESERVE_EINH | string | Status Spannung am Energiereservekondensator Volt |
+| STAT_INTERNE_VERSORGUNGSSPANNUNG_WERT | real | Status interne Versorgungsspannung (U85) IO-Bereich: 9,4-10,5 V ohne Sleep-Mode Im Sleep-Mode ca. 8,5 V Auflösung: 80 mV/Bit |
+| STAT_INTERNE_VERSORGUNGSSPANNUNG_EINH | string | Status interne Versorgungsspannung (U85) Volt |
+| STAT_VERSORGUNG_SIM | unsigned int | Status der Versorgung vom SIM Byte 7 Bits 0,1 00: Versorgung aus Bordnetzspannung 01: Rueckspeisung aktiv 10: Signal ungueltig 11: Signal ungueltig |
+| STAT_VERS_SIM_BORDNETZ_AKTIV | unsigned int | Status der Versorgung vom SIM Byte 7 Bits 0,1 1: Versorgung aus Bordnetzspannung |
+| STAT_VERS_SIM_RUECKSPEISUNG_AKTIV | unsigned int | Status der Versorgung vom SIM Byte 7 Bits 0,1 1: Rueckspeisung aktiv |
+| STAT_VERSORGUNG_SIM_TEXT | string | Beschreibung oben |
+| STAT_ENERGIERES_GELADEN | unsigned int | Status der Energiereserve vom SIM Byte 7 Bits 2,3 00: 400V Kondensator i.O. und geladen |
+| STAT_ENERGIERES_100MS | unsigned int | Status der Energiereserve vom SIM Byte 7 Bits 2,3 01: Energiereserve noch fuer 100 ms |
+| STAT_HOCHSPANNUNGSTEIL_DEFEKT | unsigned int | Status der Energiereserve vom SIM Byte 7 Bits 2,3 10: Hochspannungsteil defekt |
+| STAT_HOCHSPANNUNGSTEIL_SIGNAL_UNGUELTIG | unsigned int | Status der Energiereserve vom SIM Byte 7 Bits 2,3 11: Signal ungueltig |
+| STAT_ENERGIERESERVE_TEXT | string | Beschreibung oben Nur fuer Entwicklung!!! |
+| STAT_KLEMME_30_SPANNUNG | unsigned int | Status der Spannung am Klemme 30 |
+| STAT_SOLLSTROM_SERVO_WANDLER_WERT | unsigned int | Status des Sollstroms am Servotronic Wandler in mA |
+| STAT_SOLLSTROM_SERVO_WANDLER_EINH | string | Status des Sollstroms am Servotronic Wandler in mA |
+| STAT_ISTSTROM_SERVO_WANDLER_WERT | unsigned int | Status des Iststroms am Servotronic Wandler in mA |
+| STAT_ISTSTROM_SERVO_WANDLER_EINH | string | Status des Iststroms am Servotronic Wandler in mA |
+| STAT_SOLLSTROM_ECO_WANDLER_WERT | unsigned int | Status des Sollstroms am ECO Wandler in mA |
+| STAT_SOLLSTROM_ECO_WANDLER_EINH | string | Status des Sollstroms am ECO Wandler in mA |
+| STAT_ISTSTROM_ECO_WANDLER_WERT | unsigned int | Status des Iststroms am ECO Wandler in mA |
+| STAT_ISTSTROM_ECO_WANDLER_EINH | string | Status des Iststroms am ECO Wandler in mA |
+| STAT_FZG_GESCHWINDIGKEIT_WERT | unsigned int | Status der Fahrzeuggeschwindigkeit in km/h |
+| STAT_FZG_GESCHWINDIGKEIT_EINH | string | Status der Fahrzeuggeschwindigkeit in km/h |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+## Tables
+
+### Index
+
+- [KONZEPT_TABELLE](#table-konzept-tabelle) (2 × 2)
+- [JOBRESULT](#table-jobresult) (86 × 2)
+- [LIEFERANTEN](#table-lieferanten) (59 × 2)
+- [FARTTEXTE](#table-farttexte) (14 × 2)
+- [DIGITALARGUMENT](#table-digitalargument) (16 × 2)
+- [IARTTEXTE](#table-iarttexte) (14 × 2)
+- [FDETAILSTRUKTUR](#table-fdetailstruktur) (4 × 2)
+- [FARTTEXTEERWEITERT](#table-farttexteerweitert) (4 × 3)
+- [IDETAILSTRUKTUR](#table-idetailstruktur) (4 × 2)
+- [IARTTEXTEERWEITERT](#table-iarttexteerweitert) (4 × 3)
+- [FUMWELTMATRIX](#table-fumweltmatrix) (1 × 5)
+- [IUMWELTMATRIX](#table-iumweltmatrix) (1 × 5)
+- [FUMWELTTEXTE](#table-fumwelttexte) (3 × 9)
+- [IUMWELTTEXTE](#table-iumwelttexte) (3 × 9)
+- [DIAGMODE](#table-diagmode) (14 × 3)
+- [BAUDRATE](#table-baudrate) (7 × 3)
+- [SPEICHERSEGMENT](#table-speichersegment) (12 × 3)
+- [PROGRAMMIERSTATUS](#table-programmierstatus) (19 × 2)
+- [JOBRESULTEXTENDED](#table-jobresultextended) (1 × 2)
+- [FORTTEXTE](#table-forttexte) (56 × 2)
+- [IORTTEXTE](#table-iorttexte) (123 × 2)
+
+<a id="table-konzept-tabelle"></a>
+### KONZEPT_TABELLE
+
+Dimensions: 2 rows × 2 columns
+
+| NR | KONZEPT_TEXT |
+| --- | --- |
+| 0x0F | BMW-FAST |
+| 0x0C | KWP2000 |
+
+<a id="table-jobresult"></a>
+### JOBRESULT
+
+Dimensions: 86 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x10 | ERROR_ECU_GENERAL_REJECT |
+| 0x11 | ERROR_ECU_SERVICE_NOT_SUPPORTED |
+| 0x12 | ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT |
+| 0x21 | ERROR_ECU_BUSY_REPEAT_REQUEST |
+| 0x22 | ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR |
+| 0x23 | ERROR_ECU_ROUTINE_NOT_COMPLETE |
+| 0x31 | ERROR_ECU_REQUEST_OUT_OF_RANGE |
+| 0x33 | ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED |
+| 0x36 | ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS |
+| 0x37 | ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED |
+| 0x40 | ERROR_ECU_DOWNLOAD_NOT_ACCEPTED |
+| 0x41 | ERROR_ECU_IMPROPER_DOWNLOAD_TYPE |
+| 0x42 | ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS |
+| 0x43 | ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x50 | ERROR_ECU_UPLOAD_NOT_ACCEPTED |
+| 0x51 | ERROR_ECU_IMPROPER_UPLOAD_TYPE |
+| 0x52 | ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS |
+| 0x53 | ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED |
+| 0x71 | ERROR_ECU_TRANSFER_SUSPENDED |
+| 0x72 | ERROR_ECU_TRANSFER_ABORTED |
+| 0x74 | ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER |
+| 0x75 | ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER |
+| 0x76 | ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE |
+| 0x77 | ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR |
+| 0x78 | ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING |
+| 0x79 | ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER |
+| 0x80 | ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE |
+| ?00? | OKAY |
+| ?02? | ERROR_ECU_INCORRECT_RESPONSE_ID |
+| ?03? | ERROR_ECU_INCORRECT_LEN |
+| ?10? | ERROR_F_CODE |
+| ?11? | ERROR_TABLE |
+| ?12? | ERROR_INTERPRETATION |
+| ?13? | ERROR_F_POS |
+| ?20? | ERROR_SEGMENT |
+| ?21? | ERROR_ADDRESS |
+| ?22? | ERROR_NUMBER |
+| ?30? | ERROR_DATA |
+| ?40? | ERROR_MODE |
+| ?41? | ERROR_BAUDRATE |
+| ?50? | ERROR_BYTE1 |
+| ?51? | ERROR_BYTE2 |
+| ?52? | ERROR_BYTE3 |
+| ?60? | ERROR_DATA_OUT_OF_RANGE |
+| ?70? | ERROR_NUMBER_ARGUMENT |
+| ?71? | ERROR_RANGE_ARGUMENT |
+| ?72? | ERROR_VERIFY |
+| ?73? | ERROR_NO_BIN_BUFFER |
+| ?74? | ERROR_BIN_BUFFER |
+| ?75? | ERROR_DATA_TYPE |
+| ?76? | ERROR_CHECKSUM |
+| ?80? | ERROR_FLASH_SIGNATURE_CHECK |
+| ?81? | ERROR_VIHICLE_IDENTFICATON_NR |
+| ?82? | ERROR_PROGRAMMING_DATE |
+| ?83? | ERROR_ASSEMBLY_NR |
+| ?84? | ERROR_CALIBRATION_DATASET_NR |
+| ?85? | ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR |
+| ?86? | ERROR_REPAIR_SHOP_NR |
+| ?87? | ERROR_TESTER_SERIAL_NR |
+| ?88? | ERROR_MILAGE |
+| ?89? | ERROR_PROGRAMMING_REFERENCE |
+| ?8A? | ERROR_NO_FREE_UIF |
+| ?8B? | ERROR_MAX_UIF |
+| ?8C? | ERROR_SIZE_UIF |
+| ?8D? | ERROR_LEVEL |
+| ?8E? | ERROR_KEY |
+| ?8F? | ERROR_AUTHENTICATION |
+| ?90? | ERROR_NO_DREF |
+| ?91? | ERROR_CHECK_PECUHN |
+| ?92? | ERROR_CHECK_PRGREF |
+| ?93? | ERROR_AIF_NR |
+| ?94? | ERROR_CHECK_DREF |
+| ?95? | ERROR_CHECK_HWREF |
+| ?96? | ERROR_CHECK_HWREF |
+| ?97? | ERROR_CHECK_PRGREFB |
+| ?98? | ERROR_CHECK_VMECUH*NB |
+| ?99? | ERROR_CHECK_PRGREFB |
+| ?9A? | ERROR_CHECK_VMECUH*N |
+| ?A0? | ERROR_DIAG_PROT |
+| ?A1? | ERROR_SG_ADRESSE |
+| ?A2? | ERROR_SG_MAXANZAHL_AIF |
+| ?A3? | ERROR_SG_GROESSE_AIF |
+| ?A4? | ERROR_SG_ENDEKENNUNG_AIF |
+| ?A5? | ERROR_SG_AUTHENTISIERUNG |
+| ?F0? | ERROR_ARGUMENT |
+| 0xXY | ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE |
+
+<a id="table-lieferanten"></a>
+### LIEFERANTEN
+
+Dimensions: 59 rows × 2 columns
+
+| LIEF_NR | LIEF_TEXT |
+| --- | --- |
+| 0x01 | Reinshagen =&gt; Delphi |
+| 0x02 | Kostal |
+| 0x03 | Hella |
+| 0x04 | Siemens |
+| 0x05 | Eaton |
+| 0x06 | UTA |
+| 0x07 | Helbako |
+| 0x08 | Bosch |
+| 0x09 | Loewe =&gt; Lear |
+| 0x10 | VDO |
+| 0x11 | Valeo |
+| 0x12 | MBB |
+| 0x13 | Kammerer |
+| 0x14 | SWF |
+| 0x15 | Blaupunkt |
+| 0x16 | Philips |
+| 0x17 | Alpine |
+| 0x18 | Teves |
+| 0x19 | Elektromatik Suedafrika |
+| 0x20 | Becker |
+| 0x21 | Preh |
+| 0x22 | Alps |
+| 0x23 | Motorola |
+| 0x24 | Temic |
+| 0x25 | Webasto |
+| 0x26 | MotoMeter |
+| 0x27 | Delphi PHI |
+| 0x28 | DODUCO =&gt; BERU |
+| 0x29 | DENSO |
+| 0x30 | NEC |
+| 0x31 | DASA |
+| 0x32 | Pioneer |
+| 0x33 | Jatco |
+| 0x34 | Fuba |
+| 0x35 | UK-NSI |
+| 0x36 | AABG |
+| 0x37 | Dunlop |
+| 0x38 | Sachs |
+| 0x39 | ITT |
+| 0x40 | FTE |
+| 0x41 | Megamos |
+| 0x42 | TRW |
+| 0x43 | Wabco |
+| 0x44 | ISAD Electronic Systems |
+| 0x45 | HEC (Hella Electronics Corporation) |
+| 0x46 | Gemel |
+| 0x47 | ZF |
+| 0x48 | GMPT |
+| 0x49 | Harman Kardon |
+| 0x50 | Remes |
+| 0x51 | ZF Lenksysteme |
+| 0x52 | Magneti Marelli |
+| 0x53 | Borg Instruments |
+| 0x54 | GETRAG |
+| 0x55 | BHTC (Behr Hella Thermocontrol) |
+| 0x56 | Siemens VDO Automotive |
+| 0x57 | Visteon |
+| 0x58 | Autoliv |
+| 0xFF | unbekannter Hersteller |
+
+<a id="table-farttexte"></a>
+### FARTTEXTE
+
+Dimensions: 14 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | kein passendes Fehlersymptom |
+| 0x01 | Signal oder Wert oberhalb Schwelle |
+| 0x02 | Signal oder Wert unterhalb Schwelle |
+| 0x04 | kein Signal oder Wert |
+| 0x08 | unplausibles Signal oder Wert |
+| 0x10 | Testbedingungen erfuellt |
+| 0x11 | Testbedingungen noch nicht erfuellt |
+| 0x20 | Fehler bisher nicht aufgetreten |
+| 0x21 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x22 | Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase) |
+| 0x23 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x30 | Fehler wuerde kein Aufleuchten einer Warnlampe verursachen |
+| 0x31 | Fehler wuerde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-digitalargument"></a>
+### DIGITALARGUMENT
+
+Dimensions: 16 rows × 2 columns
+
+| TEXT | WERT |
+| --- | --- |
+| ein | 1 |
+| aus | 0 |
+| ja | 1 |
+| nein | 0 |
+| auf | 1 |
+| ab | 0 |
+| yes | 1 |
+| no | 0 |
+| on | 1 |
+| off | 0 |
+| up | 1 |
+| down | 0 |
+| true | 1 |
+| false | 0 |
+| 1 | 1 |
+| 0 | 0 |
+
+<a id="table-iarttexte"></a>
+### IARTTEXTE
+
+Dimensions: 14 rows × 2 columns
+
+| ARTNR | ARTTEXT |
+| --- | --- |
+| 0x00 | kein passendes Fehlersymptom |
+| 0x01 | Signal oder Wert oberhalb Schwelle |
+| 0x02 | Signal oder Wert unterhalb Schwelle |
+| 0x04 | kein Signal oder Wert |
+| 0x08 | unplausibles Signal oder Wert |
+| 0x10 | Testbedingungen erfuellt |
+| 0x11 | Testbedingungen noch nicht erfuellt |
+| 0x20 | Fehler bisher nicht aufgetreten |
+| 0x21 | Fehler momentan nicht vorhanden, aber bereits gespeichert |
+| 0x22 | Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase) |
+| 0x23 | Fehler momentan vorhanden und bereits gespeichert |
+| 0x30 | Fehler wuerde kein Aufleuchten einer Warnlampe verursachen |
+| 0x31 | Fehler wuerde das Aufleuchten einer Warnlampe verursachen |
+| 0xFF | unbekannte Fehlerart |
+
+<a id="table-fdetailstruktur"></a>
+### FDETAILSTRUKTUR
+
+Dimensions: 4 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_ART_ERW | 12300000 |
+| F_HFK | ja |
+| F_LZ | nein |
+| F_UWB_ERW | ja |
+
+<a id="table-farttexteerweitert"></a>
+### FARTTEXTEERWEITERT
+
+Dimensions: 4 rows × 3 columns
+
+| ARTMASKE | ARTNR | ARTTEXT |
+| --- | --- | --- |
+| 1xxxxxxx | 11 | Fehlerklassifikation  t &gt; 1min |
+| x1xxxxxx | 21 | Fehlerklassifikation 1s &lt; t &lt; 1min |
+| xx1xxxxx | 31 | Fehlerklassifikation 0 &lt; t &lt; 1s |
+| xxxxxxxx | 0 | -- |
+
+<a id="table-idetailstruktur"></a>
+### IDETAILSTRUKTUR
+
+Dimensions: 4 rows × 2 columns
+
+| NAME | TYP |
+| --- | --- |
+| F_ART_ERW | 12300000 |
+| F_HFK | ja |
+| F_LZ | nein |
+| F_UWB_ERW | ja |
+
+<a id="table-iarttexteerweitert"></a>
+### IARTTEXTEERWEITERT
+
+Dimensions: 4 rows × 3 columns
+
+| ARTMASKE | ARTNR | ARTTEXT |
+| --- | --- | --- |
+| 1xxxxxxx | 11 | Fehlerklassifikation  t &gt; 1min |
+| x1xxxxxx | 21 | Fehlerklassifikation 1s &lt; t &lt; 1min |
+| xx1xxxxx | 31 | Fehlerklassifikation 0 &lt; t &lt; 1s |
+| xxxxxxxx | 0 | -- |
+
+<a id="table-fumweltmatrix"></a>
+### FUMWELTMATRIX
+
+Dimensions: 1 rows × 5 columns
+
+| ORT | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| default | 0x01 | 0x02 | - | - |
+
+<a id="table-iumweltmatrix"></a>
+### IUMWELTMATRIX
+
+Dimensions: 1 rows × 5 columns
+
+| ORT | UW1_NR | UW2_NR | UW3_NR | UW4_NR |
+| --- | --- | --- | --- | --- |
+| default | 0x01 | 0x02 | - | - |
+
+<a id="table-fumwelttexte"></a>
+### FUMWELTTEXTE
+
+Dimensions: 3 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x01 | Systemzeit Fehlerbeginn | Stunden | high | signed long | - | 16384 | 3600000 | 0 |
+| 0x02 | Systemzeit Fehlerende | Stunden | high | signed long | - | 16384 | 3600000 | 0 |
+| 0xXY | unbekannte Umweltbedingung | 1 | - | unsigned char | - | 1 | 1 | 0 |
+
+<a id="table-iumwelttexte"></a>
+### IUMWELTTEXTE
+
+Dimensions: 3 rows × 9 columns
+
+| UWNR | UWTEXT | UW_EINH | L/H | UWTYP | NAME | MUL | DIV | ADD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0x01 | Systemzeit Fehlerbeginn | Stunden | high | signed long | - | 16384 | 3600000 | 0 |
+| 0x02 | Systemzeit Fehlerende | Stunden | high | signed long | - | 16384 | 3600000 | 0 |
+| 0xXY | unbekannte Umweltbedingung | 1 | - | unsigned char | - | 1 | 1 | 0 |
+
+<a id="table-diagmode"></a>
+### DIAGMODE
+
+Dimensions: 14 rows × 3 columns
+
+| NR | MODE | MODE_TEXT |
+| --- | --- | --- |
+| 0x81 | DEFAULT | DefaultMode |
+| 0x82 | PT | PeriodicTransmissions |
+| 0x84 | EOLSSM | EndOfLineSystemSupplierMode |
+| 0x85 | ECUPM | ECUProgrammingMode |
+| 0x86 | ECUDM | ECUDevelopmentMode |
+| 0x87 | ECUAM | ECUAdjustmentMode |
+| 0x88 | ECUVCM | ECUVariantCodingMode |
+| 0x89 | ECUSM | ECUSafetyMode |
+| 0xFA | SSS_A | SystemSupplierSpecific (A) |
+| 0xFB | SSS_B | SystemSupplierSpecific (B) |
+| 0xFC | SSS_C | SystemSupplierSpecific (C) |
+| 0xFD | SSS_D | SystemSupplierSpecific (D) |
+| 0xFE | SSS_E | SystemSupplierSpecific (E) |
+| 0xXY | -- | unbekannter Diagnose-Mode |
+
+<a id="table-baudrate"></a>
+### BAUDRATE
+
+Dimensions: 7 rows × 3 columns
+
+| NR | BAUD | BAUD_TEXT |
+| --- | --- | --- |
+| 0x01 | PC9600 | Baudrate 9.6 kBaud |
+| 0x02 | PC19200 | Baudrate 19.2 kBaud |
+| 0x03 | PC38400 | Baudrate 38.4 kBaud |
+| 0x04 | PC57600 | Baudrate 57.6 kBaud |
+| 0x05 | PC115200 | Baudrate 115.2 kBaud |
+| 0x06 | SB | Specific Baudrate |
+| 0xXY | -- | unbekannte Baudrate |
+
+<a id="table-speichersegment"></a>
+### SPEICHERSEGMENT
+
+Dimensions: 12 rows × 3 columns
+
+| SEG_BYTE | SEG_NAME | SEG_TEXT |
+| --- | --- | --- |
+| 0x00 | LAR | linearAdressRange |
+| 0x01 | ROMI | ROM / EPROM, internal |
+| 0x02 | ROMX | ROM / EPROM, external |
+| 0x03 | NVRAM | NV-RAM (characteristic zones, DTC memory |
+| 0x04 | RAMIS | RAM, internal (short MOV) |
+| 0x05 | RAMXX | RAM, external (x data MOV) |
+| 0x06 | FLASH | Flash EPROM, internal |
+| 0x07 | UIFM | User Info Field Memory |
+| 0x08 | VODM | Vehicle Order Data Memory |
+| 0x09 | FLASHX | Flash EPROM, external |
+| 0x0B | RAMIL | RAM, internal (long MOV / Register) |
+| 0xFF | ??? | unbekanntes Speichersegment |
+
+<a id="table-programmierstatus"></a>
+### PROGRAMMIERSTATUS
+
+Dimensions: 19 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0x00 | Anlieferzustand |
+| 0x01 | Normalbetrieb |
+| 0x02 | nicht benutzt |
+| 0x03 | Speicher geloescht |
+| 0x04 | nicht benutzt |
+| 0x05 | Signaturpruefung PAF nicht durchgefuehrt |
+| 0x06 | Signaturpruefung DAF nicht durchgefuehrt |
+| 0x07 | Programmprogrammiersitzung aktiv |
+| 0x08 | Datenprogrammiersitzung aktiv |
+| 0x09 | Hardwarereferenzeintrag fehlerhaft |
+| 0x0A | Programmreferenzeintrag fehlerhaft |
+| 0x0B | Referenzierungsfehler Hardware -&gt; Programm |
+| 0x0C | Programm nicht vorhanden oder nicht vollstaendig |
+| 0x0D | Datenreferenzeintrag fehlerhaft |
+| 0x0E | Referenzierungsfehler Programm -&gt; Daten |
+| 0x0F | Daten nicht vorhanden oder nicht vollstaendig |
+| 0x10 | Reserviert fuer BMW |
+| 0x80 | Reserviert fuer Zulieferer |
+| 0xXY | unbekannter Programmierstatus |
+
+<a id="table-jobresultextended"></a>
+### JOBRESULTEXTENDED
+
+Dimensions: 1 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0xXY | ERROR_UNKNOWN |
+
+<a id="table-forttexte"></a>
+### FORTTEXTE
+
+Dimensions: 56 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0x93a8 | Watchdog-Reset uP |
+| 0x93a9 | Clock-Monitor-Reset uP |
+| 0x93aa | Illegal Opcode uP |
+| 0x93ab | Falsche Fahrgestellnummer |
+| 0x93ac | Systemzeitfehler |
+| 0x93ad | Timeout ID 01H (STVL) |
+| 0x93ae | Timeout ID 35H (AFS) |
+| 0x93af | Timeout ID 03H (STVR) |
+| 0x93b0 | Timeout ID 39H (DSC) |
+| 0x93b1 | Timeout ID 05H (SBSL) |
+| 0x93b2 | Timeout ID 06H (SASL) |
+| 0x93b3 | Timeout ID 07H (SBSR) |
+| 0x93b4 | Timeout ID 08H (SASR) |
+| 0x93b5 | Timeout ID 09H (SFZ) |
+| 0x93b6 | Timeout ID 0AH (SGM) |
+| 0x93b7 | Timeout ID 0BH (SASL) |
+| 0x93b8 | Timeout ID 0CH (SASR) |
+| 0x93b9 | Timeout ID 0DH (SFZ) |
+| 0x93ba | Timeout ID 52H (FDC) |
+| 0x93bb | Timeout ID 0FH |
+| 0x93bc | Timeout ID 20H (SSFA) |
+| 0x93bd | Timeout ID 21H (SSBF) |
+| 0x93be | Timeout ID 22H (SSH) |
+| 0x93bf | Timeout ID 43H (KLEMME_MOTOR) |
+| 0x93c0 | Codierdaten Checksummenfehler |
+| 0x93c2 | PDC_3 : zu wenig Telegramme |
+| 0x93c3 | PDC_3 : Datenfehler in Telegramm |
+| 0x93c4 | PDC_3 : Uebertragungsfehler |
+| 0x93c5 | unplausible Crash-Schwere |
+| 0x93c6 | Fehler im Alarmpfad |
+| 0x93c8 | Abschalten von Modul 2  (SZL)  |
+| 0x93c9 | Abschalten von Modul 3  (SASL) |
+| 0x93ca | Abschalten von Modul 4  (SASR) |
+| 0x93cb | Abschalten von Modul 5  (SFZ)  |
+| 0x93cc | Abschalten von Modul 6  (STVL) |
+| 0x93cd | Abschalten von Modul 7  (SSFA) |
+| 0x93ce | Abschalten von Modul 8  (SBSL) |
+| 0x93cf | Abschalten von Modul 9  (STVR) |
+| 0x93d0 | Abschalten von Modul 10 (SSBF) |
+| 0x93d1 | Abschalten von Modul 11 (SBSR) |
+| 0x93d2 | Abschalten von Modul 12 (SSH)  |
+| 0x93d3 | SVT-Sollstrom ungültig (AFS) |
+| 0x93d4 | ECO-Sollstrom ungültig (AFS) |
+| 0x93d5 | Fahrzeugmodus ungültig (FDC) |
+| 0x93d6 | Geschwindigkeit ungültig (DSC) |
+| 0x93d7 | Klemme 15 ungültig |
+| 0x93d8 | Motor Status ungültig 18 |
+| 0x93d9 | Ueberspannungsabschaltung defekt |
+| 0x93db | Hochspannungsteil defekt |
+| 0x93dc | Algorithmus-Parameter inkonsistent |
+| 0x93dd | EAM-Parameter inkonsistent |
+| 0x93de | Zuendversuch erfolgt |
+| 0x93df | Unterspannung erkannt |
+| 0x93e0 | COP-Watchdog fehlerhaft |
+| 0x9487 | Keine Kommunikation mit Telefon |
+| 0x???? | unbekannter Fehlerort |
+
+<a id="table-iorttexte"></a>
+### IORTTEXTE
+
+Dimensions: 123 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0x93c7 | Abschalten von Modul 1  (ZGM)  |
+| 0x9404 | Power-On-Reset uP |
+| 0x9405 | SI-Bus: Uebertragungsfehler, CRC-Fehler ERRIF |
+| 0x9406 | SI-Bus: Uebertragungsfehler, Formatfehler ILLPIF |
+| 0x9407 | SI-Bus: Synchronisierungspuls zu frueh SYNEIF |
+| 0x9408 | SI-Bus: Synchronisierung verloren SYNLIF |
+| 0x9409 | SI-Bus: Slotmismatch, Timingfehler SLMMIF |
+| 0x940a | SI-Bus: FIFO-Ueberlauf OVRNIF |
+| 0x940b | Pre-Drive-Check n.i.O. wegen Modul 1 (ZGM)  |
+| 0x940c | Pre-Drive-Check n.i.O. wegen Modul 2 (SZL)  |
+| 0x940d | Pre-Drive-Check n.i.O. wegen Modul 3 (SASL) |
+| 0x940e | Pre-Drive-Check n.i.O. wegen Modul 4 (SASR) |
+| 0x940f | Pre-Drive-Check n.i.O. wegen Modul 5 (SFZ)  |
+| 0x9410 | Pre-Drive-Check n.i.O. wegen Modul 6 (STVL) |
+| 0x9411 | Pre-Drive-Check n.i.O. wegen Modul 7 (SSFA) |
+| 0x9412 | Pre-Drive-Check n.i.O. wegen Modul 8 (SBSL) |
+| 0x9413 | Pre-Drive-Check n.i.O. wegen Modul 9 (STVR) |
+| 0x9414 | Pre-Drive-Check n.i.O. wegen Modul 10(SSBF) |
+| 0x9415 | Pre-Drive-Check n.i.O. wegen Modul 11(SBSR) |
+| 0x9416 | Pre-Drive-Check n.i.O. wegen Modul 12(SSH)  |
+| 0x9417 | Pre-Drive-Check n.i.O. wegen Modul 13 |
+| 0x9418 | Pre-Drive-Check n.i.O. wegen Modul 14 |
+| 0x9419 | Pre-Drive-Check n.i.O. wegen Modul 15 |
+| 0x941a | Pre-Drive-Check n.i.O. wegen Modul 16 |
+| 0x941b | Pre-Drive-Check n.i.O. wegen Modul 17 |
+| 0x941c | Pre-Drive-Check n.i.O. wegen Modul 18 |
+| 0x941d | Statusmeldung fehlt Modul 1 (ZGM)  |
+| 0x941e | Statusmeldung fehlt Modul 2 (SZL)  |
+| 0x941f | Statusmeldung fehlt Modul 3 (SASL) |
+| 0x9420 | Statusmeldung fehlt Modul 4 (SASR) |
+| 0x9421 | Statusmeldung fehlt Modul 5 (SFZ)  |
+| 0x9422 | Statusmeldung fehlt Modul 6 (STVL) |
+| 0x9423 | Statusmeldung fehlt Modul 7 (SSFA) |
+| 0x9424 | Statusmeldung fehlt Modul 8 (SBSL) |
+| 0x9425 | Statusmeldung fehlt Modul 9 (STVR) |
+| 0x9426 | Statusmeldung fehlt Modul 10(SSBF) |
+| 0x9427 | Statusmeldung fehlt Modul 11(SBSR) |
+| 0x9428 | Statusmeldung fehlt Modul 12(SSH)  |
+| 0x9429 | Statusmeldung fehlt Modul 13 |
+| 0x942a | Statusmeldung fehlt Modul 14 |
+| 0x942b | Statusmeldung fehlt Modul 15 |
+| 0x942c | Statusmeldung fehlt Modul 16 |
+| 0x942d | Statusmeldung fehlt Modul 17 |
+| 0x942e | Statusmeldung fehlt Modul 18 |
+| 0x942f | Uebertemperatur Stromverteiler A |
+| 0x9430 | Uebertemperatur Stromverteiler B |
+| 0x9431 | Uebertemperatur Stromverteiler C |
+| 0x9432 | Uebertemperatur Stromverteiler D |
+| 0x9434 | Temperaturabschaltung Stromverteiler A |
+| 0x9435 | Temperaturabschaltung Stromverteiler B |
+| 0x9436 | Temperaturabschaltung Stromverteiler C |
+| 0x9437 | Temperaturabschaltung Stromverteiler D |
+| 0x9439 | Ueberstrom Ausgang A1 (SZL)  |
+| 0x943a | Ueberstrom Ausgang A2 (SZL)  |
+| 0x943b | Ueberstrom Ausgang A3 (SASL) |
+| 0x943c | Ueberstrom Ausgang A4 (SASR) |
+| 0x943d | Ueberstrom Ausgang B1 (SFZ)  |
+| 0x943e | Ueberstrom Ausgang B2 (STVL) |
+| 0x943f | Ueberstrom Ausgang B3 (SSFA) |
+| 0x9440 | Ueberstrom Ausgang B4 (SBSL) |
+| 0x9441 | Ueberstrom Ausgang C1 (STVR) |
+| 0x9442 | Ueberstrom Ausgang C2 (SSBF) |
+| 0x9443 | Ueberstrom Ausgang C3 (SBSR) |
+| 0x9444 | Ueberstrom Ausgang C4 (SSH)  |
+| 0x9445 | Ueberstrom Ausgang D1 |
+| 0x9446 | Ueberstrom Ausgang D2 |
+| 0x9447 | Ueberstrom Ausgang D3 |
+| 0x9448 | Ueberstrom Ausgang D4 |
+| 0x944d | Ueberspannung Ausgang A1 (SZL)  |
+| 0x944e | Ueberspannung Ausgang A2 (SZL)  |
+| 0x944f | Ueberspannung Ausgang A3 (SASL) |
+| 0x9450 | Ueberspannung Ausgang A4 (SASR) |
+| 0x9451 | Ueberspannung Ausgang B1 (SFZ)  |
+| 0x9452 | Ueberspannung Ausgang B2 (STVL) |
+| 0x9453 | Ueberspannung Ausgang B3 (SSFA) |
+| 0x9454 | Ueberspannung Ausgang B4 (SBSL) |
+| 0x9455 | Ueberspannung Ausgang C1 (STVR) |
+| 0x9456 | Ueberspannung Ausgang C2 (SSBF) |
+| 0x9457 | Ueberspannung Ausgang C3 (SBSR) |
+| 0x9458 | Ueberspannung Ausgang C4 (SSH)  |
+| 0x9459 | Ueberspannung Ausgang D1 |
+| 0x945a | Ueberspannung Ausgang D2 |
+| 0x945b | Ueberspannung Ausgang D3 |
+| 0x945c | Ueberspannung Ausgang D4 |
+| 0x9461 | Uebertragungsfehler Modul 1 (ZGM)  |
+| 0x9462 | Uebertragungsfehler Modul 2 (SZL)  |
+| 0x9463 | Uebertragungsfehler Modul 3 (SASL) |
+| 0x9464 | Uebertragungsfehler Modul 4 (SASR) |
+| 0x9465 | Uebertragungsfehler Modul 5 (SFZ)  |
+| 0x9466 | Uebertragungsfehler Modul 6 (STVL) |
+| 0x9467 | Uebertragungsfehler Modul 7 (SSFA) |
+| 0x9468 | Uebertragungsfehler Modul 8 (SBSL) |
+| 0x9469 | Uebertragungsfehler Modul 9 (STVR) |
+| 0x946a | Uebertragungsfehler Modul 10(SSBF) |
+| 0x946b | Uebertragungsfehler Modul 11(SBSR) |
+| 0x946c | Uebertragungsfehler Modul 12(SSH)  |
+| 0x946d | Uebertragungsfehler Modul 13 |
+| 0x946e | Uebertragungsfehler Modul 14 |
+| 0x946f | Uebertragungsfehler Modul 15 |
+| 0x9470 | Uebertragungsfehler Modul 16 |
+| 0x9471 | Uebertragungsfehler Modul 17 |
+| 0x9472 | Uebertragungsfehler Modul 18 |
+| 0x9473 | S/E-Diagnose Lichtleistung Modul 1 (ZGM)  |
+| 0x9474 | S/E-Diagnose Lichtleistung Modul 2 (SZL)  |
+| 0x9475 | S/E-Diagnose Lichtleistung Modul 3 (SASL) |
+| 0x9476 | S/E-Diagnose Lichtleistung Modul 4 (SASR) |
+| 0x9477 | S/E-Diagnose Lichtleistung Modul 5 (SFZ)  |
+| 0x9478 | S/E-Diagnose Lichtleistung Modul 6 (STVL) |
+| 0x9479 | S/E-Diagnose Lichtleistung Modul 7 (SSFA) |
+| 0x947a | S/E-Diagnose Lichtleistung Modul 8 (SBSL) |
+| 0x947b | S/E-Diagnose Lichtleistung Modul 9 (STVR) |
+| 0x947c | S/E-Diagnose Lichtleistung Modul 10(SSBF) |
+| 0x947d | S/E-Diagnose Lichtleistung Modul 11(SBSR) |
+| 0x947e | S/E-Diagnose Lichtleistung Modul 12(SSH)  |
+| 0x947f | S/E-Diagnose Lichtleistung Modul 13 |
+| 0x9480 | S/E-Diagnose Lichtleistung Modul 14 |
+| 0x9481 | S/E-Diagnose Lichtleistung Modul 15 |
+| 0x9482 | S/E-Diagnose Lichtleistung Modul 16 |
+| 0x9483 | S/E-Diagnose Lichtleistung Modul 17 |
+| 0x9484 | S/E-Diagnose Lichtleistung Modul 18 |
+| 0x9485 | Fehler Relativzeit |
+| 0x9486 | DC/DC-Wandler MSC defekt |
+| 0x???? | unbekannter Fehlerort |

@@ -1,0 +1,561 @@
+# SHD46.prg
+
+- Jobs: [16](#jobs)
+- Tables: [7](#tables)
+
+## INFO
+
+| Field | Value |
+| --- | --- |
+| ECU | Schiebehebedach fuer E46/R40 |
+| ORIGIN | BMW TI-430 Schnelle |
+| REVISION | 1.05 |
+| AUTHOR | BMW TI-430 Gerd Huber |
+| COMMENT | N/A |
+| PACKAGE | 1.02 |
+| SPRACHE | deutsch |
+
+## Jobs
+
+### Index
+
+- [INFO](#job-info) - Information SGBD
+- [ENERGIESPARMODE](#job-energiesparmode) - Einstellen des Energiesparmodes
+- [INITIALISIERUNG](#job-initialisierung) - Initialisierung / Kommunikationsparameter fuer Schiebehebedach E46 automatischer Aufruf beim ersten Zugriff auf die SGBD
+- [IDENT](#job-ident) - Ident-Daten fuer SGD E46
+- [FS_LESEN](#job-fs-lesen) - Fehlerspeicher lesen Low-Konzept nach Lastenheft Codierung/Diagnose Sonderfall: Laenge das Antworttelegramms ist konstant !
+- [FS_LOESCHEN](#job-fs-loeschen) - Fehlerspeicher loeschen
+- [DIAGNOSE_ENDE](#job-diagnose-ende) - Diagnose beenden
+- [SLEEP_MODE](#job-sleep-mode) - SG in Sleep-Mode versetzen
+- [PRUEFSTEMPEL_LESEN](#job-pruefstempel-lesen) - Auslesen des Pruefstempels
+- [PRUEFSTEMPEL_SCHREIBEN](#job-pruefstempel-schreiben) - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.
+- [HERSTELLDATEN_LESEN](#job-herstelldaten-lesen) - Auslesen der Herstelldaten
+- [STATUS_DIGITAL](#job-status-digital) - digitale Stati des SHD E46 Der Wertebereich ist bei allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE
+- [STATUS_ANALOG](#job-status-analog) - analoge Stati des SHD E46
+- [STEUERN_DIGITAL](#job-steuern-digital) - Ansteuern SHD E46 ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] SHD46.prg'
+- [COD_LESEN](#job-cod-lesen) - Auslesen der Codierdaten des SHD E46
+- [SPEICHER_LESEN](#job-speicher-lesen) - Lesen des internen Speichers des SHD E46 Als Argumente werden die Adresse und die Anzahl der Datenbytes uebergeben.
+
+<a id="job-info"></a>
+### INFO
+
+Information SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ECU | string | Steuergerät im Klartext |
+| ORIGIN | string | Steuergeräte-Verantwortlicher |
+| REVISION | string | Versions-Nummer |
+| AUTHOR | string | Namen aller Autoren |
+| COMMENT | string | wichtige Hinweise |
+| PACKAGE | string | Include-Paket-Nummer |
+| SPRACHE | string | deutsch, english |
+
+<a id="job-energiesparmode"></a>
+### ENERGIESPARMODE
+
+Einstellen des Energiesparmodes
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| PRODUKTIONSMODE | string | "ein" -&gt; Produktions Mode ein "aus" -&gt; Produktions Mode aus table DigitalArgument TEXT Default: "aus" |
+| TRANSPORTMODE | string | "ein" -&gt; Transport Mode ein "aus" -&gt; Transport Mode aus table DigitalArgument TEXT Default: "aus" |
+| WERKSTATTMODE | string | "ein" -&gt; Werkstatt Mode ein "aus" -&gt; Werkstatt Mode aus table DigitalArgument TEXT Default: "aus" |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AUFTRAG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-initialisierung"></a>
+### INITIALISIERUNG
+
+Initialisierung / Kommunikationsparameter fuer Schiebehebedach E46 automatischer Aufruf beim ersten Zugriff auf die SGBD
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DONE | int | 1, wenn Okay |
+
+<a id="job-ident"></a>
+### IDENT
+
+Ident-Daten fuer SGD E46
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| ID_BMW_NR | string | BMW-Teilenummer |
+| ID_HW_NR | int | BMW-Hardwarenummer |
+| ID_COD_INDEX | int | Codier-Index |
+| ID_DIAG_INDEX | int | Diagnose-Index |
+| ID_BUS_INDEX | int | Bus-Index |
+| ID_DATUM_KW | int | Herstelldatum KW |
+| ID_DATUM_JAHR | int | Herstelldatum Jahr |
+| ID_LIEF_NR | int | Lieferanten-Nummer |
+| ID_LIEF_TEXT | string | Lieferanten-Text table Lieferanten LIEF_TEXT |
+| ID_SW_NR | int | Softwarenummer |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-lesen"></a>
+### FS_LESEN
+
+Fehlerspeicher lesen Low-Konzept nach Lastenheft Codierung/Diagnose Sonderfall: Laenge das Antworttelegramms ist konstant !
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| F_HEX_CODE | binary | Fehlerdaten pro Fehler als Hexcode |
+| F_ORT_NR | int | Index fuer Fehlerort momentan identisch Fehlerbyte |
+| F_ORT_TEXT | string | Fehlerort als Text table FOrtTexte ORTTEXT |
+| F_HFK | int | Fehlerhaeufigkeit Bereich: 0 - 31 |
+| F_ART_ANZ | int | Anzahl der Fehlerarten Bereich: immer 1 |
+| F_UW_ANZ | int | Anzahl der Umweltbedingungen Bereich: immer 0 |
+| F_ART1_NR | int | 1. (einzige) Fehlerart Bereich: 0, 1 |
+| F_ART1_TEXT | string | 1. (einzige) Fehlerart als Text table FArtTexte ARTTEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-fs-loeschen"></a>
+### FS_LOESCHEN
+
+Fehlerspeicher loeschen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-diagnose-ende"></a>
+### DIAGNOSE_ENDE
+
+Diagnose beenden
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-sleep-mode"></a>
+### SLEEP_MODE
+
+SG in Sleep-Mode versetzen
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-lesen"></a>
+### PRUEFSTEMPEL_LESEN
+
+Auslesen des Pruefstempels
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| FG_ZIFFERN | string | die letzten vier Stellen der Fahrgestellnummer |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-pruefstempel-schreiben"></a>
+### PRUEFSTEMPEL_SCHREIBEN
+
+Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AN_SG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-herstelldaten-lesen"></a>
+### HERSTELLDATEN_LESEN
+
+Auslesen der Herstelldaten
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| BYTE1 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE2 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE3 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| BYTE4 | int | Bereich: 0-255 bzw. 0x00-0xFF |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-digital"></a>
+### STATUS_DIGITAL
+
+digitale Stati des SHD E46 Der Wertebereich ist bei allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_SSHDH_AKTIV | int | Schalter Schiebehebedach Heben |
+| STAT_SSHDZ_AKTIV | int | Schalter Schiebehebedach Zu |
+| STAT_DIAG_RMZ_AKTIV | int | Diagnose Relais Motor Zu |
+| STAT_SSHDA_AKTIV | int | Schalter Schiebehebedach Auf |
+| STAT_DIAG_RMA_AKTIV | int | Diagnose Relais Motor auf |
+| STAT_INKR_M_AKTIV | int | Inkrementgeber Master |
+| STAT_INKR_S_AKTIV | int | Inkrementgeber Slave |
+| STAT_W_TRIG_AKTIV | int | Watchdog-Triggersignal |
+| STAT_V_INKR_AKTIV | int | Versorgungsspannung Inkrementgeber |
+| STAT_RSHDZ_AKTIV | int | Relais-Ansteuerung Zu |
+| STAT_RSHDA_AKTIV | int | Relais-Ansteuerung Auf |
+| STAT_THERMO_AKTIV | int | Elektronischer Thermoschutz |
+| STAT_REV_ZU_AKTIV | int | Reversieren aus Richtung Schieben Zu |
+| STAT_POWER_ON_AKTIV | int | lokaler SHD Power-On |
+| STAT_NORM_AKTIV | int | Schiebehebedach normiert |
+| STAT_HAND_H_AKTIV | int | manuell Heben |
+| STAT_TIPP_H_AKTIV | int | Tipp Heben |
+| STAT_HAND_Z_AKTIV | int | manuell Schieben Zu |
+| STAT_TIPP_Z_AKTIV | int | Tipp Schieben Zu |
+| STAT_HAND_A_AKTIV | int | manuell Schieben Auf |
+| STAT_TIPP_A_AKTIV | int | Tipp Schieben Auf |
+| STAT_HAND_S_AKTIV | int | manuell Senken |
+| STAT_KOMFORT_AKTIV | int | Komfort-Funktion |
+| STAT_DIAG_AKTIV | int | Diagnosemode |
+| STAT_U_LOW_AKTIV | int | Unterspannungserkennung |
+| STAT_U_HIGH_AKTIV | int | Ueberspannungserkennung |
+| STAT_DISABLE_AKTIV | int | Schiebehebedach disabled |
+| STAT_SICHER_AKTIV | int | Schiebehebedach im Sicherheitsbereich |
+| STAT_EKS_AKTIV | int | Einklemmschutz enablen |
+| STAT_HAND_TIPP | int | Funktion manuell bzw. Tippbetrieb: moegliche Werte:  0 = manuell Heben        ,  1 = Tipp Heben moegliche Werte:  2 = manuell Schieben Zu  ,  3 = Tipp Schieben Zu moegliche Werte:  4 = manuell Schieben Auf ,  5 = Tipp Schieben Auf moegliche Werte:  6 = manuell Senken       ,  7 = Komfort-Funktion moegliche Werte:  8 = nicht aktiv          , -1 = undefiniert |
+| STAT_HAND_TIPP_TEXT | string | Funktion manuell bzw. Tippbetrieb: moegliche Texte: manuell Heben        , Tipp Heben moegliche Werte: manuell Schieben Zu  , Tipp Schieben Zu moegliche Werte: manuell Schieben Auf , Tipp Schieben Auf moegliche Werte: manuell Senken       , Komfort-Funktion moegliche Werte: nicht aktiv          , undefiniert |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-status-analog"></a>
+### STATUS_ANALOG
+
+analoge Stati des SHD E46
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| STAT_SHD_POSITION_WERT | long | Position des Schiebehebedaches Bereich: 0 bis ca. 500 [Motorumdrehungen] |
+| STAT_SHD_POSITION_EINH | string | Einheit: Motorumdrehungen |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-steuern-digital"></a>
+### STEUERN_DIGITAL
+
+Ansteuern SHD E46 ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] SHD46.prg'
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ORT | string | gewuenschte Komponente table BITS NAME TEXT |
+| EIN | int | '1', wenn einschalten / '0', wenn ausschalten |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AN_SG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-cod-lesen"></a>
+### COD_LESEN
+
+Auslesen der Codierdaten des SHD E46
+
+_No arguments._
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| COD_DATEN | binary | alle Codierdaten als reine Datenbytes |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+<a id="job-speicher-lesen"></a>
+### SPEICHER_LESEN
+
+Lesen des internen Speichers des SHD E46 Als Argumente werden die Adresse und die Anzahl der Datenbytes uebergeben.
+
+#### Arguments
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| ADRESSE | long | Speicheradresse Bereich: 0x0000-0xFFFF |
+| ANZAHL | int | Anzahl der Daten Bereich: 0x00-0xFF |
+
+#### Results
+
+| Name | Type | Comment |
+| --- | --- | --- |
+| DATEN | binary | ausgelesene Hex-Daten |
+| JOB_STATUS | string | OKAY, wenn fehlerfrei table JobResult STATUS_TEXT |
+| _TEL_AN_SG | binary | Hex-Auftrag an SG |
+| _TEL_ANTWORT | binary | Hex-Antwort von SG |
+
+## Tables
+
+### Index
+
+- [JOBRESULT](#table-jobresult) (13 × 2)
+- [LIEFERANTEN](#table-lieferanten) (72 × 2)
+- [ROVERPARTNUMPREFIX](#table-roverpartnumprefix) (21 × 2)
+- [DIGITALARGUMENT](#table-digitalargument) (17 × 2)
+- [FORTTEXTE](#table-forttexte) (6 × 2)
+- [FARTTEXTE](#table-farttexte) (3 × 2)
+- [BITS](#table-bits) (9 × 6)
+
+<a id="table-jobresult"></a>
+### JOBRESULT
+
+Dimensions: 13 rows × 2 columns
+
+| SB | STATUS_TEXT |
+| --- | --- |
+| 0xA0 | OKAY |
+| 0xA1 | BUSY |
+| 0xA2 | ERROR_ECU_REJECTED |
+| 0xB0 | ERROR_ECU_PARAMETER |
+| 0xB1 | ERROR_ECU_FUNCTION |
+| 0xB2 | ERROR_ECU_NUMBER |
+| 0xFF | ERROR_ECU_NACK |
+| ?10? | ERROR_ARGUMENT |
+| ?20? | ERROR_FEHLERANZAHL |
+| ?70? | ERROR_NUMBER_ARGUMENT |
+| ?71? | ERROR_RANGE_ARGUMENT |
+| ?72? | ERROR_VERIFY |
+| 0x?? | ERROR_ECU_UNKNOWN_STATUSBYTE |
+
+<a id="table-lieferanten"></a>
+### LIEFERANTEN
+
+Dimensions: 72 rows × 2 columns
+
+| LIEF_NR | LIEF_TEXT |
+| --- | --- |
+| 0x01 | Reinshagen =&gt; Delphi |
+| 0x02 | Kostal |
+| 0x03 | Hella |
+| 0x04 | Siemens |
+| 0x05 | Eaton |
+| 0x06 | UTA |
+| 0x07 | Helbako |
+| 0x08 | Bosch |
+| 0x09 | Loewe =&gt; Lear |
+| 0x10 | VDO |
+| 0x11 | Valeo |
+| 0x12 | MBB |
+| 0x13 | Kammerer |
+| 0x14 | SWF |
+| 0x15 | Blaupunkt |
+| 0x16 | Philips |
+| 0x17 | Alpine |
+| 0x18 | Teves |
+| 0x19 | Elektromatik Suedafrika |
+| 0x20 | Becker |
+| 0x21 | Preh |
+| 0x22 | Alps |
+| 0x23 | Motorola |
+| 0x24 | Temic |
+| 0x25 | Webasto |
+| 0x26 | MotoMeter |
+| 0x27 | Delphi PHI |
+| 0x28 | DODUCO =&gt; BERU |
+| 0x29 | DENSO |
+| 0x30 | NEC |
+| 0x31 | DASA |
+| 0x32 | Pioneer |
+| 0x33 | Jatco |
+| 0x34 | Fuba |
+| 0x35 | UK-NSI |
+| 0x36 | AABG |
+| 0x37 | Dunlop |
+| 0x38 | Sachs |
+| 0x39 | ITT |
+| 0x40 | FTE |
+| 0x41 | Megamos |
+| 0x42 | TRW |
+| 0x43 | Wabco |
+| 0x44 | ISAD Electronic Systems |
+| 0x45 | HEC (Hella Electronics Corporation) |
+| 0x46 | Gemel |
+| 0x47 | ZF |
+| 0x48 | GMPT |
+| 0x49 | Harman Kardon |
+| 0x50 | Remes |
+| 0x51 | ZF Lenksysteme |
+| 0x52 | Magneti Marelli |
+| 0x53 | Borg Instruments |
+| 0x54 | GETRAG |
+| 0x55 | BHTC (Behr Hella Thermocontrol) |
+| 0x56 | Siemens VDO Automotive |
+| 0x57 | Visteon |
+| 0x58 | Autoliv |
+| 0x59 | Haberl |
+| 0x60 | Magna Steyr |
+| 0x61 | Marquardt |
+| 0x62 | AB-Elektronik |
+| 0x63 | Siemens VDO Borg |
+| 0x64 | Hirschmann Electronics |
+| 0x65 | Hoerbiger Electronics |
+| 0x66 | Thyssen Krupp Automotive Mechatronics |
+| 0x67 | Gentex GmbH |
+| 0x68 | Atena GmbH |
+| 0x69 | Magna-Donelly |
+| 0x70 | Koyo Steering Europe |
+| 0x71 | NSI B.V |
+| 0xFF | unbekannter Hersteller |
+
+<a id="table-roverpartnumprefix"></a>
+### ROVERPARTNUMPREFIX
+
+Dimensions: 21 rows × 2 columns
+
+| ROVER_NR | PREFIX |
+| --- | --- |
+| 0xA0 | AMR |
+| 0xA1 | HHF |
+| 0xA2 | JFC |
+| 0xA3 | MKC |
+| 0xA4 | SCB |
+| 0xA5 | SRB |
+| 0xA6 | XQC |
+| 0xA7 | XQD |
+| 0xA8 | XQE |
+| 0xA9 | XVD |
+| 0xAA | YAC |
+| 0xAB | YDB |
+| 0xAC | YFC |
+| 0xAD | YUB |
+| 0xAE | YWC |
+| 0xAF | YWQ |
+| 0xB0 | EGQ |
+| 0xB1 | YIB |
+| 0xB2 | YIC |
+| 0xB3 | YIE |
+| 0xXY | ??? |
+
+<a id="table-digitalargument"></a>
+### DIGITALARGUMENT
+
+Dimensions: 17 rows × 2 columns
+
+| TEXT | WERT |
+| --- | --- |
+| ein | 1 |
+| aus | 0 |
+| ja | 1 |
+| nein | 0 |
+| auf | 1 |
+| ab | 0 |
+| an | 1 |
+| yes | 1 |
+| no | 0 |
+| on | 1 |
+| off | 0 |
+| up | 1 |
+| down | 0 |
+| true | 1 |
+| false | 0 |
+| 1 | 1 |
+| 0 | 0 |
+
+<a id="table-forttexte"></a>
+### FORTTEXTE
+
+Dimensions: 6 rows × 2 columns
+
+| ORT | ORTTEXT |
+| --- | --- |
+| 0x01 | Relais |
+| 0x02 | Inkrementgeber |
+| 0x03 | Bedienschalter |
+| 0x04 | EEPROM-Fehler |
+| 0x05 | reserviert |
+| 0xXY | unbekannter Fehlerort |
+
+<a id="table-farttexte"></a>
+### FARTTEXTE
+
+Dimensions: 3 rows × 2 columns
+
+| ART | ARTTEXT |
+| --- | --- |
+| 0x00 | sporadischer Fehler |
+| 0x01 | statischer Fehler |
+| 0xXY | unbekannte Fehlerart |
+
+<a id="table-bits"></a>
+### BITS
+
+Dimensions: 9 rows × 6 columns
+
+| ZELLE | BYTE | MASK | VALUE | NAME | TEXT |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 0 | 0x01 | 0x01 | SSHDH | Schalter SHD Heben |
+| 2 | 0 | 0x04 | 0x04 | SSHDZ | Schalter SHD Zu |
+| 4 | 0 | 0x10 | 0x10 | SSHDA | Schalter SHD Auf |
+| 11 | 1 | 0x08 | 0x08 | RSHDZ | Relais-Ansteuerung Zu |
+| 23 | 2 | 0x80 | 0x80 | NORM | SHD normiert |
+| 25 | 3 | 0x02 | 0x02 | TIPP_H | Tipp Heben |
+| 27 | 3 | 0x08 | 0x08 | TIPP_Z | Tipp Schieben Zu |
+| 29 | 3 | 0x20 | 0x20 | TIPP_A | Tipp Schieben Auf |
+| XY | XY | 0xXY | 0xXY | XY | nicht definiertes Signal |
