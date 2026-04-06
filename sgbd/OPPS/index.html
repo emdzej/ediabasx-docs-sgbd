@@ -1,0 +1,3359 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/OPPS/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>OPPS.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oppsprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OPPS.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_batt_ignition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_BATT_IGNITION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_BATT_IGNITION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_typ_ver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_TYP_VER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_TYP_VER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_autocomm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_AUTOCOMM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_AUTOCOMM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_MOST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_MOST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_obd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_OBD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_OBD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_byteflight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_BYTEFLIGHT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_BYTEFLIGHT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_mostmeas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_MOSTMEAS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_MOSTMEAS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_par_free" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_PAR_FREE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_PAR_FREE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_par_obd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_PAR_OBD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_PAR_OBD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_par_most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_PAR_MOST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_PAR_MOST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ROUTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ROUTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_traceon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_TRACEON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_TRACEON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_router_traceoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ROUTER_TRACEOFF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ROUTER_TRACEOFF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_NODES
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_NODES">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_buildregistry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_BUILDREGISTRY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_BUILDREGISTRY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_onofftime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_ONOFFTIME
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_ONOFFTIME">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_master_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_MASTER_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_MASTER_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_asyncoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_ASYNCOFF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_ASYNCOFF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_asyncon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_ASYNCON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_ASYNCON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_asyncminlength" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_ASYNCMINLENGTH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_ASYNCMINLENGTH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_sg_async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_SG_ASYNC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_SG_ASYNC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_nowakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_NOWAKEUP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_NOWAKEUP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_WAKEUP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_WAKEUP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_mostctrl_llintervall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOSTCTRL_LLINTERVALL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOSTCTRL_LLINTERVALL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_mostctrl_llretry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOSTCTRL_LLRETRY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOSTCTRL_LLRETRY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_diag_fblock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_DIAG_FBLOCK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_DIAG_FBLOCK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_diag_fblock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_DIAG_FBLOCK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_DIAG_FBLOCK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_tester_adresse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_TESTER_ADRESSE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_TESTER_ADRESSE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_THREADS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_THREADS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_REGISTRY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_REGISTRY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_traceon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_TRACEON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_TRACEON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_traceoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_TRACEOFF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_TRACEOFF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_most_ethtrace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MOST_ETHTRACE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MOST_ETHTRACE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_registers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_REGISTERS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_REGISTERS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_most_acclog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOST_ACCLOG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOST_ACCLOG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_can_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CAN_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CAN_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_can_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CAN_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CAN_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_can_kl_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CAN_KL_15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CAN_KL_15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status__obd_kwp2ks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS__OBD_KWP2KS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS__OBD_KWP2KS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_dle_traceon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_DLE_TRACEON
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_DLE_TRACEON">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_dle_traceoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_DLE_TRACEOFF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_DLE_TRACEOFF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="oppsprg">OPPS.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">44</a></li>
+<li>Tables: <a href="#tables">0</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Optisches Programmier- und Prüfsystem</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW VS-40 Rowedder</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.010</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>DMC Garcia-Herreros, BMW AG, VS-40 Rowedder, BMW AG VS-43 Kirma</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Steuer-SGBD für Spezialfunktionen des OPPS</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.42</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a></li>
+<li><a href="#job-status-batt-ignition">STATUS_BATT_IGNITION</a> - Ubatt(Kl. 30) ignition (Kl. 15) Werte</li>
+<li><a href="#job-status-typ-ver">STATUS_TYP_VER</a> - Typ und Version des Interfaces zurückliefern Wenn ICOM, dann wird "OPPS" zurückgeliefert</li>
+<li><a href="#job-steuern-router-autocomm">STEUERN_ROUTER_AUTOCOMM</a> - Setze Router in Auto-Communication Mode</li>
+<li><a href="#job-steuern-router-most">STEUERN_ROUTER_MOST</a> - Setze Router in MOST Modus</li>
+<li><a href="#job-steuern-router-obd">STEUERN_ROUTER_OBD</a> - Setze Router in OBD Mode</li>
+<li><a href="#job-steuern-router-byteflight">STEUERN_ROUTER_BYTEFLIGHT</a> - Setze Router in Byteflight Mode</li>
+<li><a href="#job-steuern-router-mostmeas">STEUERN_ROUTER_MOSTMEAS</a> - Set_Meas_Mode</li>
+<li><a href="#job-steuern-router-par-free">STEUERN_ROUTER_PAR_FREE</a> - veranlaßt eine IFH Instanz, alle Interfaces freizugeben</li>
+<li><a href="#job-steuern-router-reset">STEUERN_ROUTER_RESET</a> - veranlaßt eine IFH Instanz, alle Interfaces freizugeben</li>
+<li><a href="#job-steuern-router-par-obd">STEUERN_ROUTER_PAR_OBD</a> - Parallelbetrieb auf K-Line, alle anderen Interfaces werden freigegeben</li>
+<li><a href="#job-steuern-router-par-most">STEUERN_ROUTER_PAR_MOST</a> - Parallelbetrieb auf K-Line, alle anderen Interfaces werden freigegeben</li>
+<li><a href="#job-status-router">STATUS_ROUTER</a> - liefert den Namen des aktuell eingestellten Bus- interfaces oder "AUTO" für Automatik Modus</li>
+<li><a href="#job-steuern-router-traceon">STEUERN_ROUTER_TRACEON</a> - Router Trace einschalten</li>
+<li><a href="#job-steuern-router-traceoff">STEUERN_ROUTER_TRACEOFF</a> - Router command: Windows Ce Trace off</li>
+<li><a href="#job-status-most-nodes">STATUS_MOST_NODES</a> - Ads4Most Kommando: Get diagnose nodes der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-buildregistry">STEUERN_MOST_BUILDREGISTRY</a> - Abfragen der MOST Central Registry  auslösen der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-status-most-onofftime">STATUS_MOST_ONOFFTIME</a> - Ads4Most Kommando: Ermitteln MOST On- und Off- Zeiten sowie Zustand MOST Supervisor Achtung: dieser Job funktioniert erst ab OPPS Version 616. der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST.</li>
+<li><a href="#job-steuern-most-master-mode">STEUERN_MOST_MASTER_MODE</a> - CLock und Network Master Funktionalität für MOST schalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-asyncoff">STEUERN_MOST_ASYNCOFF</a> - MOST Asynchronkanal abschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-asyncon">STEUERN_MOST_ASYNCON</a> - Ads4Most Kommando: Asynchronkanal einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-asyncminlength">STEUERN_MOST_ASYNCMINLENGTH</a> - Setze Minimallänge für Asynchronkanal der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Default in OPPS Registry: 200d</li>
+<li><a href="#job-status-most-sg-async">STATUS_MOST_SG_ASYNC</a> - Fragt auf dem MOST die Asynchron-Fähigkeit eines SG ab</li>
+<li><a href="#job-steuern-most-nowakeup">STEUERN_MOST_NOWAKEUP</a> - MOST Wakeup abschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-wakeup">STEUERN_MOST_WAKEUP</a> - Ads4Most Kommando: Wakeup einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-mostctrl-llintervall">STEUERN_MOSTCTRL_LLINTERVALL</a> - Setze den zeitlichen Abstand, in dem die Low Level Telegramme des MOST Kontrollkanals gesendet werden. Der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Achtung! dieser Befehl ist erst ab OPPS Version 408 verfügbar!</li>
+<li><a href="#job-steuern-mostctrl-llretry">STEUERN_MOSTCTRL_LLRETRY</a> - Setze die Zeit, nach der nach einem Fehler ein  Low Level Telegramm des MOST Kontrollkanals wiederholt wird sowie die maximale Anzahl der Wiederholungen. Der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Achtung! dieser Befehl ist erst ab OPPS Version 408 verfügbar!</li>
+<li><a href="#job-steuern-most-diag-fblock">STEUERN_MOST_DIAG_FBLOCK</a> - Ein und Ausschalten des Diagnose Funktionsblockes im OPPS</li>
+<li><a href="#job-status-most-diag-fblock">STATUS_MOST_DIAG_FBLOCK</a> - Prüfen, ob MOST Diagnose FBlock aktiv ist</li>
+<li><a href="#job-steuern-most-tester-adresse">STEUERN_MOST_TESTER_ADRESSE</a> - Setzen der Tester-Diagnoseadresse, die das OPPS auf dem MOST verwendet Ist der Diagnose Funktionsblock aktiv, so wird er umgemeldet Default nach Booten : 0xF5</li>
+<li><a href="#job-status-threads">STATUS_THREADS</a> - liefert die Anzahl möglicher parallel laufender IFH-Slaves auf einem Remote Interface</li>
+<li><a href="#job-status-most-registry">STATUS_MOST_REGISTRY</a> - Ads4Most Kommando: GETREGSTATUS (0x95) Holt Informationen über den Zustand der MOST Registry der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-traceon">STEUERN_MOST_TRACEON</a> - Trace für MOST einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-traceoff">STEUERN_MOST_TRACEOFF</a> - Ads4Most Kommando: Windows Ce Trace aus der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</li>
+<li><a href="#job-steuern-most-ethtrace">STEUERN_MOST_ETHTRACE</a> - Ads4Most command: Enables/disables the ethernet trace</li>
+<li><a href="#job-status-most-registers">STATUS_MOST_REGISTERS</a> - Liest Bank 0 .. 3 der Register im MOST Chipsatz aus</li>
+<li><a href="#job-status-most-acclog">STATUS_MOST_ACCLOG</a> - liest das Access Log der 8104 nur in speziellen OPPS Testversionen verfügbar!</li>
+<li><a href="#job-steuern-can-mode">STEUERN_CAN_MODE</a> - Setzen des Umschaltemodus für CAN</li>
+<li><a href="#job-status-can-mode">STATUS_CAN_MODE</a> - Prüfen des Umschaltemodus für CAN</li>
+<li><a href="#job-status-can-kl-15">STATUS_CAN_KL_15</a> - Prüft ob Klemmenstatus Botschaft auf CAN empfangen wird</li>
+<li><a href="#job-status-obd-kwp2ks">STATUS__OBD_KWP2KS</a> - Holt Fehlerstatus KWP2000*</li>
+<li><a href="#job-steuern-dle-traceon">STEUERN_DLE_TRACEON</a> - Download Engine Trace einschalten</li>
+<li><a href="#job-steuern-dle-traceoff">STEUERN_DLE_TRACEOFF</a> - Abschalten Download Engine Trace</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-batt-ignition"></a></p>
+<h3 id="status_batt_ignition">STATUS_BATT_IGNITION</h3>
+<p>Ubatt(Kl. 30) ignition (Kl. 15) Werte</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_BATTERIE</td>
+<td>long</td>
+<td>Spannung in mV</td>
+</tr>
+<tr>
+<td>STAT_IGNITION</td>
+<td>long</td>
+<td>Spannung in mV</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-typ-ver"></a></p>
+<h3 id="status_typ_ver">STATUS_TYP_VER</h3>
+<p>Typ und Version des Interfaces zurückliefern Wenn ICOM, dann wird "OPPS" zurückgeliefert</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_TYP</td>
+<td>string</td>
+<td>Interface-Klasse ("ICOM" wird zu "OPPS") ADS, PICO, EDIC, IDBSS, OPPS...</td>
+</tr>
+<tr>
+<td>STAT_VERSION</td>
+<td>int</td>
+<td>Versionsnummer</td>
+</tr>
+<tr>
+<td>STAT_SUBTYP</td>
+<td>string</td>
+<td>Tatsächliches Interface</td>
+</tr>
+<tr>
+<td>STAT_SUBVERSION</td>
+<td>int</td>
+<td>Tatsächliche Version</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-autocomm"></a></p>
+<h3 id="steuern_router_autocomm">STEUERN_ROUTER_AUTOCOMM</h3>
+<p>Setze Router in Auto-Communication Mode</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-most"></a></p>
+<h3 id="steuern_router_most">STEUERN_ROUTER_MOST</h3>
+<p>Setze Router in MOST Modus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-obd"></a></p>
+<h3 id="steuern_router_obd">STEUERN_ROUTER_OBD</h3>
+<p>Setze Router in OBD Mode</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-byteflight"></a></p>
+<h3 id="steuern_router_byteflight">STEUERN_ROUTER_BYTEFLIGHT</h3>
+<p>Setze Router in Byteflight Mode</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-mostmeas"></a></p>
+<h3 id="steuern_router_mostmeas">STEUERN_ROUTER_MOSTMEAS</h3>
+<p>Set_Meas_Mode</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-par-free"></a></p>
+<h3 id="steuern_router_par_free">STEUERN_ROUTER_PAR_FREE</h3>
+<p>veranlaßt eine IFH Instanz, alle Interfaces freizugeben</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-reset"></a></p>
+<h3 id="steuern_router_reset">STEUERN_ROUTER_RESET</h3>
+<p>veranlaßt eine IFH Instanz, alle Interfaces freizugeben</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-par-obd"></a></p>
+<h3 id="steuern_router_par_obd">STEUERN_ROUTER_PAR_OBD</h3>
+<p>Parallelbetrieb auf K-Line, alle anderen Interfaces werden freigegeben</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-par-most"></a></p>
+<h3 id="steuern_router_par_most">STEUERN_ROUTER_PAR_MOST</h3>
+<p>Parallelbetrieb auf K-Line, alle anderen Interfaces werden freigegeben</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-router"></a></p>
+<h3 id="status_router">STATUS_ROUTER</h3>
+<p>liefert den Namen des aktuell eingestellten Bus- interfaces oder "AUTO" für Automatik Modus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_INTERFACE</td>
+<td>string</td>
+<td>Name des aktuell eingestellten Fahrzeuginterfaces {"AUTO", "OBD", "MOST", "CAN" ,"MOSTMEAS", "BFMEAS", "NONE", "UNKNOWN"}</td>
+</tr>
+<tr>
+<td>STAT_ERROR</td>
+<td>int</td>
+<td>Für Versuch zweckentfremdet für die Fehlerrückmeldung</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-traceon"></a></p>
+<h3 id="steuern_router_traceon">STEUERN_ROUTER_TRACEON</h3>
+<p>Router Trace einschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-router-traceoff"></a></p>
+<h3 id="steuern_router_traceoff">STEUERN_ROUTER_TRACEOFF</h3>
+<p>Router command: Windows Ce Trace off</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-nodes"></a></p>
+<h3 id="status_most_nodes">STATUS_MOST_NODES</h3>
+<p>Ads4Most Kommando: Get diagnose nodes der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-buildregistry"></a></p>
+<h3 id="steuern_most_buildregistry">STEUERN_MOST_BUILDREGISTRY</h3>
+<p>Abfragen der MOST Central Registry  auslösen der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLEARFIRST</td>
+<td>int</td>
+<td>0 = Dezentrale Registry im OPPS nicht löschen (default) nur neue Einträge hinzu bzw. geänderte Einträge auf Stand bringen 1 = Dezentrale Registry im OPPS löschen, dann Einträge von NM übernehmen</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-onofftime"></a></p>
+<h3 id="status_most_onofftime">STATUS_MOST_ONOFFTIME</h3>
+<p>Ads4Most Kommando: Ermitteln MOST On- und Off- Zeiten sowie Zustand MOST Supervisor Achtung: dieser Job funktioniert erst ab OPPS Version 616. der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_OFFTIME</td>
+<td>unsigned int</td>
+<td>Zeit seit Net Off in ms</td>
+</tr>
+<tr>
+<td>STAT_ONTIME</td>
+<td>unsigned int</td>
+<td>Zeit seit Net On in ms</td>
+</tr>
+<tr>
+<td>STAT_NET</td>
+<td>string</td>
+<td>Zustand des MOST Supervisors</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-master-mode"></a></p>
+<h3 id="steuern_most_master_mode">STEUERN_MOST_MASTER_MODE</h3>
+<p>CLock und Network Master Funktionalität für MOST schalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLOCK_MASTER</td>
+<td>int</td>
+<td>0 = Clock Master functionality off, 1 = Clock Master functionality on</td>
+</tr>
+<tr>
+<td>NETWORK_MASTER</td>
+<td>int</td>
+<td>0 = Network Master functionality off, 1 = Network Master functionality on</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-asyncoff"></a></p>
+<h3 id="steuern_most_asyncoff">STEUERN_MOST_ASYNCOFF</h3>
+<p>MOST Asynchronkanal abschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-asyncon"></a></p>
+<h3 id="steuern_most_asyncon">STEUERN_MOST_ASYNCON</h3>
+<p>Ads4Most Kommando: Asynchronkanal einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-asyncminlength"></a></p>
+<h3 id="steuern_most_asyncminlength">STEUERN_MOST_ASYNCMINLENGTH</h3>
+<p>Setze Minimallänge für Asynchronkanal der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Default in OPPS Registry: 200d</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASYNC_MIN_LENGTH</td>
+<td>int</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-sg-async"></a></p>
+<h3 id="status_most_sg_async">STATUS_MOST_SG_ASYNC</h3>
+<p>Fragt auf dem MOST die Asynchron-Fähigkeit eines SG ab</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>Diagnoseadresse des abzufragenden SG's</td>
+</tr>
+<tr>
+<td>REG_UPDATE</td>
+<td>int</td>
+<td>Veranlasst den Update des Asnc Flags in der dezentralen Registry des OPPS wenn != 0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_SG_ASYNC</td>
+<td>string</td>
+<td>"ERR_CONF_NOTOK"      = MOST Central Registry Not OK "ERR_NOT_IN_REGISTRY" = SG nicht in MOST Registry eingetragen "ERR_NO_RESPONSE"     = SG antwortet nicht "OK_CONTROL"          = SG kann nur über Kontrollkanal kommunizieren "OK_ASYNC"            = SG kann auch über Asynchron- kanal kommunizieren "ERR_UNKNOWN"         = Unbekannter Fehler</td>
+</tr>
+<tr>
+<td>STAT_SG_MOSTADDR</td>
+<td>string</td>
+<td>MOST Adresse des SG als Hex String</td>
+</tr>
+<tr>
+<td>STAT_ASYNCMINLENGTH</td>
+<td>string</td>
+<td>Minimallänge, ab der ein Telegramm auf Asynchronkanal gesendet wird als Dezimalstring</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-nowakeup"></a></p>
+<h3 id="steuern_most_nowakeup">STEUERN_MOST_NOWAKEUP</h3>
+<p>MOST Wakeup abschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-wakeup"></a></p>
+<h3 id="steuern_most_wakeup">STEUERN_MOST_WAKEUP</h3>
+<p>Ads4Most Kommando: Wakeup einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-mostctrl-llintervall"></a></p>
+<h3 id="steuern_mostctrl_llintervall">STEUERN_MOSTCTRL_LLINTERVALL</h3>
+<p>Setze den zeitlichen Abstand, in dem die Low Level Telegramme des MOST Kontrollkanals gesendet werden. Der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Achtung! dieser Befehl ist erst ab OPPS Version 408 verfügbar!</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LL_INTERVALL</td>
+<td>int</td>
+<td>Zeitlicher Abstand der LL-Telegramme in ms</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom OPPS</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-mostctrl-llretry"></a></p>
+<h3 id="steuern_mostctrl_llretry">STEUERN_MOSTCTRL_LLRETRY</h3>
+<p>Setze die Zeit, nach der nach einem Fehler ein  Low Level Telegramm des MOST Kontrollkanals wiederholt wird sowie die maximale Anzahl der Wiederholungen. Der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST Achtung! dieser Befehl ist erst ab OPPS Version 408 verfügbar!</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LL_RECOVERY</td>
+<td>int</td>
+<td>Zeit nach der ein LL-Telegramm wiederholt wird in ms</td>
+</tr>
+<tr>
+<td>LL_RETRIES</td>
+<td>int</td>
+<td>Anzahl der LL-Telegramm Wiederholungen</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an das OPPS</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom OPPS</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-diag-fblock"></a></p>
+<h3 id="steuern_most_diag_fblock">STEUERN_MOST_DIAG_FBLOCK</h3>
+<p>Ein und Ausschalten des Diagnose Funktionsblockes im OPPS</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_DIAG_FB_AKTIV</td>
+<td>int</td>
+<td>enable function block</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-diag-fblock"></a></p>
+<h3 id="status_most_diag_fblock">STATUS_MOST_DIAG_FBLOCK</h3>
+<p>Prüfen, ob MOST Diagnose FBlock aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_DIAG_FB_AKTIV</td>
+<td>int</td>
+<td>1 = MOST Diagnose FBlock aktiv</td>
+</tr>
+<tr>
+<td>STAT_DIAG_FB_INST</td>
+<td>int</td>
+<td>Instanz des vom OPPS angemeldeten Diagnose-FB (Diagnoseadresse)</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-tester-adresse"></a></p>
+<h3 id="steuern_most_tester_adresse">STEUERN_MOST_TESTER_ADRESSE</h3>
+<p>Setzen der Tester-Diagnoseadresse, die das OPPS auf dem MOST verwendet Ist der Diagnose Funktionsblock aktiv, so wird er umgemeldet Default nach Booten : 0xF5</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>Diagnoseadresse</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-threads"></a></p>
+<h3 id="status_threads">STATUS_THREADS</h3>
+<p>liefert die Anzahl möglicher parallel laufender IFH-Slaves auf einem Remote Interface</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>THREADS</td>
+<td>int</td>
+<td>mögliche Anzahl parallel laufender IFHs</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-registry"></a></p>
+<h3 id="status_most_registry">STATUS_MOST_REGISTRY</h3>
+<p>Ads4Most Kommando: GETREGSTATUS (0x95) Holt Informationen über den Zustand der MOST Registry der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_CONFIG</td>
+<td>string</td>
+<td>Letzte Config Meldung vom NetworkMaster {"NotOK", "OK", "Invalid", "New"}</td>
+</tr>
+<tr>
+<td>STAT_USABLE</td>
+<td>string</td>
+<td>"OK" wenn Registry im OPPS gültig, sonst "NotOK"</td>
+</tr>
+<tr>
+<td>STAT_COMPLETED</td>
+<td>string</td>
+<td>Interner OPPS Status "COMPLETE" wenn Registry im OPPS vollständig augebaut, sonst "UNDER_CONSTRUCTION"</td>
+</tr>
+<tr>
+<td>STAT_DEBUG</td>
+<td>string</td>
+<td>Interner OPPS Status {"Loading", "Wait_For_Config_IDs", "WaitForRegistry"}</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-traceon"></a></p>
+<h3 id="steuern_most_traceon">STEUERN_MOST_TRACEON</h3>
+<p>Trace für MOST einschalten der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-traceoff"></a></p>
+<h3 id="steuern_most_traceoff">STEUERN_MOST_TRACEOFF</h3>
+<p>Ads4Most Kommando: Windows Ce Trace aus der Router muß auf MOST geschaltet sein mit STEUERN_ROUTER_MOST</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_34">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-most-ethtrace"></a></p>
+<h3 id="steuern_most_ethtrace">STEUERN_MOST_ETHTRACE</h3>
+<p>Ads4Most command: Enables/disables the ethernet trace</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENABLE</td>
+<td>int</td>
+<td>enable eternet trace</td>
+</tr>
+<tr>
+<td>PORT</td>
+<td>int</td>
+<td>Target Port</td>
+</tr>
+<tr>
+<td>IPADDR</td>
+<td>string</td>
+<td>Target IP Address</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_35">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-registers"></a></p>
+<h3 id="status_most_registers">STATUS_MOST_REGISTERS</h3>
+<p>Liest Bank 0 .. 3 der Register im MOST Chipsatz aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_36">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_BANK_0</td>
+<td>binary</td>
+<td>Inhalt der Bytes 0..254 von Bank 0</td>
+</tr>
+<tr>
+<td>STAT_BANK_1</td>
+<td>binary</td>
+<td>Inhalt der Bytes 0..254 von Bank 1</td>
+</tr>
+<tr>
+<td>STAT_BANK_2</td>
+<td>binary</td>
+<td>Inhalt der Bytes 0..254 von Bank 2</td>
+</tr>
+<tr>
+<td>STAT_BANK_3</td>
+<td>binary</td>
+<td>Inhalt der Bytes 0..254 von Bank 3</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-most-acclog"></a></p>
+<h3 id="status_most_acclog">STATUS_MOST_ACCLOG</h3>
+<p>liest das Access Log der 8104 nur in speziellen OPPS Testversionen verfügbar!</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_37">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_ACC_0_41</td>
+<td>binary</td>
+<td>Zugriffe 0..41</td>
+</tr>
+<tr>
+<td>STAT_ACC_42_83</td>
+<td>binary</td>
+<td>Zugriffe 42..83</td>
+</tr>
+<tr>
+<td>STAT_ACC_84_99</td>
+<td>binary</td>
+<td>Zugriffe 84..99</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-can-mode"></a></p>
+<h3 id="steuern_can_mode">STEUERN_CAN_MODE</h3>
+<p>Setzen des Umschaltemodus für CAN</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAN_MODE</td>
+<td>string</td>
+<td>"AUTO"   = Umschalten anhand Klemmenstatus Botschaft "CAN"    = immer CAN "K_LINE" = immer K-Line "TRY_CANFIRST" = erst DCAN probieren "TRY_KFIRST"   = erst K-Line probieren</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_38">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-can-mode"></a></p>
+<h3 id="status_can_mode">STATUS_CAN_MODE</h3>
+<p>Prüfen des Umschaltemodus für CAN</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_39">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_CAN_MODE</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-can-kl-15"></a></p>
+<h3 id="status_can_kl_15">STATUS_CAN_KL_15</h3>
+<p>Prüft ob Klemmenstatus Botschaft auf CAN empfangen wird</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_40">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_KL_15</td>
+<td>string</td>
+<td>Klemmenstatus über CAN</td>
+</tr>
+<tr>
+<td>STAT_DNMT</td>
+<td>string</td>
+<td>"DNMT" = im DNMT Modus</td>
+</tr>
+<tr>
+<td>STAT_BOTSCHAFT</td>
+<td>string</td>
+<td>"VORHANDEN" = Klemmenstatus Botschaft kommt auf D-CAN</td>
+</tr>
+<tr>
+<td>STAT_SWITCH</td>
+<td>string</td>
+<td>"GESETZT" = Klemmenstatus botschaft min. 1x empfangen "NICHT_GESETZT" Klemmenstatus Botschaft noch nicht empfangen</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-obd-kwp2ks"></a></p>
+<h3 id="status__obd_kwp2ks">STATUS__OBD_KWP2KS</h3>
+<p>Holt Fehlerstatus KWP2000*</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_41">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-dle-traceon"></a></p>
+<h3 id="steuern_dle_traceon">STEUERN_DLE_TRACEON</h3>
+<p>Download Engine Trace einschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_42">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-dle-traceoff"></a></p>
+<h3 id="steuern_dle_traceoff">STEUERN_DLE_TRACEOFF</h3>
+<p>Abschalten Download Engine Trace</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_43">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<p>No tables found.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3584 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/ZKE2/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ZKE2.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zke2prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ZKE2.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fehlerzaehler_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FEHLERZAEHLER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FEHLERZAEHLER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_0_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_0_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_0_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_1_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_1_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_1_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_2_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_2_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_2_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_3_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_3_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_3_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_4_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_4_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_4_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_5_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_5_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_5_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_6_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_6_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_6_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_7_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_7_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_7_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_8_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_8_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_8_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gruppe_9_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GRUPPE_9_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GRUPPE_9_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierung_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERUNG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CODIERUNG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_DIGITAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_DIGITAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuerparameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERPARAMETER
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#laender" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LAENDER
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="zke2prg">ZKE2.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">19</a></li>
+<li>Tables: <a href="#tables">4</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Zentrale Karosserie-Elektronik II</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW ET-421 Gerd Huber</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.12</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>Pioneer Martin Moll, BMW ET-421 Teepe, BMW ET-421 Gerd Huber</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung</li>
+<li><a href="#job-ident">IDENT</a> - Auslesen der Identifikationsdaten</li>
+<li><a href="#job-fehlerzaehler-lesen">FEHLERZAEHLER_LESEN</a> - Auslesen des Fehlerzaehlers</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Auslesen des Fehlerspeichers</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Loeschen des Fehlerspeichers</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Abbruch der Diagnose-Kommunikation</li>
+<li><a href="#job-status-gruppe-0-lesen">STATUS_GRUPPE_0_LESEN</a> - Auslesen des Statusfelds Gruppe 0</li>
+<li><a href="#job-status-gruppe-1-lesen">STATUS_GRUPPE_1_LESEN</a> - Auslesen des Statusfelds Gruppe 1</li>
+<li><a href="#job-status-gruppe-2-lesen">STATUS_GRUPPE_2_LESEN</a> - Auslesen des Statusfelds Gruppe 2</li>
+<li><a href="#job-status-gruppe-3-lesen">STATUS_GRUPPE_3_LESEN</a> - Auslesen des Statusfelds Gruppe 3</li>
+<li><a href="#job-status-gruppe-4-lesen">STATUS_GRUPPE_4_LESEN</a> - Auslesen des Statusfelds Gruppe 4</li>
+<li><a href="#job-status-gruppe-5-lesen">STATUS_GRUPPE_5_LESEN</a> - Auslesen des Statusfelds Gruppe 5</li>
+<li><a href="#job-status-gruppe-6-lesen">STATUS_GRUPPE_6_LESEN</a> - Auslesen des Statusfelds Gruppe 6</li>
+<li><a href="#job-status-gruppe-7-lesen">STATUS_GRUPPE_7_LESEN</a> - Auslesen des Statusfelds Gruppe 7</li>
+<li><a href="#job-status-gruppe-8-lesen">STATUS_GRUPPE_8_LESEN</a> - Auslesen des Statusfelds Gruppe 8</li>
+<li><a href="#job-status-gruppe-9-lesen">STATUS_GRUPPE_9_LESEN</a> - Auslesen des Statusfelds Gruppe 9</li>
+<li><a href="#job-codierung-lesen">CODIERUNG_LESEN</a> - Codierdaten</li>
+<li><a href="#job-steuern-digital">STEUERN_DIGITAL</a> - Ansteuern der Ausgaenge</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergeraet im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Name aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn i.O.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Auslesen der Identifikationsdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>ID_GEN_NR</td>
+<td>string</td>
+<td>Generationsnummer</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>string</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>ID_PP_NR</td>
+<td>string</td>
+<td>Pruefplannummer</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fehlerzaehler-lesen"></a></p>
+<h3 id="fehlerzaehler_lesen">FEHLERZAEHLER_LESEN</h3>
+<p>Auslesen des Fehlerzaehlers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>F_ZAHL</td>
+<td>int</td>
+<td>Anzahl der Fehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Auslesen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Nr des Fehlers (entspricht dem Fehlercode)</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlertext</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>Textindex fuer Fehlerart 1 ( Werte: 0 bis 3 )</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>Text fuer Fehlerart 1</td>
+</tr>
+<tr>
+<td>F_ART2_NR</td>
+<td>int</td>
+<td>Textindex fuer Fehlerart 2 ( Werte: 0 oder 1 )</td>
+</tr>
+<tr>
+<td>F_ART2_TEXT</td>
+<td>string</td>
+<td>Text fuer Fehlerart 2</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haeufigkeit des Einzelfehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Loeschen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Abbruch der Diagnose-Kommunikation</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-0-lesen"></a></p>
+<h3 id="status_gruppe_0_lesen">STATUS_GRUPPE_0_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 0</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_RS_AKTIV</td>
+<td>int</td>
+<td>Status von RS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_NS_AKTIV</td>
+<td>int</td>
+<td>Status von NS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSK_AKTIV</td>
+<td>int</td>
+<td>Status von RSK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSSHK_AKTIV</td>
+<td>int</td>
+<td>Status von SSSSHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSHK_AKTIV</td>
+<td>int</td>
+<td>Status von SSSHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSPHK_AKTIV</td>
+<td>int</td>
+<td>Status von SSPHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSOHK_AKTIV</td>
+<td>int</td>
+<td>Status von SSOHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_WWNM_VOLL</td>
+<td>int</td>
+<td>Status von WWNM, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_KL15_AKTIV</td>
+<td>int</td>
+<td>Status von Kl.15, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_KLR_AKTIV</td>
+<td>int</td>
+<td>Status von Kl.R, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_KL50_AKTIV</td>
+<td>int</td>
+<td>Status von Kl.50, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SWA_AKTIV</td>
+<td>int</td>
+<td>Status von SWA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SWI_AKTIV</td>
+<td>int</td>
+<td>Status von SWI, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SWS1_AKTIV</td>
+<td>int</td>
+<td>Status von SWS1, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SWS2_AKTIV</td>
+<td>int</td>
+<td>Status von SWS2, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SIRS_AKTIV</td>
+<td>int</td>
+<td>Status von SIRS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SW_AKTIV</td>
+<td>int</td>
+<td>Status von SW, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_NSW_AKTIV</td>
+<td>int</td>
+<td>Status von NSW, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TKBH_OFFEN</td>
+<td>int</td>
+<td>Status von TKBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TKFH_OFFEN</td>
+<td>int</td>
+<td>Status von TKFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TKBT_OFFEN</td>
+<td>int</td>
+<td>Status von TKBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TKFT_OFFEN</td>
+<td>int</td>
+<td>Status von TKFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FKBH_ZU</td>
+<td>int</td>
+<td>Status von FKBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FKFH_ZU</td>
+<td>int</td>
+<td>Status von FKFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_IRFB_AKTIV</td>
+<td>int</td>
+<td>Status von IRFB, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_IRFA_AKTIV</td>
+<td>int</td>
+<td>Status von IRFA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_VRHK_AKTIV</td>
+<td>int</td>
+<td>Status von VRHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ERHK_AKTIV</td>
+<td>int</td>
+<td>Status von ERHK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TBH_AKTIV</td>
+<td>int</td>
+<td>Status von TBH, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-1-lesen"></a></p>
+<h3 id="status_gruppe_1_lesen">STATUS_GRUPPE_1_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 1</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_FBHZ_ZU</td>
+<td>int</td>
+<td>Status von FBHZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FBHA_AUF</td>
+<td>int</td>
+<td>Status von FBHA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TFH_AKTIV</td>
+<td>int</td>
+<td>Status von TFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FFHZ_ZU</td>
+<td>int</td>
+<td>Status von FFHZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FFHA_AUF</td>
+<td>int</td>
+<td>Status von FFHA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DSRA_AKTIV</td>
+<td>int</td>
+<td>Status von DSRA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DSIR_AKTIV</td>
+<td>int</td>
+<td>Status von DSIR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DWP_AKTIV</td>
+<td>int</td>
+<td>Status von DWP, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DWI3_AKTIV</td>
+<td>int</td>
+<td>Status von DWI3, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DWI2_AKTIV</td>
+<td>int</td>
+<td>Status von DWI2, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DWI1_AKTIV</td>
+<td>int</td>
+<td>Status von DWI1, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DKS_AKTIV</td>
+<td>int</td>
+<td>Status von DKS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_DADV_AKTIV</td>
+<td>int</td>
+<td>Status von DADV, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSTBH_AKTIV</td>
+<td>int</td>
+<td>Status von FSTBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSZBH_ZU</td>
+<td>int</td>
+<td>Status von FSZBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSABH_AUF</td>
+<td>int</td>
+<td>Status von FSABH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSTFH_AKTIV</td>
+<td>int</td>
+<td>Status von FSTFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSZFH_ZU</td>
+<td>int</td>
+<td>Status von FSZFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSAFH_AUF</td>
+<td>int</td>
+<td>Status von FSAFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSKS_AKTIV</td>
+<td>int</td>
+<td>Status von FSKS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSTFT_AKTIV</td>
+<td>int</td>
+<td>Status von FSTFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSZFT_ZU</td>
+<td>int</td>
+<td>Status von FSZFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSAFT_AUF</td>
+<td>int</td>
+<td>Status von FSAFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSTBT_AKTIV</td>
+<td>int</td>
+<td>Status von FSTBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSZBT_ZU</td>
+<td>int</td>
+<td>Status von FSTBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_FSABT_AUF</td>
+<td>int</td>
+<td>Status von FSABT, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-2-lesen"></a></p>
+<h3 id="status_gruppe_2_lesen">STATUS_GRUPPE_2_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_RADVA_AKTIV</td>
+<td>int</td>
+<td>Status von RADVA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RADVZ_AKTIV</td>
+<td>int</td>
+<td>Status von RADVZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_WPK_AKTIV</td>
+<td>int</td>
+<td>Status von WPK, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RKSA_AUF</td>
+<td>int</td>
+<td>Status von RKSA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RKSZ_ZU</td>
+<td>int</td>
+<td>Status von RKSZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RWI1_AKTIV</td>
+<td>int</td>
+<td>Status von RWI1, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RWI2_AKTIV</td>
+<td>int</td>
+<td>Status von RWI2, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RWI3_AKTIV</td>
+<td>int</td>
+<td>Status von RWI3, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RWP_AKTIV</td>
+<td>int</td>
+<td>Status von RWP, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSIR_AKTIV</td>
+<td>int</td>
+<td>Status von RSIR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSRA1_AKTIV</td>
+<td>int</td>
+<td>Status von RSRA1, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSRA2_AKTIV</td>
+<td>int</td>
+<td>Status von RSRA2, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFFA_AUF</td>
+<td>int</td>
+<td>Status von RMFFA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFFZ_ZU</td>
+<td>int</td>
+<td>Status von RMFFZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFFHA_AUF</td>
+<td>int</td>
+<td>Status von RMFFHA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFFHZ_ZU</td>
+<td>int</td>
+<td>Status von RMFFHZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFBA_AUF</td>
+<td>int</td>
+<td>Status von RMFBA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFBZ_ZU</td>
+<td>int</td>
+<td>Status von RMFBZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFBHA_AUF</td>
+<td>int</td>
+<td>Status von RMFBHA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMFBHZ_ZU</td>
+<td>int</td>
+<td>Status von RMFBHZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMZS_AKTIV</td>
+<td>int</td>
+<td>Status von RMZS, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMVR_AKTIV</td>
+<td>int</td>
+<td>Status von RMVR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMER_AKTIV</td>
+<td>int</td>
+<td>Status von RMER, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSFT_AKTIV</td>
+<td>int</td>
+<td>Status von RMSFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSFTR_AKTIV</td>
+<td>int</td>
+<td>Status von RMSFTR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSR_AKTIV</td>
+<td>int</td>
+<td>Status von RMSR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSBT_AKTIV</td>
+<td>int</td>
+<td>Status von RMSBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSFH_AKTIV</td>
+<td>int</td>
+<td>Status von RMSFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSBH_AKTIV</td>
+<td>int</td>
+<td>Status von RMSBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RMSHK_AKTIV</td>
+<td>int</td>
+<td>Status von RMSHK, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-3-lesen"></a></p>
+<h3 id="status_gruppe_3_lesen">STATUS_GRUPPE_3_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 3</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_RHKA_AKTIV</td>
+<td>int</td>
+<td>Status von RHKA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RVA_AKTIV</td>
+<td>int</td>
+<td>Status von RVA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RESL_AKTIV</td>
+<td>int</td>
+<td>Status von RESL, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RESR_AKTIV</td>
+<td>int</td>
+<td>Status von RESR, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZS1_AKTIV</td>
+<td>int</td>
+<td>Status von ZS1, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZS1N_AKTIV</td>
+<td>int</td>
+<td>Status von ZS1N, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RWB_AKTIV</td>
+<td>int</td>
+<td>Status von RWB, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RIB_AKTIV</td>
+<td>int</td>
+<td>Status von RIB, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSHDA_AUF</td>
+<td>int</td>
+<td>Status von SSHDA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSHDZ_ZU</td>
+<td>int</td>
+<td>Status von SSHDZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSHDH_AKTIV</td>
+<td>int</td>
+<td>Status von SSHDH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSHDA_AUF</td>
+<td>int</td>
+<td>Status von RSHDA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_RSHDZ_ZU</td>
+<td>int</td>
+<td>Status von RSHDZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MSHDA_AUF</td>
+<td>int</td>
+<td>Status von MSHDA, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MSHDZ_ZU</td>
+<td>int</td>
+<td>Status von MSHDZ, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_QZSHD_ZU</td>
+<td>int</td>
+<td>Status von QZSHD, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHAFH_AUF</td>
+<td>int</td>
+<td>Status von SFHAFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHZFH_ZU</td>
+<td>int</td>
+<td>Status von SFHZFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHTFH_AKTIV</td>
+<td>int</td>
+<td>Status von SFHTFH, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-4-lesen"></a></p>
+<h3 id="status_gruppe_4_lesen">STATUS_GRUPPE_4_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 4</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_MAFAFH_AUF</td>
+<td>int</td>
+<td>Status von MAFAFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFZFH_ZU</td>
+<td>int</td>
+<td>Status von MAFZFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSPFH_AKTIV</td>
+<td>int</td>
+<td>Status von SSPFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSSFH_AKTIV</td>
+<td>int</td>
+<td>Status von SSSSFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGIFH_AKTIV</td>
+<td>int</td>
+<td>Status von TGIFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_QZFH_ZU</td>
+<td>int</td>
+<td>Status von QZFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVERFH_AKTIV</td>
+<td>int</td>
+<td>Status von ZVERFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVVRFH_AKTIV</td>
+<td>int</td>
+<td>Status von ZVVRFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGAFH_AKTIV</td>
+<td>int</td>
+<td>Status von TGAFH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHABH_AUF</td>
+<td>int</td>
+<td>Status von SFHABH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHZBH_ZU</td>
+<td>int</td>
+<td>Status von SFHZBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHTBH_AKTIV</td>
+<td>int</td>
+<td>Status von SFHTBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFABH_AUF</td>
+<td>int</td>
+<td>Status von MAFABH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFZBH_ZU</td>
+<td>int</td>
+<td>Status von MAFZBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSPBH_AKTIV</td>
+<td>int</td>
+<td>Status von SSPBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSSBH_AKTIV</td>
+<td>int</td>
+<td>Status von SSSSBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGIBH_AKTIV</td>
+<td>int</td>
+<td>Status von TGIBH, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-5-lesen"></a></p>
+<h3 id="status_gruppe_5_lesen">STATUS_GRUPPE_5_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 5</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_QZBH_ZU</td>
+<td>int</td>
+<td>Status von QZBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVERBH_AKTIV</td>
+<td>int</td>
+<td>Status von ZVERBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVVRBH_AKTIV</td>
+<td>int</td>
+<td>Status von ZVVRBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGKBH_AKTIV</td>
+<td>int</td>
+<td>Status von TGKBH, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHAFT_AUF</td>
+<td>int</td>
+<td>Status von SFHAFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHZFT_ZU</td>
+<td>int</td>
+<td>Status von SFHZFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHTFT_AKTIV</td>
+<td>int</td>
+<td>Status von SFHTFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSHFT_AKTIV</td>
+<td>int</td>
+<td>Status von TSHFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFAFT_AUF</td>
+<td>int</td>
+<td>Status von MAFAFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFZFT_ZU</td>
+<td>int</td>
+<td>Status von MAFZFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSPFT_AKTIV</td>
+<td>int</td>
+<td>Status von SSPFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSSFT_AKTIV</td>
+<td>int</td>
+<td>Status von SSSSFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGIFT_AKTIV</td>
+<td>int</td>
+<td>Status von TGIFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_QZFT_ZU</td>
+<td>int</td>
+<td>Status von QZFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVERFT_AKTIV</td>
+<td>int</td>
+<td>Status von ZVERFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVVRFT_AKTIV</td>
+<td>int</td>
+<td>Status von ZVVRFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGKFT_AKTIV</td>
+<td>int</td>
+<td>Status von TGKFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSAFT_AKTIV</td>
+<td>int</td>
+<td>Status von TSAFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSBFT_AKTIV</td>
+<td>int</td>
+<td>Status von TSBFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSBNFT_AKTIV</td>
+<td>int</td>
+<td>Status von TSBNFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSCFT_AKTIV</td>
+<td>int</td>
+<td>Status von TSCFT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHABT_AUF</td>
+<td>int</td>
+<td>Status von SFHABT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SFHZBT_ZU</td>
+<td>int</td>
+<td>Status von SFHZBT, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-6-lesen"></a></p>
+<h3 id="status_gruppe_6_lesen">STATUS_GRUPPE_6_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 6</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_SFHTBT_AKTIV</td>
+<td>int</td>
+<td>Status von SFHTBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFABT_AUF</td>
+<td>int</td>
+<td>Status von MAFABT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_MAFZBT_ZU</td>
+<td>int</td>
+<td>Status von MAFZBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSPBT_AKTIV</td>
+<td>int</td>
+<td>Status von SSPBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SSSSBT_AKTIV</td>
+<td>int</td>
+<td>Status von SSSSBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGIBT_AKTIV</td>
+<td>int</td>
+<td>Status von TGIBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_QZBT_ZU</td>
+<td>int</td>
+<td>Status von QZBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVERBT_AKTIV</td>
+<td>int</td>
+<td>Status von ZVERBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_ZVVRBT_AKTIV</td>
+<td>int</td>
+<td>Status von ZVVRBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TGKBT_AKTIV</td>
+<td>int</td>
+<td>Status von TGKBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSABT_AKTIV</td>
+<td>int</td>
+<td>Status von TSABT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSBBT_AKTIV</td>
+<td>int</td>
+<td>Status von TSBBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSBNBT_AKTIV</td>
+<td>int</td>
+<td>Status von TSBNBT, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_TSCBT_AKTIV</td>
+<td>int</td>
+<td>Status von TSCBT, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-7-lesen"></a></p>
+<h3 id="status_gruppe_7_lesen">STATUS_GRUPPE_7_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 7</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_STDCON_AKTIV</td>
+<td>int</td>
+<td>Status von STDCON, 0 oder 1</td>
+</tr>
+<tr>
+<td>STAT_SLP_AKTIV</td>
+<td>int</td>
+<td>Status von SLP, 0 oder 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-8-lesen"></a></p>
+<h3 id="status_gruppe_8_lesen">STATUS_GRUPPE_8_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 8</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>STAT_FHPF_WERT</td>
+<td>int</td>
+<td>Status von FHPF, E 31: 0 bis 120, E 32: 0 bis 178</td>
+</tr>
+<tr>
+<td>STAT_FHPB_WERT</td>
+<td>int</td>
+<td>Status von SLP, E 31: 0 bis 120, E 32: 0 bis 178</td>
+</tr>
+<tr>
+<td>STAT_FHPFH_WERT</td>
+<td>int</td>
+<td>Status von FHPFH, E 32: 0 bis 178</td>
+</tr>
+<tr>
+<td>STAT_FHPBH_WERT</td>
+<td>int</td>
+<td>Status von FHPBH, E 32: 0 bis 178</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gruppe-9-lesen"></a></p>
+<h3 id="status_gruppe_9_lesen">STATUS_GRUPPE_9_LESEN</h3>
+<p>Auslesen des Statusfelds Gruppe 9</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Liefert: OKAY od. ERROR_SG_NACK</td>
+</tr>
+<tr>
+<td>STAT_SHDP_WERT</td>
+<td>int</td>
+<td>Status von SHDP, 0 (Heb.) bis 23 (zu) bis 193 (auf)</td>
+</tr>
+<tr>
+<td>STAT_ADVP_WERT</td>
+<td>int</td>
+<td>Status von ADVP, 0 bis 4</td>
+</tr>
+<tr>
+<td>STAT_SSS_WERT</td>
+<td>int</td>
+<td>Status von SSS, 0 bis 255</td>
+</tr>
+<tr>
+<td>STAT_V_WERT</td>
+<td>int</td>
+<td>Status von V, 0 bis 6</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-codierung-lesen"></a></p>
+<h3 id="codierung_lesen">CODIERUNG_LESEN</h3>
+<p>Codierdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>FAHRZEUGTYP_TEXT</td>
+<td>string</td>
+<td>Liefert: E31 oder E32</td>
+</tr>
+<tr>
+<td>SHD_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>SERVOSCHLIESSUNG_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>TSH_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>SCHEINWERFERREINIGUNG_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>LENKERTYP_TEXT</td>
+<td>string</td>
+<td>Liefert: Linkslenker oder Rechtslenker</td>
+</tr>
+<tr>
+<td>SIR_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>ADV_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>FENSTERABSENKUNG_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>WISCHERMECHANIKPARKSTELLUNG_VORHANDEN</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>LAENDERVARIANTE_BYTE</td>
+<td>string</td>
+<td>Liefert: Laendervariante (original Byte)</td>
+</tr>
+<tr>
+<td>LAENDERVARIANTE_TEXT</td>
+<td>string</td>
+<td>Liefert: Laendervariante Klartext (vgl. Tabelle Laender)</td>
+</tr>
+<tr>
+<td>EINKLEMMSCHUTZ_FH_WERT</td>
+<td>int</td>
+<td>FH Schwelle Einklemmschutz FT und BT</td>
+</tr>
+<tr>
+<td>IMPULSZAHL_FH_WERT</td>
+<td>int</td>
+<td>FH Impulszahl Absenkung (Hex)</td>
+</tr>
+<tr>
+<td>SHD_IMPULSZAHL_POS_ZU</td>
+<td>int</td>
+<td>SHD Impulszahl Geschlossen Position * 2 (Hex)</td>
+</tr>
+<tr>
+<td>SHD_IMPULSZAHL_ENDPOS_SCHIEBEN</td>
+<td>int</td>
+<td>SHD Impulszahl Schieben Endposition (Hex)</td>
+</tr>
+<tr>
+<td>HW_NR</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>HW_NR_TEXT</td>
+<td>string</td>
+<td>Liefert: Standardcodierung oder Serienanlauf</td>
+</tr>
+<tr>
+<td>HERSTELLER_NR</td>
+<td>int</td>
+<td>Liefert: 0 oder 1</td>
+</tr>
+<tr>
+<td>HERSTELLER_NR_TEXT</td>
+<td>string</td>
+<td>Liefert: Standardcodierung oder Reinshagen</td>
+</tr>
+<tr>
+<td>DATUM_KW</td>
+<td>int</td>
+<td>Liefert: 1 bis 52</td>
+</tr>
+<tr>
+<td>DATUM_JAHR</td>
+<td>int</td>
+<td>Liefert 1980 bis 2079</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-digital"></a></p>
+<h3 id="steuern_digital">STEUERN_DIGITAL</h3>
+<p>Ansteuern der Ausgaenge</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORT</td>
+<td>string</td>
+<td>gewuenschte Komponente table SteuerParameter AUSGANG</td>
+</tr>
+<tr>
+<td>EIN</td>
+<td>int</td>
+<td>'1', wenn einschalten / '0', wenn ausschalten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY od. ERROR_SG_NACK od. ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+<tr>
+<td>_TEL_AN_SG</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-forttexte">FORTTEXTE</a> (70 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (5 × 2)</li>
+<li><a href="#table-steuerparameter">STEUERPARAMETER</a> (161 × 2)</li>
+<li><a href="#table-laender">LAENDER</a> (6 × 2)</li>
+</ul>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 70 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>GM II</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>TM FT, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>TM BT, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>TM FTH, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>TM BTH, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>SHDM, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>TM FT</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>TM BT</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>TM FTH</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>TM BTH</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>SHDM</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>RM1, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>RM2, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>FH Schalter FA, Verbindung zu GM II</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>Klemme R an GM II fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Wischerschalter, Zuleitung</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Wischermotor, Zuleitung, Rueckstellkontakte</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>ADV-Motor, Zuleitung, Nockenschalter</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Relais Wischermotor I, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>Relais Wischermotor II, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Relais Wischermotor III, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Relais Wasserpumpe, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Relais SIR, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>DRM 2 ADV, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>DRM 2 SRA, Zuleitung, Sicherung, RM1</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>TM FT, TSH, Zuleitung</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>Schlossschalter FT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>Schlossschalter BT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Antrieb ZV FT, Schalter ZV FT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Antrieb ZV BFT, Schalter ZV BFT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Antrieb ZV Heckklappe, Schalter ZV Heckklappe, Zuleitung</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>RM1 (Relais ZS), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>RM1 (Relais VR), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>RM1 (Relais ER), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>CRASH-Stromschalter, Zuleitung</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>FH Schalter FT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>FH Schalter BT, Zuleitung</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>FH Schalter FTH,Zuleitung</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>FH Schalter BTH, Zuleitung</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>FH Motor FT, Zuleitung, Inkrementgeber</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>FH Motor BT, Zuleitung, Inkrementgeber</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>FH Motor BTH, Fensterkontakt FAH, Zuleitung, RM1</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>FH Motor BTH, Fensterkontakt BFH, Zuleitung, RM1</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>RM1 (Relais Fensterheber FT auf, FFA), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>RM1 (Relais Fensterheber BT auf, FBA), Sicherungsrelais II</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>RM1 (Relais Fensterheber FTH auf, FFHA), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>RM1 (Relais Fensterheber BTH auf, FBHA), Sicherungsrelais II</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>RM1 (Relais Fensterheber FT zu, FFZ), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>RM1 (Relais Fensterheber BT zu, FBZ), Sicherungsrelais II</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>RM1 (Relais Fensterheber FTH zu, FFHZ), Sicherungsrelais I</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>RM1 (Relais Fensterheber BTH zu, FBHZ), Sicherungsrelais II</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>FT Verbindungsleitung RM1 - FH Motor</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>BT Verbindungsleitung RM1 - FH Motor</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>FTH Verbindungsleitung RM1 - FH Motor</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>BTH Verbindungsleitung RM1 - FH Motor</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>SHD Schalter, Zuleitung</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>SHD Motor, SHD-Modul (Inkrementgeber)</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>SHD Motor (Relais), Sicherungsrelais I, Dachzuleitung</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Positionsgeber Motor, Zuleitung, Sicherung FT</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Positionsgeber Motor, Zuleitung, Sicherung BT</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>Positionsgeber Motor, Zuleitung, Sicherung FTH</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>Positionsgeber Motor, Zuleitung, Sicherung BTH</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Positionsgeber Motor, Zuleitung, Sicherung Heckklappe</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>RM 2 (Relais 1-2), Sicherung FT</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>RM 2 (Relais 3 - 7), Sicherung, BT, BHT, FHT, Heckklappe</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>Ueberstromzaehler Sicherungsrelais I, zu hoher Strom an MFFA, MFFZ, MFFHA, MFFHZ, MER, MVR, MZS, 3OESL</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>Ueberstromzaehler Sicherungsrelais II, zu hoher Strom an MFBA, MFBZ, MFBHZ, MFBHA</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>zu hoher Strom an GMII RESL, RESR, IB, GRA, GRB, WB, RA1 - RA5, DTX, RMDA, RMLD, RMTR</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>zu hoher Strom an RM1 WI1, WI2, WI3, WP, SIR, VA, ERHK</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Kurzschluss gegen U-Batt</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Kurzschluss gegen Masse</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ungueltiger Arbeitsbereich</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-steuerparameter"></a></p>
+<h3 id="steuerparameter">STEUERPARAMETER</h3>
+<p>Dimensions: 161 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ZELLE</th>
+<th>AUSGANG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>RS</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>NS</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>RSK</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>SSSSHK</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>SSSHK</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>SSPHK</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>SSOHK</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>WWNM</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>KL15</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>KLR</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KL50</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>SWA</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>SWI</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>SWS1</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>SWS2</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>SIRS</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>SW</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>NSW</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>TKBH</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>TKFH</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>TKBT</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>TKFT</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>FKBH</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>FKFH</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>IRFB</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>IRFA</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>VRHK</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>ERHK</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>TBH</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>FBHZ</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>FBHA</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>TFH</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>FFHZ</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>FFHA</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>DSRA</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>DSIR</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>DWP</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DWI3</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DWI2</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>DWI1</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>DKS</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>DADV</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>FSTBH</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>FSZBH</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>FSABH</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>FSTFH</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>FSZFH</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>FSAFH</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>FSKS</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>FSTFT</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>FSZFT</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>FSAFT</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>FSTBT</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>FSZBT</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>FSABT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>RADVA</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>RADVZ</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>WPK</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>RKSA</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>RKSZ</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>RWI1</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>RWI2</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>RWI3</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>RWP</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>RSIR</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>RSRA1</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>RSRA2</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>RMFFA</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>RMFFZ</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>RMFFHA</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>RMFFHZ</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>RMFBA</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>RMFBZ</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>RMFBHA</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>RMFBHZ</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>RMZS</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>RMVR</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>RMER</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>RMSFT</td>
+</tr>
+<tr>
+<td>0x5A</td>
+<td>RMSFTR</td>
+</tr>
+<tr>
+<td>0x5B</td>
+<td>RMSR</td>
+</tr>
+<tr>
+<td>0x5C</td>
+<td>RMSBT</td>
+</tr>
+<tr>
+<td>0x5D</td>
+<td>RMSFH</td>
+</tr>
+<tr>
+<td>0x5E</td>
+<td>RMSBH</td>
+</tr>
+<tr>
+<td>0x5F</td>
+<td>RMSHK</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>RHKA</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>RVA</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>RESL</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>RESR</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>ZS1</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>ZS1N</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>RWB</td>
+</tr>
+<tr>
+<td>0x6F</td>
+<td>RIB</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>SSHDA</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>SSHDZ</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>SSHDH</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>RSHDA</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>RSHDZ</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>MSHDA</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>MSHDZ</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>QZSHD</td>
+</tr>
+<tr>
+<td>0x7C</td>
+<td>SFHAFH</td>
+</tr>
+<tr>
+<td>0x7D</td>
+<td>SFHZFH</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>SFHTFH</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>MAFAFH</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>MAFZFH</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>SSPFH</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>SSSSFH</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>TGIFH</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>QZFH</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>ZVERFH</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>ZVVRFH</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>TGAFH</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>SFHABH</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>SFHZBH</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>SFHTBH</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>MAFABH</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>MAFZBH</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>SSPBH</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>SSSSBH</td>
+</tr>
+<tr>
+<td>0x9F</td>
+<td>TGIBH</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>QZBH</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>ZVERBH</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ZVVRBH</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>TGKBH</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>SFHAFT</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>SFHZFT</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>SFHTFT</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>TSHFT</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>MAFAFT</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>MAFZFT</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>SSPFT</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>SSSSFT</td>
+</tr>
+<tr>
+<td>0xB5</td>
+<td>TGIFT</td>
+</tr>
+<tr>
+<td>0xB6</td>
+<td>QZFT</td>
+</tr>
+<tr>
+<td>0xB7</td>
+<td>ZVERFT</td>
+</tr>
+<tr>
+<td>0xB8</td>
+<td>ZVVRFT</td>
+</tr>
+<tr>
+<td>0xB9</td>
+<td>TGKFT</td>
+</tr>
+<tr>
+<td>0xBA</td>
+<td>TSAFT</td>
+</tr>
+<tr>
+<td>0xBB</td>
+<td>TSBFT</td>
+</tr>
+<tr>
+<td>0xBC</td>
+<td>TSBNFT</td>
+</tr>
+<tr>
+<td>0xBD</td>
+<td>TSCFT</td>
+</tr>
+<tr>
+<td>0xBE</td>
+<td>SFHABT</td>
+</tr>
+<tr>
+<td>0xBF</td>
+<td>SFHZBT</td>
+</tr>
+<tr>
+<td>0xC0</td>
+<td>SFHTBT</td>
+</tr>
+<tr>
+<td>0xC3</td>
+<td>MAFABT</td>
+</tr>
+<tr>
+<td>0xC4</td>
+<td>MAFZBT</td>
+</tr>
+<tr>
+<td>0xC5</td>
+<td>SSPBT</td>
+</tr>
+<tr>
+<td>0xC6</td>
+<td>SSSSBT</td>
+</tr>
+<tr>
+<td>0xCF</td>
+<td>TGIBT</td>
+</tr>
+<tr>
+<td>0xD0</td>
+<td>QZBT</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>ZVERBT</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>ZVVRBT</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>TGKBT</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>TSABT</td>
+</tr>
+<tr>
+<td>0xD5</td>
+<td>TSBBT</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>TSBNBT</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>TSCBT</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>STDCON</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>SLP</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_UNBEKANNTER_PARAMETER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-laender"></a></p>
+<h3 id="laender">LAENDER</h3>
+<p>Dimensions: 6 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LV</th>
+<th>LAENDERVARIANTE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>ECE</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>US</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Australien</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Finnland</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Reserve 1</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Reserve 2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

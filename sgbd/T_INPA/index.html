@@ -1,0 +1,6458 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/T_INPA/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>T_INPA.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#t_inpaprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              T_INPA.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inpa_sonderscript_zuordnung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INPA_SONDERSCRIPT_ZUORDNUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INPA_SONDERSCRIPT_ZUORDNUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inpa_script_zuordnung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INPA_SCRIPT_ZUORDNUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INPA_SCRIPT_ZUORDNUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inpascriptzuordnung00" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INPASCRIPTZUORDNUNG00
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inpascriptzuordnung01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INPASCRIPTZUORDNUNG01
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="t_inpaprg">T_INPA.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">4</a></li>
+<li>Tables: <a href="#tables">2</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>externe Tabelle ZuordnungsTabelle</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-545 Rüdiger Gall</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.102</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-544</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.102</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-inpa-sonderscript-zuordnung">INPA_SONDERSCRIPT_ZUORDNUNG</a> - Verantwortlich für diesen job: Rüdiger Gall, TI-544 Sonder-INPA-Scripte pro Baureihe auslesen. Es wird keine Kommunnikation mit dem Steuergerät aufgebaut Es wird nur die table InpaScriptZuordnung00 ausgelesen Die ausgelesenen Spalten über die Baureihe werden ab INPA 6.3.0, 64BIT in die Konfigurationsdatei INPASCR.INI, INPASCRAUT.INI, ... geschrieben Beim Start von INPALOAD.EXE werden die Inhalte in der Scriptauswahl angezeigt.</li>
+<li><a href="#job-inpa-script-zuordnung">INPA_SCRIPT_ZUORDNUNG</a> - Verantwortlich für diesen Job: Rüdiger Gall, TI-544 INPA-Scripte pro Baureihe auslesen. Es wird keine Kommunnikation mit dem Steuergerät aufgebaut Es wird nur die table InpaScriptZuordnung01 ausgelesen Die ausgelesenen Spalten über die Baureihe werden ab INPA 6.5.1, 64-BIT in die Konfigurationsdatei INPASCR.INI, INPASCRAUT.INI, ... geschrieben Beim Start von INPALOAD.EXE werden die Inhalte zum angeschlossenem Fahrzeug in der Scriptauswahl angezeigt.</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-inpa-sonderscript-zuordnung"></a></p>
+<h3 id="inpa_sonderscript_zuordnung">INPA_SONDERSCRIPT_ZUORDNUNG</h3>
+<p>Verantwortlich für diesen job: Rüdiger Gall, TI-544 Sonder-INPA-Scripte pro Baureihe auslesen. Es wird keine Kommunnikation mit dem Steuergerät aufgebaut Es wird nur die table InpaScriptZuordnung00 ausgelesen Die ausgelesenen Spalten über die Baureihe werden ab INPA 6.3.0, 64BIT in die Konfigurationsdatei INPASCR.INI, INPASCRAUT.INI, ... geschrieben Beim Start von INPALOAD.EXE werden die Inhalte in der Scriptauswahl angezeigt.</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BAUREIHE</td>
+<td>string</td>
+<td>Gewünschte Baureihe ab F01 Hinweis: E-Baureihen werden nicht unterstützt. table InpaScriptZuordnung00 BAUREIHE</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INPA_ANZEIGE_EBENE</td>
+<td>string</td>
+<td>INPA Anzeige Ebene table InpaScriptZuordnung00 BAUREIHE INPA_ANZEIGE_EBENE</td>
+</tr>
+<tr>
+<td>INPA_AUSWAHL</td>
+<td>string</td>
+<td>INPA_Auswahl Beispiel: ""         : Script wird über Datei INPASCR.INI, INPASCRAUT.INI, ... unter [ROOT],          DESCRIPTION=... in der Scriptauswahl angezeigt "FAHRWERK" : Script wird über Datei INPASCR.INI, INPASCRAUT.INI, ... unter [ROOT_FAHRWERK], DESCRIPTION=... in der Scriptauswahl angezeigt table InpaScriptZuordnung00 BAUREIHE INPA_Auswahl</td>
+</tr>
+<tr>
+<td>INPA_SCRIPT</td>
+<td>string</td>
+<td>INPA-SCRIPT-Datei *.IPO</td>
+</tr>
+<tr>
+<td>INPA_BESCHREIBUNG</td>
+<td>string</td>
+<td>Menüauswahltext grob für die automatische INPA-Scriptauswahlerstellung table InpaScriptZuordnung00 BAUREIHE INPA_BESCHREIBUNG</td>
+</tr>
+<tr>
+<td>INPA_ABKUERZUNG</td>
+<td>string</td>
+<td>Abkürzung des Steuergerätes für die automatische INPA-Scriptauswahlerstellung table InpaScriptZuordnung00 BAUREIHE INPA_SCRIPT INPA_ABKUERZUNG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-inpa-script-zuordnung"></a></p>
+<h3 id="inpa_script_zuordnung">INPA_SCRIPT_ZUORDNUNG</h3>
+<p>Verantwortlich für diesen Job: Rüdiger Gall, TI-544 INPA-Scripte pro Baureihe auslesen. Es wird keine Kommunnikation mit dem Steuergerät aufgebaut Es wird nur die table InpaScriptZuordnung01 ausgelesen Die ausgelesenen Spalten über die Baureihe werden ab INPA 6.5.1, 64-BIT in die Konfigurationsdatei INPASCR.INI, INPASCRAUT.INI, ... geschrieben Beim Start von INPALOAD.EXE werden die Inhalte zum angeschlossenem Fahrzeug in der Scriptauswahl angezeigt.</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SGBD_NAME</td>
+<td>string</td>
+<td>Gewünschte SGBD</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU_SGBD</td>
+<td>string</td>
+<td>Steuergerät SGBD Name table InpaScriptZuordnung01 ECU_SGBD</td>
+</tr>
+<tr>
+<td>ECU_ADRESSE</td>
+<td>string</td>
+<td>Steuergeräte Adresse table InpaScriptZuordnung01 ECU_SGBD ECU_ADRESSE</td>
+</tr>
+<tr>
+<td>BAUREIHE</td>
+<td>string</td>
+<td>Baureihe</td>
+</tr>
+<tr>
+<td>INPA_AUSWAHL</td>
+<td>string</td>
+<td>Menüauswahltext grob für die automatische INPA-Scriptauswahlerstellung table InpaScriptZuordnung01 ECU_SGBD INPA_AUSWAHL</td>
+</tr>
+<tr>
+<td>INPA_SCRIPT</td>
+<td>string</td>
+<td>INPA-Scriptname für die automatische INPA-Scriptauswahlerstellung table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT</td>
+</tr>
+<tr>
+<td>INPA_BESCHREIBUNG_DE</td>
+<td>string</td>
+<td>Beschreibungstext für die automatische INPA-Scriptauswahlerstellung (Deutsch) table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT INPA_BESCHREIBUNG_DE</td>
+</tr>
+<tr>
+<td>INPA_BESCHREIBUNG_EN</td>
+<td>string</td>
+<td>Beschreibungstext für die automatische INPA-Scriptauswahlerstellung (Englisch) table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT INPA_BESCHREIBUNG_EN</td>
+</tr>
+<tr>
+<td>INPA_BESCHREIBUNG_ES</td>
+<td>string</td>
+<td>Beschreibungstext für die automatische INPA-Scriptauswahlerstellung (Spanisch) table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT INPA_BESCHREIBUNG_ES</td>
+</tr>
+<tr>
+<td>INPA_BESCHREIBUNG_HU</td>
+<td>string</td>
+<td>Beschreibungstext für die automatische INPA-Scriptauswahlerstellung (Ungarisch) table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT INPA_BESCHREIBUNG_HU</td>
+</tr>
+<tr>
+<td>INPA_ABKUERZUNG</td>
+<td>string</td>
+<td>Abkürzung des Steuergerätes für die automatische INPA-Scriptauswahlerstellung table InpaScriptZuordnung01 ECU_SGBD INPA_SCRIPT INPA_ABKUERZUNG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-inpascriptzuordnung00">INPASCRIPTZUORDNUNG00</a> (15 × 6)</li>
+<li><a href="#table-inpascriptzuordnung01">INPASCRIPTZUORDNUNG01</a> (362 × 13)</li>
+</ul>
+<p><a id="table-inpascriptzuordnung00"></a></p>
+<h3 id="inpascriptzuordnung00">INPASCRIPTZUORDNUNG00</h3>
+<p>Dimensions: 15 rows × 6 columns</p>
+<table>
+<thead>
+<tr>
+<th>BAUREIHE</th>
+<th>INPA_ANZEIGE_EBENE</th>
+<th>INPA_AUSWAHL</th>
+<th>INPA_SCRIPT</th>
+<th>INPA_BESCHREIBUNG</th>
+<th>INPA_ABKUERZUNG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XXX</td>
+<td>1</td>
+<td></td>
+<td>TD-530NA</td>
+<td>Fahrzeug-Dokumentation Nacharbeit</td>
+<td>FKT</td>
+</tr>
+<tr>
+<td>XXX</td>
+<td>2</td>
+<td></td>
+<td>TD-530</td>
+<td>Fahrzeug-Dokumentation Analyse</td>
+<td>FKT</td>
+</tr>
+<tr>
+<td>G05</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G06</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G06</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G07</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G14</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G15</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>G16</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F91</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F92</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F93</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F95</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F96</td>
+<td>1,2,3,4</td>
+<td>FAHRWERK</td>
+<td>RDC_2018</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>???</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-inpascriptzuordnung01"></a></p>
+<h3 id="inpascriptzuordnung01">INPASCRIPTZUORDNUNG01</h3>
+<p>Dimensions: 362 rows × 13 columns</p>
+<table>
+<thead>
+<tr>
+<th>ECU_SGBD</th>
+<th>ECU_ADRESSE</th>
+<th>I_STUFE_HO_START</th>
+<th>I_STUFE_HO_STOP</th>
+<th>INPA_ANZEIGE_EBENE</th>
+<th>INPA_AUSWAHL</th>
+<th>INPA_SCRIPT</th>
+<th>INPA_BESCHREIBUNG_DE</th>
+<th>INPA_BESCHREIBUNG_EN</th>
+<th>INPA_BESCHREIBUNG_ES</th>
+<th>INPA_BESCHREIBUNG_HU</th>
+<th>INPA_ABKUERZUNG</th>
+<th>BAUREIHE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JBBF3</td>
+<td>00</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>JBBF3</td>
+<td>Junction Box Beifahrer</td>
+<td>Junction Box Passenger</td>
+<td></td>
+<td></td>
+<td>JBBF</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25,F26,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>ACSM3</td>
+<td>01</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ACSM3</td>
+<td>Airbag Steuergerät</td>
+<td>Airbag</td>
+<td></td>
+<td></td>
+<td>ACSM</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F18</td>
+</tr>
+<tr>
+<td>ACSM4</td>
+<td>01</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ACSM4</td>
+<td>Airbag Steuergerät</td>
+<td>Airbag</td>
+<td></td>
+<td></td>
+<td>ACSM</td>
+<td>F01,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,RR4,RR5</td>
+</tr>
+<tr>
+<td>ACSM4I</td>
+<td>01</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ACSM4I</td>
+<td>Airbag Steuergerät</td>
+<td>Airbag</td>
+<td></td>
+<td></td>
+<td>ACSM</td>
+<td>F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>ACSM5</td>
+<td>01</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ACSM5</td>
+<td>Airbag Steuergerät</td>
+<td>Airbag</td>
+<td></td>
+<td></td>
+<td>ACSM</td>
+<td>F40,F44,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,J29,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>ACSM6</td>
+<td>01</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ACSM6</td>
+<td>Airbag Steuergerät</td>
+<td>Airbag</td>
+<td></td>
+<td></td>
+<td>ACSM</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>SZL_01</td>
+<td>02</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>SZL_01</td>
+<td>Lenksäule / Schaltzentrum</td>
+<td>Steering Column / Control Center</td>
+<td></td>
+<td></td>
+<td>SZL</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,RR6</td>
+</tr>
+<tr>
+<td>BATT48</td>
+<td>02</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>BATT48</td>
+<td>Batterie / Steuergerät 48V</td>
+<td>Battery / Control Unit 48V</td>
+<td></td>
+<td></td>
+<td>BATT48</td>
+<td>F95,F96,G01,G02,G05,G06,G07,G14,G15,G16,G20,G21,G22,G23,G26,G30,G31,G32</td>
+</tr>
+<tr>
+<td>BAT48FAR</td>
+<td>02</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>BAT48FAR</td>
+<td>Batterie / Steuergerät 48V / FAR</td>
+<td>Battery / Control Unit 48V / FAR</td>
+<td></td>
+<td></td>
+<td>BATT48</td>
+<td>U06,U11,U26</td>
+</tr>
+<tr>
+<td>EMARS_H1</td>
+<td>04</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EMARS_H1</td>
+<td>Rollstabilisierung Hinten</td>
+<td>Rolling Stabilisation Front</td>
+<td></td>
+<td></td>
+<td>EMARS_H</td>
+<td>F96,G05,G06,G07,G11,G12,G14,G15,G16,G30,G31,G32,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>CDM_RR4</td>
+<td>05</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CDM_RR4</td>
+<td>Coach Door Modul</td>
+<td>Coach Door Module</td>
+<td></td>
+<td></td>
+<td>CDM</td>
+<td>RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>CDM02</td>
+<td>05</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CDM02</td>
+<td>Coach Door Modul</td>
+<td>Coach Door Module</td>
+<td></td>
+<td></td>
+<td>CDM</td>
+<td>RR11,RR12,RR31</td>
+</tr>
+<tr>
+<td>TRSVC01</td>
+<td>06</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>TRSVC01</td>
+<td>Kamera / Top/Rear, Side View</td>
+<td>Camera Based Assistent</td>
+<td></td>
+<td></td>
+<td>TRSVC</td>
+<td>F01,F01 HYBR,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F20,F21,F22,F23,F25,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>ICAM_F15</td>
+<td>06</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>ICAM_F15</td>
+<td>Kamera / Top/Rear, Side View</td>
+<td>Camera / Top/Rear, Side View</td>
+<td></td>
+<td></td>
+<td>ICAM, TRSVC</td>
+<td>F15,F16,F20,F21,F22,F23,F25,F26,F30,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,G11,G12,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>ICAM2</td>
+<td>06</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>ICAM_F15</td>
+<td>Kamera / Surround, Rear View</td>
+<td>Camera / Top/Rear, Side View</td>
+<td></td>
+<td></td>
+<td>ICAM, TRSVC</td>
+<td>F40,F40,F56,F90,F90,F91,F91,F92,F92,F93,F93,F95,F95,F96,F96,F97,F97,F98,F98,G01,G01,G02,G02,G05,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,RR11,RR12,RR21,R22,RR31</td>
+</tr>
+<tr>
+<td>RVC_30</td>
+<td>06</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>ICAM_F15</td>
+<td>Kamera / Surround, Rear View</td>
+<td>Camera / Top/Rear, Side View</td>
+<td></td>
+<td></td>
+<td>ICAM, TRSVC</td>
+<td>*</td>
+</tr>
+<tr>
+<td>UCAP_10</td>
+<td>06</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>UCAP_10</td>
+<td>Kamera / Ultraschall, Automatisches Parken</td>
+<td>Camera / Ultrasonic, Automated Parking</td>
+<td></td>
+<td></td>
+<td>UCAP</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SME_04</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_04</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>F04</td>
+</tr>
+<tr>
+<td>SME_10</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_10</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>F01,F10,F30</td>
+</tr>
+<tr>
+<td>SME_I1</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_I1</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>F56,I01,I12,I15</td>
+</tr>
+<tr>
+<td>SME_82</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>-</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>E82e</td>
+</tr>
+<tr>
+<td>SME_F18</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_F18</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>F18</td>
+</tr>
+<tr>
+<td>SME_F15</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_F15</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>F15,F30,F45,F49,F60,G01,G05,G11,G12,G20,G21,G28,G30,G38,M13</td>
+</tr>
+<tr>
+<td>SME_M12</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SME_M12</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>SME</td>
+<td>M12</td>
+</tr>
+<tr>
+<td>HVS_01</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>HVS_01</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>HVS, SME</td>
+<td>G08,I20</td>
+</tr>
+<tr>
+<td>HVS_01b</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>HVS_01</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>HVS, SME</td>
+<td>G08</td>
+</tr>
+<tr>
+<td>HVS_01c</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>HVS_01</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>HVS, SME</td>
+<td>G08</td>
+</tr>
+<tr>
+<td>HVS_01d</td>
+<td>07</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>HVS_01</td>
+<td>Batterie (Speicher Manag. Elektr)</td>
+<td>Battery / High Voltage</td>
+<td></td>
+<td></td>
+<td>HVS, SME</td>
+<td>G08</td>
+</tr>
+<tr>
+<td>HC2_01</td>
+<td>08</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HC2_01</td>
+<td>Spurwechselwarnung</td>
+<td>Heading Control</td>
+<td></td>
+<td></td>
+<td>HC2</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>HC2_G11</td>
+<td>08</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HC2_G11</td>
+<td>Spurwechselwarnung / Short-Range-Radar</td>
+<td>Heading Control</td>
+<td></td>
+<td></td>
+<td>HC2</td>
+<td>F90,G01,G02,G08,G11,G12,G20,G21,G22,G23,G26,G28,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>SRR01_HR</td>
+<td>08</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SRR</td>
+<td>Radar / Short Range, Hinten Rechts, Spurwechsel</td>
+<td>Heading Control</td>
+<td></td>
+<td></td>
+<td>SRR, HC2</td>
+<td>F40,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G11,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,RR11,RR12</td>
+</tr>
+<tr>
+<td>RDME_I1</td>
+<td>09</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>RDME_I1</td>
+<td>Motor / Range Extender</td>
+<td>Engine / Range Extender</td>
+<td></td>
+<td></td>
+<td>RDME, REX</td>
+<td>I01</td>
+</tr>
+<tr>
+<td>REME_I1</td>
+<td>0A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>REME_I1</td>
+<td>Motor / Range Extender</td>
+<td>Engine / Range Extender, E-Maschine</td>
+<td></td>
+<td></td>
+<td>REME, REX</td>
+<td>I01</td>
+</tr>
+<tr>
+<td>REME_I12</td>
+<td>0A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>REME_I12</td>
+<td>Motor / Range Extender</td>
+<td>Hochvolt / Startergenerator</td>
+<td></td>
+<td></td>
+<td>HV-SGR</td>
+<td>I12</td>
+</tr>
+<tr>
+<td>EME_Z</td>
+<td>0A</td>
+<td></td>
+<td></td>
+<td>3</td>
+<td>MOTOR</td>
+<td>-</td>
+<td>Generatorinverter F45 Hybrid</td>
+<td>Generator / Inverter F45 Hybrid</td>
+<td></td>
+<td></td>
+<td>EME</td>
+<td>F45</td>
+</tr>
+<tr>
+<td>EME_ZPSA</td>
+<td>0A</td>
+<td></td>
+<td></td>
+<td>3</td>
+<td>MOTOR</td>
+<td>-</td>
+<td>Generatorinverter PSA Kooperation</td>
+<td>Generator / Inverter PSA Cooperation</td>
+<td></td>
+<td></td>
+<td>EME</td>
+<td>PSA</td>
+</tr>
+<tr>
+<td>SCR01</td>
+<td>0B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>SCR01</td>
+<td>Selective Catalytic Reduction</td>
+<td>Selective Catalytic Reduction</td>
+<td></td>
+<td></td>
+<td>SCR</td>
+<td>F02,F06,F07,F10,F11,F12,F13,F15,F16,F25,F26,F30,F45,F46,F48,F54,F57,G11,G12</td>
+</tr>
+<tr>
+<td>SCR03</td>
+<td>0B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>SCR03</td>
+<td>Selective Catalytic Reduction</td>
+<td>Selective Catalytic Reduction</td>
+<td></td>
+<td></td>
+<td>SCR</td>
+<td>F39,F40,F45,F46,F48,F54,F60,G01,G02,G05,G06,G07,G14,G15,G16,G20,G21,G22,G23,G26,G30,G31,G32,G42,G43</td>
+</tr>
+<tr>
+<td>SCR04</td>
+<td>0B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>SCR04</td>
+<td>Selective Catalytic Reduction</td>
+<td>Selective Catalytic Reduction</td>
+<td></td>
+<td></td>
+<td>SCR</td>
+<td>G05,G20</td>
+</tr>
+<tr>
+<td>WSG_01</td>
+<td>0B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>WSG_01</td>
+<td>Wassersteuergerät</td>
+<td>Water Control Unit</td>
+<td></td>
+<td></td>
+<td>WSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>HKFM11</td>
+<td>0D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKFM11</td>
+<td>Heckklappenlift</td>
+<td>Tailgate Lift</td>
+<td></td>
+<td></td>
+<td>HKFM, HKL</td>
+<td>F11,F15,F16,F31,F34,F45,F46,F48,F49,F85,F86,M13</td>
+</tr>
+<tr>
+<td>HKFM_G11</td>
+<td>0D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKFM_G11</td>
+<td>Heckklappenlift</td>
+<td>Tailgate Lift</td>
+<td></td>
+<td></td>
+<td>HKFM, HKL</td>
+<td>F15,F16,F31,F36,F39,F40,F45,F46,F48,F49,F60,F85,F86,F90,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G15,G16,G20,G21,G22,G23,G26,G30,G31,G32,G38,G42,G43,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>HKFM_I20</td>
+<td>0D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKFM_I20</td>
+<td>Heckklappenlift</td>
+<td>Tailgate Lift</td>
+<td></td>
+<td></td>
+<td>HKFM, HKL</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>SVT_01</td>
+<td>0E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>SVT_01</td>
+<td>Lenkung / Servotronic</td>
+<td>Steering / Servotronic</td>
+<td></td>
+<td></td>
+<td>SVT</td>
+<td>F01,F02,F03,F06,F07,F10,F11,F12,F13,F15,F16,RR4,RR5</td>
+</tr>
+<tr>
+<td>GHAS10</td>
+<td>0F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>GHAS10</td>
+<td>Differential / Hinterachssperre</td>
+<td>Differential Lock Control</td>
+<td></td>
+<td></td>
+<td>GHAS</td>
+<td>F10,F80,F82,F83,F87</td>
+</tr>
+<tr>
+<td>QSG_F15</td>
+<td>0F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>QSG_F15</td>
+<td>Quermomentenverteilung Hinterachse</td>
+<td>Torque Vectoring Rear Axle</td>
+<td></td>
+<td></td>
+<td>QMVH</td>
+<td>F15,F16,F85,F86</td>
+</tr>
+<tr>
+<td>GSD_F90</td>
+<td>0F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>GSD_F90</td>
+<td>Differential / Geregeltes Sperr-</td>
+<td>Gateway / Central</td>
+<td></td>
+<td></td>
+<td>GSD</td>
+<td>F90,F91,F92,F93,F95,F96,F97,F98,G02,G05,G06,G07,G14,G15,G16,G20,G21,G22,G23,G26,G28</td>
+</tr>
+<tr>
+<td>ZGW_01</td>
+<td>10</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZGW_01</td>
+<td>Gateway / Zentrales</td>
+<td>Gateway / Central</td>
+<td></td>
+<td></td>
+<td>ZGW</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,F87,F90,F97,F98,G01,G02,G08,G11,G12,G30,G31,G32,G38,I01,I12,I15,M12,M13,RR0123,RR11,RR12,RR21,RR22,RR31,RR4,RR5</td>
+</tr>
+<tr>
+<td>ZGW_SP18</td>
+<td>10</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZGW_SP18</td>
+<td>Gateway / Zentrales</td>
+<td>Gateway / Central</td>
+<td></td>
+<td></td>
+<td>ZGW</td>
+<td>F40,F91,F92,F93,F95,F96,G05,G06,G07,G08,G11,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G42,G43,J29</td>
+</tr>
+<tr>
+<td>PIU_01</td>
+<td>10</td>
+<td></td>
+<td></td>
+<td>5</td>
+<td>INDUSTRIEKUNDE</td>
+<td>-</td>
+<td>Powertrain Integration Unit</td>
+<td>Powertrain Integration Unit</td>
+<td></td>
+<td></td>
+<td>ZGW</td>
+<td>-</td>
+</tr>
+<tr>
+<td>BCP_SP21</td>
+<td>10</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>BCP_SP21</td>
+<td>Gateway / Zentrale Plattform</td>
+<td>Central Ctrl Module / Central Platform</td>
+<td></td>
+<td></td>
+<td>BCP/BDC/ZGW</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>ENS</td>
+<td>11</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>ENS</td>
+<td>Ethernet / Switch</td>
+<td>Ethernet / Switch</td>
+<td></td>
+<td></td>
+<td>ENS</td>
+<td>F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G14,G15,G16,G20,G21,G22,G23,G26,G28,G30,G31,G32,G38,J29</td>
+</tr>
+<tr>
+<td>ENS_SP21</td>
+<td>11</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>ENS_SP21</td>
+<td>Ethernet / Switch</td>
+<td>Ethernet / Switch</td>
+<td></td>
+<td></td>
+<td>ENS</td>
+<td></td>
+</tr>
+<tr>
+<td>FCCU</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>FCCU</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>FCCU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>MSD85L6</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSD85L6</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01,F02,F03,F07,F10,F11,F12,F13,F18</td>
+</tr>
+<tr>
+<td>MSD87</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSD87</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01,F02,F10,F11,F01,F02,F03,RR4,RR6,F01,F02,F03,RR4,RR6</td>
+</tr>
+<tr>
+<td>D73N57A0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DDE7UDS</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DDE/DME</td>
+<td>F01,F02,F07</td>
+</tr>
+<tr>
+<td>D73N57E0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DDE7UDS</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DDE, DME</td>
+<td>F01,F06,F07,F10,F11,F12,F13,F15,F16,F20,F21,F22,F25,F30,F31,F32,F33,F34,F36,F01,F06,F07,F10,F11,F12,F13,F15,F16,F20,F21,F22,F25,F30,F31,F32,F33,F34,F36,F01,F06,F07,F10,F11,F12,F13,F15,F16,F20,F21,F22,F25,F30,F31,F32,F33,F34,F36,F01,F06,F07,F10,F11,F12,F13,F15,F16,F20,F21,F22,F25,F30,F31,F32,F33,F34,F36,F01,F06,F07,F10,F11,F12,F13,F15,F16,F20,F21,F22,F25,F30,F31,F32,F33,F34,F36</td>
+</tr>
+<tr>
+<td>MSD87_R0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSD87_12</td>
+<td>Motor / Master</td>
+<td>Engine  / Master</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01,F02,F03,RR4,RR6</td>
+</tr>
+<tr>
+<td>MSV90</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSV90</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>RR4,RR6</td>
+</tr>
+<tr>
+<td>MEVD172</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MEVD172</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F07,F10,F11,F12,F13,F18,F25</td>
+</tr>
+<tr>
+<td>MEVD1724</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MEVD1724</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>Test</td>
+</tr>
+<tr>
+<td>D72N47A0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DDE7UDS</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DDE, DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>MEVD1725</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MEVD1725</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F20</td>
+</tr>
+<tr>
+<td>MEVD172Y</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MEVD172</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>MSD85YL6</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSD85L6</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F04</td>
+</tr>
+<tr>
+<td>EDMEI1</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>EDMEI1</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>EDME, DME</td>
+<td>I01</td>
+</tr>
+<tr>
+<td>S63TU_R0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>S63TU</td>
+<td>Motor / Master</td>
+<td>Engine  / Master</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>N63TU_R0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>N63TU</td>
+<td>Motor / Master</td>
+<td>Engine  / Master</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01</td>
+</tr>
+<tr>
+<td>DME_BX8</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME_BX8</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DME8FF_R</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME8FF</td>
+<td>Motor / Master</td>
+<td>Engine  / Master</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DME9X_CT</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DUMMMMMY</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>G05</td>
+</tr>
+<tr>
+<td>S55</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>S55</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F80</td>
+</tr>
+<tr>
+<td>N55_ALP</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>N55_ALP</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F30</td>
+</tr>
+<tr>
+<td>DXE9FF_R</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME9</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>U06</td>
+</tr>
+<tr>
+<td>D75BX7A0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DDE7UDS</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DDE/DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>D83BX7C0</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DDE8UDS</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DDE/DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DME8X_CT</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME8X_CT</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F00</td>
+</tr>
+<tr>
+<td>DME9FF_R</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME9FF_R</td>
+<td>Motor</td>
+<td>Engine</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>I20,U06</td>
+</tr>
+<tr>
+<td>DME_BX8S</td>
+<td>13</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME_BX8</td>
+<td>Motor / Slave</td>
+<td>Engine / Slave</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>G11,G12,G11,G12</td>
+</tr>
+<tr>
+<td>MSD87_L0</td>
+<td>13</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>MSD87_12</td>
+<td>Motor / Slave</td>
+<td>Engine / Slave</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01</td>
+</tr>
+<tr>
+<td>S63TU_L0</td>
+<td>13</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>S63TU</td>
+<td>Motor / Slave</td>
+<td>Engine / Slave</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F10</td>
+</tr>
+<tr>
+<td>N63TU_L0</td>
+<td>13</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>N63TU</td>
+<td>Motor / Slave</td>
+<td>Engine / Slave</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>F01</td>
+</tr>
+<tr>
+<td>DME8FF_L</td>
+<td>13</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>DME8FF</td>
+<td>Motor / Slave</td>
+<td>Engine / Slave</td>
+<td></td>
+<td></td>
+<td>DME</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LIM_I1</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>LIM_I1</td>
+<td>Ladeinterfacemodul</td>
+<td>Charging / Intererface Modul</td>
+<td></td>
+<td></td>
+<td>LIM</td>
+<td>I01</td>
+</tr>
+<tr>
+<td>SLE_F15</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>SLE_F15</td>
+<td>Ladegerät inkl. Ladeinterfacemodul</td>
+<td>Charging incl. Charging Interface Modul</td>
+<td></td>
+<td></td>
+<td>SLE/LIM</td>
+<td>F15</td>
+</tr>
+<tr>
+<td>OBC_G11</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>OBC_G11</td>
+<td>Ladegerät inkl. Ladeinterfacemodul 3,5kW</td>
+<td>Charging incl. Charging Interface Modul 3.5kW</td>
+<td></td>
+<td></td>
+<td>OBC/SLE/LIM</td>
+<td>G11</td>
+</tr>
+<tr>
+<td>TEE1_01</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>TEE1_01</td>
+<td>E-Maschine / Elektronik 1</td>
+<td>Motor Elektronic 1</td>
+<td></td>
+<td></td>
+<td>TEE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TEE1_01B</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>TEE1_01</td>
+<td>E-Maschine / Elektronik 1</td>
+<td>Motor Elektronic 1</td>
+<td></td>
+<td></td>
+<td>TEE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TEE1_01C</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>TEE1_01</td>
+<td>E-Maschine / Elektronik 1</td>
+<td>Motor Elektronic 1</td>
+<td></td>
+<td></td>
+<td>TEE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TEE1_01D</td>
+<td>14</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>TEE1_01</td>
+<td>E-Maschine / Elektronik 1</td>
+<td>Motor Elektronic 1</td>
+<td></td>
+<td></td>
+<td>TEE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ASA_01</td>
+<td>16</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>ASA_01</td>
+<td>Lenkung / Aktiv</td>
+<td>Steering / Active</td>
+<td></td>
+<td></td>
+<td>ASA</td>
+<td>F01,F02,F06,F07,F10,F11,F12,F13,F15,F16,F18,F85,F86</td>
+</tr>
+<tr>
+<td>EKP301</td>
+<td>17</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>EKP301</td>
+<td>Kraftstoff / Elektrische Kraftstoffpumpe</td>
+<td>Fuel / Pump</td>
+<td></td>
+<td></td>
+<td>EKP</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,RR0123,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>RLM_1L</td>
+<td>17</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_1L</td>
+<td>Licht / Rücklichtmodul Links Außen</td>
+<td>Light / Rear Light, Left Outside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RLM2_1L</td>
+<td>17</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_1L</td>
+<td>Licht / Rücklichtmodul Links Außen</td>
+<td>Light / Rear Light, Left Outside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DKG_10</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>DKG_10</td>
+<td>Getriebe / Doppelkupplung</td>
+<td>Gearbox / Double Clutch</td>
+<td></td>
+<td></td>
+<td>EGS, DKG</td>
+<td>F06,F10,F12,F13,F80,F82,F83,F85,F86,F87</td>
+</tr>
+<tr>
+<td>GKEB23TU</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSB231</td>
+<td>Getriebe / 8HP TÜ</td>
+<td>Gearbox / 8HP TUE</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F01,F02,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>GKEG3HY</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GKEG3HY</td>
+<td>Getriebe / Hybrid</td>
+<td>Gearbox / Hybrid</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td></td>
+</tr>
+<tr>
+<td>GKEHY23</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GKEHY23</td>
+<td>Getriebe / Hybrid</td>
+<td>Gearbox / Hybrid</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td></td>
+</tr>
+<tr>
+<td>GS100A</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GS100A</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F01,F18</td>
+</tr>
+<tr>
+<td>GSAW01</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSAW01</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I12,I15,M13</td>
+</tr>
+<tr>
+<td>GSAW02FH</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSLUTUE1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F39,F45,F46,F48,F49,F54,F55,F56,F57,F60</td>
+</tr>
+<tr>
+<td>GSAW02FP</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSLUTUE1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F40,F44,G42,G43</td>
+</tr>
+<tr>
+<td>GSB231</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSB231</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F01,F02,F03,F06,F07,F10,F11,F12,F13,F15,F18,F20,F21,F22,F25,F26,F30,F31,F32,F33,F34,F35,F36,RR4,RR5</td>
+</tr>
+<tr>
+<td>GSGE01QT</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSLUTUE1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60</td>
+</tr>
+<tr>
+<td>GSGE01QW</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSLUTUE1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F40,F44,G42,G43</td>
+</tr>
+<tr>
+<td>GSGE02HY</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>unbekannt</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>U06</td>
+</tr>
+<tr>
+<td>GSGE02QZ</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>unbekannt</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>U06</td>
+</tr>
+<tr>
+<td>GSZFB1</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSZFB1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>F90,F95,F96,F97,F98,G01,G02,G06,G08,G11,G12,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR24,RR31</td>
+</tr>
+<tr>
+<td>GSZFBCE</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSZFBCE</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>G05,G06,G07,G11,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,J29</td>
+</tr>
+<tr>
+<td>GSZFBHY1</td>
+<td>18</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>GSZFBHY1</td>
+<td>Getriebe</td>
+<td>Gearbox</td>
+<td></td>
+<td></td>
+<td>EGS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LMV_G11</td>
+<td>19</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>GETRIEBE</td>
+<td>LMV_G11</td>
+<td>Getriebe / Verteiler 4x4</td>
+<td>Gearbox / Distribution 4 Wheel</td>
+<td></td>
+<td></td>
+<td>LMV</td>
+<td>*</td>
+</tr>
+<tr>
+<td>EME_04</td>
+<td>1A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_04</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td>F04</td>
+</tr>
+<tr>
+<td>EME_I01</td>
+<td>1A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_I01</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td>I01,M12</td>
+</tr>
+<tr>
+<td>RLM_1R</td>
+<td>1A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_1R</td>
+<td>Licht / Rücklichtmodul Rechts Außen</td>
+<td>Light / Rear Light, Right Outside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RLM2_1R</td>
+<td>1A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_1R</td>
+<td>Licht / Rücklichtmodul Rechts Außen</td>
+<td>Light / Rear Light, Right Outside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CPM_G30</td>
+<td>1B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>CPM_G30</td>
+<td>Ladegerät / Kabellos Grundmodul</td>
+<td>Charging / Wireless Groundmodul</td>
+<td></td>
+<td></td>
+<td>CPM</td>
+<td>G30PHEV,G31PHEV,G38PHEV</td>
+</tr>
+<tr>
+<td>RLM_2L</td>
+<td>1C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_2L</td>
+<td>Licht / Rücklichtmodul Links Innen</td>
+<td>Light / Rear Light, Left Inside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RLM2_2L</td>
+<td>1C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_2L</td>
+<td>Licht / Rücklichtmodul Links Innen</td>
+<td>Light / Rear Light, Left Inside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ICMQL</td>
+<td>1C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>ICMQL</td>
+<td>Integrated Chassis Modul / QL</td>
+<td>Integrated Chassis Modul / QL</td>
+<td></td>
+<td></td>
+<td>ICMQL</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F18</td>
+</tr>
+<tr>
+<td>ICM_25</td>
+<td>1C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>ICM_25</td>
+<td>Integrated Chassis Management</td>
+<td>Integrated Chassis Management</td>
+<td></td>
+<td></td>
+<td>ICM</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>HSSCU</td>
+<td>1D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>HSSCU</td>
+<td>Wasserstoff / Versorgungsystem</td>
+<td>Hydrogen / Supply System Control Unit</td>
+<td></td>
+<td></td>
+<td>HSSCU</td>
+<td>G05 FCEV</td>
+</tr>
+<tr>
+<td>IFM_01</td>
+<td>1D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>IFM_01</td>
+<td>Kraftstoff / Tank, Integrated Fuel Management</td>
+<td>Fuel / Tank, Integrated Fuel Management</td>
+<td></td>
+<td></td>
+<td>IFM</td>
+<td>U06</td>
+</tr>
+<tr>
+<td>TFM_I1</td>
+<td>1D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>MOTOR</td>
+<td>TFM_I1</td>
+<td>Kraftstoff / Tank, Funktionsmodul (PHEV)</td>
+<td>Fuel / Tank, Fuel Modul (PHEV)</td>
+<td></td>
+<td></td>
+<td>TFM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RLM_2R</td>
+<td>1E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_2R</td>
+<td>Licht / Rücklichtmodul Rechts Innen</td>
+<td>Light / Rear Light, Right Inside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RLM2_2R</td>
+<td>1E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>RLM_2R</td>
+<td>Licht / Rücklichtmodul Rechts Innen</td>
+<td>Light / Rear Light, Right Inside</td>
+<td></td>
+<td></td>
+<td>RLM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SRR01_VR</td>
+<td>20</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SRR</td>
+<td>Radar / Short Range, Vorne Rechts, Spurwechsel</td>
+<td>Radar / Short Range, Front Right</td>
+<td></td>
+<td></td>
+<td>SRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FRR_10</td>
+<td>21</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>FRR_10</td>
+<td>Radar / Full Range, Sensor</td>
+<td>Radar / Full Range, Sensor</td>
+<td></td>
+<td></td>
+<td>FRR</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>FRR_30V</td>
+<td>21</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>FRR_30V</td>
+<td>Radar / Full Range, Vorne</td>
+<td>Radar / Full Range, Front</td>
+<td></td>
+<td></td>
+<td>FRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FRR_G11</td>
+<td>21</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>FRR_G11</td>
+<td>Radar / Full Range, Sensor</td>
+<td>Radar / Full Range, Sensor</td>
+<td></td>
+<td></td>
+<td>FRR</td>
+<td>F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>MRR02</td>
+<td>21</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>MRR02</td>
+<td>Radar / Mid Range</td>
+<td>Radar / Mid Range</td>
+<td></td>
+<td></td>
+<td>MRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>MRR_30</td>
+<td>21</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>MRR_30</td>
+<td>Radar / Mid Range</td>
+<td>Radar / Mid Range</td>
+<td></td>
+<td></td>
+<td>MRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>MPAD_PP</td>
+<td>22</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>MPAD_PP</td>
+<td>Autonomes Fahren / Prozessor : Leistung</td>
+<td>Automated Driving / Processor : Performance</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SAS_G05</td>
+<td>22</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SAS</td>
+<td>Sonderausstattungs-Steuergerät</td>
+<td>Accessories</td>
+<td></td>
+<td></td>
+<td>SAS</td>
+<td></td>
+</tr>
+<tr>
+<td>SAS_G11</td>
+<td>22</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SAS</td>
+<td>Sonderausstattungs-Steuergerät</td>
+<td>Accessories</td>
+<td></td>
+<td></td>
+<td>SAS</td>
+<td></td>
+</tr>
+<tr>
+<td>SAS_I1</td>
+<td>22</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SAS</td>
+<td>Sonderausstattungs-Steuergerät</td>
+<td>Accessories</td>
+<td></td>
+<td></td>
+<td>SAS</td>
+<td></td>
+</tr>
+<tr>
+<td>CVMS_I15</td>
+<td>23</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVMS_I15</td>
+<td>Cabrioverdeckmodul / Slave</td>
+<td>Convertible Hard Top Module / Slave</td>
+<td></td>
+<td></td>
+<td>CVMS</td>
+<td>I15</td>
+</tr>
+<tr>
+<td>SAS_G05</td>
+<td>23</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SAS</td>
+<td>Sonderausstattungs-Steuergerät</td>
+<td>Accessories</td>
+<td></td>
+<td></td>
+<td>SAS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CTM_F33</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CTM_F33</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>F33,F83</td>
+</tr>
+<tr>
+<td>CVM_12</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_12</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>F12</td>
+</tr>
+<tr>
+<td>CVM_F23</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_F23</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>F23</td>
+</tr>
+<tr>
+<td>CVM_F57</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_F57</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>F57</td>
+</tr>
+<tr>
+<td>CVM_G14</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_G14</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>F91,G14</td>
+</tr>
+<tr>
+<td>CVM_G23</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_G23</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>G23</td>
+</tr>
+<tr>
+<td>CVM_G29</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_G29</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>G29</td>
+</tr>
+<tr>
+<td>CVM_I15</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_I15</td>
+<td>Cabrioverdeckmodul / Master</td>
+<td>Convertible Hard Top Module / Master</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>I15</td>
+</tr>
+<tr>
+<td>CVM_RR6</td>
+<td>24</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CVM_RR6</td>
+<td>Cabrioverdeckmodul</td>
+<td>Convertible Hard Top Module</td>
+<td></td>
+<td></td>
+<td>CVM</td>
+<td>RR6</td>
+</tr>
+<tr>
+<td>EMARS_V1</td>
+<td>25</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EMARS_V1</td>
+<td>Rollstabilisierung Vorn</td>
+<td>Rolling Stabilisation Front</td>
+<td></td>
+<td></td>
+<td>EMARS_V</td>
+<td>F90,F91,F92,F93,F95,F96,G05,G06,G07,G11,G12,G14,G15,G16,G30,G31,G32,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>RSE_01</td>
+<td>26</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RSE_01</td>
+<td>Entertainment Rear</td>
+<td>Entertainment Rear</td>
+<td></td>
+<td></td>
+<td>RSE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RSEH01</td>
+<td>26</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RSE_01</td>
+<td>Entertainment Rear</td>
+<td>Entertainment Rear</td>
+<td></td>
+<td></td>
+<td>RSE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RSEH10</td>
+<td>26</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RSE_01</td>
+<td>Entertainment Rear</td>
+<td>Entertainment Rear</td>
+<td></td>
+<td></td>
+<td>RSE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RSEEVO</td>
+<td>26</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RSE_01</td>
+<td>Entertainment Rear</td>
+<td>Entertainment Rear</td>
+<td></td>
+<td></td>
+<td>RSE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>RSE_MGU</td>
+<td>26</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RSE_01</td>
+<td>Entertainment Rear</td>
+<td>Entertainment Rear</td>
+<td></td>
+<td></td>
+<td>RSE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SRR01_VL</td>
+<td>28</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SRR</td>
+<td>Radar / Short Range, Vorne Links, Spurwechsel</td>
+<td>Radar / Short Range Front Left</td>
+<td></td>
+<td></td>
+<td>SRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DSC_01</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DSC_01</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F01,F02,F03,F04,F07,F10,F11,F12,F13,F18,RR4</td>
+</tr>
+<tr>
+<td>DSC_10</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DSC_01</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F01,F02,F06,F07,F10,F11,F12,F13,F15,F16,F18,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>DSC_25</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DXC_25</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F06,F10,F12,F13,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87,F06,F10,F12,F13,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87,F06,F10,F12,F13,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87,F06,F10,F12,F13,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87</td>
+</tr>
+<tr>
+<td>DSC_G01</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>unbekannt</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F00</td>
+</tr>
+<tr>
+<td>DSC_G11</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DSC_G11</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC, RPA, CBS</td>
+<td>F90,F97,F98,G01,G02,G08,G11,G12,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>DSC_G20</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DSC_G20</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F40,F44,G20,G21,G22,G23,G26,G28,G29,G42,G43,J29</td>
+</tr>
+<tr>
+<td>DSC_G30N</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DSC_G11</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>G01,G02,G08,G30,G31,G32,G38</td>
+</tr>
+<tr>
+<td>DSC_I1</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>DXC_25</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC</td>
+<td>F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I01,I12,I15,M13,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I01,I12,I15,M13,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>IB_G05</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>IB_G05</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC, IB</td>
+<td>F91,F92,F93,G05,G06,G07,G11,G14,G15,G16,G42,G43</td>
+</tr>
+<tr>
+<td>IB_G05</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>IB_G05</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC, IB</td>
+<td>*</td>
+</tr>
+<tr>
+<td>IB_I20</td>
+<td>29</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>unbekannt</td>
+<td>Dynamische Stabilitätskontrolle</td>
+<td>Dynamic Stability Control</td>
+<td></td>
+<td></td>
+<td>DSC, IB</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>EMF_01</td>
+<td>2A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EMF_I01</td>
+<td>Feststellbremse / Elektromechanisch</td>
+<td>Parking Brake / Electromechanical</td>
+<td></td>
+<td></td>
+<td>EMF</td>
+<td>F01,F02,F03,F04,F07,F15,F16,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>EMF_10</td>
+<td>2A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EMF_10</td>
+<td>Feststellbremse / Elektromechanisch</td>
+<td>Parking Brake / Electromechanical</td>
+<td></td>
+<td></td>
+<td>EMF</td>
+<td>F06,F10,F11,F12,F13,F18,F25,F26,I12,I15</td>
+</tr>
+<tr>
+<td>SRR01_HL</td>
+<td>2A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SRR</td>
+<td>Radar / Short Range, Hinten Links, Spurwechsel</td>
+<td>Radar / Short Range Rear Left</td>
+<td></td>
+<td></td>
+<td>SRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>HSR_01</td>
+<td>2B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>HSR_01</td>
+<td>Lenkung / Hinterachs Schräglaufregelung</td>
+<td>Steering / Rear Axle</td>
+<td></td>
+<td></td>
+<td>HSR</td>
+<td>F01,F02,F06,F07,F10,F11,F12,F13,F18,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>HSR_G11</td>
+<td>2B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>HSR_G11</td>
+<td>Lenkung / Hinterachs Schräglaufregelung</td>
+<td>Steering / Rear Axle</td>
+<td></td>
+<td></td>
+<td>HSR</td>
+<td>F90,F91,F92,F93,F95,F96,G05,G06,G07,G11,G12,G14,G15,G16,G30,G31,G32,G38,RR11,RR12,RR31</td>
+</tr>
+<tr>
+<td>HSR_I20</td>
+<td>2B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>HSR_I20</td>
+<td>Lenkung / Hinterachs Schräglaufregelung</td>
+<td>Steering / Rear Axle</td>
+<td></td>
+<td></td>
+<td>HSR</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>PMA_15</td>
+<td>2C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>PMA_15</td>
+<td>Parkmanöver-Assistent</td>
+<td>Park Manoeuvre Assistent</td>
+<td></td>
+<td></td>
+<td>PMA</td>
+<td>*</td>
+</tr>
+<tr>
+<td>USS_50</td>
+<td>2C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>USS_50</td>
+<td>Ultraschall, Sensor</td>
+<td>Ultrasonic, Sensor</td>
+<td></td>
+<td></td>
+<td>USS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>USS_G05</td>
+<td>2C</td>
+<td></td>
+<td></td>
+<td></td>
+<td>FAHRERASSISTENZ</td>
+<td>USS_G11</td>
+<td>Park Manöver Assistent</td>
+<td>Park Manoeuvre Assistent</td>
+<td></td>
+<td></td>
+<td>USS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>USS_G11</td>
+<td>2C</td>
+<td></td>
+<td></td>
+<td></td>
+<td>FAHRERASSISTENZ</td>
+<td>USS_G11</td>
+<td>Park Manöver Assistent</td>
+<td>Park Manoeuvre Assistent</td>
+<td></td>
+<td></td>
+<td>USS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>VSG_I01</td>
+<td>2D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>VSG</td>
+<td>Vehicle Sound Generator</td>
+<td>Vehicle Sound Generator</td>
+<td></td>
+<td></td>
+<td>VSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>PCU_G11</td>
+<td>2E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>PCU_G11</td>
+<td>Power Control Unit 48V</td>
+<td>Power Control Unit 48V</td>
+<td></td>
+<td></td>
+<td>PCU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>EPS_10</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_01</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F01,F02,F06,F07,F10,F11,F12,F13,F18</td>
+</tr>
+<tr>
+<td>EPS_20</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87</td>
+</tr>
+<tr>
+<td>EPS_25</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F15,F20,F21,F22,F25,F26,F30,F31,F32,F33,F34,F35,F36</td>
+</tr>
+<tr>
+<td>EPS_G01</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>G01,G02,G08,G20,G21,G22,G23,G26,G28,G42,G43</td>
+</tr>
+<tr>
+<td>EPS_G05</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F95,F96,F97,F98,G05,G06,G07,G20,G21,G22,G23,G26,G28,G29,G42,G43,J29</td>
+</tr>
+<tr>
+<td>EPS_G11</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F90,F91,F92,F93,G11,G12,G14,G15,G16,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>EPS_I1</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F39,F40,F44,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,I01,M13</td>
+</tr>
+<tr>
+<td>EPS_I20</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>EPS_TK02</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>F15,F16,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F85,F86,I12,I15</td>
+</tr>
+<tr>
+<td>EPS_U06</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EPS_25</td>
+<td>Lenkung / Elektrisch</td>
+<td>Steering / Electronic Power</td>
+<td></td>
+<td></td>
+<td>EPS</td>
+<td>U06</td>
+</tr>
+<tr>
+<td>BAT12HAF</td>
+<td>31</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>BAT12HAF</td>
+<td>Batterie / Steuergerät 12V, Hochautomatisiertes Fahren 12V</td>
+<td>Battery / ECU 12V, Automated Driving High</td>
+<td></td>
+<td></td>
+<td>BAT</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>CSM3</td>
+<td>32</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CSM3</td>
+<td>Car Sharing Modul</td>
+<td>Car Sharing Module</td>
+<td></td>
+<td></td>
+<td>CSM</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F18</td>
+</tr>
+<tr>
+<td>CSM4</td>
+<td>32</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CSM4</td>
+<td>Car Sharing Modul</td>
+<td>Car Sharing Module</td>
+<td></td>
+<td></td>
+<td>CSM</td>
+<td>Anzahl Baureihen ist zu hoch, ZEDIS prüfen!!</td>
+</tr>
+<tr>
+<td>CSM4R</td>
+<td>32</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CSM4R</td>
+<td>Car Sharing Modul</td>
+<td>Car Sharing Module</td>
+<td></td>
+<td></td>
+<td>CSM</td>
+<td>F45,F46,F48,F49,F55,F56,F57</td>
+</tr>
+<tr>
+<td>CHRO_F56</td>
+<td>34</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CHRO_F56</td>
+<td>Instrument / Zusatz</td>
+<td>Instrument /Accessory</td>
+<td></td>
+<td></td>
+<td>CHRO</td>
+<td>F54,F55,F56,F57,F60</td>
+</tr>
+<tr>
+<td>TBX5_01</td>
+<td>35</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>TBX5_01</td>
+<td>Touch Box</td>
+<td>Touch Box</td>
+<td></td>
+<td></td>
+<td>TBX</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CMEDIA</td>
+<td>36</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION_TELEFON</td>
+<td>CMEDIA</td>
+<td>Combox Media (CAN)</td>
+<td>Combox Media (CAN)</td>
+<td></td>
+<td></td>
+<td>TEL</td>
+<td>F01,F02,F03,F04,F06,F07,F11,F12,F13,F20,F21,F22,F25,F30,F31,F32,F33,F34,RR0123,RR4</td>
+</tr>
+<tr>
+<td>AMPH07</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPHUDS</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F01,F02,F03,F04,F07,F25</td>
+</tr>
+<tr>
+<td>AMPH10</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPHUDS</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F10,F18</td>
+</tr>
+<tr>
+<td>AMPHHB20</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPHHB20</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F20,F21,F22,F23,F39,F45,F46,F48,F49,F54,F55,F56,F57,F60,F83,F87,I01,I12,I15</td>
+</tr>
+<tr>
+<td>AMPT07</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPTUDS</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>E70,E89,F01,F03,F07,F25</td>
+</tr>
+<tr>
+<td>AMPT10</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPTUDS</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F10,F11,F15,F16,F18,F25,F26,F30,F31,F32,F33,F34,F35,F36,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G30,G31,G32,G38,J29,RR0123,RR4,RR6</td>
+</tr>
+<tr>
+<td>AMPTHB10</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPTUDS</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F01,F10,F15,F16,F80,F82,F83,F85,F86,F90,F97,F98,G01,G02,G08,G11,G12,G30,G31,G32,G38,J29</td>
+</tr>
+<tr>
+<td>AMPTHB32</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPTHB32</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F90,G11,G12,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>AMPTLR13</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>AMPTLR13</td>
+<td>Verstärker</td>
+<td>Amplifier</td>
+<td></td>
+<td></td>
+<td>AMP</td>
+<td>F01,F02,F03,F06,F07,F10,F12,F13,F15,F16,F18,F85,F86</td>
+</tr>
+<tr>
+<td>RAM01</td>
+<td>37</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>RAM01</td>
+<td>Receiver Audio Modul</td>
+<td>Receiver Audio Modul</td>
+<td></td>
+<td></td>
+<td>RAM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CHC01</td>
+<td>38</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>CHC01</td>
+<td>Dämpfer / Luft./Comb. Height Ctrl</td>
+<td>Damper / Air. / Comb. Height Ctrl</td>
+<td></td>
+<td></td>
+<td>CHC</td>
+<td>F95,F96,G05,G06,G07</td>
+</tr>
+<tr>
+<td>EHC2RR4</td>
+<td>38</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EHC2RR4</td>
+<td>Luftfeder</td>
+<td>Air Suspension</td>
+<td></td>
+<td></td>
+<td>EHC</td>
+<td>RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>EHC_01</td>
+<td>38</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>EHC_01</td>
+<td>Luftfeder</td>
+<td>Air Suspension / 1-Axle</td>
+<td></td>
+<td></td>
+<td>EHC</td>
+<td>F01,F04,F07,F11,F15,F16,F85,F86</td>
+</tr>
+<tr>
+<td>ICMV</td>
+<td>39</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>ICMV</td>
+<td>Integrated Chassis Modul / V</td>
+<td>Integrated Chassis Modul / V</td>
+<td></td>
+<td></td>
+<td>ICMV</td>
+<td>F01,F02,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>VIP_G05</td>
+<td>39</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>VIP_G05</td>
+<td>Virtuelle Integrationsplattform</td>
+<td>Virtual Integration Platform</td>
+<td></td>
+<td></td>
+<td>VIP</td>
+<td>*</td>
+</tr>
+<tr>
+<td>EME_I12</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_I12</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td>I12,I15</td>
+</tr>
+<tr>
+<td>CCU_01</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>CCU_01</td>
+<td>Ladegerät / Kabel Fahrzeug</td>
+<td>Charging / Compined Charging Unit</td>
+<td></td>
+<td></td>
+<td>CCU</td>
+<td>G08BEV,I20</td>
+</tr>
+<tr>
+<td>CCU_01B</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>CCU_01</td>
+<td>Ladegerät / Kabel Fahrzeug</td>
+<td>Charging / Compined Charging Unit</td>
+<td></td>
+<td></td>
+<td>CCU</td>
+<td>G08BEV,I20</td>
+</tr>
+<tr>
+<td>CCU_01C</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>CCU_01</td>
+<td>Ladegerät / Kabel Fahrzeug</td>
+<td>Charging / Compined Charging Unit</td>
+<td></td>
+<td></td>
+<td>CCU</td>
+<td>G08BEV,I20</td>
+</tr>
+<tr>
+<td>CCU_01D</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>CCU_01</td>
+<td>Ladegerät / Kabel Fahrzeug</td>
+<td>Charging / Compined Charging Unit</td>
+<td></td>
+<td></td>
+<td>CCU</td>
+<td>G08BEV,I20</td>
+</tr>
+<tr>
+<td>EME_10</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_10</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>EME</td>
+<td></td>
+</tr>
+<tr>
+<td>EME_F18</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_F18</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td></td>
+</tr>
+<tr>
+<td>EME_F30</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_F30</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td></td>
+</tr>
+<tr>
+<td>EME_F45</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_F45</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>EME</td>
+<td>M13</td>
+</tr>
+<tr>
+<td>EME_G12</td>
+<td>3A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>HOCHVOLT</td>
+<td>EME_G12</td>
+<td>Elektrische-Maschine-Elektronik</td>
+<td>Motor Electronic</td>
+<td></td>
+<td></td>
+<td>AE, EME</td>
+<td></td>
+</tr>
+<tr>
+<td>CDM02SL</td>
+<td>3C</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CDM02SL</td>
+<td>Coach Door Modul / Links</td>
+<td>Coach Door Module / Left</td>
+<td></td>
+<td></td>
+<td>CDML</td>
+<td>RR11,RR12,RR31</td>
+</tr>
+<tr>
+<td>CDM02SR</td>
+<td>3D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CDM02SR</td>
+<td>Coach Door Modul / Rechts</td>
+<td>Coach Door Module / Right</td>
+<td></td>
+<td></td>
+<td>CDMR</td>
+<td>RR11,RR12,RR31</td>
+</tr>
+<tr>
+<td>HUD_01</td>
+<td>3D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>HUD_01</td>
+<td>Display / Head Up</td>
+<td>Display / Head Up</td>
+<td></td>
+<td></td>
+<td>HUD</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25,F26,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>ASD_10</td>
+<td>3F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>ASD</td>
+<td>Audio System / Active Sound Design</td>
+<td>Audio System / Active Sound Design</td>
+<td></td>
+<td></td>
+<td>ASD</td>
+<td>F01,F02,F06,F10,F11,F12,F13,F15,F16,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F39,F40,F44,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,F87,F90,F97,F98,G01,G02,G08,G11,G12,G29,G30,G31,G32,J29,RR5,RR6</td>
+</tr>
+<tr>
+<td>ASD_I12</td>
+<td>3F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>ASD</td>
+<td>Audio System / Active Sound Design</td>
+<td>Audio System / Active Sound Design</td>
+<td></td>
+<td></td>
+<td>ASD</td>
+<td>I12,I15</td>
+</tr>
+<tr>
+<td>BDC</td>
+<td>40</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>BDC</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td></td>
+<td></td>
+<td>BDC</td>
+<td>F15,F16,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F85,F86,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>BDC_G05</td>
+<td>40</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>BDC_G05</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td></td>
+<td></td>
+<td>BDC</td>
+<td>F40,F44,F52,F90,F91,F92,F93,F94,F95,F96,G05,G05 FCEV,G06,G07,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,G80,G82,G83,J29</td>
+</tr>
+<tr>
+<td>BDC_G11</td>
+<td>40</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>BDC_G11</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td>Central Ctrl Module / Body Domain Controller</td>
+<td></td>
+<td></td>
+<td>BDC</td>
+<td>F90,F97,F98,G01,G02,G08,G11,G12,G30,G31,G32,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>CAS4_2</td>
+<td>40</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>CAS4</td>
+<td>Car Access System</td>
+<td>Car Access System</td>
+<td></td>
+<td></td>
+<td>CAS</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25,F26,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>SRR40ECU</td>
+<td>42</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>SRR40ECU</td>
+<td>Radar / Short Range</td>
+<td>Radar / Short Range</td>
+<td></td>
+<td></td>
+<td>SRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FLE02_L</td>
+<td>43</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLE_02L</td>
+<td>Licht / Frontlichtelektronik 2 Links</td>
+<td>Light / Front Electronic Left</td>
+<td></td>
+<td></td>
+<td>FLE</td>
+<td>F06,F12,F13,F15,F16,F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F80,F82,F83,F85,F86,F87,I01</td>
+</tr>
+<tr>
+<td>FLE_L</td>
+<td>43</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLE_L</td>
+<td>Licht / Frontlichtelektronik Links</td>
+<td>Front Electronic Left</td>
+<td></td>
+<td></td>
+<td>FLE_L</td>
+<td>F45,F46,F48,F49,F54,F55,F56,F57,F60,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>FLM01_L</td>
+<td>43</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLM01_L</td>
+<td>Licht / Frontlichtmodul Links</td>
+<td>Light / Front Light Module Left</td>
+<td></td>
+<td></td>
+<td>FLM_L</td>
+<td>F90,G01,G02,G08,G11,G12,G30,G31,G32,G38,RR11,RR12</td>
+</tr>
+<tr>
+<td>FLM02_L</td>
+<td>43</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLM02_L</td>
+<td>Licht / Frontlichtmodul 2 Links</td>
+<td>Light / Front Light Module Left</td>
+<td></td>
+<td></td>
+<td>FLM_L</td>
+<td>F40,F44,F91,F92,F93,F95,F96,G05,G06,G07,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G42,G43,J29,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>FLE_R</td>
+<td>44</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLE_R</td>
+<td>Licht / Frontlichtelektronik Rechts</td>
+<td>Light / Front Electronic Left</td>
+<td></td>
+<td></td>
+<td>FLE_R</td>
+<td>F45,F46,F48,F49,F54,F55,F56,F57,F60,I01,I12,I15,M13</td>
+</tr>
+<tr>
+<td>FLM01_R</td>
+<td>44</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLM01_R</td>
+<td>Licht / Frontlichtmodul Rechts</td>
+<td>Light / Front Light Module Right</td>
+<td></td>
+<td></td>
+<td>FLM_R</td>
+<td>F90,G01,G02,G08,G11,G12,G30,G31,G32,G38,RR11,RR12</td>
+</tr>
+<tr>
+<td>FLM02_R</td>
+<td>44</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLM02_R</td>
+<td>Licht / Frontlichtmodul 2 Rechts</td>
+<td>Light / Front Light Module Right</td>
+<td></td>
+<td></td>
+<td>FLM_R</td>
+<td>F40,F44,F91,F92,F93,F95,F96,G05,G06,G07,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G42,G43,J29,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>FLE02_R</td>
+<td>44</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLE02_R</td>
+<td>Licht / Frontlichtelektronik 2 Rechts</td>
+<td>Light / Front Electronic Right</td>
+<td></td>
+<td></td>
+<td>FLE_R</td>
+<td>F06,F12,F13,F15,F16,F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F80,F82,F83,F85,F86,F87,I01</td>
+</tr>
+<tr>
+<td>DCS01</td>
+<td>45</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>DCS01</td>
+<td>Kamera / Fahrer Kamera System</td>
+<td>Camera / Driver Camera System</td>
+<td></td>
+<td></td>
+<td>DCS</td>
+<td>F91,F92,F93,F95,F96,G05,G06,G07,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28</td>
+</tr>
+<tr>
+<td>GZAL01</td>
+<td>46</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GZAL01</td>
+<td>Licht / Gezieltes Anleuchten Links</td>
+<td>Light / Directed Flash Left</td>
+<td></td>
+<td></td>
+<td>GZA_L</td>
+<td>F01,F02,F07,F10,F11,F15,F16,F18,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>GZAR01</td>
+<td>47</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GZAR01</td>
+<td>Licht / Gezieltes Anleuchten Rechts</td>
+<td>Light / Directed Flash Right</td>
+<td></td>
+<td></td>
+<td>GZA_R</td>
+<td>F01,F02,F07,F10,F11,F15,F16,F18,F85,F86,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>FEM_20</td>
+<td>40</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FEM_20</td>
+<td>Front Electronic Module</td>
+<td>Front Electronic Module</td>
+<td></td>
+<td></td>
+<td>FEM</td>
+<td>F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F87</td>
+</tr>
+<tr>
+<td>TVM_01</td>
+<td>4B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>TVM_01</td>
+<td>TV-Modul</td>
+<td>TV-Module</td>
+<td></td>
+<td></td>
+<td>TV-Modul</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TVM2</td>
+<td>4B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>TVM_01</td>
+<td>TV-Modul</td>
+<td>TV-Module</td>
+<td></td>
+<td></td>
+<td>TV-Modul</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TVM2_T2</td>
+<td>4B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>TVM_01</td>
+<td>TV-Modul</td>
+<td>TV-Module</td>
+<td></td>
+<td></td>
+<td>TV-Modul</td>
+<td>*</td>
+</tr>
+<tr>
+<td>EMA_LI</td>
+<td>4D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>EMA_LI</td>
+<td>Gurt / Aufroller Elektromech. Links</td>
+<td>Belt Retractor Left</td>
+<td></td>
+<td></td>
+<td>EMA_LI</td>
+<td>F01,F18</td>
+</tr>
+<tr>
+<td>EMA_RE</td>
+<td>4E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>EMA_RE</td>
+<td>Gurt / Aufroller Elektromech. Links</td>
+<td>Belt Retractor Right</td>
+<td></td>
+<td></td>
+<td>EMA_R</td>
+<td>F01,F18</td>
+</tr>
+<tr>
+<td>LEM_G11</td>
+<td>4F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>LEM_G11</td>
+<td>Licht / Effect Manager</td>
+<td>Light / Effect Manager</td>
+<td></td>
+<td></td>
+<td>LEM_G11</td>
+<td>*</td>
+</tr>
+<tr>
+<td>DWA_12</td>
+<td>50</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>DWA_12</td>
+<td>Diebstahlwarnanlage</td>
+<td>Alarm System</td>
+<td></td>
+<td></td>
+<td>DWA</td>
+<td>F12,F23,F33,F57,F83,I15,RR6</td>
+</tr>
+<tr>
+<td>DWA_G14</td>
+<td>50</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>DWA_G14</td>
+<td>Diebstahlwarnanlage CANSINE II</td>
+<td>Alarm System</td>
+<td></td>
+<td></td>
+<td>DWA</td>
+<td>F91,G14,G23,G29</td>
+</tr>
+<tr>
+<td>VSG_H</td>
+<td>51</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>VSG_H</td>
+<td>Vehicle Sound Generator / Hinten</td>
+<td>Vehicle Sound Generator / Rear</td>
+<td></td>
+<td></td>
+<td>VSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SPNM_VL</td>
+<td>53</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM_G11</td>
+<td>Sitz / Pneumatik, Vorne Links</td>
+<td>Seat / Pneumatic, Front Left</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SPNM02VL</td>
+<td>53</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM02VL</td>
+<td>Sitz / Pneumatik, Vorne Links</td>
+<td>Seat / Pneumatic, Front Left</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>PCU48</td>
+<td>54</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>PCU48</td>
+<td>Power Control Unit 48V</td>
+<td>Power Control Unit 48V</td>
+<td></td>
+<td></td>
+<td>PCU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>PCU48_2</td>
+<td>54</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>PCU48</td>
+<td>Power Control Unit 48V</td>
+<td>Power Control Unit 48V</td>
+<td></td>
+<td></td>
+<td>PCU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LEZF04VB</td>
+<td>55</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>LEZF04VB</td>
+<td>Startergenerator / Leistungselektronik, 48V</td>
+<td>Starter Generator / Power Electronic, 48V</td>
+<td></td>
+<td></td>
+<td>SGE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SGE48V</td>
+<td>55</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>SGE48V</td>
+<td>Startergenerator / Leistungselektronik, 48V</td>
+<td>Starter Generator / 48V</td>
+<td></td>
+<td></td>
+<td>SGE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>NIVI3</td>
+<td>57</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>NIVI2</td>
+<td>Nachtsichtsystem</td>
+<td>Night Vision</td>
+<td></td>
+<td></td>
+<td>NIVI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FZD3</td>
+<td>56</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FZD3</td>
+<td>Dach / Funktionszentrum</td>
+<td>Roof  / Function Center</td>
+<td></td>
+<td></td>
+<td>FZD</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F13,F18,F25,F26,RR4,RR5</td>
+</tr>
+<tr>
+<td>FZD_20</td>
+<td>56</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FZD_20</td>
+<td>Dach / Funktionszentrum</td>
+<td>Roof  / Function Center</td>
+<td></td>
+<td></td>
+<td>FZD</td>
+<td>F20,F21,F22,F30,F31,F32,F34,F35,F36,F80,F82,F87</td>
+</tr>
+<tr>
+<td>FZD_F15</td>
+<td>56</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FZD_20</td>
+<td>Dach / Funktionszentrum</td>
+<td>Roof  / Function Center</td>
+<td></td>
+<td></td>
+<td>FZD</td>
+<td>F15,F16,F39,F45,F46,F48,F49,F52,F54,F55,F56,F60,F85,F86,I01,I12,I15,J29,M13</td>
+</tr>
+<tr>
+<td>FZD_F40</td>
+<td>56</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FZD_F40</td>
+<td>Dach / Funktionszentrum</td>
+<td>Roof  / Function Center</td>
+<td></td>
+<td></td>
+<td>FZD</td>
+<td>F40,F44</td>
+</tr>
+<tr>
+<td>FZD_G11</td>
+<td>56</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FZD_G11</td>
+<td>Dach / Funktionszentrum</td>
+<td>Roof  / Function Center</td>
+<td></td>
+<td></td>
+<td>FZD</td>
+<td>F90,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G15,G16,G20,G21,G22,G23,G26,G28,G30,G31,G32,G38,G42,G43,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>SPNM_VR</td>
+<td>59</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM_G11</td>
+<td>Sitz / Pneumatik, Vorne Rechts</td>
+<td>Seat / Pneumatic, Front Right</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SPNM02VR</td>
+<td>59</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM02VR</td>
+<td>Sitz / Pneumatik, Vorne Rechts</td>
+<td>Seat / Pneumatic, Front Right</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SPNM_HL</td>
+<td>5A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM_G11</td>
+<td>Sitz / Pneumatik, Hinten Links</td>
+<td>Seat / Pneumatic, Rear Left</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>SPNM_HR</td>
+<td>5B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZ</td>
+<td>SPNM_G11</td>
+<td>Sitz / Pneumatik, Hinten Rechts</td>
+<td>Seat / Pneumatic, Rear Right</td>
+<td></td>
+<td></td>
+<td>SPNM</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KAFAS04</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>KAFASG11</td>
+<td>Kamera / Basiertes FAS</td>
+<td>Camera / Based Assistent</td>
+<td></td>
+<td></td>
+<td>KAFAS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KAFAS20</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>KAFAS20</td>
+<td>Kamera / Basiertes FAS</td>
+<td>Camera / Based Assistent</td>
+<td></td>
+<td></td>
+<td>KAFAS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KAFASG11</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>KAFASG11</td>
+<td>Kamera / Basiertes FAS</td>
+<td>Camera / Based Assistent</td>
+<td></td>
+<td></td>
+<td>KAFAS</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ADCAM_L</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>ADCAM_L</td>
+<td>Autonomes Fahren / Kamera (LOW)</td>
+<td>Autonomous Driving / Camera (LOW)</td>
+<td></td>
+<td></td>
+<td>ADC</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>ADCAM_M</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>ADCAM_M</td>
+<td>Autonomes Fahren / Kamera (MID)</td>
+<td>Autonomous Driving / Camera (MID)</td>
+<td></td>
+<td></td>
+<td>ADC</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>TLC_60</td>
+<td>5D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>TLC_60</td>
+<td>Time To Line Crossing</td>
+<td>Time To Line Crossing</td>
+<td></td>
+<td></td>
+<td>TLC</td>
+<td>*</td>
+</tr>
+<tr>
+<td>GWS2</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS2</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F04,F06,F10,F11,F12,F13,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,I12,I15,M12</td>
+</tr>
+<tr>
+<td>GWS_01</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_01</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F01,F18,F25</td>
+</tr>
+<tr>
+<td>GWS_F15</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_F15</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F15,F16</td>
+</tr>
+<tr>
+<td>GWS_G05</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_G11</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F40,F44,F91,F92,F93,F95,F96,G05,G06,G07,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G42,G43</td>
+</tr>
+<tr>
+<td>GWS_G05K</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_G11</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F39,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60</td>
+</tr>
+<tr>
+<td>GWS_G11</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_G11</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>G11,G12,G11,G12</td>
+</tr>
+<tr>
+<td>GWS_G11B</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_G11</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>F90,G01,G02,G08,G11,G12,G30,G31,G32,G38,J29</td>
+</tr>
+<tr>
+<td>GWS_I01</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GWS_I01</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>I01</td>
+</tr>
+<tr>
+<td>GW_RR4</td>
+<td>5E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>GW_RR4</td>
+<td>Gangwahlschalter</td>
+<td>Gear Lever</td>
+<td></td>
+<td></td>
+<td>GWS</td>
+<td>RR11,RR12,RR21,RR22,RR31,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>FLA_01</td>
+<td>5F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLA_01</td>
+<td>Licht / Fernlicht Assistent</td>
+<td>Light / Full Beam Assistent</td>
+<td></td>
+<td></td>
+<td>FLA</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25</td>
+</tr>
+<tr>
+<td>FLA_20</td>
+<td>5F</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FLA_20</td>
+<td>Licht / Fernlicht Assistent</td>
+<td>Light / Full Beam Assistent</td>
+<td></td>
+<td></td>
+<td>FLA</td>
+<td>F01,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83,F85,F86,F87,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,J29,RR5,RR6</td>
+</tr>
+<tr>
+<td>KOMB01</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMB01</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KOMB25</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMB25</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KOMB_G11</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMB_G11</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KOMBRDCT</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMB_G11</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>KOMBSP18</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMB_G11</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>F40,F44,F54,F55,F56,F57,F60,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,F40,F44,F54,F55,F56,F57,F60,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38</td>
+</tr>
+<tr>
+<td>KOMBSP21</td>
+<td>60</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>KOMBSP21</td>
+<td>Instrumentenkombi</td>
+<td>Instrument Cluster</td>
+<td></td>
+<td></td>
+<td>KOMBI</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ATM</td>
+<td>61</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION_TELEFON</td>
+<td>CECALL</td>
+<td>Telematik</td>
+<td>Telematics</td>
+<td></td>
+<td></td>
+<td>ATM, CEC</td>
+<td>F06,F12,F13,F15,F16,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F39,F40,F44,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,F87,F90,F91,F92,F93,F97,F98,G01,G02,G05,G07,G08,G11,G12,G14,G15,G16,G20,G28,G29,G30,G31,G32,G38,G42,G43,I01,I12,I15,J29,RR11,RR12,RR31,RR4,RR5</td>
+</tr>
+<tr>
+<td>ATM02</td>
+<td>61</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION_TELEFON</td>
+<td>ATM02</td>
+<td>Telematik</td>
+<td>Telematics</td>
+<td></td>
+<td></td>
+<td>ATM, CEC</td>
+<td>F40,F44,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,RR11,RR12,RR21,RR22,RR24,RR25,RR31</td>
+</tr>
+<tr>
+<td>CECALL</td>
+<td>61</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION_TELEFON</td>
+<td>CECALL</td>
+<td>Telematik (MOST)</td>
+<td>Telematics (Most)</td>
+<td></td>
+<td></td>
+<td>CEC</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F20,F21,F22,F25,F30,F31,F32,F33,F34,RR0123,RR4</td>
+</tr>
+<tr>
+<td>TCB1</td>
+<td>61</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION_TELEFON</td>
+<td>CECALL</td>
+<td>Telematik</td>
+<td>Telematics</td>
+<td></td>
+<td></td>
+<td>TCB</td>
+<td>*</td>
+</tr>
+<tr>
+<td>BIS01</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>BIS01</td>
+<td>Radio</td>
+<td>Radio</td>
+<td></td>
+<td></td>
+<td>BIS</td>
+<td>F54,F55,F56,F57,F60</td>
+</tr>
+<tr>
+<td>CHAMP2</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / CHAMP</td>
+<td>Headunit / CHAMP</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F01,F04,F06,F10,F11,F12,F13,F18,F20,F21,F25,F30,F35</td>
+</tr>
+<tr>
+<td>CIC</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / CIC</td>
+<td>Headunit / CIC</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F20,F21,F25,F30,RR0123</td>
+</tr>
+<tr>
+<td>CICM</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / CIC Media</td>
+<td>Headunit / CIC Media</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25</td>
+</tr>
+<tr>
+<td>ENAVEVO</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / Entry Nav Evo</td>
+<td>Headunit / Entry Nav Evo</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F39,F40,F44,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F80,F82,F83,F87,F95,F96,G01,G02,G08,G20,G21,G28,G29,G30,G31,G32,G38,G42,G43,I01,J29</td>
+</tr>
+<tr>
+<td>ENTRY</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / Entry</td>
+<td>Headunit / Entry</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F20,F21,F22,F23,F30,F31,F32,F33,F34,F35,F36,F80,F82,F83</td>
+</tr>
+<tr>
+<td>ENTRYNAV</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / Entry NAV</td>
+<td>Headunit / Entry NAV</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F01,F02,F03,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F45,F46,F48,F49,F52,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,F87,I01,M13</td>
+</tr>
+<tr>
+<td>HU_MGU</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>HU_MGU</td>
+<td>Headunit / MGU</td>
+<td>Headunit / MGU</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>F40,F44,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,G80,G82,G83,I20,U06</td>
+</tr>
+<tr>
+<td>NBT</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / NBT</td>
+<td>Headunit / NBT</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>NBTEVO</td>
+<td>63</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIC</td>
+<td>Headunit / NBT EVO</td>
+<td>Headunit / NBT EVO</td>
+<td></td>
+<td></td>
+<td>HU</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ELV_G30</td>
+<td>65</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ELV_G30</td>
+<td>Lenksäulenverriegelung / Elektr.</td>
+<td>Steering Column Lock / Electric</td>
+<td></td>
+<td></td>
+<td>ELV</td>
+<td>F40,F44,F97,F98,G01,G02,G08,G20,G21,G22,G23,G26,G29,G30,G31,G32,G38,G42,G43</td>
+</tr>
+<tr>
+<td>ZBE_01</td>
+<td>67</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZBE_01</td>
+<td>Zentrale Bedieneinheit</td>
+<td>Central Control Operating Unit</td>
+<td></td>
+<td></td>
+<td>ZBE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ZBE5_01</td>
+<td>67</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZBE5_01</td>
+<td>Zentrale Bedieneinheit</td>
+<td>Central Control Operating Unit</td>
+<td></td>
+<td></td>
+<td>ZBE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ZBE6</td>
+<td>67</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZBE6</td>
+<td>Zentrale Bedieneinheit</td>
+<td>Central Control Operating Unit</td>
+<td></td>
+<td></td>
+<td>ZBE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ZBE7</td>
+<td>67</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZBE7</td>
+<td>Zentrale Bedieneinheit</td>
+<td>Central Control Operating Unit</td>
+<td></td>
+<td></td>
+<td>ZBE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ZBEL20</td>
+<td>67</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>ZBE_01</td>
+<td>Zentrale Bedieneinheit</td>
+<td>Central Control Operating Unit</td>
+<td></td>
+<td></td>
+<td>ZBE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FAH_01</td>
+<td>69</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>SM_01</td>
+<td>Sitzmodule</td>
+<td>Seat Modules</td>
+<td></td>
+<td></td>
+<td>SM</td>
+<td>F01,F02,F03,F04,F07,RR4</td>
+</tr>
+<tr>
+<td>FAH_12</td>
+<td>69</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_12</td>
+<td>Sitzmodule</td>
+<td>Seat Modules</td>
+<td></td>
+<td></td>
+<td>SM</td>
+<td>F01,F02,F03,F04,F07,RR4</td>
+</tr>
+<tr>
+<td>FAH_G11</td>
+<td>69</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_G11</td>
+<td>Sitzmodule</td>
+<td>Seat Modules</td>
+<td></td>
+<td></td>
+<td>SM</td>
+<td>F95,F96,G05,G06,G07,G11,G12,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>HKL_01</td>
+<td>6B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKL_01</td>
+<td>Heckklappenlift</td>
+<td>Tailgate Lift</td>
+<td></td>
+<td></td>
+<td>HKL</td>
+<td>F01,F02,F03,F04,F07,F10,F12,F13,F18,F25,F26,RR4,RR5,RR6,F01,F02,F03,F04,F07,F10,F12,F13,F18,F25,F26,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>FAS_01</td>
+<td>6D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>FAS_01</td>
+<td>Sitzmodul / Fahrer</td>
+<td>Seat Module / Driver</td>
+<td></td>
+<td></td>
+<td>FAS</td>
+<td>F01,F02,F03,F04,F07,F10,F11,F18,F25,RR4</td>
+</tr>
+<tr>
+<td>FAS_12</td>
+<td>6D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_12</td>
+<td>Sitzmodul / Fahrer</td>
+<td>Seat Module / Driver</td>
+<td></td>
+<td></td>
+<td>FAS</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F54,F60,F80,F82,F83,F85,F86,F87,I15,M13,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>FAS_G11</td>
+<td>6D</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_G11</td>
+<td>Sitzmodul / Fahrer</td>
+<td>Seat Module / Driver</td>
+<td></td>
+<td></td>
+<td>FAS</td>
+<td>F40,F44,F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,J29,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>BFH_01</td>
+<td>6A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>SM_01</td>
+<td>Sitzmodul / Beifahrer Hinten</td>
+<td>Seat Module / Passenger Rear</td>
+<td></td>
+<td></td>
+<td>SMBH</td>
+<td>F01,F02,F03,F04,F07,RR4</td>
+</tr>
+<tr>
+<td>BFH_12</td>
+<td>6A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>SM_12</td>
+<td>Sitzmodul / Beifahrer Hinten</td>
+<td>Seat Module / Passenger Rear</td>
+<td></td>
+<td></td>
+<td>SMBH</td>
+<td>F01,F02,F03,F04,F07,RR4</td>
+</tr>
+<tr>
+<td>BFH_G11</td>
+<td>6A</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_G11</td>
+<td>Sitzmodul / Beifahrer Hinten</td>
+<td>Seat Module / Passenger Rear</td>
+<td></td>
+<td></td>
+<td>SMBH</td>
+<td>F95,F96,G05,G06,G07,G11,G12,G38,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>BFS_01</td>
+<td>6E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_01</td>
+<td>Sitzmodul / Beifahrer</td>
+<td>Seat Module / Passenger</td>
+<td></td>
+<td></td>
+<td>BFS</td>
+<td>F01,F02,F03,F04,F07,F10,F11,F25,RR4</td>
+</tr>
+<tr>
+<td>BFS_12</td>
+<td>6E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_12</td>
+<td>Sitzmodul / Beifahrer</td>
+<td>Seat Module / Passenger</td>
+<td></td>
+<td></td>
+<td>SMFS</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F15,F16,F18,F21,F22,F23,F25,F26,F32,F33,F34,F35,F36,F39,F45,F46,F48,F49,F52,F80,F82,F83,F85,F86,F87,I15,M13,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>BFS_G11</td>
+<td>6E</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE_SITZE</td>
+<td>SM_G11</td>
+<td>Sitzmodul / Beifahrer</td>
+<td>Seat Module / Passenger</td>
+<td></td>
+<td></td>
+<td>SMBF</td>
+<td>F90,F91,F92,F93,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G14,G15,G16,G20,G21,G22,G23,G26,G28,G29,G30,G31,G32,G38,G42,G43,RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>LEZFVH</td>
+<td>55</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>NIEDERVOLT</td>
+<td>LEZFVH</td>
+<td>Startergenerator / Leistungselektronik, 48V</td>
+<td>Starter Generator / Power Electronic, 48V</td>
+<td></td>
+<td></td>
+<td>LE</td>
+<td>*</td>
+</tr>
+<tr>
+<td>AAG_02</td>
+<td>71</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>AAG_02</td>
+<td>Anhängermodul</td>
+<td>Trailer Module</td>
+<td></td>
+<td></td>
+<td>AHM</td>
+<td>G70,I20,U01,U02,U06,U10,U11,U20,U25,U26</td>
+</tr>
+<tr>
+<td>AAG_F15</td>
+<td>71</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>AAG_F15</td>
+<td>Anhängermodul</td>
+<td>Trailer Module</td>
+<td></td>
+<td></td>
+<td>AHM</td>
+<td>F07,F10,F11,F15,F16,F18,F20,F21,F22,F23,F25,F26,F30,F31,F32,F33,F34,F35,F36,F39,F40,F44,F45,F46,F48,F54,F55,F56,F57,F60,F80,F82,F83,F85,F86,F87,F90,F95,F96,F97,F98,G01,G02,G05,G06,G07,G08,G11,G12,G20,G21,G22,G23,G26,G28,G30,G31,G32,G38,G42,G43,RR31</td>
+</tr>
+<tr>
+<td>AHM_01</td>
+<td>71</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>AHM_01</td>
+<td>Anhängermodul</td>
+<td>Trailer Module</td>
+<td></td>
+<td></td>
+<td>AHM</td>
+<td>F01,F02,F03,F04,F07,F10,F11,F18,F20,F21,F22,F25,F30,F31,F32,F33,F34,F35</td>
+</tr>
+<tr>
+<td>FRM3</td>
+<td>72</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FRM3</td>
+<td>Zentralsteuergerät / Fußraummodul</td>
+<td>Central Ctrl Module / Footwell Module Driver</td>
+<td></td>
+<td></td>
+<td>FRM</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F25,F26,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>TSG_FA</td>
+<td>72</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>TSG_FA</td>
+<td>Tür / Fahrer</td>
+<td>Door / Driver</td>
+<td></td>
+<td></td>
+<td>TSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CID_01</td>
+<td>73</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CID_01</td>
+<td>Display / Zentrales Info Display</td>
+<td>Display / Central Informamtion</td>
+<td></td>
+<td></td>
+<td>CID</td>
+<td>F01,F02,F03,F06,F10,F12,F13,F18,RR4,RR5,RR6</td>
+</tr>
+<tr>
+<td>CID_01R1</td>
+<td>74</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIDF</td>
+<td>Display / Hinten links</td>
+<td>Display / Rear Left</td>
+<td></td>
+<td></td>
+<td>CID</td>
+<td>F01,F18,RR4</td>
+</tr>
+<tr>
+<td>TSG_BF</td>
+<td>74</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>TSG_BF</td>
+<td>Tür / Beifahrer</td>
+<td>Door / Passenger</td>
+<td></td>
+<td></td>
+<td>TSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TSG_FAH</td>
+<td>75</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>TSG_FAH</td>
+<td>Tür / Fahrer Hinten</td>
+<td>Door / Driver Rear</td>
+<td></td>
+<td></td>
+<td>TSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>CID_01R2</td>
+<td>75</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CIDF2</td>
+<td>Display / Hinten rechts</td>
+<td>Display / Rear Right</td>
+<td></td>
+<td></td>
+<td>CID_R</td>
+<td>F01,F18,RR4</td>
+</tr>
+<tr>
+<td>CID_01T</td>
+<td>73</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CID_01</td>
+<td>Display / Zentrales Info Display</td>
+<td>Display / Central Informamtion</td>
+<td></td>
+<td></td>
+<td>CID</td>
+<td>F01,F02,F07,F10,F11,F12,F13,F18</td>
+</tr>
+<tr>
+<td>CID_25</td>
+<td>73</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KOMMUNIKATION</td>
+<td>CID_01</td>
+<td>Display / Zentrales Info Display</td>
+<td>Display / Central Informamtion</td>
+<td></td>
+<td></td>
+<td>CID</td>
+<td>F25,F26,RR0123</td>
+</tr>
+<tr>
+<td>CVC_I20</td>
+<td>76</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>CVC_I20</td>
+<td>Combined Vertical Control</td>
+<td>Combined Vertical Control</td>
+<td></td>
+<td></td>
+<td>CVC</td>
+<td>*</td>
+</tr>
+<tr>
+<td>VDP_G11</td>
+<td>76</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRWERK</td>
+<td>VDP_G11</td>
+<td>Dämpfer / Vertikal Dyn. Plattform</td>
+<td>Damper / Vertical Dyn. Plattform</td>
+<td></td>
+<td></td>
+<td>VDP</td>
+<td>*</td>
+</tr>
+<tr>
+<td>TSG_BFH</td>
+<td>77</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>TSG_BFH</td>
+<td>Tür / Beifahrer Hinten</td>
+<td>Door / Passenger Rear</td>
+<td></td>
+<td></td>
+<td>TSG</td>
+<td>*</td>
+</tr>
+<tr>
+<td>IHKA_G05</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA_G11</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>*</td>
+</tr>
+<tr>
+<td>IHKA_G11</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA_G11</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>*</td>
+</tr>
+<tr>
+<td>IHKA01</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA01</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18,F01,F02,F03,F04,F06,F07,F10,F11,F12,F13,F18</td>
+</tr>
+<tr>
+<td>IHKA1RR</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA1RR</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>RR11,RR12,RR21,RR22,RR31</td>
+</tr>
+<tr>
+<td>IHKA20</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA20</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>F20,F21,F22,F30,F31,F32,F34,F35</td>
+</tr>
+<tr>
+<td>IHKA25</td>
+<td>78</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>IHKA25</td>
+<td>Klimaautomatik</td>
+<td>Air Conditioning / Control Panel</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>F25,F25</td>
+</tr>
+<tr>
+<td>FKA_01</td>
+<td>79</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FKA_01</td>
+<td>Klimaautomatik / Fond (Hinten)</td>
+<td>Air Conditioning / Rear</td>
+<td></td>
+<td></td>
+<td>FKA</td>
+<td>F01,F02,F03,F04,F07,F10,F11,F18,RR4,RR5,F01,F02,F03,F04,F07,F10,F11,F18,RR4,RR5</td>
+</tr>
+<tr>
+<td>FKA_F15</td>
+<td>79</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>FKA_01</td>
+<td>Klimaautomatik / Fond (Hinten)</td>
+<td>Air Conditioning / Rear</td>
+<td></td>
+<td></td>
+<td>FKA</td>
+<td>F15,F16,F85,F86</td>
+</tr>
+<tr>
+<td>HKA_02</td>
+<td>7B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKA_02</td>
+<td>Klimaautomatik / Heckklima</td>
+<td>Air Conditioning / Rear Boot</td>
+<td></td>
+<td></td>
+<td>IHKA</td>
+<td>F02,RR4</td>
+</tr>
+<tr>
+<td>HKA_G07</td>
+<td>7B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKA_G12</td>
+<td>Klimaautomatik / Heck</td>
+<td>Air Conditioning / Rear Boot</td>
+<td></td>
+<td></td>
+<td>HKA</td>
+<td>G07</td>
+</tr>
+<tr>
+<td>HKA_G12</td>
+<td>7B</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>KAROSSERIE</td>
+<td>HKA_G12</td>
+<td>Klimaautomatik / Heck</td>
+<td>Air Conditioning / Rear Boot</td>
+<td></td>
+<td></td>
+<td>HKA</td>
+<td>G12</td>
+</tr>
+<tr>
+<td>FRR_30HL</td>
+<td>80</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>FRR_30HL</td>
+<td>Radar / Full Range, Hinten Links</td>
+<td>Radar / Full Range, Rear Left</td>
+<td></td>
+<td></td>
+<td>FRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>FRR_30HR</td>
+<td>81</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>FRR_30HR</td>
+<td>Radar / Full Range, Hinten Rechts</td>
+<td>Radar / Full Range, Rear Right</td>
+<td></td>
+<td></td>
+<td>FRR</td>
+<td>*</td>
+</tr>
+<tr>
+<td>MPAD_FSC</td>
+<td>84</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>MPAD_FSC</td>
+<td>Autonomes Fahren / Controller: Sicherheit 1</td>
+<td>Automated Driving / Controller: Safety</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>*</td>
+</tr>
+<tr>
+<td>HPAD_SC</td>
+<td>90</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HPAD_SC</td>
+<td>Autonomes Fahren / Controller: Sicherheit</td>
+<td>Automated Driving / Controller: Safety</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>HPAD_FPP</td>
+<td>91</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HPAD_FPP</td>
+<td>Autonomes Fahren / Prozessor : Leistung 1</td>
+<td>Automated Driving / Processor : Performance 1</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>HPAD_SPP</td>
+<td>92</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HPAD_SPP</td>
+<td>Autonomes Fahren / Prozessor : Leistung 2</td>
+<td>Automated Driving / Processor : Performance 2</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>HPAD_I1A</td>
+<td>93</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HPAD_I1A</td>
+<td>Autonomes Fahren / Prozessor : Image 1a</td>
+<td>Automated Driving / Processor : Performance 1a</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>HPAD_I2A</td>
+<td>94</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>HPAD_I2A</td>
+<td>Autonomes Fahren / Prozessor : Image 2a</td>
+<td>Automated Driving / Processor : Performance 2a</td>
+<td></td>
+<td></td>
+<td>PAD</td>
+<td>I20</td>
+</tr>
+<tr>
+<td>LIDAR1VM</td>
+<td>99</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>LIDAR1VM</td>
+<td>Autonomes Fahren / Licht - Erkennung und Bereichsanpassung (Vorne Mitte)</td>
+<td>Automated Driving / Light detection and ranging (Front Center)</td>
+<td></td>
+<td></td>
+<td>LID</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LIDAR1VL</td>
+<td>A0</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>LIDAR1VL</td>
+<td>Autonomes Fahren / Licht - Erkennung und Bereichsanpassung (Vorne Links)</td>
+<td>Automated Driving / Light Detection And Ranging (Front Left)</td>
+<td></td>
+<td></td>
+<td>LID</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LIDAR1VR</td>
+<td>A1</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>LIDAR1VR</td>
+<td>Autonomes Fahren / Licht - Erkennung und Bereichsanpassung (Vorne Rechts)</td>
+<td>Automated Driving / Light Detection And Ranging (Rear Left)</td>
+<td></td>
+<td></td>
+<td>LID</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LIDAR1HL</td>
+<td>A2</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>LIDAR1HL</td>
+<td>Autonomes Fahren / Licht - Erkennung und Bereichsanpassung (Hinten Links)</td>
+<td>Automated Driving / Light Detection And Ranging (Rear Right)</td>
+<td></td>
+<td></td>
+<td>LID</td>
+<td>*</td>
+</tr>
+<tr>
+<td>LIDAR1HR</td>
+<td>A3</td>
+<td></td>
+<td></td>
+<td>1</td>
+<td>FAHRERASSISTENZ</td>
+<td>LIDAR1HR</td>
+<td>Autonomes Fahren / Licht - Erkennung und Bereichsanpassung (Hinten Rechts)</td>
+<td>Automated Driving / Light Detection And Ranging (Rear Right)</td>
+<td></td>
+<td></td>
+<td>LID</td>
+<td>*</td>
+</tr>
+<tr>
+<td>ListEnde</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1554 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/legrp/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>legrp.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#legrpprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              legrp.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lesen_gruppe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LESEN_GRUPPE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LESEN_GRUPPE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gru_liste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRU_LISTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="legrpprg">legrp.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">2</a></li>
+<li>Tables: <a href="#tables">1</a></li>
+</ul>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung Dieser Job wird vom EDIABAS automatisch beim erstem Zugriff auf eine SGBD aufgerufen. Bei weiteren Zugriffen auf die selbe SGBD wird dieser Job nicht mehr aufgerufen. in der INITIALISIERUNG werden alle Funktionen aufgerufen, die nur einmal, vor der Kommunikation mit einem SG notwendig sind.</li>
+<li><a href="#job-lesen-gruppe">LESEN_GRUPPE</a></li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung Dieser Job wird vom EDIABAS automatisch beim erstem Zugriff auf eine SGBD aufgerufen. Bei weiteren Zugriffen auf die selbe SGBD wird dieser Job nicht mehr aufgerufen. in der INITIALISIERUNG werden alle Funktionen aufgerufen, die nur einmal, vor der Kommunikation mit einem SG notwendig sind.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>Werte: 0 = Fehler bei der Initialisierung Werte: 1 = Initialisierung erfolgreich durchgefuehrt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-lesen-gruppe"></a></p>
+<h3 id="lesen_gruppe">LESEN_GRUPPE</h3>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VAR_NAME_LIST</td>
+<td>string</td>
+<td>Variantennamen, Liste durch &amp; getrennt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GRP_NAME_LIST</td>
+<td>string</td>
+<td>Gruppenname</td>
+</tr>
+<tr>
+<td>ANZAHL</td>
+<td>int</td>
+<td>Gruppenname, Liste durch &amp; getrennt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-gru-liste">GRU_LISTE</a> (241 × 2)</li>
+</ul>
+<p><a id="table-gru-liste"></a></p>
+<h3 id="gru_liste">GRU_LISTE</h3>
+<p>Dimensions: 241 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>GRUPPE</th>
+<th>SGBD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d_002e</td>
+<td>edc4</td>
+</tr>
+<tr>
+<td>d_0081</td>
+<td>rip</td>
+</tr>
+<tr>
+<td>d_0072b</td>
+<td>bfs_64</td>
+</tr>
+<tr>
+<td>d_0070</td>
+<td>dws</td>
+</tr>
+<tr>
+<td>d_0065</td>
+<td>ekp_ds2</td>
+</tr>
+<tr>
+<td>d_0065</td>
+<td>ekp2ds2</td>
+</tr>
+<tr>
+<td>d_0076</td>
+<td>cdc_46</td>
+</tr>
+<tr>
+<td>d_0031</td>
+<td>ehpsr50</td>
+</tr>
+<tr>
+<td>d_0048</td>
+<td>jbit</td>
+</tr>
+<tr>
+<td>d_0048</td>
+<td>jbit2</td>
+</tr>
+<tr>
+<td>d_0047</td>
+<td>fond_bt</td>
+</tr>
+<tr>
+<td>d_009c</td>
+<td>cvm_ii</td>
+</tr>
+<tr>
+<td>d_009c</td>
+<td>cvm_iii</td>
+</tr>
+<tr>
+<td>d_009c</td>
+<td>cvm_iv</td>
+</tr>
+<tr>
+<td>d_009c</td>
+<td>cvm_r52</td>
+</tr>
+<tr>
+<td>d_009c</td>
+<td>cvm_52_2</td>
+</tr>
+<tr>
+<td>d_00ce</td>
+<td>sbe2</td>
+</tr>
+<tr>
+<td>d_005a</td>
+<td>elv</td>
+</tr>
+<tr>
+<td>d_00cd</td>
+<td>mid</td>
+</tr>
+<tr>
+<td>d_0066</td>
+<td>alc_ds2</td>
+</tr>
+<tr>
+<td>d_0020</td>
+<td>eml12</td>
+</tr>
+<tr>
+<td>d_0022</td>
+<td>eml3</td>
+</tr>
+<tr>
+<td>d_0016</td>
+<td>toens</td>
+</tr>
+<tr>
+<td>d_0016</td>
+<td>toens_2</td>
+</tr>
+<tr>
+<td>d_0036</td>
+<td>ascmk4g1</td>
+</tr>
+<tr>
+<td>d_0036</td>
+<td>ascmk4</td>
+</tr>
+<tr>
+<td>d_0036</td>
+<td>asc_t</td>
+</tr>
+<tr>
+<td>d_00b0</td>
+<td>ses</td>
+</tr>
+<tr>
+<td>d_0028</td>
+<td>rcc</td>
+</tr>
+<tr>
+<td>d_0014</td>
+<td>dm5212l2</td>
+</tr>
+<tr>
+<td>d_0014</td>
+<td>dm5212l0</td>
+</tr>
+<tr>
+<td>d_0014</td>
+<td>dm5212l3</td>
+</tr>
+<tr>
+<td>d_000d</td>
+<td>kombi36</td>
+</tr>
+<tr>
+<td>d_000d</td>
+<td>kombi361</td>
+</tr>
+<tr>
+<td>d_0013</td>
+<td>dm5212l5</td>
+</tr>
+<tr>
+<td>d_0013</td>
+<td>dde41kl0</td>
+</tr>
+<tr>
+<td>d_0013</td>
+<td>ems2k</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm33s501</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm5212r0</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm5212r2</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm331k20</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm173k20</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm172k20</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>ms401k20</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dm5212r3</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dde21k20</td>
+</tr>
+<tr>
+<td>d_0010</td>
+<td>dde21k21</td>
+</tr>
+<tr>
+<td>d_0057</td>
+<td>lws5</td>
+</tr>
+<tr>
+<td>d_0057</td>
+<td>lws5_1b</td>
+</tr>
+<tr>
+<td>d_0057</td>
+<td>lws5_2</td>
+</tr>
+<tr>
+<td>d_0057</td>
+<td>lws5__</td>
+</tr>
+<tr>
+<td>d_00ac</td>
+<td>ehc</td>
+</tr>
+<tr>
+<td>d_00ac</td>
+<td>ehc_2n2</td>
+</tr>
+<tr>
+<td>d_00a7</td>
+<td>fg38</td>
+</tr>
+<tr>
+<td>d_00a7</td>
+<td>fhk38</td>
+</tr>
+<tr>
+<td>d_0040</td>
+<td>fbzv</td>
+</tr>
+<tr>
+<td>d_00c2</td>
+<td>svt_83</td>
+</tr>
+<tr>
+<td>d_0074</td>
+<td>oc3</td>
+</tr>
+<tr>
+<td>d_009a</td>
+<td>lwr2a</td>
+</tr>
+<tr>
+<td>d_00e0</td>
+<td>iris</td>
+</tr>
+<tr>
+<td>d_003b</td>
+<td>video_gt</td>
+</tr>
+<tr>
+<td>d_00ed</td>
+<td>video_tv</td>
+</tr>
+<tr>
+<td>d_00ed</td>
+<td>videomod</td>
+</tr>
+<tr>
+<td>d_00ed</td>
+<td>video_3</td>
+</tr>
+<tr>
+<td>d_00ed</td>
+<td>vm5ibus</td>
+</tr>
+<tr>
+<td>d_00a0</td>
+<td>fond_zis</td>
+</tr>
+<tr>
+<td>d_00c0</td>
+<td>zis</td>
+</tr>
+<tr>
+<td>d_0030</td>
+<td>ccm38</td>
+</tr>
+<tr>
+<td>d_006a</td>
+<td>dsp</td>
+</tr>
+<tr>
+<td>d_006a</td>
+<td>dsp2</td>
+</tr>
+<tr>
+<td>d_006a</td>
+<td>dsp_r50</td>
+</tr>
+<tr>
+<td>d_006a</td>
+<td>topdsp</td>
+</tr>
+<tr>
+<td>d_006a</td>
+<td>topdsp2</td>
+</tr>
+<tr>
+<td>d_00ea</td>
+<td>dsp_bt</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>telefon</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>bit</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>bit2</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>tel_us</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>ulf</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>telibus</td>
+</tr>
+<tr>
+<td>d_00c8</td>
+<td>telibus2</td>
+</tr>
+<tr>
+<td>d_00bb</td>
+<td>nav_jap</td>
+</tr>
+<tr>
+<td>d_00bb</td>
+<td>nav_jap2</td>
+</tr>
+<tr>
+<td>d_00bb</td>
+<td>jnav_ce</td>
+</tr>
+<tr>
+<td>d_00bb</td>
+<td>jnav_ce2</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bmbt46rn</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bordmoni</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bmbt46tn</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bmbt_mir</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bm_wide</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bmbtr50</td>
+</tr>
+<tr>
+<td>d_00f0</td>
+<td>bm46wide</td>
+</tr>
+<tr>
+<td>d_0008</td>
+<td>shd46</td>
+</tr>
+<tr>
+<td>d_0008</td>
+<td>shd46_2</td>
+</tr>
+<tr>
+<td>d_0008</td>
+<td>sd_ds2</td>
+</tr>
+<tr>
+<td>d_00e8</td>
+<td>aic</td>
+</tr>
+<tr>
+<td>d_00e8</td>
+<td>rls_ds2</td>
+</tr>
+<tr>
+<td>d_00da</td>
+<td>easy_e_b</td>
+</tr>
+<tr>
+<td>d_00da</td>
+<td>bsm46c_4</td>
+</tr>
+<tr>
+<td>d_00da</td>
+<td>bsm46c_5</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46_4</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46_3</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>easy_e_f</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm53_4</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm53_6</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46c_4</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46c_5</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46c_4m</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>sm46c_5m</td>
+</tr>
+<tr>
+<td>d_0072</td>
+<td>fas_63</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lsz</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lme38</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lcm</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lcm_a</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lcm_ii</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lcm_iii</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lsz_2</td>
+</tr>
+<tr>
+<td>d_00d0</td>
+<td>lcm_iv</td>
+</tr>
+<tr>
+<td>d_007f</td>
+<td>navmk2</td>
+</tr>
+<tr>
+<td>d_007f</td>
+<td>navmk3</td>
+</tr>
+<tr>
+<td>d_007f</td>
+<td>navmk4</td>
+</tr>
+<tr>
+<td>d_007f</td>
+<td>navmk4_2</td>
+</tr>
+<tr>
+<td>d_00a4</td>
+<td>mrs2</td>
+</tr>
+<tr>
+<td>d_00a4</td>
+<td>mrs3</td>
+</tr>
+<tr>
+<td>d_00a4</td>
+<td>mrs4</td>
+</tr>
+<tr>
+<td>d_00a4</td>
+<td>mrs4rd</td>
+</tr>
+<tr>
+<td>d_00a4</td>
+<td>mrs5k</td>
+</tr>
+<tr>
+<td>d_00a6</td>
+<td>fgr2_5</td>
+</tr>
+<tr>
+<td>d_0050</td>
+<td>mfl2</td>
+</tr>
+<tr>
+<td>d_0050</td>
+<td>mfl</td>
+</tr>
+<tr>
+<td>d_0050</td>
+<td>mflr50</td>
+</tr>
+<tr>
+<td>d_0068</td>
+<td>radio</td>
+</tr>
+<tr>
+<td>d_0044</td>
+<td>ews3</td>
+</tr>
+<tr>
+<td>d_0044</td>
+<td>ews</td>
+</tr>
+<tr>
+<td>d_0044</td>
+<td>ews3d</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi46</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>ike</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>iki</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi39</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi39c</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi36c</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi52</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombir50</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi85</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi50f</td>
+</tr>
+<tr>
+<td>d_0080</td>
+<td>kombi46r</td>
+</tr>
+<tr>
+<td>d_0060</td>
+<td>pdcact</td>
+</tr>
+<tr>
+<td>d_0060</td>
+<td>pdce38</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>bms46ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms420ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dde30ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms410ds1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms410ds2</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms410ds3</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms411ds1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms411ds2</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>bms46ds1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>bms43ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>bmss501</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm338ds1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm5212r5</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm524ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm528ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm528ds3</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm338ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dde40kw0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm5212l6</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dm5212r6</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dde41kr0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>ms430ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>me72kwp0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>me72kwp1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>mss52ds1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>mss52ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>mss54ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>carbpr</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dde22ds0</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>me9k42</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>dde50k47</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>me9k_ng4</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d50m47a</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d40tmca</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d50m57a1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d50m47b1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d50m57b1</td>
+</tr>
+<tr>
+<td>d_0012</td>
+<td>d40m57a1</td>
+</tr>
+<tr>
+<td>d_0000</td>
+<td>zke3</td>
+</tr>
+<tr>
+<td>d_0000</td>
+<td>zke4</td>
+</tr>
+<tr>
+<td>d_0000</td>
+<td>zke5</td>
+</tr>
+<tr>
+<td>d_0000</td>
+<td>zke5_s12</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>dsc_e46</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>ascmk20</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>absmk20</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>asc4gus</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>ascmk4g</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>asc5</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>absmk4g</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>dsc5</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>dsc3</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>abs5</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>asc5d</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>asc57</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>abd5</td>
+</tr>
+<tr>
+<td>d_0056</td>
+<td>dsc57</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs8600</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs834</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs20</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs8602</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs8603</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs8604</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>smg2</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs30</td>
+</tr>
+<tr>
+<td>d_0032</td>
+<td>gs870</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka36</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihkr38</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka38</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka38_2</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka38_3</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihr39</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihkr39</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka39</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka39_2</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka39_3</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka39_4</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka39_5</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka46_2</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka46</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihks52</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihkr46</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihkar50</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka46_3</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihks85</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihka85</td>
+</tr>
+<tr>
+<td>d_005b</td>
+<td>ihkar50r</td>
+</tr>
+<tr>
+<td>d_can</td>
+<td>can_pl2</td>
+</tr>
+<tr>
+<td>d_can</td>
+<td>can_bus</td>
+</tr>
+<tr>
+<td>d_can</td>
+<td>can_60</td>
+</tr>
+<tr>
+<td>d_most</td>
+<td>most89x</td>
+</tr>
+<tr>
+<td>d_most</td>
+<td>most_60</td>
+</tr>
+<tr>
+<td>d_most</td>
+<td>most_65</td>
+</tr>
+<tr>
+<td></td>
+<td>default</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,9149 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/MS410DS2/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MS410DS2.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ms410ds2prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MS410DS2.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        initialisierung
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="initialisierung">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isn_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ISN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ram_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RAM_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RAM_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rom_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROM_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ROM_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adapt_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADAPT_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADAPT_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abgas_variante_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ABGAS_VARIANTE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ABGAS_VARIANTE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_codier_checksumme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CODIER_CHECKSUMME
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CODIER_CHECKSUMME">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aif_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AIF_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AIF_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_quick_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_QUICK_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_QUICK_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_shadow_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_SHADOW_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_SHADOW_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_motordrehzahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOTORDREHZAHL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOTORDREHZAHL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_motortemperatur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MOTORTEMPERATUR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MOTORTEMPERATUR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_an_lufttemperatur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_AN_LUFTTEMPERATUR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_AN_LUFTTEMPERATUR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_geschwindigkeit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GESCHWINDIGKEIT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GESCHWINDIGKEIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_dkp_volt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_DKP_VOLT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_DKP_VOLT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ubatt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_UBATT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_UBATT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_zsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ZSR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ZSR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lmm_volt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LMM_VOLT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LMM_VOLT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_klopf_adc1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_KLOPF_ADC1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_KLOPF_ADC1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_klopf_adc2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_KLOPF_ADC2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_KLOPF_ADC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_l_sonde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_L_SONDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_L_SONDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_l_sonde_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_L_SONDE_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_L_SONDE_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lmm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LMM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LMM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_last" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_zuendwinkel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ZUENDWINKEL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ZUENDWINKEL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_nw_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_NW_POSITION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_NW_POSITION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_einspritzzeit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_EINSPRITZZEIT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_EINSPRITZZEIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ll_regler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LL_REGLER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LL_REGLER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_h_sonde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_H_SONDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_H_SONDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_h_sonde_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_H_SONDE_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_H_SONDE_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_int" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_INT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_INT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_int_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_INT_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_INT_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_add" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ADD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ADD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_add_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ADD_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ADD_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_mul" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MUL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MUL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_mul_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_MUL_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_MUL_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_tast_ll_steller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_TAST_LL_STELLER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_TAST_LL_STELLER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_nw_ist_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_NW_IST_POSITION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_NW_IST_POSITION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_vanos_frueh_verst_zeit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_VANOS_FRUEH_VERST_ZEIT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_VANOS_FRUEH_VERST_ZEIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_vanos_spaet_verst_zeit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_VANOS_SPAET_VERST_ZEIT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_VANOS_SPAET_VERST_ZEIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_47" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_48" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_k_mw_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_K_MW_6
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_K_MW_6">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_vanos_verstellwinkel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_VANOS_VERSTELLWINKEL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_VANOS_VERSTELLWINKEL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ll_luftbedarf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LL_LUFTBEDARF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LL_LUFTBEDARF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_counter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_COUNTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_COUNTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_DIGITAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_DIGITAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_57" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_58" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ev_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EV_6
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EV_6">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_60" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_tev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_TEV
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_TEV">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ll_steller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LL_STELLER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LL_STELLER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_abgasklappe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_ABGASKLAPPE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_ABGASKLAPPE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ekp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EKP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EKP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_ko" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_KO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_KO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_vanos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_VANOS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_VANOS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_66" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lesen_systemcheck_laufunruhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LESEN_SYSTEMCHECK_LAUFUNRUHE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LESEN_SYSTEMCHECK_LAUFUNRUHE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_67" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_68" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uprog_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UPROG_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UPROG_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_69" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uprog_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UPROG_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UPROG_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_70" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co_abgleich_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CO_ABGLEICH_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CO_ABGLEICH_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co_abgleich_verstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CO_ABGLEICH_VERSTELLEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CO_ABGLEICH_VERSTELLEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#co_abgleich_programmieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CO_ABGLEICH_PROGRAMMIEREN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CO_ABGLEICH_PROGRAMMIEREN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_z_fl_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_Z_FL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_Z_FL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lmm_masse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LMM_MASSE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LMM_MASSE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_75" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_systemcheck_laufunruhe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_SYSTEMCHECK_LAUFUNRUHE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_SYSTEMCHECK_LAUFUNRUHE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_76" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ls_vkat_heizung_tv_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LS_VKAT_HEIZUNG_TV_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LS_VKAT_HEIZUNG_TV_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_77" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ls_vkat_heizung_tv_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LS_VKAT_HEIZUNG_TV_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LS_VKAT_HEIZUNG_TV_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_78" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ls_vkat_signal_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LS_VKAT_SIGNAL_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LS_VKAT_SIGNAL_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_79" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_ls_vkat_signal_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LS_VKAT_SIGNAL_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LS_VKAT_SIGNAL_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_integrator_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_INTEGRATOR_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_INTEGRATOR_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_83" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_integrator_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_INTEGRATOR_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_INTEGRATOR_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_add_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_ADD_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_ADD_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_85" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_add_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_ADD_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_ADD_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_86" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_mul_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_MUL_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_MUL_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_87" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lambda_mul_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LAMBDA_MUL_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LAMBDA_MUL_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_88" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#betriebswmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BETRIEBSWMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BITS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fartmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fumwelttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUMWELTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nulleinstexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NULLEINSTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ms410ds2prg">MS410DS2.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">89</a></li>
+<li>Tables: <a href="#tables">8</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>MS 41.0 fuer M52 Flash</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-433 Schiefer</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.10</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TP-421 Weber, BMW TI-433 Schiefer</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-edic-reset">EDIC_RESET</a> - EDIC-Reset</li>
+<li><a href="#job-initialisierung">initialisierung</a> - Default Init-Job</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-isn-lesen">ISN_LESEN</a></li>
+<li><a href="#job-ram-lesen">RAM_LESEN</a> - Beliebige RAM - Zellen auslesen</li>
+<li><a href="#job-rom-lesen">ROM_LESEN</a> - Beliebige EPROM - Zellen auslesen</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten fuer DME</li>
+<li><a href="#job-adapt-loeschen">ADAPT_LOESCHEN</a> - Adaptionen loeschen</li>
+<li><a href="#job-abgas-variante-lesen">ABGAS_VARIANTE_LESEN</a> - Auslesen der Abgasvariante</li>
+<li><a href="#job-status-codier-checksumme">STATUS_CODIER_CHECKSUMME</a> - Codier - Checksumme abfragen</li>
+<li><a href="#job-aif-lesen">AIF_LESEN</a> - Auslesen des Anwender-Info-Feldes</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Auslesen des Fehlerspeichers</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Loeschen des Fehlerspeichers</li>
+<li><a href="#job-fs-quick-lesen">FS_QUICK_LESEN</a> - Auslesen des QUICK Fehlerspeichers</li>
+<li><a href="#job-fs-shadow-lesen">FS_SHADOW_LESEN</a> - Auslesen des Fehlerspeichers</li>
+<li><a href="#job-status-motordrehzahl">STATUS_MOTORDREHZAHL</a> - Motordrehzahl auslesen</li>
+<li><a href="#job-status-motortemperatur">STATUS_MOTORTEMPERATUR</a> - Motortemperatur auslesen</li>
+<li><a href="#job-status-an-lufttemperatur">STATUS_AN_LUFTTEMPERATUR</a> - Ansauglufttemperatur auslesen</li>
+<li><a href="#job-status-geschwindigkeit">STATUS_GESCHWINDIGKEIT</a> - Fahrzeuggeschwindigkeit</li>
+<li><a href="#job-status-dkp-volt">STATUS_DKP_VOLT</a> - Drosselklappenstellung  auslesen</li>
+<li><a href="#job-status-ubatt">STATUS_UBATT</a> - Batteriespannung</li>
+<li><a href="#job-status-zsr">STATUS_ZSR</a> - ZSR Spannung</li>
+<li><a href="#job-status-lmm-volt">STATUS_LMM_VOLT</a> - HLM Spannung</li>
+<li><a href="#job-status-klopf-adc1">STATUS_KLOPF_ADC1</a> - ADC Spannung Klopfsensor 1</li>
+<li><a href="#job-status-klopf-adc2">STATUS_KLOPF_ADC2</a> - ADC Spannung Klopfsensor 2</li>
+<li><a href="#job-status-l-sonde">STATUS_L_SONDE</a> - Spannug Lambdasonde vor KAT auslesen</li>
+<li><a href="#job-status-l-sonde-2">STATUS_L_SONDE_2</a> - Spannug Lambdasonde vor KAT auslesen Sonde 2</li>
+<li><a href="#job-status-lmm">STATUS_LMM</a> - Wert Luftmasse  auslesen</li>
+<li><a href="#job-status-last">STATUS_LAST</a> - Wert Last  auslesen</li>
+<li><a href="#job-status-zuendwinkel">STATUS_ZUENDWINKEL</a> - Wert Zuendwinkel  auslesen</li>
+<li><a href="#job-status-nw-position">STATUS_NW_POSITION</a> - Wert Nockenwellenposition  auslesen</li>
+<li><a href="#job-status-einspritzzeit">STATUS_EINSPRITZZEIT</a> - Wert Einspritzzeit auslesen</li>
+<li><a href="#job-status-ll-regler">STATUS_LL_REGLER</a> - Wert LL-REGLER auslesen</li>
+<li><a href="#job-status-h-sonde">STATUS_H_SONDE</a> - Lambdasondenheizung  1  auslesen</li>
+<li><a href="#job-status-h-sonde-2">STATUS_H_SONDE_2</a> - Lambdasondenheizung  2  auslesen</li>
+<li><a href="#job-status-int">STATUS_INT</a> - INT-Signal</li>
+<li><a href="#job-status-int-2">STATUS_INT_2</a> - INT-Signal Bank 2</li>
+<li><a href="#job-status-add">STATUS_ADD</a> - ADD-Signal</li>
+<li><a href="#job-status-add-2">STATUS_ADD_2</a> - ADD-Signal Bank 2</li>
+<li><a href="#job-status-mul">STATUS_MUL</a> - MUL-Signal</li>
+<li><a href="#job-status-mul-2">STATUS_MUL_2</a> - MUL-Signal Bank 2</li>
+<li><a href="#job-status-tast-ll-steller">STATUS_TAST_LL_STELLER</a> - Wert Tastverhaeltnis LL-Steller auslesen</li>
+<li><a href="#job-status-nw-ist-position">STATUS_NW_IST_POSITION</a> - Wert Nockenwellenposition  auslesen</li>
+<li><a href="#job-status-vanos-frueh-verst-zeit">STATUS_VANOS_FRUEH_VERST_ZEIT</a> - Wert Vanos Verstellzeit Frueh  auslesen</li>
+<li><a href="#job-status-vanos-spaet-verst-zeit">STATUS_VANOS_SPAET_VERST_ZEIT</a> - Wert Vanos Verstellzeit Spaet  auslesen</li>
+<li><a href="#job-status-k-mw-1">STATUS_K_MW_1</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-k-mw-2">STATUS_K_MW_2</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-k-mw-3">STATUS_K_MW_3</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-k-mw-4">STATUS_K_MW_4</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-k-mw-5">STATUS_K_MW_5</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-k-mw-6">STATUS_K_MW_6</a> - Wert Ubat auslesen</li>
+<li><a href="#job-status-vanos-verstellwinkel">STATUS_VANOS_VERSTELLWINKEL</a> - Wert VANOS_VERSTELLWINKEL auslesen</li>
+<li><a href="#job-status-ll-luftbedarf">STATUS_LL_LUFTBEDARF</a> - Luftbedarf LL - Steller</li>
+<li><a href="#job-status-lambda-counter">STATUS_LAMBDA_COUNTER</a> - Counter fuer die Einschaltbedingung Lambdasonde</li>
+<li><a href="#job-status-digital">STATUS_DIGITAL</a> - Status Schalteingaenge</li>
+<li><a href="#job-steuern-ev-1">STEUERN_EV_1</a> - EV  1 ansteuern</li>
+<li><a href="#job-steuern-ev-2">STEUERN_EV_2</a> - EV  2 ansteuern</li>
+<li><a href="#job-steuern-ev-3">STEUERN_EV_3</a> - EV 3 ansteuern</li>
+<li><a href="#job-steuern-ev-4">STEUERN_EV_4</a> - EV 4 ansteuern</li>
+<li><a href="#job-steuern-ev-5">STEUERN_EV_5</a> - EV  5 ansteuern</li>
+<li><a href="#job-steuern-ev-6">STEUERN_EV_6</a> - EV  6 ansteuern</li>
+<li><a href="#job-steuern-tev">STEUERN_TEV</a> - Tankentlueftungsventil  ansteuern</li>
+<li><a href="#job-steuern-ll-steller">STEUERN_LL_STELLER</a> - Leerlaufsteller ansteuern</li>
+<li><a href="#job-steuern-abgasklappe">STEUERN_ABGASKLAPPE</a> - Abgasklappe ansteuern</li>
+<li><a href="#job-steuern-ekp">STEUERN_EKP</a> - EKP-Relais ansteuern</li>
+<li><a href="#job-steuern-ko">STEUERN_KO</a> - Klimakompressorrelais ansteuern</li>
+<li><a href="#job-steuern-vanos">STEUERN_VANOS</a> - VANOS ansteuern</li>
+<li><a href="#job-lesen-systemcheck-laufunruhe">LESEN_SYSTEMCHECK_LAUFUNRUHE</a> - Systemcheck Laufunruhe lesen</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Loeschen des Fehlerspeichers</li>
+<li><a href="#job-uprog-ein">UPROG_EIN</a> - Programmierspannung einschalten</li>
+<li><a href="#job-uprog-aus">UPROG_AUS</a> - Programmierspannung ausschalten</li>
+<li><a href="#job-co-abgleich-lesen">CO_ABGLEICH_LESEN</a> - CO-Abgleich lesen</li>
+<li><a href="#job-co-abgleich-verstellen">CO_ABGLEICH_VERSTELLEN</a> - CO-Abgleich lesen</li>
+<li><a href="#job-co-abgleich-programmieren">CO_ABGLEICH_PROGRAMMIEREN</a> - CO-Abgleich programmieren</li>
+<li><a href="#job-status-z-fl-lesen">STATUS_Z_FL_LESEN</a> - Auslesen des Zahnflankenfehler</li>
+<li><a href="#job-status-lmm-masse">STATUS_LMM_MASSE</a> - Wert Luftmasse  auslesen</li>
+<li><a href="#job-status-systemcheck-laufunruhe">STATUS_SYSTEMCHECK_LAUFUNRUHE</a> - Systemcheck Laufunruhe lesen</li>
+<li><a href="#job-status-ls-vkat-heizung-tv-1">STATUS_LS_VKAT_HEIZUNG_TV_1</a> - Lambdasondenheizung  1  auslesen</li>
+<li><a href="#job-status-ls-vkat-heizung-tv-2">STATUS_LS_VKAT_HEIZUNG_TV_2</a> - Lambdasondenheizung  2  auslesen</li>
+<li><a href="#job-status-ls-vkat-signal-1">STATUS_LS_VKAT_SIGNAL_1</a> - Spannug Lambdasonde vor KAT auslesen</li>
+<li><a href="#job-status-ls-vkat-signal-2">STATUS_LS_VKAT_SIGNAL_2</a> - Spannug Lambdasonde vor KAT auslesen Sonde 2</li>
+<li><a href="#job-status-lambda-integrator-1">STATUS_LAMBDA_INTEGRATOR_1</a> - INT-Signal</li>
+<li><a href="#job-pruefstempel-lesen">PRUEFSTEMPEL_LESEN</a> - Auslesen des Pruefstempels</li>
+<li><a href="#job-pruefstempel-schreiben">PRUEFSTEMPEL_SCHREIBEN</a> - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.</li>
+<li><a href="#job-status-lambda-integrator-2">STATUS_LAMBDA_INTEGRATOR_2</a> - INT-Signal Bank 2</li>
+<li><a href="#job-status-lambda-add-1">STATUS_LAMBDA_ADD_1</a> - ADD-Signal</li>
+<li><a href="#job-status-lambda-add-2">STATUS_LAMBDA_ADD_2</a> - ADD-Signal Bank 2</li>
+<li><a href="#job-status-lambda-mul-1">STATUS_LAMBDA_MUL_1</a> - MUL-Signal</li>
+<li><a href="#job-status-lambda-mul-2">STATUS_LAMBDA_MUL_2</a> - MUL-Signal Bank 2</li>
+</ul>
+<p><a id="job-edic-reset"></a></p>
+<h3 id="edic_reset">EDIC_RESET</h3>
+<p>EDIC-Reset</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">initialisierung</h3>
+<p>Default Init-Job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 wenn job erfolgreich 0 wenn job nicht erfolgreich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergeraet im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Name aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-isn-lesen"></a></p>
+<h3 id="isn_lesen">ISN_LESEN</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISN_LESEN_WERT</td>
+<td>string</td>
+<td>ISN als  WERT</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ram-lesen"></a></p>
+<h3 id="ram_lesen">RAM_LESEN</h3>
+<p>Beliebige RAM - Zellen auslesen</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAM_LESEN_ADRESSE</td>
+<td>long</td>
+<td>Uebergabeparameter, Startadresse High-Middle-Low</td>
+</tr>
+<tr>
+<td>RAM_LESEN_ANZAHL_BYTE</td>
+<td>int</td>
+<td>Uebergabeparameter, Anzahl der auszulesenden BYTES</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>RAM_LESEN_WERT</td>
+<td>binary</td>
+<td>nichts</td>
+</tr>
+<tr>
+<td>RAM_LESEN_EINH</td>
+<td>string</td>
+<td>Einheit HEX</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-rom-lesen"></a></p>
+<h3 id="rom_lesen">ROM_LESEN</h3>
+<p>Beliebige EPROM - Zellen auslesen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROM_LESEN_ADRESSE</td>
+<td>long</td>
+<td>Uebergabeparameter, Startadresse High-Middle-Low</td>
+</tr>
+<tr>
+<td>ROM_LESEN_ANZAHL_BYTE</td>
+<td>int</td>
+<td>Uebergabeparameter, Anzahl der auszulesenden BYTES</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>ROM_LESEN_WERT</td>
+<td>binary</td>
+<td>nichts</td>
+</tr>
+<tr>
+<td>ROM_LESEN_EINH</td>
+<td>string</td>
+<td>Einheit HEX</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten fuer DME</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>string</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>string</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>string</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>string</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>string</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>string</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>string</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>ID_AI_NR</td>
+<td>string</td>
+<td>Aenderungsindex</td>
+</tr>
+<tr>
+<td>ID_PROD_NR</td>
+<td>string</td>
+<td>Produktionsnummer</td>
+</tr>
+<tr>
+<td>ID_AIF_VORHANDEN</td>
+<td>int</td>
+<td>Ist ein AIF vorhanden (0 (nein)/ 1 (ja))</td>
+</tr>
+<tr>
+<td>ID_MOTOR</td>
+<td>string</td>
+<td>Parameter fuer MoTest Motorkennung</td>
+</tr>
+<tr>
+<td>ID_LAMBDA_STEREO</td>
+<td>int</td>
+<td>Parameter fuer MoTest 0=Mono, 1=STEREO</td>
+</tr>
+<tr>
+<td>ID_EML</td>
+<td>int</td>
+<td>Parameter fuer MoTest 0=Kein EML verb, 1=EML M70, 2=EML M73</td>
+</tr>
+<tr>
+<td>ID_LU_MESSUNG</td>
+<td>int</td>
+<td>Parameter fuer MoTest 1=Laufunruhemessung sonst 0</td>
+</tr>
+<tr>
+<td>ID_OBD2</td>
+<td>int</td>
+<td>Parameter fuer MoTest 0=ECE, 1=OBD2-Fahrzeug</td>
+</tr>
+<tr>
+<td>ID_SG_HERSTELLER</td>
+<td>int</td>
+<td>Parameter fuer MoTest 0=Bosch, 1=Siemens-Fahrzeug</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-adapt-loeschen"></a></p>
+<h3 id="adapt_loeschen">ADAPT_LOESCHEN</h3>
+<p>Adaptionen loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-abgas-variante-lesen"></a></p>
+<h3 id="abgas_variante_lesen">ABGAS_VARIANTE_LESEN</h3>
+<p>Auslesen der Abgasvariante</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>ABGAS_VARIANTE_WERT</td>
+<td>int</td>
+<td>Abgasvariante 0=KAT-V , 1= KAT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-codier-checksumme"></a></p>
+<h3 id="status_codier_checksumme">STATUS_CODIER_CHECKSUMME</h3>
+<p>Codier - Checksumme abfragen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_CHECKSUMME_WERT</td>
+<td>int</td>
+<td>Ergebnis</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-aif-lesen"></a></p>
+<h3 id="aif_lesen">AIF_LESEN</h3>
+<p>Auslesen des Anwender-Info-Feldes</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>AIF_FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>AIF_DATUM</td>
+<td>string</td>
+<td>Fertigungsdatum</td>
+</tr>
+<tr>
+<td>AIF_AENDERUNGS_INDEX</td>
+<td>string</td>
+<td>Aenderungsindex</td>
+</tr>
+<tr>
+<td>AIF_SW_NR</td>
+<td>long</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>AIF_BEHOERDEN_NR</td>
+<td>long</td>
+<td>Behoerdennummer</td>
+</tr>
+<tr>
+<td>AIF_ZB_NR</td>
+<td>long</td>
+<td>Zusbaunummer</td>
+</tr>
+<tr>
+<td>AIF_ANZAHL_PROG</td>
+<td>int</td>
+<td>Anzahl Programmiervorgaenge</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Auslesen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>F_ANZ_NR</td>
+<td>int</td>
+<td>Anzahl der gespeicherten Fehler</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Fehlercode des SG als Index</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlercode des SG als Text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haeufigkeit des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_LOGISTIK</td>
+<td>int</td>
+<td>Fehlerlogistikzaehler</td>
+</tr>
+<tr>
+<td>F_LZ</td>
+<td>int</td>
+<td>Fehlerlogistikzaehler</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten des SG</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>Fehlerart 1 Index</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>Fehlerart 1 Text</td>
+</tr>
+<tr>
+<td>F_ART2_NR</td>
+<td>int</td>
+<td>Fehlerart 2 Index</td>
+</tr>
+<tr>
+<td>F_ART2_TEXT</td>
+<td>string</td>
+<td>Fehlerart 2 Text</td>
+</tr>
+<tr>
+<td>F_ART3_NR</td>
+<td>int</td>
+<td>Fehlerart 3 Index</td>
+</tr>
+<tr>
+<td>F_ART3_TEXT</td>
+<td>string</td>
+<td>Fehlerart 3 Text</td>
+</tr>
+<tr>
+<td>F_ART4_NR</td>
+<td>int</td>
+<td>Fehlerart 4 Index</td>
+</tr>
+<tr>
+<td>F_ART4_TEXT</td>
+<td>string</td>
+<td>Fehlerart 4 Text</td>
+</tr>
+<tr>
+<td>F_ART5_NR</td>
+<td>int</td>
+<td>Fehlerart 5 Index</td>
+</tr>
+<tr>
+<td>F_ART5_TEXT</td>
+<td>string</td>
+<td>Fehlerart 5 Text</td>
+</tr>
+<tr>
+<td>F_ART6_NR</td>
+<td>int</td>
+<td>Fehlerart 6 Index</td>
+</tr>
+<tr>
+<td>F_ART6_TEXT</td>
+<td>string</td>
+<td>Fehlerart 6 Text</td>
+</tr>
+<tr>
+<td>F_ART7_NR</td>
+<td>int</td>
+<td>Fehlerart 7 Index</td>
+</tr>
+<tr>
+<td>F_ART7_TEXT</td>
+<td>string</td>
+<td>Fehlerart 7 Text</td>
+</tr>
+<tr>
+<td>F_ART8_NR</td>
+<td>int</td>
+<td>Fehlerart 8 Index</td>
+</tr>
+<tr>
+<td>F_ART8_TEXT</td>
+<td>string</td>
+<td>Fehlerart 8  Text</td>
+</tr>
+<tr>
+<td>F_UW1_NR</td>
+<td>int</td>
+<td>Umweltbedingung 1 Index</td>
+</tr>
+<tr>
+<td>F_UW1_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 1 Einheit</td>
+</tr>
+<tr>
+<td>F_UW1_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 1 Text</td>
+</tr>
+<tr>
+<td>F_UW1_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 1 Wert</td>
+</tr>
+<tr>
+<td>F_UW2_NR</td>
+<td>int</td>
+<td>Umweltbedingung 2Index</td>
+</tr>
+<tr>
+<td>F_UW2_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 2 Text</td>
+</tr>
+<tr>
+<td>F_UW2_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 2 Einheit</td>
+</tr>
+<tr>
+<td>F_UW2_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 2 Wert</td>
+</tr>
+<tr>
+<td>F_UW3_NR</td>
+<td>int</td>
+<td>Umweltbedingung 3 Index</td>
+</tr>
+<tr>
+<td>F_UW3_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 3 Text</td>
+</tr>
+<tr>
+<td>F_UW3_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 3 Einheit</td>
+</tr>
+<tr>
+<td>F_UW3_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 3 Wert</td>
+</tr>
+<tr>
+<td>F_UW4_NR</td>
+<td>int</td>
+<td>Umweltbedingung 4 Index</td>
+</tr>
+<tr>
+<td>F_UW4_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 4 Text</td>
+</tr>
+<tr>
+<td>F_UW4_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 4 EINH</td>
+</tr>
+<tr>
+<td>F_UW4_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 4  Wert</td>
+</tr>
+<tr>
+<td>F_BETRIEBSTUNDEN_WERT</td>
+<td>real</td>
+<td>Betriebstundenzaehler  des einzelnen Fehlers als Wert</td>
+</tr>
+<tr>
+<td>F_CODEHEX</td>
+<td>binary</td>
+<td>5 Fehlerbyte</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Loeschen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-quick-lesen"></a></p>
+<h3 id="fs_quick_lesen">FS_QUICK_LESEN</h3>
+<p>Auslesen des QUICK Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>F_ANZ_NR</td>
+<td>int</td>
+<td>Anzahl der gespeicherten Fehler</td>
+</tr>
+<tr>
+<td>F_BSZ_AKT</td>
+<td>real</td>
+<td>Betriebsstundenzahler aktuell</td>
+</tr>
+<tr>
+<td>F_BSZ_ALT</td>
+<td>real</td>
+<td>Betriebsstundenzaehler beim letzten Loeschen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-shadow-lesen"></a></p>
+<h3 id="fs_shadow_lesen">FS_SHADOW_LESEN</h3>
+<p>Auslesen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>F_ANZ_NR</td>
+<td>int</td>
+<td>Anzahl der gespeicherten Fehler</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Fehlercode des SG als Index</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlercode des SG als Text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haeufigkeit des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_LOGISTIK</td>
+<td>int</td>
+<td>Fehlerlogistikzaehler</td>
+</tr>
+<tr>
+<td>F_LZ</td>
+<td>int</td>
+<td>Fehlerlogistikzaehler</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten des SG</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>Fehlerart 1 Index</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>Fehlerart 1 Text</td>
+</tr>
+<tr>
+<td>F_ART2_NR</td>
+<td>int</td>
+<td>Fehlerart 2 Index</td>
+</tr>
+<tr>
+<td>F_ART2_TEXT</td>
+<td>string</td>
+<td>Fehlerart 2 Text</td>
+</tr>
+<tr>
+<td>F_ART3_NR</td>
+<td>int</td>
+<td>Fehlerart 3 Index</td>
+</tr>
+<tr>
+<td>F_ART3_TEXT</td>
+<td>string</td>
+<td>Fehlerart 3 Text</td>
+</tr>
+<tr>
+<td>F_ART4_NR</td>
+<td>int</td>
+<td>Fehlerart 4 Index</td>
+</tr>
+<tr>
+<td>F_ART4_TEXT</td>
+<td>string</td>
+<td>Fehlerart 4 Text</td>
+</tr>
+<tr>
+<td>F_ART5_NR</td>
+<td>int</td>
+<td>Fehlerart 5 Index</td>
+</tr>
+<tr>
+<td>F_ART5_TEXT</td>
+<td>string</td>
+<td>Fehlerart 5 Text</td>
+</tr>
+<tr>
+<td>F_ART6_NR</td>
+<td>int</td>
+<td>Fehlerart 6 Index</td>
+</tr>
+<tr>
+<td>F_ART6_TEXT</td>
+<td>string</td>
+<td>Fehlerart 6 Text</td>
+</tr>
+<tr>
+<td>F_ART7_NR</td>
+<td>int</td>
+<td>Fehlerart 7 Index</td>
+</tr>
+<tr>
+<td>F_ART7_TEXT</td>
+<td>string</td>
+<td>Fehlerart 7 Text</td>
+</tr>
+<tr>
+<td>F_ART8_NR</td>
+<td>int</td>
+<td>Fehlerart 8 Index</td>
+</tr>
+<tr>
+<td>F_ART8_TEXT</td>
+<td>string</td>
+<td>Fehlerart 8  Text</td>
+</tr>
+<tr>
+<td>F_UW1_NR</td>
+<td>int</td>
+<td>Umweltbedingung 1 Index</td>
+</tr>
+<tr>
+<td>F_UW1_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 1 Einheit</td>
+</tr>
+<tr>
+<td>F_UW1_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 1 Text</td>
+</tr>
+<tr>
+<td>F_UW1_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 1 Wert</td>
+</tr>
+<tr>
+<td>F_UW2_NR</td>
+<td>int</td>
+<td>Umweltbedingung 2Index</td>
+</tr>
+<tr>
+<td>F_UW2_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 2 Text</td>
+</tr>
+<tr>
+<td>F_UW2_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 2 Einheit</td>
+</tr>
+<tr>
+<td>F_UW2_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 2 Wert</td>
+</tr>
+<tr>
+<td>F_UW3_NR</td>
+<td>int</td>
+<td>Umweltbedingung 3 Index</td>
+</tr>
+<tr>
+<td>F_UW3_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 3 Text</td>
+</tr>
+<tr>
+<td>F_UW3_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 3 Einheit</td>
+</tr>
+<tr>
+<td>F_UW3_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 3 Wert</td>
+</tr>
+<tr>
+<td>F_UW4_NR</td>
+<td>int</td>
+<td>Umweltbedingung 4 Index</td>
+</tr>
+<tr>
+<td>F_UW4_TEXT</td>
+<td>string</td>
+<td>Umweltbedingung 4 Text</td>
+</tr>
+<tr>
+<td>F_UW4_EINH</td>
+<td>string</td>
+<td>Umweltbedingung 4 EINH</td>
+</tr>
+<tr>
+<td>F_UW4_WERT</td>
+<td>real</td>
+<td>Umweltbedingung 4  Wert</td>
+</tr>
+<tr>
+<td>F_BETRIEBSTUNDEN_WERT</td>
+<td>real</td>
+<td>Betriebstundenzaehler  des einzelnen Fehlers als Wert</td>
+</tr>
+<tr>
+<td>F_CODEHEX</td>
+<td>binary</td>
+<td>5 Fehlerbyte</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-motordrehzahl"></a></p>
+<h3 id="status_motordrehzahl">STATUS_MOTORDREHZAHL</h3>
+<p>Motordrehzahl auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_MOTORDREHZAHL_WERT</td>
+<td>real</td>
+<td>Ergebnis Motordrehzahl</td>
+</tr>
+<tr>
+<td>STAT_MOTORDREHZAHL_WERT</td>
+<td>real</td>
+<td>Ergebnis Motordrehzahl</td>
+</tr>
+<tr>
+<td>STATUS_MOTORDREHZAHL_EINH</td>
+<td>string</td>
+<td>Einheit Motordrehzahl</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-motortemperatur"></a></p>
+<h3 id="status_motortemperatur">STATUS_MOTORTEMPERATUR</h3>
+<p>Motortemperatur auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_MOTORTEMPERATUR_WERT</td>
+<td>real</td>
+<td>Ergebnis Motortemperatur</td>
+</tr>
+<tr>
+<td>STAT_MOTORTEMPERATUR_WERT</td>
+<td>real</td>
+<td>Ergebnis Motortemperatur</td>
+</tr>
+<tr>
+<td>STATUS_MOTORTEMPERATUR_EINH</td>
+<td>string</td>
+<td>Einheit Motortemperatur</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-an-lufttemperatur"></a></p>
+<h3 id="status_an_lufttemperatur">STATUS_AN_LUFTTEMPERATUR</h3>
+<p>Ansauglufttemperatur auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_AN_LUFTTEMPERATUR_WERT</td>
+<td>real</td>
+<td>Ergebnis Ansauglufttemperatur</td>
+</tr>
+<tr>
+<td>STAT_AN_LUFTTEMPERATUR_WERT</td>
+<td>real</td>
+<td>Ergebnis Ansauglufttemperatur</td>
+</tr>
+<tr>
+<td>STATUS_AN_LUFTTEMPERATUR_EINH</td>
+<td>string</td>
+<td>Einheit Ansauglufttemperatur</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-geschwindigkeit"></a></p>
+<h3 id="status_geschwindigkeit">STATUS_GESCHWINDIGKEIT</h3>
+<p>Fahrzeuggeschwindigkeit</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_GESCHWINDIGKEIT_WERT</td>
+<td>real</td>
+<td>Motortemperatur Wert</td>
+</tr>
+<tr>
+<td>STATUS_GESCHWINDIGKEIT_EINH</td>
+<td>string</td>
+<td>Einheit kmh</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-dkp-volt"></a></p>
+<h3 id="status_dkp_volt">STATUS_DKP_VOLT</h3>
+<p>Drosselklappenstellung  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_DKP_VOLT_WERT</td>
+<td>real</td>
+<td>Ergebnis Drosselklappenpoti</td>
+</tr>
+<tr>
+<td>STATUS_DKP_VOLT_EINH</td>
+<td>string</td>
+<td>Einheit Drosselklappenpoti in V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ubatt"></a></p>
+<h3 id="status_ubatt">STATUS_UBATT</h3>
+<p>Batteriespannung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_UBATT_WERT</td>
+<td>real</td>
+<td>Batteriespannung Wert</td>
+</tr>
+<tr>
+<td>STAT_UBATT_WERT</td>
+<td>real</td>
+<td>Batteriespannung Wert</td>
+</tr>
+<tr>
+<td>STATUS_UBATT_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-zsr"></a></p>
+<h3 id="status_zsr">STATUS_ZSR</h3>
+<p>ZSR Spannung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_ZSR_WERT</td>
+<td>real</td>
+<td>ZSR - Spannung Wert</td>
+</tr>
+<tr>
+<td>STATUS_ZSR_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lmm-volt"></a></p>
+<h3 id="status_lmm_volt">STATUS_LMM_VOLT</h3>
+<p>HLM Spannung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LMM_VOLT_WERT</td>
+<td>real</td>
+<td>LMM - Spannung Wert</td>
+</tr>
+<tr>
+<td>STATUS_LMM_VOLT_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-klopf-adc1"></a></p>
+<h3 id="status_klopf_adc1">STATUS_KLOPF_ADC1</h3>
+<p>ADC Spannung Klopfsensor 1</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_KLOPF_ADC1_WERT</td>
+<td>real</td>
+<td>ADC Kanal Klopfsensor 1 Spannung Wert</td>
+</tr>
+<tr>
+<td>STATUS_KLOPF_ADC1_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-klopf-adc2"></a></p>
+<h3 id="status_klopf_adc2">STATUS_KLOPF_ADC2</h3>
+<p>ADC Spannung Klopfsensor 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_KLOPF_ADC2_WERT</td>
+<td>real</td>
+<td>ADC Kanal Klopfsensor 2 Spannung Wert</td>
+</tr>
+<tr>
+<td>STATUS_KLOPF_ADC2_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-l-sonde"></a></p>
+<h3 id="status_l_sonde">STATUS_L_SONDE</h3>
+<p>Spannug Lambdasonde vor KAT auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_L_SONDE_WERT</td>
+<td>real</td>
+<td>Spannungswert L-Sonde vor KAT</td>
+</tr>
+<tr>
+<td>STATUS_L_SONDE_EINH</td>
+<td>string</td>
+<td>Einheit Volt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-l-sonde-2"></a></p>
+<h3 id="status_l_sonde_2">STATUS_L_SONDE_2</h3>
+<p>Spannug Lambdasonde vor KAT auslesen Sonde 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_L_SONDE_2_WERT</td>
+<td>real</td>
+<td>Spannungswert L-Sonde vor KAT</td>
+</tr>
+<tr>
+<td>STATUS_L_SONDE_2_EINH</td>
+<td>string</td>
+<td>Einheit Volt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lmm"></a></p>
+<h3 id="status_lmm">STATUS_LMM</h3>
+<p>Wert Luftmasse  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LMM_WERT</td>
+<td>real</td>
+<td>Ergebnis Luftmasse</td>
+</tr>
+<tr>
+<td>STATUS_LMM_EINH</td>
+<td>string</td>
+<td>Einheit Luftmasse in kg/h</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-last"></a></p>
+<h3 id="status_last">STATUS_LAST</h3>
+<p>Wert Last  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LAST_WERT</td>
+<td>real</td>
+<td>Ergebnis Last</td>
+</tr>
+<tr>
+<td>STAT_LAST_WERT</td>
+<td>real</td>
+<td>Ergebnis Last</td>
+</tr>
+<tr>
+<td>STATUS_LAST_EINH</td>
+<td>string</td>
+<td>Einheit Last</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-zuendwinkel"></a></p>
+<h3 id="status_zuendwinkel">STATUS_ZUENDWINKEL</h3>
+<p>Wert Zuendwinkel  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_ZUENDWINKEL_WERT</td>
+<td>real</td>
+<td>Ergebnis Zuendwinkel</td>
+</tr>
+<tr>
+<td>STAT_ZUENDWINKEL_WERT</td>
+<td>real</td>
+<td>Ergebnis Zuendwinkel</td>
+</tr>
+<tr>
+<td>STATUS_ZUENDWINKEL_EINH</td>
+<td>string</td>
+<td>Einheit Zuendwinkel</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-nw-position"></a></p>
+<h3 id="status_nw_position">STATUS_NW_POSITION</h3>
+<p>Wert Nockenwellenposition  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_NW_POSITION_WERT</td>
+<td>real</td>
+<td>Ergebnis Nockenwellenposition</td>
+</tr>
+<tr>
+<td>STATUS_NW_POSITION_EINH</td>
+<td>string</td>
+<td>Einheit Nockenwellenposition</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-einspritzzeit"></a></p>
+<h3 id="status_einspritzzeit">STATUS_EINSPRITZZEIT</h3>
+<p>Wert Einspritzzeit auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_EINSPRITZZEIT_WERT</td>
+<td>real</td>
+<td>Ergebnis Einspritzzeit</td>
+</tr>
+<tr>
+<td>STAT_EINSPRITZZEIT_WERT</td>
+<td>real</td>
+<td>Ergebnis Einspritzzeit</td>
+</tr>
+<tr>
+<td>STATUS_EINSPRITZZEIT_EINH</td>
+<td>string</td>
+<td>Einheit Einspritzzeit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ll-regler"></a></p>
+<h3 id="status_ll_regler">STATUS_LL_REGLER</h3>
+<p>Wert LL-REGLER auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LL_REGLER_WERT</td>
+<td>real</td>
+<td>Ergebnis LL-Regler</td>
+</tr>
+<tr>
+<td>STATUS_LL_REGLER_EINH</td>
+<td>string</td>
+<td>Einheit LL-Regler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-h-sonde"></a></p>
+<h3 id="status_h_sonde">STATUS_H_SONDE</h3>
+<p>Lambdasondenheizung  1  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_H_SONDE_WERT</td>
+<td>real</td>
+<td>Ergebnis Lambdasondenheizung  1</td>
+</tr>
+<tr>
+<td>STATUS_H_SONDE_EINH</td>
+<td>string</td>
+<td>Einheit Lambdasondenheizung  1 in %</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-h-sonde-2"></a></p>
+<h3 id="status_h_sonde_2">STATUS_H_SONDE_2</h3>
+<p>Lambdasondenheizung  2  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_34">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_H_SONDE_2_WERT</td>
+<td>real</td>
+<td>Ergebnis Lambdasondenheizung  2</td>
+</tr>
+<tr>
+<td>STATUS_H_SONDE_2_EINH</td>
+<td>string</td>
+<td>Einheit Lambdasondenheizung  2 in %</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-int"></a></p>
+<h3 id="status_int">STATUS_INT</h3>
+<p>INT-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_35">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_INT_WERT</td>
+<td>real</td>
+<td>INT-Signal Wert</td>
+</tr>
+<tr>
+<td>STATUS_INT_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-int-2"></a></p>
+<h3 id="status_int_2">STATUS_INT_2</h3>
+<p>INT-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_36">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_INT_2_WERT</td>
+<td>real</td>
+<td>INT-Signal Wert</td>
+</tr>
+<tr>
+<td>STATUS_INT_2_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-add"></a></p>
+<h3 id="status_add">STATUS_ADD</h3>
+<p>ADD-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_37">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_ADD_WERT</td>
+<td>real</td>
+<td>ADD-Signal Wert</td>
+</tr>
+<tr>
+<td>STATUS_ADD_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-add-2"></a></p>
+<h3 id="status_add_2">STATUS_ADD_2</h3>
+<p>ADD-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_38">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_ADD_2_WERT</td>
+<td>real</td>
+<td>ADD-Signal Wert</td>
+</tr>
+<tr>
+<td>STATUS_ADD_2_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-mul"></a></p>
+<h3 id="status_mul">STATUS_MUL</h3>
+<p>MUL-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_39">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_MUL_WERT</td>
+<td>real</td>
+<td>MUL-Signal Wert</td>
+</tr>
+<tr>
+<td>STATUS_MUL_EINH</td>
+<td>string</td>
+<td>Einheit [1]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-mul-2"></a></p>
+<h3 id="status_mul_2">STATUS_MUL_2</h3>
+<p>MUL-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_40">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_MUL_2_WERT</td>
+<td>real</td>
+<td>MUL-Signal Wert Bank 2</td>
+</tr>
+<tr>
+<td>STATUS_MUL_2_EINH</td>
+<td>string</td>
+<td>Einheit [1]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-tast-ll-steller"></a></p>
+<h3 id="status_tast_ll_steller">STATUS_TAST_LL_STELLER</h3>
+<p>Wert Tastverhaeltnis LL-Steller auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_41">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_TAST_LL_STELLER_WERT</td>
+<td>real</td>
+<td>Ergebnis Tastverhaeltnis LL-Steller</td>
+</tr>
+<tr>
+<td>STATUS_TAST_LL_STELLER_EINH</td>
+<td>string</td>
+<td>Einheit Tastverhaeltnis</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-nw-ist-position"></a></p>
+<h3 id="status_nw_ist_position">STATUS_NW_IST_POSITION</h3>
+<p>Wert Nockenwellenposition  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_42">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_NW_IST_POSITION_WERT</td>
+<td>real</td>
+<td>Ergebnis NW-Position</td>
+</tr>
+<tr>
+<td>STATUS_NW_IST_POSITION_EINH</td>
+<td>string</td>
+<td>Einheit NW-Position</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-vanos-frueh-verst-zeit"></a></p>
+<h3 id="status_vanos_frueh_verst_zeit">STATUS_VANOS_FRUEH_VERST_ZEIT</h3>
+<p>Wert Vanos Verstellzeit Frueh  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_43">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_VANOS_FRUEH_VERST_ZEIT_WERT</td>
+<td>real</td>
+<td>Ergebnis Vanos-Verstellzeit Frueh</td>
+</tr>
+<tr>
+<td>STATUS_VANOS_FRUEH_VERST_ZEIT_EINH</td>
+<td>string</td>
+<td>Einheit Vanos Verstellzeit Frueh</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-vanos-spaet-verst-zeit"></a></p>
+<h3 id="status_vanos_spaet_verst_zeit">STATUS_VANOS_SPAET_VERST_ZEIT</h3>
+<p>Wert Vanos Verstellzeit Spaet  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_44">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_VANOS_SPAET_VERST_ZEIT_WERT</td>
+<td>real</td>
+<td>Ergebnis Vanos-Verstellzeit Spaet</td>
+</tr>
+<tr>
+<td>STATUS_VANOS_SPAET_VERST_ZEIT_EINH</td>
+<td>string</td>
+<td>Einheit Vanos Verstellzeit Spaet</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-1"></a></p>
+<h3 id="status_k_mw_1">STATUS_K_MW_1</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_45">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_1_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 1 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_1_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-2"></a></p>
+<h3 id="status_k_mw_2">STATUS_K_MW_2</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_46">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_2_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 2 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_2_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-3"></a></p>
+<h3 id="status_k_mw_3">STATUS_K_MW_3</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_47">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_3_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 3 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_3_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-4"></a></p>
+<h3 id="status_k_mw_4">STATUS_K_MW_4</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_48">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_4_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 4 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_4_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-5"></a></p>
+<h3 id="status_k_mw_5">STATUS_K_MW_5</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_49">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_5_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 5 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_5_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-k-mw-6"></a></p>
+<h3 id="status_k_mw_6">STATUS_K_MW_6</h3>
+<p>Wert Ubat auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_50">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_K_MW_6_WERT</td>
+<td>real</td>
+<td>Ergebnis Klopfsensor Zyl. 6 MW</td>
+</tr>
+<tr>
+<td>STATUS_K_MW_6_EINH</td>
+<td>string</td>
+<td>Einheit inc</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-vanos-verstellwinkel"></a></p>
+<h3 id="status_vanos_verstellwinkel">STATUS_VANOS_VERSTELLWINKEL</h3>
+<p>Wert VANOS_VERSTELLWINKEL auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_51">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_VANOS_VERSTELLWINKEL_WERT</td>
+<td>real</td>
+<td>Ergebnis Ubat</td>
+</tr>
+<tr>
+<td>STATUS_VANOS_VERSTELLWINKEL_EINH</td>
+<td>string</td>
+<td>Einheit Ubat</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ll-luftbedarf"></a></p>
+<h3 id="status_ll_luftbedarf">STATUS_LL_LUFTBEDARF</h3>
+<p>Luftbedarf LL - Steller</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_52">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LL_LUFTBEDARF_WERT</td>
+<td>real</td>
+<td>Wert</td>
+</tr>
+<tr>
+<td>STATUS_LL_LUFTBEDARF_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-counter"></a></p>
+<h3 id="status_lambda_counter">STATUS_LAMBDA_COUNTER</h3>
+<p>Counter fuer die Einschaltbedingung Lambdasonde</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_53">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_LAMBDA_COUNTER_WERT</td>
+<td>real</td>
+<td>Wert</td>
+</tr>
+<tr>
+<td>STATUS_LAMBDA_COUNTER_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-digital"></a></p>
+<h3 id="status_digital">STATUS_DIGITAL</h3>
+<p>Status Schalteingaenge</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_54">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_VL_EIN</td>
+<td>int</td>
+<td>Status Vollastschalter 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_LL_EIN</td>
+<td>int</td>
+<td>Status Leerlaufschalter 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_DWA_EIN</td>
+<td>int</td>
+<td>Status Diebstahlwarnanlage 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_FS_EIN</td>
+<td>int</td>
+<td>Status Fahrstufe 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_KO_EIN</td>
+<td>int</td>
+<td>Status Klimakopressor 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STAT_KO_EIN</td>
+<td>int</td>
+<td>Status Klimakopressor 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_AC_EIN</td>
+<td>int</td>
+<td>Status Aircondition 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STAT_AC_EIN</td>
+<td>int</td>
+<td>Status Aircondition 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_GE_EIN</td>
+<td>int</td>
+<td>Status Getriebeeingriff 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_LAMBDAREGELUNG_1_EIN</td>
+<td>int</td>
+<td>Status Lambdaregelung 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_LAMBDAREGELUNG_2_EIN</td>
+<td>int</td>
+<td>Status Lambdaregelung 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_KO_RELAIS</td>
+<td>int</td>
+<td>Status Sondenheizung 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_VANOS_EIN</td>
+<td>int</td>
+<td>Status Vanos 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_EKP_EIN</td>
+<td>int</td>
+<td>Status EKP 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_CAN_EIN</td>
+<td>int</td>
+<td>Status CAN 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_ASR_EIN</td>
+<td>int</td>
+<td>Status ASR 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_MSR_EIN</td>
+<td>int</td>
+<td>Status MSR 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_KLAPPE_EIN</td>
+<td>int</td>
+<td>Status KLAPPE 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_RUN_LOS_EIN</td>
+<td>int</td>
+<td>Status Running losses 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_AAV_EIN</td>
+<td>int</td>
+<td>Status AAV 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_SLP_EIN</td>
+<td>int</td>
+<td>Status Sekundaerluftpumpe 0=Aus / 1=Ein</td>
+</tr>
+<tr>
+<td>STATUS_SLV_EIN</td>
+<td>int</td>
+<td>Status Sekundaerluftventil 0=Aus / 1=Ein</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-1"></a></p>
+<h3 id="steuern_ev_1">STEUERN_EV_1</h3>
+<p>EV  1 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_55">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-2"></a></p>
+<h3 id="steuern_ev_2">STEUERN_EV_2</h3>
+<p>EV  2 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_56">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-3"></a></p>
+<h3 id="steuern_ev_3">STEUERN_EV_3</h3>
+<p>EV 3 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_57">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-4"></a></p>
+<h3 id="steuern_ev_4">STEUERN_EV_4</h3>
+<p>EV 4 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_58">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-5"></a></p>
+<h3 id="steuern_ev_5">STEUERN_EV_5</h3>
+<p>EV  5 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_59">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ev-6"></a></p>
+<h3 id="steuern_ev_6">STEUERN_EV_6</h3>
+<p>EV  6 ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_60">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-tev"></a></p>
+<h3 id="steuern_tev">STEUERN_TEV</h3>
+<p>Tankentlueftungsventil  ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_61">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ll-steller"></a></p>
+<h3 id="steuern_ll_steller">STEUERN_LL_STELLER</h3>
+<p>Leerlaufsteller ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_62">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-abgasklappe"></a></p>
+<h3 id="steuern_abgasklappe">STEUERN_ABGASKLAPPE</h3>
+<p>Abgasklappe ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_63">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ekp"></a></p>
+<h3 id="steuern_ekp">STEUERN_EKP</h3>
+<p>EKP-Relais ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_64">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-ko"></a></p>
+<h3 id="steuern_ko">STEUERN_KO</h3>
+<p>Klimakompressorrelais ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_65">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-vanos"></a></p>
+<h3 id="steuern_vanos">STEUERN_VANOS</h3>
+<p>VANOS ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_66">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-lesen-systemcheck-laufunruhe"></a></p>
+<h3 id="lesen_systemcheck_laufunruhe">LESEN_SYSTEMCHECK_LAUFUNRUHE</h3>
+<p>Systemcheck Laufunruhe lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_67">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_STATUS</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_WERT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL1_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL2_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL3_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL4_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL5_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>LESEN_SYSTEMCHECK_LAUFUNRUHE_ZYL6_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Loeschen des Fehlerspeichers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_68">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-uprog-ein"></a></p>
+<h3 id="uprog_ein">UPROG_EIN</h3>
+<p>Programmierspannung einschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_69">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STATUS_UPROG_WERT</td>
+<td>real</td>
+<td>Programmierspannung als Info zurueck</td>
+</tr>
+<tr>
+<td>STATUS_UPROG_EINH</td>
+<td>string</td>
+<td>Einheit V</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-uprog-aus"></a></p>
+<h3 id="uprog_aus">UPROG_AUS</h3>
+<p>Programmierspannung ausschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_70">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-co-abgleich-lesen"></a></p>
+<h3 id="co_abgleich_lesen">CO_ABGLEICH_LESEN</h3>
+<p>CO-Abgleich lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_71">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STATUS_CO_ABGLEICH_WERT</td>
+<td>int</td>
+<td>Aktuellen Abgleichwert</td>
+</tr>
+<tr>
+<td>STATUS_CO_ABGLEICH_FREIE_ZELLEN</td>
+<td>int</td>
+<td>Aktuell freie  Abgleichmoeglichkeiten</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-co-abgleich-verstellen"></a></p>
+<h3 id="co_abgleich_verstellen">CO_ABGLEICH_VERSTELLEN</h3>
+<p>CO-Abgleich lesen</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CO_VERSTELL_WERT</td>
+<td>int</td>
+<td>Neuer Verstellwert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_72">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-co-abgleich-programmieren"></a></p>
+<h3 id="co_abgleich_programmieren">CO_ABGLEICH_PROGRAMMIEREN</h3>
+<p>CO-Abgleich programmieren</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_73">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>CO_ABGLEICH_PROGRAMMIEREN_STATUS</td>
+<td>int</td>
+<td>Programmierstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-z-fl-lesen"></a></p>
+<h3 id="status_z_fl_lesen">STATUS_Z_FL_LESEN</h3>
+<p>Auslesen des Zahnflankenfehler</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_74">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS_Z_FL_LESEN_WERT</td>
+<td>real</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lmm-masse"></a></p>
+<h3 id="status_lmm_masse">STATUS_LMM_MASSE</h3>
+<p>Wert Luftmasse  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_75">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LMM_MASSE_WERT</td>
+<td>real</td>
+<td>Ergebnis Luftmasse</td>
+</tr>
+<tr>
+<td>STAT_LMM_MASSE_EINH</td>
+<td>string</td>
+<td>Einheit Luftmasse in kg/h</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-systemcheck-laufunruhe"></a></p>
+<h3 id="status_systemcheck_laufunruhe">STATUS_SYSTEMCHECK_LAUFUNRUHE</h3>
+<p>Systemcheck Laufunruhe lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_76">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_STATUS</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_WERT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL1_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL2_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL3_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL4_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL5_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_SYSTEMCHECK_LAUFUNRUHE_ZYL6_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ls-vkat-heizung-tv-1"></a></p>
+<h3 id="status_ls_vkat_heizung_tv_1">STATUS_LS_VKAT_HEIZUNG_TV_1</h3>
+<p>Lambdasondenheizung  1  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_77">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_HEIZUNG_TV_1_WERT</td>
+<td>real</td>
+<td>Ergebnis Lambdasondenheizung  1</td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_HEIZUNG_TV_1_EINH</td>
+<td>string</td>
+<td>Einheit Lambdasondenheizung  1 in %</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ls-vkat-heizung-tv-2"></a></p>
+<h3 id="status_ls_vkat_heizung_tv_2">STATUS_LS_VKAT_HEIZUNG_TV_2</h3>
+<p>Lambdasondenheizung  2  auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_78">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_HEIZUNG_TV_2_WERT</td>
+<td>real</td>
+<td>Ergebnis Lambdasondenheizung  2</td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_HEIZUNG_TV_2_EINH</td>
+<td>string</td>
+<td>Einheit Lambdasondenheizung  2 in %</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ls-vkat-signal-1"></a></p>
+<h3 id="status_ls_vkat_signal_1">STATUS_LS_VKAT_SIGNAL_1</h3>
+<p>Spannug Lambdasonde vor KAT auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_79">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_SIGNAL_1_WERT</td>
+<td>real</td>
+<td>Spannungswert L-Sonde vor KAT</td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_SIGNAL_1_EINH</td>
+<td>string</td>
+<td>Einheit Volt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-ls-vkat-signal-2"></a></p>
+<h3 id="status_ls_vkat_signal_2">STATUS_LS_VKAT_SIGNAL_2</h3>
+<p>Spannug Lambdasonde vor KAT auslesen Sonde 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_80">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_SIGNAL_2_WERT</td>
+<td>real</td>
+<td>Spannungswert L-Sonde vor KAT</td>
+</tr>
+<tr>
+<td>STAT_LS_VKAT_SIGNAL_2_EINH</td>
+<td>string</td>
+<td>Einheit Volt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-integrator-1"></a></p>
+<h3 id="status_lambda_integrator_1">STATUS_LAMBDA_INTEGRATOR_1</h3>
+<p>INT-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_81">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_INTEGRATOR_1_WERT</td>
+<td>real</td>
+<td>INT-Signal Wert</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_INTEGRATOR_1_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-lesen"></a></p>
+<h3 id="pruefstempel_lesen">PRUEFSTEMPEL_LESEN</h3>
+<p>Auslesen des Pruefstempels</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_82">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-schreiben"></a></p>
+<h3 id="pruefstempel_schreiben">PRUEFSTEMPEL_SCHREIBEN</h3>
+<p>Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_83">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_ARGUMENT, wenn Argumente nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-integrator-2"></a></p>
+<h3 id="status_lambda_integrator_2">STATUS_LAMBDA_INTEGRATOR_2</h3>
+<p>INT-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_84">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_INTEGRATOR_2_WERT</td>
+<td>real</td>
+<td>INT-Signal Wert</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_INTEGRATOR_2_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-add-1"></a></p>
+<h3 id="status_lambda_add_1">STATUS_LAMBDA_ADD_1</h3>
+<p>ADD-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_85">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_ADD_1_WERT</td>
+<td>real</td>
+<td>ADD-Signal Wert</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_ADD_1_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-add-2"></a></p>
+<h3 id="status_lambda_add_2">STATUS_LAMBDA_ADD_2</h3>
+<p>ADD-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_86">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_ADD_2_WERT</td>
+<td>real</td>
+<td>ADD-Signal Wert</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_ADD_2_EINH</td>
+<td>string</td>
+<td>Einheit</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-mul-1"></a></p>
+<h3 id="status_lambda_mul_1">STATUS_LAMBDA_MUL_1</h3>
+<p>MUL-Signal</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_87">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_MUL_1_WERT</td>
+<td>real</td>
+<td>MUL-Signal Wert</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_MUL_1_EINH</td>
+<td>string</td>
+<td>Einheit [1]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lambda-mul-2"></a></p>
+<h3 id="status_lambda_mul_2">STATUS_LAMBDA_MUL_2</h3>
+<p>MUL-Signal Bank 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_88">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_MUL_2_WERT</td>
+<td>real</td>
+<td>MUL-Signal Wert Bank 2</td>
+</tr>
+<tr>
+<td>STAT_LAMBDA_MUL_2_EINH</td>
+<td>string</td>
+<td>Einheit [1]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-betriebswmatrix">BETRIEBSWMATRIX</a> (32 × 8)</li>
+<li><a href="#table-bits">BITS</a> (21 × 4)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (97 × 6)</li>
+<li><a href="#table-fartmatrix">FARTMATRIX</a> (50 × 17)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (10 × 2)</li>
+<li><a href="#table-fumwelttexte">FUMWELTTEXTE</a> (29 × 5)</li>
+<li><a href="#table-nulleinstexte">NULLEINSTEXTE</a> (4 × 3)</li>
+<li><a href="#table-jobresult">JOBRESULT</a> (8 × 2)</li>
+</ul>
+<p><a id="table-betriebswmatrix"></a></p>
+<h3 id="betriebswmatrix">BETRIEBSWMATRIX</h3>
+<p>Dimensions: 32 rows × 8 columns</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>QUELLE</th>
+<th>ZELLE</th>
+<th>ORD</th>
+<th>TYP</th>
+<th>FAKT_A</th>
+<th>FAKT_B</th>
+<th>EINH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABGAS_VARIANTE</td>
+<td>LINRAM</td>
+<td>0x10006</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1/min</td>
+</tr>
+<tr>
+<td>LAMBDA_COUNTER</td>
+<td>LINRAM</td>
+<td>0xEDE6</td>
+<td>LH</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1/min</td>
+</tr>
+<tr>
+<td>Motordrehzahl</td>
+<td>LINRAM</td>
+<td>0xDA2A</td>
+<td>HL</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1/min</td>
+</tr>
+<tr>
+<td>Motortemperatur</td>
+<td>LINRAM</td>
+<td>0xDA5A</td>
+<td>--</td>
+<td>1</td>
+<td>0.747</td>
+<td>-48</td>
+<td>Grad C</td>
+</tr>
+<tr>
+<td>Ansauglufttemp</td>
+<td>LINRAM</td>
+<td>0xDA50</td>
+<td>--</td>
+<td>1</td>
+<td>0.747</td>
+<td>-48</td>
+<td>Grad C</td>
+</tr>
+<tr>
+<td>Dk_winkel</td>
+<td>LINRAM</td>
+<td>0xDA45</td>
+<td>--</td>
+<td>1</td>
+<td>0.467</td>
+<td>0</td>
+<td>Grad DK</td>
+</tr>
+<tr>
+<td>XQSOLL</td>
+<td>LINRAM</td>
+<td>0xFAFC</td>
+<td>LH</td>
+<td>1</td>
+<td>0.25</td>
+<td>0</td>
+<td>[kg/h]</td>
+</tr>
+<tr>
+<td>Luftmasse</td>
+<td>LINRAM</td>
+<td>0xFAFC</td>
+<td>LH</td>
+<td>1</td>
+<td>0.25</td>
+<td>0</td>
+<td>kg/h</td>
+</tr>
+<tr>
+<td>Last</td>
+<td>LINRAM</td>
+<td>0xE78E</td>
+<td>HL</td>
+<td>1</td>
+<td>0.02119</td>
+<td>0</td>
+<td>mg/Hub</td>
+</tr>
+<tr>
+<td>Zuendwinkel</td>
+<td>LINRAM</td>
+<td>0xE818</td>
+<td>HL</td>
+<td>1</td>
+<td>0.01458</td>
+<td>-23.6</td>
+<td>Grad KW</td>
+</tr>
+<tr>
+<td>Einspritzzeit</td>
+<td>LINRAM</td>
+<td>0xDA1E</td>
+<td>HL</td>
+<td>1</td>
+<td>0.005339</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Tast_ll_Steller</td>
+<td>LINRAM</td>
+<td>0xDA38</td>
+<td>HL</td>
+<td>1</td>
+<td>655.35</td>
+<td>0</td>
+<td>%</td>
+</tr>
+<tr>
+<td>Nw_Ist_Position</td>
+<td>LINRAM</td>
+<td>0xE873</td>
+<td>--</td>
+<td>1</td>
+<td>0.3749</td>
+<td>0</td>
+<td>Grad KW</td>
+</tr>
+<tr>
+<td>Vanos_fr_verst_z</td>
+<td>LINRAM</td>
+<td>0xE876</td>
+<td>HL</td>
+<td>1</td>
+<td>0.01</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Vanos_sp_verst_z</td>
+<td>LINRAM</td>
+<td>0xE874</td>
+<td>HL</td>
+<td>1</td>
+<td>0.01</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Verstellwinkel</td>
+<td>LINRAM</td>
+<td>0xDAA4</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>Grad KW</td>
+</tr>
+<tr>
+<td>KMW1</td>
+<td>LINRAM</td>
+<td>0xDA64</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>KMW2</td>
+<td>LINRAM</td>
+<td>0xDA68</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>KMW3</td>
+<td>LINRAM</td>
+<td>0xDA66</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>KMW4</td>
+<td>LINRAM</td>
+<td>0xDA69</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>KMW5</td>
+<td>LINRAM</td>
+<td>0xDA65</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>KMW6</td>
+<td>LINRAM</td>
+<td>0xDA63</td>
+<td>--</td>
+<td>1</td>
+<td>0.02</td>
+<td>0</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Integrator_1</td>
+<td>LINRAM</td>
+<td>0xD289</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Integrator_2</td>
+<td>LINRAM</td>
+<td>0xD2AD</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Adaptionsw_ADD_1</td>
+<td>LINRAM</td>
+<td>0xD297</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Adaptionsw_ADD_2</td>
+<td>LINRAM</td>
+<td>0xD2bb</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Adaptionsw_MUL_1</td>
+<td>LINRAM</td>
+<td>0xD28b</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Adaptionsw_MUL_2</td>
+<td>LINRAM</td>
+<td>0xD2af</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>Lambdasonde_1</td>
+<td>LINRAM</td>
+<td>0xD1C9</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>Volt</td>
+</tr>
+<tr>
+<td>Lambdasonde_2</td>
+<td>LINRAM</td>
+<td>0x12be</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>Volt</td>
+</tr>
+<tr>
+<td>Zanflanken_er</td>
+<td>LINRAM</td>
+<td>0xFA86</td>
+<td>--</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td>Ubatt</td>
+<td>LINRAM</td>
+<td>0xDA5B</td>
+<td>--</td>
+<td>1</td>
+<td>0.102</td>
+<td>0</td>
+<td>Volt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-bits"></a></p>
+<h3 id="bits">BITS</h3>
+<p>Dimensions: 21 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>BYTE</th>
+<th>MASK</th>
+<th>VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_VL</td>
+<td>0</td>
+<td>0x03</td>
+<td>0x03</td>
+</tr>
+<tr>
+<td>S_LL</td>
+<td>0</td>
+<td>0x01</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>S_FS</td>
+<td>1</td>
+<td>0x04</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>S_DWA</td>
+<td>0</td>
+<td>0x20</td>
+<td>0x20</td>
+</tr>
+<tr>
+<td>S_KO</td>
+<td>0</td>
+<td>0x80</td>
+<td>0x80</td>
+</tr>
+<tr>
+<td>S_AC</td>
+<td>0</td>
+<td>0x40</td>
+<td>0x40</td>
+</tr>
+<tr>
+<td>S_GE</td>
+<td>1</td>
+<td>0x02</td>
+<td>0x02</td>
+</tr>
+<tr>
+<td>S_REG1</td>
+<td>1</td>
+<td>0x40</td>
+<td>0x40</td>
+</tr>
+<tr>
+<td>S_REG2</td>
+<td>1</td>
+<td>0x80</td>
+<td>0x80</td>
+</tr>
+<tr>
+<td>S_ASC</td>
+<td>0</td>
+<td>0x04</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>S_MSR</td>
+<td>0</td>
+<td>0x08</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>S_CAN</td>
+<td>1</td>
+<td>0x01</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>S_VANOS</td>
+<td>2</td>
+<td>0x04</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>S_EKP</td>
+<td>2</td>
+<td>0x01</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>S_KO_REL</td>
+<td>2</td>
+<td>0x02</td>
+<td>0x02</td>
+</tr>
+<tr>
+<td>S_KLAPPE</td>
+<td>2</td>
+<td>0x08</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>S_RUN_LOSSES</td>
+<td>2</td>
+<td>0x10</td>
+<td>0x10</td>
+</tr>
+<tr>
+<td>S_AAV</td>
+<td>2</td>
+<td>0x20</td>
+<td>0x20</td>
+</tr>
+<tr>
+<td>S_ABGAS</td>
+<td>3</td>
+<td>0x04</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>S_SLP</td>
+<td>2</td>
+<td>0x40</td>
+<td>0x40</td>
+</tr>
+<tr>
+<td>S_SLV</td>
+<td>2</td>
+<td>0x80</td>
+<td>0x80</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 97 rows × 6 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+<th>UW_1</th>
+<th>UW_2</th>
+<th>UW_3</th>
+<th>UW_4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>--</td>
+<td>0x00</td>
+<td>0x00</td>
+<td>0x00</td>
+<td>0x00</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Zuendung Zylinder 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Zuendung Zylinder 4</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Zuendung Zylinder 6</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Einspritzventil Zylinder 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Einspritzventil Zylinder 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Luftmassenmesser</td>
+<td>0x01</td>
+<td>0x0A</td>
+<td>0x0B</td>
+<td>0x1A</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Temperaturfuehler Motortemperatur</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x19</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Tankdrucksensor (TDS)</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x19</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Drosselklappenpotentiometer</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x0A</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Temperaturfuehler Ansaugluft</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x19</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Pulsweitenmoduliertes Eingangssignal Schalter Klimakompressor</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x19</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>EWS-Signal (DWA-Eingang) nicht vorhanden oder fehlerhaft</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x0A</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Diagnoselampe (MIL)</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x19</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>VANOS Ansteller, elektrischer Fehler</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x19</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Einspritzventil Zylinder 3</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Einspritzventil Zylinder 6</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Einspritzventil Zylinder 4</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Lambdasondenheizung Sonde 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x07</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>Leerlaufsteller / schliessende Spule</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0x0A</td>
+<td>0x0B</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>Zuendung Zylinder 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>Zuendung Zylinder 3</td>
+<td>0x07</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>Zuendung Zylinder 5</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x03</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Einspritzventil Zylinder 5</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Relais Sekundaerluftpumpe</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>Fuellstandssignal Reservelampe</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>Temperatur nach Vorkatalysator Startwert</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>(3/2 Wege)Magnetventil Running losses</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Absperrventil Aktivkohlefilter (AAV)</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Abgasklappe</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>Leerlaufsteller / oeffnende Spule</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0x0A</td>
+<td>0x0B</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Lambdasondenheizung Sonde 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x08</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Zuendstrommessung Widerstand Unterbrechung</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>Klopfsensor 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x15</td>
+<td>0x16</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>Klopfsensor 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x15</td>
+<td>0x16</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>Lambdasondenheizung Sonde 4</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x15</td>
+<td>0x16</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>Sekundaerluftventil</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x15</td>
+<td>0x16</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Nockenwellen - Geber</td>
+<td>0x01</td>
+<td>0x10</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>Tankentlueftungsventil</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x1B</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>Relais Kraftstoffpumpe</td>
+<td>0x01</td>
+<td>0x0D</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>Relais Klimakompressor</td>
+<td>0x01</td>
+<td>0x0D</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>Lambdasonde 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x17</td>
+<td>0x07</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>Lambdasonde 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>Lambdasonde 3</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>Lambdasonde 4</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>Lambdasondenheizung Sonde 3</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>ASC - Signal Eingriff zu lang</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0D</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>MSR - Signal Eingriff zu lang</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0D</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>EML - Signal Eingriff zu lang</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0D</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Kurbelwellen - Gebersignal</td>
+<td>0x01</td>
+<td>0x10</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Steuergeraete Selbsttest</td>
+<td>0x13</td>
+<td>0x09</td>
+<td>0x11</td>
+<td>0x12</td>
+</tr>
+<tr>
+<td>0xC8</td>
+<td>Spannungshub Lambdasonde 1</td>
+<td>0x01</td>
+<td>0x14</td>
+<td>0x17</td>
+<td>0x07</td>
+</tr>
+<tr>
+<td>0xC9</td>
+<td>Spannungshub Lambdasonde 2</td>
+<td>0x01</td>
+<td>0x14</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0xCA</td>
+<td>Lambdareglergrenze Bank 1</td>
+<td>0x01</td>
+<td>0x18</td>
+<td>0x17</td>
+<td>0x07</td>
+</tr>
+<tr>
+<td>0xCB</td>
+<td>Lambdareglergrenze Bank 2</td>
+<td>0x01</td>
+<td>0x18</td>
+<td>0x17</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>EWS-Signal fehlerhaft</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>Zuendstrommessung an mehr als 2 Zylinder</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>Leerlaufsteller, mechanisches Klemmen</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>VANOS mechanisches Klemmen</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0E</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>Tachosignal unplausibel</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0E</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>ASC / MSR   Signalkombination unplausibel</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x0D</td>
+<td>0x18</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>Waehlhebelpositionssignal nicht definiert</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x09</td>
+<td>0x0E</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>Timeout CAN-Botschaft zum EGS</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>CAN-Baustein warning level erreicht</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>CAN-Baustein Bus aus</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xDE</td>
+<td>Lambdaregelung nach vorgegeb. Zeit nicht aktiv</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE1</td>
+<td>Temperatur nach Vor-KAT 1 Spannungswert</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE2</td>
+<td>Temperatur nach Vor-KAT 2 Spannungswert</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE3</td>
+<td>Lambdaregleradaption, Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE4</td>
+<td>Lambdaregleradaption, Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE5</td>
+<td>Regelfrequenz Lambdasonde Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>Regelfrequenz Lambdasonde Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE7</td>
+<td>Sprungzeit Lambdasonde Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE8</td>
+<td>Sprungzeit Lambdasonde Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>KAT Gesamtwirkungsgrad Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>KAT Gesamtwirkungsgrad Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>Nach-KAT-Sondenheizkreis Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>Nach-KAT-Sondenheizkreis Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>Verbrennungsaussetzer, Zylinder 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>Verbrennungsaussetzer, Zylinder 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>Verbrennungsaussetzer, Zylinder 3</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>Verbrennungsaussetzer, Zylinder 4</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>Verbrennungsaussetzer, Zylinder 5</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>Verbrennungsaussetzer, Zylinder 6</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>Kurbelwellensegmentadaption am Anschlag</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>Fehler Sekundaerluftsystem Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>Fehler Sekundaerluftsystem Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>Sekundaerluftventil mechanisches Klemmen</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF8</td>
+<td>Vor-Kat-Wirkungsgrad Bank 1</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF9</td>
+<td>Vor-Kat-Wirkungsgrad Bank 2</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>Funktionstest Tankentlueftungsvenzil</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>Diagnosefehler TE</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>Fehler beim Absaugen im Tanksystem</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>Absperrventil klemmt, geschlossen</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>Tankdeckel fehlt</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>TEV klemmt, offen</td>
+<td>0x01</td>
+<td>0x0C</td>
+<td>0x18</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Fehlerort</td>
+<td>0x00</td>
+<td>0x00</td>
+<td>0x00</td>
+<td>0x00</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fartmatrix"></a></p>
+<h3 id="fartmatrix">FARTMATRIX</h3>
+<p>Dimensions: 50 rows × 17 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>A1_0</th>
+<th>A1_1</th>
+<th>A2_0</th>
+<th>A2_1</th>
+<th>A3_0</th>
+<th>A3_1</th>
+<th>A4_0</th>
+<th>A4_1</th>
+<th>A5_0</th>
+<th>A5_1</th>
+<th>A6_0</th>
+<th>A6_1</th>
+<th>A7_0</th>
+<th>A7_1</th>
+<th>A8_0</th>
+<th>A8_1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xC8</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xC9</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xCA</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xCB</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>0x00</td>
+<td>0x06</td>
+<td>0x00</td>
+<td>0x07</td>
+<td>0x00</td>
+<td>0x08</td>
+<td>0x00</td>
+<td>0x09</td>
+<td>0x00</td>
+<td>0x0a</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x03</td>
+<td>0x02</td>
+<td>0x04</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 10 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>--</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Fehler nach Entprellung abgespeichert</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Fehler momentan vorhanden</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Fehler momentan nicht vorhanden</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>statischer Fehler</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>sporadischer Fehler</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Kurzschluss gegen U-Batt</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Kurzschluss gegen Masse</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Unterbrechung</td>
+</tr>
+<tr>
+<td>0x0a</td>
+<td>Abgasrelevanter Fehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fumwelttexte"></a></p>
+<h3 id="fumwelttexte">FUMWELTTEXTE</h3>
+<p>Dimensions: 29 rows × 5 columns</p>
+<table>
+<thead>
+<tr>
+<th>UWNR</th>
+<th>UWTEXT</th>
+<th>UW_EINH</th>
+<th>UWF_A</th>
+<th>UWF_B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>--</td>
+<td>--</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Motordrehzahl</td>
+<td>1/min</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Luftmasse</td>
+<td>kg/h</td>
+<td>4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Funkenbrenndauer low</td>
+<td>ms</td>
+<td>0.0196</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Funkenbrenndauer high</td>
+<td>ms</td>
+<td>2.56</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Lambdareglere Bank 1</td>
+<td>%</td>
+<td>0.3906</td>
+<td>-50</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Lambdareglere Bank 2</td>
+<td>%</td>
+<td>0.3906</td>
+<td>-50</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>L-Sondenspannung 1</td>
+<td>Volt</td>
+<td>0.0196</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>L-Sondenspannung 2</td>
+<td>Volt</td>
+<td>0.0196</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Batteriespannung</td>
+<td>Volt</td>
+<td>0.1020</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0a</td>
+<td>Drosselklappenwinkel</td>
+<td>Grad DK</td>
+<td>0.4686</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0b</td>
+<td>Leerlaufsteller</td>
+<td>%</td>
+<td>0.3906</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0c</td>
+<td>Last</td>
+<td>mg/Hub</td>
+<td>5.4471</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0d</td>
+<td>Geschwindigkeit</td>
+<td>km/h</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0e</td>
+<td>Gang-Information</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x0f</td>
+<td>Nockenwellenwinkel</td>
+<td>Grad NW</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Motorbetriebszustand</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>digitaler F-Code 1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>digitaler F-Code 2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Motortemp. U-Wert</td>
+<td>Volt</td>
+<td>0.0196</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>mitt. Sondenfettsp.</td>
+<td>Volt</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>KS-Signalverstaerkung</td>
+<td>1</td>
+<td>0.00392</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Geraeuschwert</td>
+<td>Volt</td>
+<td>0.02</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Sondenheizung</td>
+<td>%</td>
+<td>0.391</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Motortemperatur</td>
+<td>Grad C</td>
+<td>0.7471</td>
+<td>-48</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Ansauglufttemperatur</td>
+<td>Grad C</td>
+<td>0.7471</td>
+<td>-48</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>LMM Spannungswert</td>
+<td>Volt</td>
+<td>0.0196</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>TEV - Ansteuerung</td>
+<td>%</td>
+<td>0.391</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte Umweltbedingung</td>
+<td>--</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-nulleinstexte"></a></p>
+<h3 id="nulleinstexte">NULLEINSTEXTE</h3>
+<p>Dimensions: 4 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>SELECTOR</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AE</td>
+<td>AUS</td>
+<td>EIN</td>
+</tr>
+<tr>
+<td>OZ</td>
+<td>OFFEN</td>
+<td>ZU</td>
+</tr>
+<tr>
+<td>AA</td>
+<td>AUS</td>
+<td>AKTIV</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>kein Text gefunden</td>
+<td>kein Text gefunden</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

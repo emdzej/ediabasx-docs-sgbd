@@ -1,0 +1,4129 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/VM5IBUS/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>VM5IBUS.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vm5ibusprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              VM5IBUS.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#energiesparmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENERGIESPARMODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ENERGIESPARMODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powerdown_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POWERDOWN_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="POWERDOWN_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pruefstempel_lesen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pruefstempel_lesen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Speicher_lesen
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Speicher_lesen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_selbsttest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SELBSTTEST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SELBSTTEST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_status_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_STATUS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SG_STATUS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_einzeltest_antennen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_EINZELTEST_ANTENNEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_EINZELTEST_ANTENNEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_status_einzeltest_antennen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_STATUS_EINZELTEST_ANTENNEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SG_STATUS_EINZELTEST_ANTENNEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_st_messwerte_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_ST_MESSWERTE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SG_ST_MESSWERTE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_vorgabe_analog_tv_kanal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_VORGABE_ANALOG_TV_KANAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SG_VORGABE_ANALOG_TV_KANAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_channel_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CHANNEL_SET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CHANNEL_SET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_channel_set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CHANNEL_SET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CHANNEL_SET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_biterror_rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_BITERROR_RATE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_BITERROR_RATE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_testbild" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_TESTBILD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_TESTBILD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierung_laendervariante_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERUNG_LAENDERVARIANTE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CODIERUNG_LAENDERVARIANTE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_s_auftrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_S_AUFTRAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_S_AUFTRAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_s_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_S_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_S_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cs_bilden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CS_BILDEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CS_BILDEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_fg_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_FG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_FG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_fg_auftrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_FG_AUFTRAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_FG_AUFTRAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modul_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MODUL_INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MODUL_INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nec_monitor_typ_basisbetrieb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NEC_MONITOR_TYP_BASISBETRIEB
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NEC_MONITOR_TYP_BASISBETRIEB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_jmc_blanking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_JMC_BLANKING
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_JMC_BLANKING">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_jmc_settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_JMC_SETTINGS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_JMC_SETTINGS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_jmctest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_JMCTEST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_JMCTEST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_jmctest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_JMCTEST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_JMCTEST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalargument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALARGUMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#segmentauswahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SEGMENTAUSWAHL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iorttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="vm5ibusprg">VM5IBUS.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">34</a></li>
+<li>Tables: <a href="#tables">7</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Videomodul VM5IBus VM_Hybrid_Ibus VM5_IBus_Cam</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW EE-41 Lamberty</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.04</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>Lear DCS Bayreuther,BMW TI-431 Rochal,</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Videomodul VM5IBUS VM_HYBRID_IBUS VM5_IBUS_CAM</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.02</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-energiesparmode">ENERGIESPARMODE</a> - Einstellen des Energiesparmodes</li>
+<li><a href="#job-powerdown-mode">POWERDOWN_MODE</a> - SG in PowerDown-Mode versetzen</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Init-Job Videomodul TV-Teil</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten fuer Videomodul TV-Teil</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen Low Konzept ohne Umweltbedingung</li>
+<li><a href="#job-is-lesen">IS_LESEN</a> - Shadowspeicher lesen</li>
+<li><a href="#job-pruefstempel-lesen">Pruefstempel_lesen</a> - Auslesen des Pruefstempels</li>
+<li><a href="#job-pruefstempel-schreiben">PRUEFSTEMPEL_SCHREIBEN</a> - Daten in den Pruefstempel schreiben</li>
+<li><a href="#job-speicher-lesen">Speicher_lesen</a> - Lesen, welche Parameter geladen sind</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen im Videomodul TV-Teil</li>
+<li><a href="#job-steuern-selbsttest">STEUERN_SELBSTTEST</a> - Selbsttest des Videomoduls Uebergabe eines Arguments nur bei VM5IBus ab SW12 und VM_HYBRID_IBUS Bei VM_HYBRID_IBUS und bei VM5IBUS ab SW16 (VM5_IBUS_CAM) sind waehrend diesen Tests weitere Diagnosefunktionen moeglich.</li>
+<li><a href="#job-sg-status-lesen">SG_STATUS_LESEN</a> - Stati lesen am Videomodul TV-Teil</li>
+<li><a href="#job-steuern-einzeltest-antennen">STEUERN_EINZELTEST_ANTENNEN</a> - Job nur fuer VM_HYBRID_IBUS Pruefung der Fernspeisung des Videomoduls Pruefung des Antennenstroms  des Videomoduls</li>
+<li><a href="#job-sg-status-einzeltest-antennen">SG_STATUS_EINZELTEST_ANTENNEN</a> - Job nur fuer VM_HYBRID_IBUS Ergebnis des Antennentests</li>
+<li><a href="#job-sg-st-messwerte-lesen">SG_ST_MESSWERTE_LESEN</a> - SG Lesen der aktuellen Messwerte nach Selbsttest</li>
+<li><a href="#job-sg-vorgabe-analog-tv-kanal">SG_VORGABE_ANALOG_TV_KANAL</a> - Umschalten eines analogen Kanals und dessen Norm Job fuer VM5Ibus ab SW 11 und VM_HYBRID_IBUS Argument_1 Kanal (Bereich von 1 bis 99) Argument_2 Norm  (Bereich von 2 bis 21)  Wird Argument 2 (Norm) nicht uebergeben, dann ist automatisch PAL BG eingestellt. Es muss vor Aufruf des Jobs auf TV umgeschaltet werden. Jetzt darf das VM_Hybrid_IBus nicht auf einem digitalen Kanal stehen, da mit diesem Job nur analoge Kanaele umgeschaltet werden koennen.  Argument 1  Kanal 1..99 Argument 2  TV-Norm 2     NTSC_M 3     NTSC JAPAN 4     PAL_BG 5     PAL_BG (default) 6     PAL_I 7     PAL_M 8     PAL_N 9     PAL_DK 10    PAL AUSTRALIA 11    PAL ITALIA 12    PAL MOROCCO 13    PAL_DK OIRT 14    PAL NEWZEALAND 15    PAL CHINA 16    SECAM_BG 17    SECAM_DK 18    SECAM_K1 19    SECAM_L FRANCE 20    SECAM MOROCCO 21    PAL_BG OIRT </li>
+<li><a href="#job-steuern-channel-set">STEUERN_CHANNEL_SET</a> - Aufschalten eines analogen oder digitalen Kanals Job nur fuer VM_HYBRID_IBUS ab SW 18 Kanal (Bereich von 1 bis 99)  Hinweis: kann bis zu mehreren Sekunden andauern mit STATUS_CHANNEL_SET abfragen ob Abstimmung fertig Argument Kanal 1..99</li>
+<li><a href="#job-status-channel-set">STATUS_CHANNEL_SET</a> - Abfrage Tunerabstimmung Job nur fuer VM_HYBRID_IBUS ab SW 18</li>
+<li><a href="#job-status-biterror-rate">STATUS_BITERROR_RATE</a> - Abfrage BER nach Viterbi Job nur fuer VM_HYBRID_IBUS ab SW 18 Die Ausgabe erfolgt in 4 Empfangsstufen VM muss auf einen digitalem Kanal eingestellt werden BER-Werte nur für Digitalempfang</li>
+<li><a href="#job-steuern-testbild">STEUERN_TESTBILD</a> - Job fuer VM_HYBRID_IBUS ab SW18 und fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 Starten des Testbilds fuer 1..30 Sekunden Valid Time Argument: Argument: 0 = Testbild aus Argument: 1...30  = Testbild 1...30 Sekunden</li>
+<li><a href="#job-codierung-laendervariante-lesen">CODIERUNG_LAENDERVARIANTE_LESEN</a> - Speicher lesen EEPROM</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+<li><a href="#job-c-s-auftrag">C_S_AUFTRAG</a> - Codierdaten schreiben und verifizieren</li>
+<li><a href="#job-c-s-lesen">C_S_LESEN</a> - Codierdaten lesen</li>
+<li><a href="#job-cs-bilden">CS_BILDEN</a></li>
+<li><a href="#job-c-fg-lesen">C_FG_LESEN</a> - Auslesen des Pruefstempels und Interpretation als FG-Nummer</li>
+<li><a href="#job-c-fg-auftrag">C_FG_AUFTRAG</a> - Beschreiben des Pruefstempels mit der FG-Nummer</li>
+<li><a href="#job-modul-info">MODUL_INFO</a> - MODUL-Info-Daten fuer Videomodul TV-Teil</li>
+<li><a href="#job-nec-monitor-typ-basisbetrieb">NEC_MONITOR_TYP_BASISBETRIEB</a> - NEC-Monitor-Typ Umschaltung (4:3 Monitor). Job nur bei Anzeigeproblemen mit GT-BASIS-Konfiguration. Bei Problemen wg. Helligkeitspumpen und Ruecklauflinien im Hauptmenue</li>
+<li><a href="#job-steuern-jmc-blanking">STEUERN_JMC_BLANKING</a> - Schwarzes Fenster links oder rechts des Bildes Kamera muss zugeschaltet sein Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16  Argument1: schwarzer Balken links erhoehen    = 1 Argument1: schwarzer Balken links verringern  = 2 Argument1: schwarzer Balken rechts erhoehen   = 3 Argument1: schwarzer Balken rechts verringern = 4 Argument1: Normalstellung links               = 5 Argument1: Normalstellung rechts              = 6</li>
+<li><a href="#job-steuern-jmc-settings">STEUERN_JMC_SETTINGS</a> - Aendern von Kontrast, Helligkeit, Farbe oder Tint Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 JMC muss eingeschaltet sein Argument1: Kontrast           = 1 Argument1: Helligkeit         = 2 Argument1: Farbe              = 3 Argument1: Tint (bei NTSC)    = 4 Argument1: Werte lesen        = 5 ( Kein Argument2 notwendig) Argument1: Grundeinstellung   = 6 ( Kein Argument2 notwendig) Argument2: Bereich von 1 bis 100 Prozent</li>
+<li><a href="#job-steuern-jmctest">STEUERN_JMCTEST</a> - MirrorCam-Test des Videomoduls Uebergabe eines Arguments Abfrage der Ergebnisse mit STATUS_JMCTEST Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW16</li>
+<li><a href="#job-status-jmctest">STATUS_JMCTEST</a> - Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 Ergebnisse des MirrorCam-Tests STEUERN_JMCTEST oder STEUERN_SELBSTTEST muss vorher gesendet werden</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-energiesparmode"></a></p>
+<h3 id="energiesparmode">ENERGIESPARMODE</h3>
+<p>Einstellen des Energiesparmodes</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRODUKTIONSMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Produktions Mode ein "aus" -&gt; Produktions Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+<tr>
+<td>TRANSPORTMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Transport Mode ein "aus" -&gt; Transport Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+<tr>
+<td>WERKSTATTMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Werkstatt Mode ein "aus" -&gt; Werkstatt Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-powerdown-mode"></a></p>
+<h3 id="powerdown_mode">POWERDOWN_MODE</h3>
+<p>SG in PowerDown-Mode versetzen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZEIT</td>
+<td>real</td>
+<td>Zeit nach der das Steuergerät einschläft Bereich   : 0.5 bis 20.0 [Sekunden] Auflösung : 0.5 [Sekunden] =&gt; zeitgesteuerter Power-Down (0x9B) wird aktiviert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag von SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Init-Job Videomodul TV-Teil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten fuer Videomodul TV-Teil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Normalerweise "OKAY"</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>string</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>string</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>string</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>string</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>string</td>
+<td>Herstelldatum: Woche</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>string</td>
+<td>Herstelldatum: Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>string</td>
+<td>Lieferant-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferant im Klartext</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>string</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen Low Konzept ohne Umweltbedingung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise OKAY</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Ausgabe Fehlernummer</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haeufigkeit des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingen, hier 0</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Telegramm anzeigen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-is-lesen"></a></p>
+<h3 id="is_lesen">IS_LESEN</h3>
+<p>Shadowspeicher lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise OKAY</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Ausgabe Fehlernummer</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haeufigkeit des einzelnen Fehlers</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingen, hier 0</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Telegramm anzeigen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-lesen"></a></p>
+<h3 id="pruefstempel_lesen">Pruefstempel_lesen</h3>
+<p>Auslesen des Pruefstempels</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+<tr>
+<td>FG_ZIFFERN</td>
+<td>string</td>
+<td>die letzten vier Stellen der Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-schreiben"></a></p>
+<h3 id="pruefstempel_schreiben">PRUEFSTEMPEL_SCHREIBEN</h3>
+<p>Daten in den Pruefstempel schreiben</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>kann beliebig verwendet werden</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise "OKAY"</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-lesen"></a></p>
+<h3 id="speicher_lesen">Speicher_lesen</h3>
+<p>Lesen, welche Parameter geladen sind</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEGMENT_AUSWAHL</td>
+<td>int</td>
+<td>Angabe, welches Speichermedium ausgelesen werden soll</td>
+</tr>
+<tr>
+<td>START_ADRESSE_HIGH</td>
+<td>int</td>
+<td>Startadresse high als Hexwert</td>
+</tr>
+<tr>
+<td>START_ADRESSE_MIDDLE</td>
+<td>int</td>
+<td>Startadresse middle als Hexwert</td>
+</tr>
+<tr>
+<td>START_ADRESSE_LOW</td>
+<td>int</td>
+<td>Startadresse low als Hexwert</td>
+</tr>
+<tr>
+<td>ANZAHL_BYTE</td>
+<td>int</td>
+<td>Angabe, wieviele Bytes ausgelesen werden sollen maximale Anzahl 27 Byte, entspricht 1B Hex</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise "OKAY"</td>
+</tr>
+<tr>
+<td>SEGMENT_TEXT</td>
+<td>string</td>
+<td>Text Segmentauswahl</td>
+</tr>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>angeforderter Datenblock</td>
+</tr>
+<tr>
+<td>BYTE_ANZAHL</td>
+<td>int</td>
+<td>Eingabe, wieviel Byte ausgelesen werden sollen</td>
+</tr>
+<tr>
+<td>EINGABEFEHLER</td>
+<td>string</td>
+<td>Fehlertextausgabe bei Eingabe &gt;27 Byte</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td>gesendetes Telegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen im Videomodul TV-Teil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-selbsttest"></a></p>
+<h3 id="steuern_selbsttest">STEUERN_SELBSTTEST</h3>
+<p>Selbsttest des Videomoduls Uebergabe eines Arguments nur bei VM5IBus ab SW12 und VM_HYBRID_IBUS Bei VM_HYBRID_IBUS und bei VM5IBUS ab SW16 (VM5_IBUS_CAM) sind waehrend diesen Tests weitere Diagnosefunktionen moeglich.</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>0 = Rueckgabe des Acknowledge vor Testbeginn (Test 0) 1 = Rueckgabe des Acknowledge nach Testende (Test 1) wenn kein Argument uebergeben wird, wird Test 0 durchgefuehrt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sg-status-lesen"></a></p>
+<h3 id="sg_status_lesen">SG_STATUS_LESEN</h3>
+<p>Stati lesen am Videomodul TV-Teil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweiser OKAY</td>
+</tr>
+<tr>
+<td>STAT_ROT_OUT</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_ROT_OUT_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_GRUEN_OUT</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_GRUEN_OUT_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_BLAU_OUT</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_BLAU_OUT_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_ROT_IN</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_ROT_IN_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_GRUEN_IN</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_GRUEN_IN_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_BLAU_IN</td>
+<td>string</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_BLAU_IN_WERT</td>
+<td>int</td>
+<td>Ausgabe Testergebnis</td>
+</tr>
+<tr>
+<td>STAT_FS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_FS_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_XSYNC</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_XSYNC_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_FOND</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_FOND_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_CAM</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_CAM_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_VCR</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_VCR_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_TUNER</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_CVBS_TUNER_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_FOND</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_FOND_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_VCR</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_VCR_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_RADIO</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_RADIO_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_NAV</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_AF_NAV_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>STAT_ANTENNE1</td>
+<td>string</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE1_WERT</td>
+<td>int</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE2</td>
+<td>string</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE2_WERT</td>
+<td>int</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-einzeltest-antennen"></a></p>
+<h3 id="steuern_einzeltest_antennen">STEUERN_EINZELTEST_ANTENNEN</h3>
+<p>Job nur fuer VM_HYBRID_IBUS Pruefung der Fernspeisung des Videomoduls Pruefung des Antennenstroms  des Videomoduls</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>0 = Fernspeisespannung / -Strom  Ackn. vor Testbeginn 1 = Fernspeisespannung / -Strom  Ackn. nach Testende bei Test 0 erfolgt bei Messbeginn ein Acknowledge bei Test 1 erfolgt nach Messende ein Acknowledge wenn kein Argument uebergeben wird, wird Test 0 durchgefuehrt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sg-status-einzeltest-antennen"></a></p>
+<h3 id="sg_status_einzeltest_antennen">SG_STATUS_EINZELTEST_ANTENNEN</h3>
+<p>Job nur fuer VM_HYBRID_IBUS Ergebnis des Antennentests</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweiser OKAY</td>
+</tr>
+<tr>
+<td>STAT_FS</td>
+<td>string</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE1</td>
+<td>string</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_FS_WERT</td>
+<td>int</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE1_WERT</td>
+<td>int</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE2</td>
+<td>string</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>STAT_ANTENNE2_WERT</td>
+<td>int</td>
+<td>nur VM_HYBRID_IBUS</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sg-st-messwerte-lesen"></a></p>
+<h3 id="sg_st_messwerte_lesen">SG_ST_MESSWERTE_LESEN</h3>
+<p>SG Lesen der aktuellen Messwerte nach Selbsttest</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TESTAUSWAHL</td>
+<td>int</td>
+<td>Testauswahl 0x91 oder 145 dezimal = RGB Messwerte Testauswahl 0x92 oder 146 dezimal = CVBS Messwerte Testauswahl 0x93 oder 147 dezimal = TON Messwerte Testauswahl 0x94 oder 148 dezimal = FSU/I Messwerte (nur Hybrid)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sg-vorgabe-analog-tv-kanal"></a></p>
+<h3 id="sg_vorgabe_analog_tv_kanal">SG_VORGABE_ANALOG_TV_KANAL</h3>
+<p>Umschalten eines analogen Kanals und dessen Norm Job fuer VM5Ibus ab SW 11 und VM_HYBRID_IBUS Argument_1 Kanal (Bereich von 1 bis 99) Argument_2 Norm  (Bereich von 2 bis 21)  Wird Argument 2 (Norm) nicht uebergeben, dann ist automatisch PAL BG eingestellt. Es muss vor Aufruf des Jobs auf TV umgeschaltet werden. Jetzt darf das VM_Hybrid_IBus nicht auf einem digitalen Kanal stehen, da mit diesem Job nur analoge Kanaele umgeschaltet werden koennen.  Argument 1  Kanal 1..99 Argument 2  TV-Norm 2     NTSC_M 3     NTSC JAPAN 4     PAL_BG 5     PAL_BG (default) 6     PAL_I 7     PAL_M 8     PAL_N 9     PAL_DK 10    PAL AUSTRALIA 11    PAL ITALIA 12    PAL MOROCCO 13    PAL_DK OIRT 14    PAL NEWZEALAND 15    PAL CHINA 16    SECAM_BG 17    SECAM_DK 18    SECAM_K1 19    SECAM_L FRANCE 20    SECAM MOROCCO 21    PAL_BG OIRT </p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>Argument entspricht dem einzustellenden Kanal zulaessiger Bereich von 1 bis 99</td>
+</tr>
+<tr>
+<td>ARGUMENT_2</td>
+<td>int</td>
+<td>Argument entspricht der länderabhängigen Norm zulaessiger Bereich von 2 bis 21</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-channel-set"></a></p>
+<h3 id="steuern_channel_set">STEUERN_CHANNEL_SET</h3>
+<p>Aufschalten eines analogen oder digitalen Kanals Job nur fuer VM_HYBRID_IBUS ab SW 18 Kanal (Bereich von 1 bis 99)  Hinweis: kann bis zu mehreren Sekunden andauern mit STATUS_CHANNEL_SET abfragen ob Abstimmung fertig Argument Kanal 1..99</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>Argument entspricht dem einzustellenden Kanal zulaessiger Bereich von 1 bis 99</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td>Sendetelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-channel-set"></a></p>
+<h3 id="status_channel_set">STATUS_CHANNEL_SET</h3>
+<p>Abfrage Tunerabstimmung Job nur fuer VM_HYBRID_IBUS ab SW 18</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>STAT_CODE</td>
+<td>int</td>
+<td>Fehlercode</td>
+</tr>
+<tr>
+<td>STAT_CODE_TXT</td>
+<td>string</td>
+<td>Fehlercode</td>
+</tr>
+<tr>
+<td>STAT_CHANNEL</td>
+<td>int</td>
+<td>eingestellter Kanal</td>
+</tr>
+<tr>
+<td>STAT_ANALOG_DIGITAL</td>
+<td>int</td>
+<td>Analog oder Digitalkanal</td>
+</tr>
+<tr>
+<td>STAT_ANALOG_DIGITAL_TXT</td>
+<td>string</td>
+<td>Analog oder Digital</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-biterror-rate"></a></p>
+<h3 id="status_biterror_rate">STATUS_BITERROR_RATE</h3>
+<p>Abfrage BER nach Viterbi Job nur fuer VM_HYBRID_IBUS ab SW 18 Die Ausgabe erfolgt in 4 Empfangsstufen VM muss auf einen digitalem Kanal eingestellt werden BER-Werte nur für Digitalempfang</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>STAT_VBER_TXT</td>
+<td>string</td>
+<td>Info</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-testbild"></a></p>
+<h3 id="steuern_testbild">STEUERN_TESTBILD</h3>
+<p>Job fuer VM_HYBRID_IBUS ab SW18 und fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 Starten des Testbilds fuer 1..30 Sekunden Valid Time Argument: Argument: 0 = Testbild aus Argument: 1...30  = Testbild 1...30 Sekunden</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TIME</td>
+<td>int</td>
+<td>value 00 to 30</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td>Sendetelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-codierung-laendervariante-lesen"></a></p>
+<h3 id="codierung_laendervariante_lesen">CODIERUNG_LAENDERVARIANTE_LESEN</h3>
+<p>Speicher lesen EEPROM</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>COD_LAENDERVARIANTE_TEXT</td>
+<td>string</td>
+<td>ECE, GB , US oder unbekannt</td>
+</tr>
+<tr>
+<td>COD_LAENDERVARIANTE_WERT</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>aus Id-lesen</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY"</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-s-auftrag"></a></p>
+<h3 id="c_s_auftrag">C_S_AUFTRAG</h3>
+<p>Codierdaten schreiben und verifizieren</p>
+<h4 id="arguments_10">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-s-lesen"></a></p>
+<h3 id="c_s_lesen">C_S_LESEN</h3>
+<p>Codierdaten lesen</p>
+<h4 id="arguments_11">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CODIER_DATEN</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cs-bilden"></a></p>
+<h3 id="cs_bilden">CS_BILDEN</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-fg-lesen"></a></p>
+<h3 id="c_fg_lesen">C_FG_LESEN</h3>
+<p>Auslesen des Pruefstempels und Interpretation als FG-Nummer</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-fg-auftrag"></a></p>
+<h3 id="c_fg_auftrag">C_FG_AUFTRAG</h3>
+<p>Beschreiben des Pruefstempels mit der FG-Nummer</p>
+<h4 id="arguments_12">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer (18-stellig)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-modul-info"></a></p>
+<h3 id="modul_info">MODUL_INFO</h3>
+<p>MODUL-Info-Daten fuer Videomodul TV-Teil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Normalerweise "OKAY"</td>
+</tr>
+<tr>
+<td>VM_SW_NR_EXTERNAL</td>
+<td>string</td>
+<td>Externe Softwarenummer</td>
+</tr>
+<tr>
+<td>VM_SW_NR_INTERNAL</td>
+<td>string</td>
+<td>Interne Softwarenummer</td>
+</tr>
+<tr>
+<td>VM_SW_NR_INTERNAL_INT</td>
+<td>int</td>
+<td>Interne Softwarenummer als INTEGER</td>
+</tr>
+<tr>
+<td>VM_IDENTIFICATION</td>
+<td>string</td>
+<td>Videomodulkennung</td>
+</tr>
+<tr>
+<td>VM_IDENTIFICATION_NAME</td>
+<td>string</td>
+<td>Videomodulname falls bekannt</td>
+</tr>
+<tr>
+<td>VM_EEPROM_LAYOUT</td>
+<td>string</td>
+<td>EE-Layoutkennung</td>
+</tr>
+<tr>
+<td>VM_EEPROM_INDEX</td>
+<td>string</td>
+<td>EE-Layout-Index</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-nec-monitor-typ-basisbetrieb"></a></p>
+<h3 id="nec_monitor_typ_basisbetrieb">NEC_MONITOR_TYP_BASISBETRIEB</h3>
+<p>NEC-Monitor-Typ Umschaltung (4:3 Monitor). Job nur bei Anzeigeproblemen mit GT-BASIS-Konfiguration. Bei Problemen wg. Helligkeitspumpen und Ruecklauflinien im Hauptmenue</p>
+<h4 id="arguments_13">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TYPE</td>
+<td>int</td>
+<td>Type: 00  = Neuer Monitor (Default-Einstellung) Type: 01  = Alter Monitor</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise "OKAY"</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-jmc-blanking"></a></p>
+<h3 id="steuern_jmc_blanking">STEUERN_JMC_BLANKING</h3>
+<p>Schwarzes Fenster links oder rechts des Bildes Kamera muss zugeschaltet sein Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16  Argument1: schwarzer Balken links erhoehen    = 1 Argument1: schwarzer Balken links verringern  = 2 Argument1: schwarzer Balken rechts erhoehen   = 3 Argument1: schwarzer Balken rechts verringern = 4 Argument1: Normalstellung links               = 5 Argument1: Normalstellung rechts              = 6</p>
+<h4 id="arguments_14">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>Argument EINSTELLUNG Bereich von 1 bis 6</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-jmc-settings"></a></p>
+<h3 id="steuern_jmc_settings">STEUERN_JMC_SETTINGS</h3>
+<p>Aendern von Kontrast, Helligkeit, Farbe oder Tint Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 JMC muss eingeschaltet sein Argument1: Kontrast           = 1 Argument1: Helligkeit         = 2 Argument1: Farbe              = 3 Argument1: Tint (bei NTSC)    = 4 Argument1: Werte lesen        = 5 ( Kein Argument2 notwendig) Argument1: Grundeinstellung   = 6 ( Kein Argument2 notwendig) Argument2: Bereich von 1 bis 100 Prozent</p>
+<h4 id="arguments_15">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>Argument EINSTELLUNG Bereich von 1 bis 6</td>
+</tr>
+<tr>
+<td>ARGUMENT_2</td>
+<td>int</td>
+<td>Argument Wert in Prozent Bereich von 1 bis 100</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JMC_CONTRAST</td>
+<td>int</td>
+<td>aktuelle Kontrasteinstellung</td>
+</tr>
+<tr>
+<td>JMC_BRIGHTNESS</td>
+<td>int</td>
+<td>aktuelle Helligkeitseinstellung</td>
+</tr>
+<tr>
+<td>JMC_COLOR</td>
+<td>int</td>
+<td>aktuelle Farbeinstellung</td>
+</tr>
+<tr>
+<td>JMC_TINT</td>
+<td>int</td>
+<td>aktuelle Tinteinstellung</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td>Sendetelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-jmctest"></a></p>
+<h3 id="steuern_jmctest">STEUERN_JMCTEST</h3>
+<p>MirrorCam-Test des Videomoduls Uebergabe eines Arguments Abfrage der Ergebnisse mit STATUS_JMCTEST Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW16</p>
+<h4 id="arguments_16">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARGUMENT_1</td>
+<td>int</td>
+<td>0 = Rueckgabe des Acknowledge vor Testbeginn (Test 0) 1 = Rueckgabe des Acknowledge nach Testende (Test 1) wenn kein Argument uebergeben wird, wird Test 0 durchgeführt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-jmctest"></a></p>
+<h3 id="status_jmctest">STATUS_JMCTEST</h3>
+<p>Job nur fuer VM5IBUS (VM5_IBUS_CAM) ab SW 16 Ergebnisse des MirrorCam-Tests STEUERN_JMCTEST oder STEUERN_SELBSTTEST muss vorher gesendet werden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_FINISH_INT</td>
+<td>int</td>
+<td>Selbsttest Status als INTEGER Wert 0 = Fertig 1 = Messung aktiv 2 = noch keine Messung durchgefuehrt 255 = Ergebniss ungueltig</td>
+</tr>
+<tr>
+<td>STAT_FINISH</td>
+<td>string</td>
+<td>Selbsttest Status als Ausgabestring</td>
+</tr>
+<tr>
+<td>STAT_JMCCODE_INT</td>
+<td>int</td>
+<td>Codierung als INTEGER Wert 0 = JMC nicht codiert 1 = JMC 4:3 codiert 2 = JMC 16:9 codiert 3 = JMC 16:9 ZOOM codiert x = Kodierfehler</td>
+</tr>
+<tr>
+<td>STAT_JMCCODE</td>
+<td>string</td>
+<td>eingestellte Codierung 4:3, 16:9 oder Zoom</td>
+</tr>
+<tr>
+<td>STAT_JMCSPEED</td>
+<td>int</td>
+<td>Kodierte Abschaltgeschwindigkeit</td>
+</tr>
+<tr>
+<td>STAT_JMCVOLTAGE_READ</td>
+<td>int</td>
+<td>gemessener Spannungswert</td>
+</tr>
+<tr>
+<td>STAT_JMCVOLTAGE_INT</td>
+<td>int</td>
+<td>Ergebnis der Spannungspruefung als INTEGER Wert 0 = JMC Spannung OK 1 = JMC Spannung zu hoch oder Kurzschluss 2 = JMC Spannung zu klein oder Kurzschluss 255 = Ergebniss ungueltig Voraussetzung fuer Kurzschlusspruefung gegen UBatt: JMC muss angeschlossen sein</td>
+</tr>
+<tr>
+<td>STAT_JMCVOLTAGE</td>
+<td>string</td>
+<td>Spannungspruefung fuer JMC</td>
+</tr>
+<tr>
+<td>STAT_JMCSIGNAL_INT</td>
+<td>int</td>
+<td>Ergebnis der Eingangspruefung als INTERGER Wert 0 = JMC Signal OK 1 = JMC nicht angeschlossen oder defekt 2 = JMC nicht angeschlossen oder Kurzschluss 255 = Ergebniss ungueltig</td>
+</tr>
+<tr>
+<td>STAT_JMCSIGNAL</td>
+<td>string</td>
+<td>FBAS Signal der JMC</td>
+</tr>
+<tr>
+<td>_TEL_SENDE</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (13 × 2)</li>
+<li><a href="#table-digitalargument">DIGITALARGUMENT</a> (17 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (76 × 2)</li>
+<li><a href="#table-segmentauswahl">SEGMENTAUSWAHL</a> (6 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (4 × 2)</li>
+<li><a href="#table-iorttexte">IORTTEXTE</a> (14 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (3 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>0x??</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalargument"></a></p>
+<h3 id="digitalargument">DIGITALARGUMENT</h3>
+<p>Dimensions: 17 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ein</td>
+<td>1</td>
+</tr>
+<tr>
+<td>aus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>1</td>
+</tr>
+<tr>
+<td>nein</td>
+<td>0</td>
+</tr>
+<tr>
+<td>auf</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>0</td>
+</tr>
+<tr>
+<td>an</td>
+<td>1</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>on</td>
+<td>1</td>
+</tr>
+<tr>
+<td>off</td>
+<td>0</td>
+</tr>
+<tr>
+<td>up</td>
+<td>1</td>
+</tr>
+<tr>
+<td>down</td>
+<td>0</td>
+</tr>
+<tr>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 76 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Continental Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ASIN AWCO.LTD</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>Shorlock</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>Schrader</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>BERU Electronics GmbH</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-segmentauswahl"></a></p>
+<h3 id="segmentauswahl">SEGMENTAUSWAHL</h3>
+<p>Dimensions: 6 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SEGMENT</th>
+<th>AUSWAHLTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x02</td>
+<td>EPROM</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>EEPROM</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>internes RAM DATA</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>externes RAM XDATA</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>internes RAM IDATA</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>Unbekanntes Segment</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>IBus Dauerhigh Abschaltung</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Watchdog ausgeloest</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>FeTraWe aktiviert</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iorttexte"></a></p>
+<h3 id="iorttexte">IORTTEXTE</h3>
+<p>Dimensions: 14 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>IBus-Pufferueberlauf</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>I2C Fehler zum Graphikteil</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>I2C Fehler vom Graphikteil</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Uebertemperatur im Videomodul</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Audio-Fehler</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>RGB-Fehler</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Video-Fehler</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Sonstige-Fehler</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>EEPROM read Fehler</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>EEPROM write Fehler</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>EEPROM Checksumfehler</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>EEPROM Neuinitialisierung</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>TV-Tunerinitialisierungs-Fehler</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Fehler nicht aktiv</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Fehler aktiv</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

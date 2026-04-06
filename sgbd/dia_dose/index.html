@@ -1,0 +1,1519 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/dia_dose/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>dia_dose.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dia_doseprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              dia_dose.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spannung_kl30_abfragen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPANNUNG_KL30_ABFRAGEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPANNUNG_KL30_ABFRAGEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spannung_kl15_abfragen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPANNUNG_KL15_ABFRAGEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPANNUNG_KL15_ABFRAGEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u_prog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        U_PROG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="U_PROG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_voltage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET_VOLTAGE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GET_VOLTAGE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sia_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SIA_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SIA_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#u_prg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        U_PRG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl_spg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL_SPG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#siareset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SIARESET
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if_kl30_stat_tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IF_KL30_STAT_TAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if_kl15_stat_tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IF_KL15_STAT_TAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edicboardnr_kl30stat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDICBOARDNR_KL30STAT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edicboardnr_kl15stat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDICBOARDNR_KL15STAT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andere_kl30stat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANDERE_KL30STAT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#andere_kl15stat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANDERE_KL15STAT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="dia_doseprg">dia_dose.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">9</a></li>
+<li>Tables: <a href="#tables">9</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Sonderfunktionen an der Diagnosesteckdose</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW VK-22 Siefermann</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW VK-22 Siefermann, BMW TP-421 Drexel,  Fa. Softing R.Marziw</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Einstellung der U_Prog</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.15</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-spannung-kl30-abfragen">SPANNUNG_KL30_ABFRAGEN</a> - Abfragen des Hardwareinterface-Typs (ADS, EDIC usw.) Ermittlung der HW-Board-Kennung bei HW-Interface EDIC oder EDICC Ermittlung des Status der Klemmenspannung gemäß dem erkannten HW-Interface Abfragen der Spannung an Klemme 30 (Versorgungsspannung - UBatt), wenn Status der Klemmenspannung != -1</li>
+<li><a href="#job-spannung-kl15-abfragen">SPANNUNG_KL15_ABFRAGEN</a> - Abfragen des Hardwareinterface-Typs (ADS, EDIC usw.) Ermittlung der HW-Board-Kennung bei HW-Interface EDIC oder EDICC Ermittlung des Status der Klemmenspannung gemäß dem erkannten HW-Interface Abfragen der Spannung an Klemme 15 (Zündung), wenn Status der Klemmenspannung != -1</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung</li>
+<li><a href="#job-ende">ENDE</a> - Stoppen des wiederholten Senden und Empfangen</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Beenden der Diagnose</li>
+<li><a href="#job-u-prog">U_PROG</a> - Einstellung der U_Prog</li>
+<li><a href="#job-get-voltage">GET_VOLTAGE</a> - KL30 oder KL 15 analog einlesen</li>
+<li><a href="#job-sia-reset">SIA_RESET</a> - Ruecksetzen der Service-Intervall-Anzeige</li>
+</ul>
+<p><a id="job-spannung-kl30-abfragen"></a></p>
+<h3 id="spannung_kl30_abfragen">SPANNUNG_KL30_ABFRAGEN</h3>
+<p>Abfragen des Hardwareinterface-Typs (ADS, EDIC usw.) Ermittlung der HW-Board-Kennung bei HW-Interface EDIC oder EDICC Ermittlung des Status der Klemmenspannung gemäß dem erkannten HW-Interface Abfragen der Spannung an Klemme 30 (Versorgungsspannung - UBatt), wenn Status der Klemmenspannung != -1</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, Der Auftrag wurde fehlerfrei bearbeitet Alle Ergebnisse enthalten gültige Werte  ERROR_EDIC_TYP_UNBEKANNT, Kommt nur vor, wenn bei HW-Interace EDIC oder EDICC die HW-Board-Kennung (wird mit Fkt. ifrawmode ermittelt) unbekannt ist Ansonsten liefert der Job immer OKAY</td>
+</tr>
+<tr>
+<td>HW_INTERFACE_TYP</td>
+<td>string</td>
+<td>Typ des Hardware-Interfaces Rückgabewert der EDIABAS-Funktion "iftype()", für das in EDIABAS.INI eingestellte HW-Interface (EDIC, ADS usw.)</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL30</td>
+<td>long</td>
+<td>Spannung an der Klemme 30 - UBatt der Spannungswert ist abhängig vom HW-Interface: AUS/EIN-Erkennung der Spannung am Diagnosestecker bei Spannung_Kl30_Status = 0 Wertebereich: AUS = 0 mV, EIN = 12000 mV  AD konvertierte Spannung am Diagnosestecker bei Spannung_Kl30_Status = 1 Wertebereich: 0x0000 - 0xXXXX mV</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL30_STATUS</td>
+<td>int</td>
+<td>Status des Spannungswertes Spannung_Kl30, der Status ist abhängig vom HW-Interface Wertebereich: -1 = Messwert nicht verfügbar 0 = ungültig -&gt;  Wert Spannung_Kl30 ist nicht plausibel, nur AUS/EIN Überprüfung möglich Der Wert von Spannung_Kl30 darf nicht als Entscheidungskriterium (z.B. bei Unterspannung) für Programmverzweigungen in einer Applikation verwendet werden 1 = gültig -&gt; Wert Spannung_Kl30 ist plausibel</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL30_EINH</td>
+<td>string</td>
+<td>Einheit des Spannungswertes -&gt; z.Z. immer mV</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-spannung-kl15-abfragen"></a></p>
+<h3 id="spannung_kl15_abfragen">SPANNUNG_KL15_ABFRAGEN</h3>
+<p>Abfragen des Hardwareinterface-Typs (ADS, EDIC usw.) Ermittlung der HW-Board-Kennung bei HW-Interface EDIC oder EDICC Ermittlung des Status der Klemmenspannung gemäß dem erkannten HW-Interface Abfragen der Spannung an Klemme 15 (Zündung), wenn Status der Klemmenspannung != -1</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, Der Auftrag wurde fehlerfrei bearbeitet Alle Ergebnisse enthalten gültige Werte  ERROR_EDIC_TYP_UNBEKANNT, Kommt nur vor, wenn bei HW-Interace EDIC oder EDICC die HW-Board-Kennung (wird mit Fkt. ifrawmode ermittelt) unbekannt ist Ansonsten liefert der Job immer OKAY</td>
+</tr>
+<tr>
+<td>HW_INTERFACE_TYP</td>
+<td>string</td>
+<td>Typ des Hardware-Interfaces Rückgabewert der EDIABAS-Funktion "iftype()", für das in EDIABAS.INI eingestellte HW-Interface (EDIC, ADS usw.)</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL15</td>
+<td>long</td>
+<td>Spannung an der Klemme 15 - Zuendung, der Spannungswert ist abhängig vom HW-Interface: AUS/EIN-Erkennung der Spannung am Diagnosestecker bei Spannung_Kl15_Status = 0 Wertebereich: AUS = 0 mV, EIN = 12000 mV  AD konvertierte Spannung am Diagnosestecker bei Spannung_Kl15_Status = 1 Wertebereich: 0x0000 - 0xXXXX mV</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL15_STATUS</td>
+<td>int</td>
+<td>Status des Spannungswertes Spannung_Kl15, der Status ist abhängig vom HW-Interface Wertebereich: -1 = Messwert nicht verfügbar 0 = ungültig -&gt;  Wert Spannung_Kl15 ist nicht plausibel, nur AUS/EIN Überprüfung möglich Der Wert von Spannung_Kl15 darf nicht als Entscheidungskriterium (z.B. bei Unterspannung) für Programmverzweigungen in einer Applikation verwendet werden 1 = gültig -&gt; Wert Spannung_Kl15 ist plausibel</td>
+</tr>
+<tr>
+<td>SPANNUNG_KL15_EINH</td>
+<td>string</td>
+<td>Einheit des Spannungswertes -&gt; z.Z. immer mV</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn i.O.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ende"></a></p>
+<h3 id="ende">ENDE</h3>
+<p>Stoppen des wiederholten Senden und Empfangen</p>
+<p><em>No arguments.</em></p>
+<p><em>No results.</em></p>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Beenden der Diagnose</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Liefert: OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-u-prog"></a></p>
+<h3 id="u_prog">U_PROG</h3>
+<p>Einstellung der U_Prog</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARG1</td>
+<td>string</td>
+<td>Der einzustellende Spannungswert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Liefert: OKAY, ERROR_NACK od. ERROR_PARAMETER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-get-voltage"></a></p>
+<h3 id="get_voltage">GET_VOLTAGE</h3>
+<p>KL30 oder KL 15 analog einlesen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARG1</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPANNUNG</td>
+<td>string</td>
+<td>Spannung in Millivolt</td>
+</tr>
+<tr>
+<td>SPANNUNG_V</td>
+<td>int</td>
+<td>Spannung in Millivolt</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Liefert: OKAY, ERROR_PARAMETER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sia-reset"></a></p>
+<h3 id="sia_reset">SIA_RESET</h3>
+<p>Ruecksetzen der Service-Intervall-Anzeige</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARG1</td>
+<td>string</td>
+<td>OEL_RESET, WEG/ZEIT_RESET</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Liefert OKAY, ERROR_NACK, ERROR_PARAMETER</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-u-prg">U_PRG</a> (10 × 2)</li>
+<li><a href="#table-kl-spg">KL_SPG</a> (6 × 2)</li>
+<li><a href="#table-siareset">SIARESET</a> (2 × 2)</li>
+<li><a href="#table-if-kl30-stat-tab">IF_KL30_STAT_TAB</a> (7 × 2)</li>
+<li><a href="#table-if-kl15-stat-tab">IF_KL15_STAT_TAB</a> (7 × 2)</li>
+<li><a href="#table-edicboardnr-kl30stat">EDICBOARDNR_KL30STAT</a> (8 × 2)</li>
+<li><a href="#table-edicboardnr-kl15stat">EDICBOARDNR_KL15STAT</a> (8 × 2)</li>
+<li><a href="#table-andere-kl30stat">ANDERE_KL30STAT</a> (5 × 2)</li>
+<li><a href="#table-andere-kl15stat">ANDERE_KL15STAT</a> (5 × 2)</li>
+</ul>
+<p><a id="table-u-prg"></a></p>
+<h3 id="u_prg">U_PRG</h3>
+<p>Dimensions: 10 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SELECTOR</th>
+<th>FAKT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0x02</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0x03</td>
+</tr>
+<tr>
+<td>12</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>15</td>
+<td>0x05</td>
+</tr>
+<tr>
+<td>18</td>
+<td>0x06</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0x07</td>
+</tr>
+<tr>
+<td>25</td>
+<td>0x08</td>
+</tr>
+<tr>
+<td>33</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>33</td>
+<td>0x0A</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-kl-spg"></a></p>
+<h3 id="kl_spg">KL_SPG</h3>
+<p>Dimensions: 6 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>KL_BEZ</th>
+<th>BED</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KL15</td>
+<td>Kl15</td>
+</tr>
+<tr>
+<td>KL30</td>
+<td>Kl30</td>
+</tr>
+<tr>
+<td>KL61</td>
+<td>KL61</td>
+</tr>
+<tr>
+<td>KL50</td>
+<td>KL50</td>
+</tr>
+<tr>
+<td>KLR</td>
+<td>KLR</td>
+</tr>
+<tr>
+<td>CARB</td>
+<td>CARB</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-siareset"></a></p>
+<h3 id="siareset">SIARESET</h3>
+<p>Dimensions: 2 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SELECTOR</th>
+<th>RESET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OEL_RESET</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>WEG/ZEIT_RESET</td>
+<td>0x02</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-if-kl30-stat-tab"></a></p>
+<h3 id="if_kl30_stat_tab">IF_KL30_STAT_TAB</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE</th>
+<th>STAT_TAB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EDIC</td>
+<td>EDICBoardNr_Kl30Stat</td>
+</tr>
+<tr>
+<td>EDICC</td>
+<td>EDICBoardNr_Kl30Stat</td>
+</tr>
+<tr>
+<td>FUNK</td>
+<td>Andere_Kl30Stat</td>
+</tr>
+<tr>
+<td>ADS</td>
+<td>Andere_Kl30Stat</td>
+</tr>
+<tr>
+<td>EADS</td>
+<td>Andere_Kl30Stat</td>
+</tr>
+<tr>
+<td>OPPS</td>
+<td>Andere_Kl30Stat</td>
+</tr>
+<tr>
+<td>OBD</td>
+<td>Andere_Kl30Stat</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-if-kl15-stat-tab"></a></p>
+<h3 id="if_kl15_stat_tab">IF_KL15_STAT_TAB</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE</th>
+<th>STAT_TAB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EDIC</td>
+<td>EDICBoardNr_Kl15Stat</td>
+</tr>
+<tr>
+<td>EDICC</td>
+<td>EDICBoardNr_Kl15Stat</td>
+</tr>
+<tr>
+<td>FUNK</td>
+<td>Andere_Kl15Stat</td>
+</tr>
+<tr>
+<td>ADS</td>
+<td>Andere_Kl15Stat</td>
+</tr>
+<tr>
+<td>EADS</td>
+<td>Andere_Kl15Stat</td>
+</tr>
+<tr>
+<td>OPPS</td>
+<td>Andere_Kl15Stat</td>
+</tr>
+<tr>
+<td>OBD</td>
+<td>Andere_Kl15Stat</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-edicboardnr-kl30stat"></a></p>
+<h3 id="edicboardnr_kl30stat">EDICBOARDNR_KL30STAT</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE_TYP</th>
+<th>KL30_STATUS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0101</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>0102</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>0104</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>0105</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>0120</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0200</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0130</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0131</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-edicboardnr-kl15stat"></a></p>
+<h3 id="edicboardnr_kl15stat">EDICBOARDNR_KL15STAT</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE_TYP</th>
+<th>KL15_STATUS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0101</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0102</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0104</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0105</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0120</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0200</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0130</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0131</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-andere-kl30stat"></a></p>
+<h3 id="andere_kl30stat">ANDERE_KL30STAT</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE_TYP</th>
+<th>KL30_STATUS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNK</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ADS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>EADS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OPPS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OBD</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-andere-kl15stat"></a></p>
+<h3 id="andere_kl15stat">ANDERE_KL15STAT</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>INTERFACE_TYP</th>
+<th>KL15_STATUS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNK</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ADS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>EADS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OPPS</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OBD</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

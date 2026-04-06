@@ -1,0 +1,6005 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/SZM38/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>SZM38.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#szm38prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SZM38.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_aufrecht" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_AUFRECHT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_AUFRECHT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_io" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_IO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_IO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_intern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_INTERN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_INTERN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPEICHER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHER_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPEICHER_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierung_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERUNG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CODIERUNG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_sitzheizung_stufe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SITZHEIZUNG_STUFE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SITZHEIZUNG_STUFE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_sitzheizung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SITZHEIZUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SITZHEIZUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_aktivsitz" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_AKTIVSITZ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_AKTIVSITZ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_sonnenrollo_taster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SONNENROLLO_TASTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SONNENROLLO_TASTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_sonnenrollo_motor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SONNENROLLO_MOTOR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SONNENROLLO_MOTOR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_funktionsbeleuchtung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_FUNKTIONSBELEUCHTUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_FUNKTIONSBELEUCHTUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_beleuchtung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_BELEUCHTUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_BELEUCHTUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_klemmenstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_KLEMMENSTATUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_KLEMMENSTATUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierung_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERUNG_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CODIERUNG_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugfix_sitzheizung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BUGFIX_SITZHEIZUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BUGFIX_SITZHEIZUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roverpartnumprefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROVERPARTNUMPREFIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalargument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALARGUMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fartmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iorttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sitztemperatur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SITZTEMPERATUR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#platinentemperatur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PLATINENTEMPERATUR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicherdaten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHERDATEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="szm38prg">SZM38.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">26</a></li>
+<li>Tables: <a href="#tables">12</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Schaltzentrum Mittelkonsole E38</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-433 Zhang</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.06</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-430 Drexel, ESG TI-430 T.Müller</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.02</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter DS2</li>
+<li><a href="#job-ident">IDENT</a> - Identdaten</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen</li>
+<li><a href="#job-is-lesen">IS_LESEN</a> - Infospeicher lesen</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen</li>
+<li><a href="#job-diagnose-aufrecht">DIAGNOSE_AUFRECHT</a> - Diagnosemode aufrechterhalten</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden Beenden von Ansteuerbefehlen</li>
+<li><a href="#job-pruefstempel-lesen">PRUEFSTEMPEL_LESEN</a> - Auslesen des Pruefstempels</li>
+<li><a href="#job-pruefstempel-schreiben">PRUEFSTEMPEL_SCHREIBEN</a> - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.</li>
+<li><a href="#job-status-io">STATUS_IO</a> - Status lesen</li>
+<li><a href="#job-status-intern">STATUS_INTERN</a> - Auslesen der internen Zustaende</li>
+<li><a href="#job-speicher-lesen">SPEICHER_LESEN</a> - Lesen des internen Speichers Als Argumente werden die Adresse, die Anzahl der Datenbytes uebergeben.</li>
+<li><a href="#job-speicher-schreiben">SPEICHER_SCHREIBEN</a> - Beschreiben des internen Speichers Als Argumente werden die Adresse, und das Datenbyte uebergeben.</li>
+<li><a href="#job-codierung-lesen">CODIERUNG_LESEN</a> - Auslesen der Codierdaten</li>
+<li><a href="#job-steuern-sitzheizung-stufe">STEUERN_SITZHEIZUNG_STUFE</a> - Ansteuern der Sitzheizungsstufe fuer links und rechts Stufe 0 : Heizung aus Stufe 1 : Heizung maximale Leistung Stufe 2 : Heizung mittlere Leistung Stufe 3 : Heizung minimale Leistung Es ist moeglich auch ein einzelnes Argument zu schreiben.</li>
+<li><a href="#job-steuern-sitzheizung">STEUERN_SITZHEIZUNG</a> - Ansteuern des Sitzheizungsausgangs fuer links und rechts Es ist moeglich auch ein einzelnes Argument zu schreiben.</li>
+<li><a href="#job-steuern-aktivsitz">STEUERN_AKTIVSITZ</a> - Ansteuern des Aktivsitzes fuer links und rechts. Jeder Aufruf schaltet den Aktivsitz um (ein bzw. aus). Es ist moeglich auch ein einzelnes Argument zu schreiben.</li>
+<li><a href="#job-steuern-sonnenrollo-taster">STEUERN_SONNENROLLO_TASTER</a> - Ansteuern des Sonnenrollo</li>
+<li><a href="#job-steuern-sonnenrollo-motor">STEUERN_SONNENROLLO_MOTOR</a> - Ansteuern des Sonnenrollomotors Jeder Aufruf aendert die Richtung der Laufrichtung nach erfolgtem Rolloanschlag ( Oben, Unten ). Nach beendeter Diagnose geht das Rollo nicht in seinen Ausgangszustand zurueck.</li>
+<li><a href="#job-steuern-funktionsbeleuchtung">STEUERN_FUNKTIONSBELEUCHTUNG</a> - Ansteuern des Funktionsbeleuchtung</li>
+<li><a href="#job-steuern-beleuchtung">STEUERN_BELEUCHTUNG</a> - Ansteuern des Beleuchtung Klemme 58g</li>
+<li><a href="#job-steuern-klemmenstatus">STEUERN_KLEMMENSTATUS</a> - Vorgabe des Klemmenstatus Es muessen immer alle drei Argumente uebergeben werden.</li>
+<li><a href="#job-ident-schreiben">IDENT_SCHREIBEN</a> - Identdaten schreiben fuer SZM E38</li>
+<li><a href="#job-codierung-schreiben">CODIERUNG_SCHREIBEN</a> - Codierdaten schreiben fuer SZM E38</li>
+<li><a href="#job-bugfix-sitzheizung">BUGFIX_SITZHEIZUNG</a> - Identdaten lesen und ggf. Speicher schreiben</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter DS2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Identdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>int</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>int</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Fehlerort</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Text zu Fehlerort table FOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>0 oder 1</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>'Fehler momentan nicht vorhanden' oder 'Fehler momentan vorhanden' table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-is-lesen"></a></p>
+<h3 id="is_lesen">IS_LESEN</h3>
+<p>Infospeicher lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Infoort</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Text zu Infoort table IOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Infoarten</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-aufrecht"></a></p>
+<h3 id="diagnose_aufrecht">DIAGNOSE_AUFRECHT</h3>
+<p>Diagnosemode aufrechterhalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden Beenden von Ansteuerbefehlen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-lesen"></a></p>
+<h3 id="pruefstempel_lesen">PRUEFSTEMPEL_LESEN</h3>
+<p>Auslesen des Pruefstempels</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-schreiben"></a></p>
+<h3 id="pruefstempel_schreiben">PRUEFSTEMPEL_SCHREIBEN</h3>
+<p>Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden.</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-io"></a></p>
+<h3 id="status_io">STATUS_IO</h3>
+<p>Status lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_TASTE_SITZHEIZUNG_LINKS_EIN</td>
+<td>int</td>
+<td>Taste Sitzheizung links</td>
+</tr>
+<tr>
+<td>STAT_TASTE_SITZHEIZUNG_RECHTS_EIN</td>
+<td>int</td>
+<td>Taste Sitzheizung rechts</td>
+</tr>
+<tr>
+<td>STAT_TASTE_SONNENROLLO_EIN</td>
+<td>int</td>
+<td>Taste Sonnenrollo</td>
+</tr>
+<tr>
+<td>STAT_TASTE_FERNBEDIENUNG_SONNENROLLO_EIN</td>
+<td>int</td>
+<td>Taste Fernbedienung Sonnenrollo</td>
+</tr>
+<tr>
+<td>STAT_TASTE_AKTIVSITZ_LINKS_EIN</td>
+<td>int</td>
+<td>Taste Aktivsitz links</td>
+</tr>
+<tr>
+<td>STAT_TASTE_AKTIVSITZ_RECHTS_EIN</td>
+<td>int</td>
+<td>Taste Aktivsitz rechts</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_30_EIN</td>
+<td>int</td>
+<td>Status Klemme 30</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_R_EIN</td>
+<td>int</td>
+<td>Status Klemme R</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_15_EIN</td>
+<td>int</td>
+<td>Status Klemme 15</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_50_EIN</td>
+<td>int</td>
+<td>Status Klemme 50</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_58G_EIN</td>
+<td>int</td>
+<td>Status Klemme 58g</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_30_WERT</td>
+<td>real</td>
+<td>Spannung Klemme 30</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_30_EINH</td>
+<td>string</td>
+<td>Volt</td>
+</tr>
+<tr>
+<td>STAT_TSOLL_SITZHEIZUNG_LINKS_WERT</td>
+<td>real</td>
+<td>Solltemperatur Sitzheizung links table SitzTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TIST_SITZHEIZUNG_LINKS_WERT</td>
+<td>real</td>
+<td>Isttemperatur Sitzheizung links table SitzTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TIST_PLATINE_LINKS_WERT</td>
+<td>real</td>
+<td>Isttemperatur Platine links table PlatinenTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TSOLL_SITZHEIZUNG_RECHTS_WERT</td>
+<td>real</td>
+<td>Solltemperatur Sitzheizung rechts table SitzTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TIST_SITZHEIZUNG_RECHTS_WERT</td>
+<td>real</td>
+<td>Isttemperatur Sitzheizung rechts table SitzTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TIST_PLATINE_RECHTS_WERT</td>
+<td>real</td>
+<td>Isttemperatur Platine rechts table PlatinenTemperatur</td>
+</tr>
+<tr>
+<td>STAT_TEMPERATUR_EINH</td>
+<td>string</td>
+<td>alle Temperaturen in Grad C</td>
+</tr>
+<tr>
+<td>STAT_LEISTUNG_SITZHEIZUNG_LINKS_WERT</td>
+<td>int</td>
+<td>Heizleistung Sitzheizung links</td>
+</tr>
+<tr>
+<td>STAT_LEISTUNG_SITZHEIZUNG_LINKS_EINH</td>
+<td>string</td>
+<td>%</td>
+</tr>
+<tr>
+<td>STAT_LEISTUNG_SITZHEIZUNG_RECHTS_WERT</td>
+<td>int</td>
+<td>Heizleistung Sitzheizung rechts</td>
+</tr>
+<tr>
+<td>STAT_LEISTUNG_SITZHEIZUNG_RECHTS_EINH</td>
+<td>string</td>
+<td>%</td>
+</tr>
+<tr>
+<td>STAT_MOTORSTROM_SONNENROLLO_WERT</td>
+<td>real</td>
+<td>Motorstrom Sonnenrollo</td>
+</tr>
+<tr>
+<td>STAT_MOTORSTROM_SONNENROLLO_EINH</td>
+<td>string</td>
+<td>Ampere</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_STUFE</td>
+<td>int</td>
+<td>Sitzheizungsstufe links</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_EIN</td>
+<td>int</td>
+<td>Sitzheizungsausgang links</td>
+</tr>
+<tr>
+<td>STAT_AKTIVSITZ_LINKS_EIN</td>
+<td>int</td>
+<td>Aktivsitz links</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_STUFE</td>
+<td>int</td>
+<td>Sitzheizungsstufe rechts</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_EIN</td>
+<td>int</td>
+<td>Sitzheizungsausgang rechts</td>
+</tr>
+<tr>
+<td>STAT_AKTIVSITZ_RECHTS_EIN</td>
+<td>int</td>
+<td>Aktivsitz rechts</td>
+</tr>
+<tr>
+<td>STAT_SONNENROLLO_AUF</td>
+<td>int</td>
+<td>Sonnenrollo Verstellung nach oben aktiv</td>
+</tr>
+<tr>
+<td>STAT_SONNENROLLO_AB</td>
+<td>int</td>
+<td>Sonnenrollo Verstellung nach unten aktiv</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE1</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE2</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE3</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-intern"></a></p>
+<h3 id="status_intern">STATUS_INTERN</h3>
+<p>Auslesen der internen Zustaende</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_STUFE</td>
+<td>int</td>
+<td>Sitzheizungsstufe links</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_EIN</td>
+<td>int</td>
+<td>Sitzheizungsausgang links</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_HEIZUNG_OK</td>
+<td>int</td>
+<td>Sitzheizung links Heizelement ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_NTC_OK</td>
+<td>int</td>
+<td>Sitzheizung links Temperaturfuehler ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_PLAUSIBILITAET_OK</td>
+<td>int</td>
+<td>Sitzheizung links Plausibilitaetsabfrage ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_LINKS_PLATINE_TEMPERATUR_OK</td>
+<td>int</td>
+<td>Sitzheizung links Platinentemperatur &lt; 95 Grad C</td>
+</tr>
+<tr>
+<td>STAT_AKTIVSITZ_LINKS_EIN</td>
+<td>int</td>
+<td>Aktivsitz links</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_STUFE</td>
+<td>int</td>
+<td>Sitzheizungsstufe rechts</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_EIN</td>
+<td>int</td>
+<td>Sitzheizungsausgang rechts</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_HEIZUNG_OK</td>
+<td>int</td>
+<td>Sitzheizung rechts Heizelement ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_NTC_OK</td>
+<td>int</td>
+<td>Sitzheizung rechts Temperaturfuehler ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_PLAUSIBILITAET_OK</td>
+<td>int</td>
+<td>Sitzheizung rechts Plausibilitaetsabfrage ok</td>
+</tr>
+<tr>
+<td>STAT_SITZHEIZUNG_RECHTS_PLATINE_TEMPERATUR_OK</td>
+<td>int</td>
+<td>Sitzheizung rechts Platinentemperatur &lt; 95 Grad C</td>
+</tr>
+<tr>
+<td>STAT_AKTIVSITZ_RECHTS_EIN</td>
+<td>int</td>
+<td>Aktivsitz rechts</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_30_EIN</td>
+<td>int</td>
+<td>Status Klemme 30</td>
+</tr>
+<tr>
+<td>STAT_KLEMME_58G_EIN</td>
+<td>int</td>
+<td>Status Klemme 58g</td>
+</tr>
+<tr>
+<td>STAT_UNTERSPANNUNG_EIN</td>
+<td>int</td>
+<td>Unterspannungserkennung aktiv</td>
+</tr>
+<tr>
+<td>STAT_UEBERSPANNUNG_EIN</td>
+<td>int</td>
+<td>Ueberspannungserkennung aktiv</td>
+</tr>
+<tr>
+<td>STAT_SONNENROLLO_EIN</td>
+<td>int</td>
+<td>Sonnenrollo Verstellung aktiv</td>
+</tr>
+<tr>
+<td>STAT_SONNENROLLO_AUF</td>
+<td>int</td>
+<td>Sonnenrollo Verstellung nach oben aktiv</td>
+</tr>
+<tr>
+<td>STAT_SONNENROLLO_AB</td>
+<td>int</td>
+<td>Sonnenrollo Verstellung nach unten aktiv</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE1</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE2</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>STAT_KONTROLLBYTE3</td>
+<td>int</td>
+<td>Interne Zustaende</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-lesen"></a></p>
+<h3 id="speicher_lesen">SPEICHER_LESEN</h3>
+<p>Lesen des internen Speichers Als Argumente werden die Adresse, die Anzahl der Datenbytes uebergeben.</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>0x0000 - 0x3DFE</td>
+</tr>
+<tr>
+<td>ANZAHL</td>
+<td>int</td>
+<td>1 - 16</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>ausgelesene Daten</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-schreiben"></a></p>
+<h3 id="speicher_schreiben">SPEICHER_SCHREIBEN</h3>
+<p>Beschreiben des internen Speichers Als Argumente werden die Adresse, und das Datenbyte uebergeben.</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>0x0000 - 0x02FF</td>
+</tr>
+<tr>
+<td>BYTE</td>
+<td>int</td>
+<td>0-255 bzw. 0x00-0xFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-codierung-lesen"></a></p>
+<h3 id="codierung_lesen">CODIERUNG_LESEN</h3>
+<p>Auslesen der Codierdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>CODE</td>
+<td>string</td>
+<td>13 Codierbytes in Hex</td>
+</tr>
+<tr>
+<td>FUNKTION_SITZHEIZUNG_AKTIVIERT</td>
+<td>int</td>
+<td>Funktion Sitzheizung aktiviert</td>
+</tr>
+<tr>
+<td>FUNKTION_SONNENROLLO_AKTIVIERT</td>
+<td>int</td>
+<td>Funktion Sonnenrollo aktiviert</td>
+</tr>
+<tr>
+<td>FUNKTION_AKTIVSITZ_AKTIVIERT</td>
+<td>int</td>
+<td>Funktion Aktivsitz aktiviert</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_LINKS_STUFE1</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur links Stufe 1 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_LINKS_STUFE2</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur links Stufe 2 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_LINKS_STUFE3</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur links Stufe 3 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_RECHTS_STUFE1</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur rechts Stufe 1 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_RECHTS_STUFE2</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur rechts Stufe 2 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>SOLLTEMPERATUR_RECHTS_STUFE3</td>
+<td>real</td>
+<td>Sitzheizung Solltemperatur rechts Stufe 3 in Grad C table SitzTemperatur</td>
+</tr>
+<tr>
+<td>REGELPARAMETER_SITZHEIZUNG</td>
+<td>real</td>
+<td>Dieser Regelparameter bestimmt den Einsatzpunkt der Regelung vor Erreichen der Solltemperatur in Grad C.</td>
+</tr>
+<tr>
+<td>ABSCHALTEN_PLAUSIBILITAETSABFRAGE</td>
+<td>real</td>
+<td>Temperatur ab der die Plausibilitaetsabfrage abgeschalten wird. table SitzTemperatur</td>
+</tr>
+<tr>
+<td>ABSCHALTSCHWELLE_SITZHEIZUNG</td>
+<td>real</td>
+<td>Sitzheizung Abschaltschwelle in Volt</td>
+</tr>
+<tr>
+<td>EINSCHALTSCHWELLE_SITZHEIZUNG</td>
+<td>real</td>
+<td>Sitzheizung Einschaltschwelle in Volt</td>
+</tr>
+<tr>
+<td>UMKEHRZEIT_SONNENROLLO</td>
+<td>int</td>
+<td>Sonnenrollo Umkehrzeit in ms</td>
+</tr>
+<tr>
+<td>ANSPRECHZEIT_PLAUSIBILITAETSABFRAGE</td>
+<td>int</td>
+<td>Ansprechzeit fuer die Plausibilitaetsabfrage in sek</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-sitzheizung-stufe"></a></p>
+<h3 id="steuern_sitzheizung_stufe">STEUERN_SITZHEIZUNG_STUFE</h3>
+<p>Ansteuern der Sitzheizungsstufe fuer links und rechts Stufe 0 : Heizung aus Stufe 1 : Heizung maximale Leistung Stufe 2 : Heizung mittlere Leistung Stufe 3 : Heizung minimale Leistung Es ist moeglich auch ein einzelnes Argument zu schreiben.</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LINKS_STUFE</td>
+<td>int</td>
+<td>Stufe 0,1,2,3</td>
+</tr>
+<tr>
+<td>RECHTS_STUFE</td>
+<td>int</td>
+<td>Stufe 0,1,2,3</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-sitzheizung"></a></p>
+<h3 id="steuern_sitzheizung">STEUERN_SITZHEIZUNG</h3>
+<p>Ansteuern des Sitzheizungsausgangs fuer links und rechts Es ist moeglich auch ein einzelnes Argument zu schreiben.</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LINKS</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+<tr>
+<td>RECHTS</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-aktivsitz"></a></p>
+<h3 id="steuern_aktivsitz">STEUERN_AKTIVSITZ</h3>
+<p>Ansteuern des Aktivsitzes fuer links und rechts. Jeder Aufruf schaltet den Aktivsitz um (ein bzw. aus). Es ist moeglich auch ein einzelnes Argument zu schreiben.</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LINKS</td>
+<td>string</td>
+<td>'AKTIVIEREN','1'</td>
+</tr>
+<tr>
+<td>RECHTS</td>
+<td>string</td>
+<td>'AKTIVIEREN','1'</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-sonnenrollo-taster"></a></p>
+<h3 id="steuern_sonnenrollo_taster">STEUERN_SONNENROLLO_TASTER</h3>
+<p>Ansteuern des Sonnenrollo</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TASTER</td>
+<td>string</td>
+<td>'EIN','AUS','TIP','1','0' 'EIN','1' : Taste wird gedrueckt gehalten 'AUS','0' : Taste wird nicht betaetigt 'TIP'     : Taste wird kurz betaetigt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-sonnenrollo-motor"></a></p>
+<h3 id="steuern_sonnenrollo_motor">STEUERN_SONNENROLLO_MOTOR</h3>
+<p>Ansteuern des Sonnenrollomotors Jeder Aufruf aendert die Richtung der Laufrichtung nach erfolgtem Rolloanschlag ( Oben, Unten ). Nach beendeter Diagnose geht das Rollo nicht in seinen Ausgangszustand zurueck.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-funktionsbeleuchtung"></a></p>
+<h3 id="steuern_funktionsbeleuchtung">STEUERN_FUNKTIONSBELEUCHTUNG</h3>
+<p>Ansteuern des Funktionsbeleuchtung</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BELEUCHTUNG</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-beleuchtung"></a></p>
+<h3 id="steuern_beleuchtung">STEUERN_BELEUCHTUNG</h3>
+<p>Ansteuern des Beleuchtung Klemme 58g</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BELEUCHTUNG</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-klemmenstatus"></a></p>
+<h3 id="steuern_klemmenstatus">STEUERN_KLEMMENSTATUS</h3>
+<p>Vorgabe des Klemmenstatus Es muessen immer alle drei Argumente uebergeben werden.</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KLEMME_R</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+<tr>
+<td>KLEMME_15</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+<tr>
+<td>KLEMME_50</td>
+<td>string</td>
+<td>'EIN','AUS','1','0'</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident-schreiben"></a></p>
+<h3 id="ident_schreiben">IDENT_SCHREIBEN</h3>
+<p>Identdaten schreiben fuer SZM E38</p>
+<h4 id="arguments_10">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Identdaten DB0-DB10</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-codierung-schreiben"></a></p>
+<h3 id="codierung_schreiben">CODIERUNG_SCHREIBEN</h3>
+<p>Codierdaten schreiben fuer SZM E38</p>
+<h4 id="arguments_11">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Codierdaten DB0-DB12</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-bugfix-sitzheizung"></a></p>
+<h3 id="bugfix_sitzheizung">BUGFIX_SITZHEIZUNG</h3>
+<p>Identdaten lesen und ggf. Speicher schreiben</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (13 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (72 × 2)</li>
+<li><a href="#table-roverpartnumprefix">ROVERPARTNUMPREFIX</a> (21 × 2)</li>
+<li><a href="#table-digitalargument">DIGITALARGUMENT</a> (17 × 2)</li>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (18 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (16 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (3 × 2)</li>
+<li><a href="#table-fartmatrix">FARTMATRIX</a> (1 × 3)</li>
+<li><a href="#table-iorttexte">IORTTEXTE</a> (12 × 2)</li>
+<li><a href="#table-sitztemperatur">SITZTEMPERATUR</a> (256 × 2)</li>
+<li><a href="#table-platinentemperatur">PLATINENTEMPERATUR</a> (256 × 2)</li>
+<li><a href="#table-speicherdaten">SPEICHERDATEN</a> (55 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>0x??</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 72 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-roverpartnumprefix"></a></p>
+<h3 id="roverpartnumprefix">ROVERPARTNUMPREFIX</h3>
+<p>Dimensions: 21 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ROVER_NR</th>
+<th>PREFIX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>AMR</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>HHF</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>JFC</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>MKC</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>SCB</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>SRB</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>XQC</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>XQD</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>XQE</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>XVD</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>YAC</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>YDB</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>YFC</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>YUB</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>YWC</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>YWQ</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>EGQ</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>YIB</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>YIC</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>YIE</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>???</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalargument"></a></p>
+<h3 id="digitalargument">DIGITALARGUMENT</h3>
+<p>Dimensions: 17 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ein</td>
+<td>1</td>
+</tr>
+<tr>
+<td>aus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>1</td>
+</tr>
+<tr>
+<td>nein</td>
+<td>0</td>
+</tr>
+<tr>
+<td>auf</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>0</td>
+</tr>
+<tr>
+<td>an</td>
+<td>1</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>on</td>
+<td>1</td>
+</tr>
+<tr>
+<td>off</td>
+<td>0</td>
+</tr>
+<tr>
+<td>up</td>
+<td>1</td>
+</tr>
+<tr>
+<td>down</td>
+<td>0</td>
+</tr>
+<tr>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 18 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ERROR_ADRESSE</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>ERROR_ANZ</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>ERROR_BYTE</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>ERROR_LINKS_STUFE</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>ERROR_RECHTS_STUFE</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>ERROR_LINKS</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>ERROR_RECHTS</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>ERROR_TASTER</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>ERROR_BELECHTUNG</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>ERROR_KLEMME_R</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>ERROR_KLEMME_15</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>ERROR_KLEMME_50</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_DATEN</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 16 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Klemme 30 nicht vorhanden</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Sitzheizung links Kurzschluss oder Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Sitzheizung rechts Kurzschluss oder Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Temperatursensor Sitzheizung links Kurzschluss gegen Masse</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Temperatursensor Sitzheizung rechts Kurzschluss gegen Masse</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Temperatursensor Sitzheizung links Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Temperatursensor Sitzheizung rechts Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Heizflaeche Sitzheizung links Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Heizflaeche Sitzheizung rechts Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Sonnenrollo Motor ab, Kurzschluss oder Leitungsunterbrechung</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Fehler Leitung Aktivsitz links (keine Rueckmeldung vom SG)</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Fehler Leitung Aktivsitz rechts (keine Rueckmeldung vom SG)</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Aktivsitz links keine Quittung (Fehler im SZM)</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Aktivsitz rechts keine Quittung (Fehler im SZM)</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>K-Bus Down</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Fehler momentan nicht vorhanden</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Fehler momentan vorhanden</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fartmatrix"></a></p>
+<h3 id="fartmatrix">FARTMATRIX</h3>
+<p>Dimensions: 1 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>A1_0</th>
+<th>A1_1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>0x00</td>
+<td>0x01</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iorttexte"></a></p>
+<h3 id="iorttexte">IORTTEXTE</h3>
+<p>Dimensions: 12 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0F</td>
+<td>Platinentemperatur links &gt; 95 Grad C</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Platinentemperatur rechts &gt; 95 Grad C</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Taster Sitzheizung links dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>Taster Sitzheizung rechts dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Taster Sonnenrollo Front dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Taster Sonnenrollo Fernbedienung dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Taster Aktivsitz links dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Taster Aktivsitz rechts dauernd betaetigt</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Unterspannung erkannt</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Toleranzueberschreitung Aktivsitz links</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Toleranzueberschreitung Aktivsitz rechts</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-sitztemperatur"></a></p>
+<h3 id="sitztemperatur">SITZTEMPERATUR</h3>
+<p>Dimensions: 256 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>WERT</th>
+<th>TEMPERATUR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>100.0</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>98.3</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>96.6</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>95.0</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>93.3</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>91.6</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>90.0</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>88.8</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>87.5</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>86.3</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>85.0</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>84.0</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>83.0</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>82.0</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>81.0</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>80.0</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>79.1</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>78.3</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>77.5</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>76.7</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>75.8</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>75.0</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>74.1</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>73.3</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>72.5</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>71.7</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>70.8</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>70.0</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>69.4</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>68.8</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>68.1</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>67.5</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>66.9</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>66.3</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>65.6</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>65.0</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>64.4</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>63.8</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>63.1</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>62.5</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>61.9</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>61.3</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>60.6</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>60.0</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>59.5</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>59.0</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>58.5</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>58.0</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>57.5</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>57.0</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>56.5</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>56.0</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>55.5</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>55.0</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>54.5</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>54.0</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>53.6</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>53.1</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>52.7</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>52.2</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>51.8</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>51.3</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>50.9</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>50.4</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>50.0</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>49.5</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>49.0</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>48.6</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>48.1</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>47.7</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>47.2</td>
+</tr>
+<tr>
+<td>0x5A</td>
+<td>46.8</td>
+</tr>
+<tr>
+<td>0x5B</td>
+<td>46.3</td>
+</tr>
+<tr>
+<td>0x5C</td>
+<td>45.9</td>
+</tr>
+<tr>
+<td>0x5D</td>
+<td>45.4</td>
+</tr>
+<tr>
+<td>0x5E</td>
+<td>45.0</td>
+</tr>
+<tr>
+<td>0x5F</td>
+<td>44.6</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>44.2</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>43.8</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>43.4</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>43.0</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>42.6</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>42.3</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>41.9</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>41.5</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>41.1</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>40.7</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>40.3</td>
+</tr>
+<tr>
+<td>0x6B</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>0x6C</td>
+<td>39.6</td>
+</tr>
+<tr>
+<td>0x6D</td>
+<td>39.2</td>
+</tr>
+<tr>
+<td>0x6E</td>
+<td>38.9</td>
+</tr>
+<tr>
+<td>0x6F</td>
+<td>38.5</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>38.2</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>37.8</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>37.4</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>37.1</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>36.7</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>36.4</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>36.0</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>35.7</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>35.3</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>35.0</td>
+</tr>
+<tr>
+<td>0x7A</td>
+<td>34.6</td>
+</tr>
+<tr>
+<td>0x7B</td>
+<td>34.2</td>
+</tr>
+<tr>
+<td>0x7C</td>
+<td>33.9</td>
+</tr>
+<tr>
+<td>0x7D</td>
+<td>33.5</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>33.2</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>32.8</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>32.4</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>32.1</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>31.7</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>31.4</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>31.0</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>30.7</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>30.3</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>30.0</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>29.6</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>29.2</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>28.9</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>28.5</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>28.2</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>27.8</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>27.4</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>27.1</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>26.7</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>26.4</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>26.0</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>25.7</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>25.3</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>25.0</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>24.6</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>24.2</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>23.9</td>
+</tr>
+<tr>
+<td>0x99</td>
+<td>23.5</td>
+</tr>
+<tr>
+<td>0x9A</td>
+<td>23.2</td>
+</tr>
+<tr>
+<td>0x9B</td>
+<td>22.8</td>
+</tr>
+<tr>
+<td>0x9C</td>
+<td>22.4</td>
+</tr>
+<tr>
+<td>0x9D</td>
+<td>22.1</td>
+</tr>
+<tr>
+<td>0x9E</td>
+<td>21.7</td>
+</tr>
+<tr>
+<td>0x9F</td>
+<td>21.4</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>21.0</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>20.7</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>20.3</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>20.0</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>19.6</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>19.2</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>18.8</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>18.4</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>18.0</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>17.6</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>17.3</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>16.9</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>16.5</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>16.1</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>15.7</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>15.3</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>15.0</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>14.6</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>14.2</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>13.8</td>
+</tr>
+<tr>
+<td>0xB4</td>
+<td>13.4</td>
+</tr>
+<tr>
+<td>0xB5</td>
+<td>13.0</td>
+</tr>
+<tr>
+<td>0xB6</td>
+<td>12.6</td>
+</tr>
+<tr>
+<td>0xB7</td>
+<td>12.3</td>
+</tr>
+<tr>
+<td>0xB8</td>
+<td>11.9</td>
+</tr>
+<tr>
+<td>0xB9</td>
+<td>11.5</td>
+</tr>
+<tr>
+<td>0xBA</td>
+<td>11.1</td>
+</tr>
+<tr>
+<td>0xBB</td>
+<td>10.7</td>
+</tr>
+<tr>
+<td>0xBC</td>
+<td>10.3</td>
+</tr>
+<tr>
+<td>0xBD</td>
+<td>10.0</td>
+</tr>
+<tr>
+<td>0xBE</td>
+<td>9.5</td>
+</tr>
+<tr>
+<td>0xBF</td>
+<td>9.1</td>
+</tr>
+<tr>
+<td>0xC0</td>
+<td>8.7</td>
+</tr>
+<tr>
+<td>0xC1</td>
+<td>8.3</td>
+</tr>
+<tr>
+<td>0xC2</td>
+<td>7.9</td>
+</tr>
+<tr>
+<td>0xC3</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>0xC4</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td>0xC5</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>0xC6</td>
+<td>6.2</td>
+</tr>
+<tr>
+<td>0xC7</td>
+<td>5.8</td>
+</tr>
+<tr>
+<td>0xC8</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>0xC9</td>
+<td>5.0</td>
+</tr>
+<tr>
+<td>0xCA</td>
+<td>4.5</td>
+</tr>
+<tr>
+<td>0xCB</td>
+<td>4.0</td>
+</tr>
+<tr>
+<td>0xCC</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>0xCD</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>0xCE</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>0xCF</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>0xD0</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>-0.5</td>
+</tr>
+<tr>
+<td>0xD5</td>
+<td>-1.1</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>-1.6</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>-2.2</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>-2.7</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>-3.3</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>-3.8</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>-4.4</td>
+</tr>
+<tr>
+<td>0xDC</td>
+<td>-5.0</td>
+</tr>
+<tr>
+<td>0xDD</td>
+<td>-5.6</td>
+</tr>
+<tr>
+<td>0xDE</td>
+<td>-6.2</td>
+</tr>
+<tr>
+<td>0xDF</td>
+<td>-6.8</td>
+</tr>
+<tr>
+<td>0xE0</td>
+<td>-7.5</td>
+</tr>
+<tr>
+<td>0xE1</td>
+<td>-8.1</td>
+</tr>
+<tr>
+<td>0xE2</td>
+<td>-8.7</td>
+</tr>
+<tr>
+<td>0xE3</td>
+<td>-9.3</td>
+</tr>
+<tr>
+<td>0xE4</td>
+<td>-10.0</td>
+</tr>
+<tr>
+<td>0xE5</td>
+<td>-10.8</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>-11.6</td>
+</tr>
+<tr>
+<td>0xE7</td>
+<td>-12.4</td>
+</tr>
+<tr>
+<td>0xE8</td>
+<td>-13.3</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>-14.1</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>-15.0</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>-16.0</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>-17.0</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>-18.0</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>-19.0</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>-20.0</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>-21.2</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>-22.5</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>-23.7</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>-25.0</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>-26.6</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>-28.3</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>-30.0</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>-32.5</td>
+</tr>
+<tr>
+<td>0xF8</td>
+<td>-35.0</td>
+</tr>
+<tr>
+<td>0xF9</td>
+<td>-37.5</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>-40.0</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>-50.0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-platinentemperatur"></a></p>
+<h3 id="platinentemperatur">PLATINENTEMPERATUR</h3>
+<p>Dimensions: 256 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>WERT</th>
+<th>TEMPERATUR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>150.0</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>125.0</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>123.7</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>122.5</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>121.2</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>120.0</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>119.0</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>118.0</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>117.0</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>116.0</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>115.0</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>114.1</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>113.3</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>112.5</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>111.6</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>110.8</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>110.0</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>109.1</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>108.3</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>107.5</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>106.6</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>105.8</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>105.0</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>104.2</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>103.2</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>102.8</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>102.1</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>101.4</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>100.7</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>100.0</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>99.2</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>98.5</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>97.8</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>97.1</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>96.4</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>95.7</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>95.0</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>94.2</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>93.5</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>93.8</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>92.1</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>91.4</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>90.7</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>90.0</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>89.4</td>
+</tr>
+<tr>
+<td>0x5A</td>
+<td>88.8</td>
+</tr>
+<tr>
+<td>0x5B</td>
+<td>88.3</td>
+</tr>
+<tr>
+<td>0x5C</td>
+<td>87.7</td>
+</tr>
+<tr>
+<td>0x5D</td>
+<td>87.2</td>
+</tr>
+<tr>
+<td>0x5E</td>
+<td>86.6</td>
+</tr>
+<tr>
+<td>0x5F</td>
+<td>86.1</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>85.5</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>85.0</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>84.3</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>83.7</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>83.1</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>82.5</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>81.8</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>81.2</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>80.6</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>80.0</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>79.4</td>
+</tr>
+<tr>
+<td>0x6B</td>
+<td>78.8</td>
+</tr>
+<tr>
+<td>0x6C</td>
+<td>78.3</td>
+</tr>
+<tr>
+<td>0x6D</td>
+<td>77.7</td>
+</tr>
+<tr>
+<td>0x6E</td>
+<td>77.2</td>
+</tr>
+<tr>
+<td>0x6F</td>
+<td>76.6</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>76.1</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>75.5</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>75.0</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>74.5</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>74.0</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>73.5</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>73.0</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>72.5</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>72.0</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>71.5</td>
+</tr>
+<tr>
+<td>0x7A</td>
+<td>71.0</td>
+</tr>
+<tr>
+<td>0x7B</td>
+<td>70.5</td>
+</tr>
+<tr>
+<td>0x7C</td>
+<td>70.0</td>
+</tr>
+<tr>
+<td>0x7D</td>
+<td>69.5</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>69.0</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>68.5</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>68.0</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>67.5</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>67.0</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>66.5</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>66.0</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>65.5</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>65.0</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>64.4</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>63.8</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>63.3</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>62.7</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>62.2</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>61.6</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>61.1</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>60.5</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>60.0</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>69.5</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>59.0</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>58.5</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>58.0</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>57.5</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>57.0</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>56.5</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>56.0</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>55.5</td>
+</tr>
+<tr>
+<td>0x99</td>
+<td>55.0</td>
+</tr>
+<tr>
+<td>0x9A</td>
+<td>54.5</td>
+</tr>
+<tr>
+<td>0x9B</td>
+<td>54.0</td>
+</tr>
+<tr>
+<td>0x9C</td>
+<td>53.5</td>
+</tr>
+<tr>
+<td>0x9D</td>
+<td>53.0</td>
+</tr>
+<tr>
+<td>0x9E</td>
+<td>52.5</td>
+</tr>
+<tr>
+<td>0x9F</td>
+<td>52.0</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>51.5</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>51.0</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>50.5</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>50.0</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>49.5</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>49.0</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>48.5</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>48.0</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>47.5</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>47.0</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>46.5</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>46.0</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>45.5</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>45.0</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>44.4</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>43.8</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>43.3</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>42.7</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>42.2</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>41.6</td>
+</tr>
+<tr>
+<td>0xB4</td>
+<td>41.1</td>
+</tr>
+<tr>
+<td>0xB5</td>
+<td>40.5</td>
+</tr>
+<tr>
+<td>0xB6</td>
+<td>40.0</td>
+</tr>
+<tr>
+<td>0xB7</td>
+<td>39.4</td>
+</tr>
+<tr>
+<td>0xB8</td>
+<td>38.8</td>
+</tr>
+<tr>
+<td>0xB9</td>
+<td>38.3</td>
+</tr>
+<tr>
+<td>0xBA</td>
+<td>37.7</td>
+</tr>
+<tr>
+<td>0xBB</td>
+<td>37.2</td>
+</tr>
+<tr>
+<td>0xBC</td>
+<td>36.6</td>
+</tr>
+<tr>
+<td>0xBD</td>
+<td>36.1</td>
+</tr>
+<tr>
+<td>0xBE</td>
+<td>35.5</td>
+</tr>
+<tr>
+<td>0xBF</td>
+<td>35.0</td>
+</tr>
+<tr>
+<td>0xC0</td>
+<td>34.4</td>
+</tr>
+<tr>
+<td>0xC1</td>
+<td>33.8</td>
+</tr>
+<tr>
+<td>0xC2</td>
+<td>33.3</td>
+</tr>
+<tr>
+<td>0xC3</td>
+<td>32.7</td>
+</tr>
+<tr>
+<td>0xC4</td>
+<td>32.2</td>
+</tr>
+<tr>
+<td>0xC5</td>
+<td>31.6</td>
+</tr>
+<tr>
+<td>0xC6</td>
+<td>31.1</td>
+</tr>
+<tr>
+<td>0xC7</td>
+<td>30.5</td>
+</tr>
+<tr>
+<td>0xC8</td>
+<td>30.0</td>
+</tr>
+<tr>
+<td>0xC9</td>
+<td>29.2</td>
+</tr>
+<tr>
+<td>0xCA</td>
+<td>28.5</td>
+</tr>
+<tr>
+<td>0xCB</td>
+<td>27.8</td>
+</tr>
+<tr>
+<td>0xCC</td>
+<td>27.1</td>
+</tr>
+<tr>
+<td>0xCD</td>
+<td>26.4</td>
+</tr>
+<tr>
+<td>0xCE</td>
+<td>25.7</td>
+</tr>
+<tr>
+<td>0xCF</td>
+<td>25.0</td>
+</tr>
+<tr>
+<td>0xD0</td>
+<td>23.7</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>23.1</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>22.5</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>21.8</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>21.2</td>
+</tr>
+<tr>
+<td>0xD5</td>
+<td>20.6</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>20.0</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>19.1</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>18.3</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>17.5</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>16.6</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>15.8</td>
+</tr>
+<tr>
+<td>0xDC</td>
+<td>15.0</td>
+</tr>
+<tr>
+<td>0xDD</td>
+<td>14.0</td>
+</tr>
+<tr>
+<td>0xDE</td>
+<td>13.0</td>
+</tr>
+<tr>
+<td>0xDF</td>
+<td>12.0</td>
+</tr>
+<tr>
+<td>0xE0</td>
+<td>11.0</td>
+</tr>
+<tr>
+<td>0xE1</td>
+<td>10.0</td>
+</tr>
+<tr>
+<td>0xE2</td>
+<td>9.0</td>
+</tr>
+<tr>
+<td>0xE3</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td>0xE4</td>
+<td>7.0</td>
+</tr>
+<tr>
+<td>0xE5</td>
+<td>6.0</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>5.0</td>
+</tr>
+<tr>
+<td>0xE7</td>
+<td>4.0</td>
+</tr>
+<tr>
+<td>0xE8</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>-1.6</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>-3.3</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>-5.0</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>-6.6</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>-8.3</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>-10.0</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>-11.6</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>-13.3</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>-15.0</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>-17.5</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>-20.0</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>-22.5</td>
+</tr>
+<tr>
+<td>0xF8</td>
+<td>-25.0</td>
+</tr>
+<tr>
+<td>0xF9</td>
+<td>-30.0</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>-35.0</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>-40.0</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>-45.0</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>-50.0</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>-50.0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-speicherdaten"></a></p>
+<h3 id="speicherdaten">SPEICHERDATEN</h3>
+<p>Dimensions: 55 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ADRESSE</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0920</td>
+<td>0xCA</td>
+</tr>
+<tr>
+<td>0x0921</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0922</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0923</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0924</td>
+<td>0x81</td>
+</tr>
+<tr>
+<td>0x0925</td>
+<td>0xC6</td>
+</tr>
+<tr>
+<td>0x0926</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0927</td>
+<td>0x4A</td>
+</tr>
+<tr>
+<td>0x0928</td>
+<td>0xC1</td>
+</tr>
+<tr>
+<td>0x0929</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x092A</td>
+<td>0x4C</td>
+</tr>
+<tr>
+<td>0x092B</td>
+<td>0x26</td>
+</tr>
+<tr>
+<td>0x092C</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x092D</td>
+<td>0xC6</td>
+</tr>
+<tr>
+<td>0x092E</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x092F</td>
+<td>0x4C</td>
+</tr>
+<tr>
+<td>0x0930</td>
+<td>0x27</td>
+</tr>
+<tr>
+<td>0x0931</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x0932</td>
+<td>0x4F</td>
+</tr>
+<tr>
+<td>0x0933</td>
+<td>0xC7</td>
+</tr>
+<tr>
+<td>0x0934</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0935</td>
+<td>0x4A</td>
+</tr>
+<tr>
+<td>0x0936</td>
+<td>0xC6</td>
+</tr>
+<tr>
+<td>0x0937</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0938</td>
+<td>0x49</td>
+</tr>
+<tr>
+<td>0x0939</td>
+<td>0xC1</td>
+</tr>
+<tr>
+<td>0x093A</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x093B</td>
+<td>0x4B</td>
+</tr>
+<tr>
+<td>0x093C</td>
+<td>0x26</td>
+</tr>
+<tr>
+<td>0x093D</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x093E</td>
+<td>0xC6</td>
+</tr>
+<tr>
+<td>0x093F</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0940</td>
+<td>0x4B</td>
+</tr>
+<tr>
+<td>0x0941</td>
+<td>0x27</td>
+</tr>
+<tr>
+<td>0x0942</td>
+<td>0x04</td>
+</tr>
+<tr>
+<td>0x0943</td>
+<td>0x4F</td>
+</tr>
+<tr>
+<td>0x0944</td>
+<td>0xC7</td>
+</tr>
+<tr>
+<td>0x0945</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>0x0946</td>
+<td>0x49</td>
+</tr>
+<tr>
+<td>0x0947</td>
+<td>0x81</td>
+</tr>
+<tr>
+<td>0x0948</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0949</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094A</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094B</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094C</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094D</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094E</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x094F</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0950</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0951</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0952</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0953</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0954</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0x0955</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0xFFFF</td>
+<td>0xFF</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

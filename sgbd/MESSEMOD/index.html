@@ -1,0 +1,1711 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/MESSEMOD/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MESSEMOD.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#messemodprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MESSEMOD.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_pwf_messemodus_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_PWF_MESSEMODUS_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_PWF_MESSEMODUS_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_pwf_messemodus_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_PWF_MESSEMODUS_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_PWF_MESSEMODUS_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grobname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROBNAME
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funktionaleadresse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUNKTIONALEADRESSE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="messemodprg">MESSEMOD.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">4</a></li>
+<li>Tables: <a href="#tables">4</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Messe Modus</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW UA-70 Hillebrand</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>0.006</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>ESG AB-T Stephan_Keitel</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>-</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.45</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-steuern-pwf-messemodus-funktional">STEUERN_PWF_MESSEMODUS_FUNKTIONAL</a> - Einstellen des MESSEMODUS UDS     : $31   RoutineControlRequestServiceID UDS     : $01   startRoutine UDS     : $102F DataIdentifier STEUERN_PWF_MESSEMODUS UDS     : $00   MESSEMODUS_NICHT_AKTIV UDS     : $01   MESSEMODUS_AKTIV</li>
+<li><a href="#job-status-pwf-messemodus-funktional">STATUS_PWF_MESSEMODUS_FUNKTIONAL</a> - Messe-Mode auslesen UDS:    $22   ReadDataByIdentifier UDS:    $2532 DataIdentifier STAT_PWF_MESSEMODUS</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-pwf-messemodus-funktional"></a></p>
+<h3 id="steuern_pwf_messemodus_funktional">STEUERN_PWF_MESSEMODUS_FUNKTIONAL</h3>
+<p>Einstellen des MESSEMODUS UDS     : $31   RoutineControlRequestServiceID UDS     : $01   startRoutine UDS     : $102F DataIdentifier STEUERN_PWF_MESSEMODUS UDS     : $00   MESSEMODUS_NICHT_AKTIV UDS     : $01   MESSEMODUS_AKTIV</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewünschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeräte )</td>
+</tr>
+<tr>
+<td>MODE</td>
+<td>long</td>
+<td>0: MESSEMODUS_NICHT_AKTIV 1: MESSEMODUS_AKTIV</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeräteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergerätes</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeräteadresse</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_REQUEST</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_RESPONSE</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-pwf-messemodus-funktional"></a></p>
+<h3 id="status_pwf_messemodus_funktional">STATUS_PWF_MESSEMODUS_FUNKTIONAL</h3>
+<p>Messe-Mode auslesen UDS:    $22   ReadDataByIdentifier UDS:    $2532 DataIdentifier STAT_PWF_MESSEMODUS</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewünschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeräte )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeräteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeräteadresse</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergerätes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>STAT_PWF_MESSEMODUS_WERT</td>
+<td>long</td>
+<td>Ausgabe des Messemodus</td>
+</tr>
+<tr>
+<td>STAT_PWF_MESSEMODUS_TEXT</td>
+<td>string</td>
+<td>Text zu STAT_PWF_MESSEMODUS_WERT</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_REQUEST</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_RESPONSE</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (76 × 2)</li>
+<li><a href="#table-grobname">GROBNAME</a> (116 × 2)</li>
+<li><a href="#table-funktionaleadresse">FUNKTIONALEADRESSE</a> (1 × 3)</li>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (1 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 76 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>ERROR_ECU_INCORRECT_MESSAGE_LENGTH_OR_INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>ERROR_ECU_RESPONSE_TOO_LONG</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>ERROR_ECU_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>ERROR_ECU_NO_RESPONSE_FROM_SUBNET_COMPONENT</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>ERROR_ECU_FAILURE_PREVENTS_EXECUTION_OF_REQUESTED_ACTION</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>ERROR_ECU_INVALID_KEY</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>ERROR_ECU_UPLOAD_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_DATA_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_GENERAL_PROGRAMMING_FAILURE</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>ERROR_ECU_WRONG_BLOCK_SEQUENCE_COUNTER</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>ERROR_ECU_RPM_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>ERROR_ECU_RPM_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>ERROR_ECU_ENGINE_IS_RUNNING</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>ERROR_ECU_ENGINE_IS_NOT_RUNNING</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>ERROR_ECU_ENGINE_RUN_TIME_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>ERROR_ECU_TEMPERATURE_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>ERROR_ECU_TEMPERATURE_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>ERROR_ECU_VEHICLE_SPEED_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>ERROR_ECU_VEHICLE_SPEED_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>ERROR_ECU_THROTTLE_PEDAL_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>ERROR_ECU_THROTTLE_PEDAL_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_NEUTRAL</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_GEAR</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>ERROR_ECU_BRAKE_SWITCH_NOT_CLOSED</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>ERROR_ECU_SHIFTER_LEVER_NOT_IN_PARK</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>ERROR_ECU_TORQUE_CONVERTER_CLUTCH_LOCKED</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>ERROR_ECU_VOLTAGE_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>ERROR_ECU_VOLTAGE_TOO_LOW</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?01?</td>
+<td>ERROR_ECU_NO_RESPONSE</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?04?</td>
+<td>ERROR_ECU_TA_RESPONSE_NOT_SA_REQUEST</td>
+</tr>
+<tr>
+<td>?05?</td>
+<td>ERROR_ECU_SA_RESPONSE_NOT_TA_REQUEST</td>
+</tr>
+<tr>
+<td>?06?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DATA_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?07?</td>
+<td>ERROR_ECU_RESPONSE_TOO_MUCH_DATA</td>
+</tr>
+<tr>
+<td>?08?</td>
+<td>ERROR_ECU_RESPONSE_TOO_LESS_DATA</td>
+</tr>
+<tr>
+<td>?09?</td>
+<td>ERROR_ECU_RESPONSE_VALUE_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?0A?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?14?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_IO_CONTROL_PARAMETER</td>
+</tr>
+<tr>
+<td>?15?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_TYPE</td>
+</tr>
+<tr>
+<td>?16?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_SUB_FUNCTION</td>
+</tr>
+<tr>
+<td>?17?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DYNAMICALLY_DEFINED_DATA_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?18?</td>
+<td>ERROR_ECU_RESPONSE_NO_STRING_END_CHAR</td>
+</tr>
+<tr>
+<td>?19?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?1A?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_RESET_TYPE</td>
+</tr>
+<tr>
+<td>?1B?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_SERIAL_NUMBER_FORMAT</td>
+</tr>
+<tr>
+<td>?1C?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DTC_BY_STATUS_MASK</td>
+</tr>
+<tr>
+<td>?1D?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DTC_STATUS_AVAILABILITY_MASK</td>
+</tr>
+<tr>
+<td>?1E?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?61?</td>
+<td>ERROR_ECU_RESPONSE_ZGW</td>
+</tr>
+<tr>
+<td>?62?</td>
+<td>ERROR_ECU_RESPONSE_BACKUP</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_CALID_CVN_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_SVK_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_SVK_INCORRECT_FINGERPRINT</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-grobname"></a></p>
+<h3 id="grobname">GROBNAME</h3>
+<p>Dimensions: 116 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ADR</th>
+<th>GROBNAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>JBBF</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>AIRBAG</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>SZL</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ARS_H</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>CDM</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>TRSVC</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>SME</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>HC</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>RE_DME</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>RE_EME</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>SCR</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>HKFM</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>SVT</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>QSG/GHAS</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>ZGW</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ENS</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>DME/DDE</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>DME2/DDE2</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>LIM</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>KLE</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>ASA</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>EKP/RLM1L</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>EGS</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>LMV</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>EME/RLM1R</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>SMES1</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>ICMQL/RLM2L</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>TFM</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>SMES2/RLM2R</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>RDC</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>FRR</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>SAS</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>SVT_RR</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>CVM</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>ARS_V</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>RSE</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>CGW_RR</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DSC</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>EMF</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>HSR</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>PMA</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>ASDA</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>PCU</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>EPS</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>MMC</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>CSM</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>ZINS</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>TXB</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>TELEFON</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>AMP</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>EHC</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ICMV</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>EME</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>SAS</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>CDC</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>HUD</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>ACP_RR</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>ASD</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>CAS</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>TMS_L</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TMS_R</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>LHM_L</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>LHM_R</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>DCS</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>GZAL</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>GZAR</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>VSW</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>SECU1</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>SECU2</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>TVM</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>EMA_LI</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>EMA_RE</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>LEM</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>SINE</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>SPNMVL</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>RADIO</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>MULF</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>FZD</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>NIVI</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>SPNMVR</td>
+</tr>
+<tr>
+<td>0x5A</td>
+<td>SPNMHL</td>
+</tr>
+<tr>
+<td>0x5B</td>
+<td>SPNMHR</td>
+</tr>
+<tr>
+<td>0x5D</td>
+<td>KAFAS</td>
+</tr>
+<tr>
+<td>0x5E</td>
+<td>GWS</td>
+</tr>
+<tr>
+<td>0x5F</td>
+<td>FLA</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>KOMBI</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>ECALL</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>HEADUNIT</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>PDC</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>ELV</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>ZBE</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>ZBEF</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>FAH</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>BFH</td>
+</tr>
+<tr>
+<td>0x6B</td>
+<td>HKL</td>
+</tr>
+<tr>
+<td>0x6D</td>
+<td>FAS</td>
+</tr>
+<tr>
+<td>0x6E</td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>AHM</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>FRM</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>CID</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>CIDF</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>CIDF2</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>VDC</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>TRSVC_RR</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>IHKA</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>FKA</td>
+</tr>
+<tr>
+<td>0x7A</td>
+<td>AFP</td>
+</tr>
+<tr>
+<td>0x7B</td>
+<td>HKA</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>CIC_HD</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>RK_VL</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>RK_VR</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>RK_HL</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>RK_HR</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>CDCDSP</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>MMCDSP</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>????</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-funktionaleadresse"></a></p>
+<h3 id="funktionaleadresse">FUNKTIONALEADRESSE</h3>
+<p>Dimensions: 1 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>F_ADR</th>
+<th>F_ADR_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xDF</td>
+<td>ALL</td>
+<td>alle Steuergeräte</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 1 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xXY</td>
+<td>ERROR_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

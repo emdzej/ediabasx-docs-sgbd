@@ -1,0 +1,4884 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/IFR/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>IFR.PRG - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ifrprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IFR.PRG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init_ifr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INIT_IFR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INIT_IFR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_pruefung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        START_PRUEFUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="START_PRUEFUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ende_pruefung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENDE_PRUEFUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ENDE_PRUEFUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_communication_para" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SET_COMMUNICATION_PARA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SET_COMMUNICATION_PARA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_communication_para" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET_COMMUNICATION_PARA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GET_COMMUNICATION_PARA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_confirmed_com" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SET_CONFIRMED_COM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SET_CONFIRMED_COM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k1_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K1_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K1_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k1_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K1_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K1_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k1_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K1_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K1_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k2_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K2_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K2_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k2_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K2_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K2_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_k2_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_K2_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_K2_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_can_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_CAN_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_CAN_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_can_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_CAN_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_CAN_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_can_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_CAN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_CAN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_cpu_k1_k2_can" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CPU_K1_K2_CAN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CPU_K1_K2_CAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_stromregelung_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_STROMREGELUNG_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_STROMREGELUNG_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_stromregelung_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_STROMREGELUNG_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_STROMREGELUNG_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_port_stromregelung_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU_PORT_STROMREGELUNG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU_PORT_STROMREGELUNG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adresse_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADRESSE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADRESSE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adresse_lesen_master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADRESSE_LESEN_MASTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADRESSE_LESEN_MASTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adresse_lesen_slave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADRESSE_LESEN_SLAVE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADRESSE_LESEN_SLAVE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adressen_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADRESSEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ADRESSEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep_ifr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLEEP_IFR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLEEP_IFR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VERSION_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VERSION_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CHECK_SLEEP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CHECK_SLEEP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_klemmen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_KLEMMEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_KLEMMEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_slave_zielnummer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_SLAVE_ZIELNUMMER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_SLAVE_ZIELNUMMER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_statistik_master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_STATISTIK_MASTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_STATISTIK_MASTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_statistik_slave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_STATISTIK_SLAVE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_STATISTIK_SLAVE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loeschen_statistik_master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LOESCHEN_STATISTIK_MASTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LOESCHEN_STATISTIK_MASTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loeschen_statistik_slave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LOESCHEN_STATISTIK_SLAVE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LOESCHEN_STATISTIK_SLAVE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ziel_master_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZIEL_MASTER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZIEL_MASTER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bin_download_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BIN_DOWNLOAD_START
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BIN_DOWNLOAD_START">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bin_file_download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BIN_FILE_DOWNLOAD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BIN_FILE_DOWNLOAD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bin_download_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BIN_DOWNLOAD_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BIN_DOWNLOAD_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_flashen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        START_FLASHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="START_FLASHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check_firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CHECK_FIRMWARE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CHECK_FIRMWARE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fortschritt_flashen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTSCHRITT_FLASHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FORTSCHRITT_FLASHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruecklesen_fw_aus_mda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RUECKLESEN_FW_AUS_MDA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RUECKLESEN_FW_AUS_MDA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fortschritt_ruecklesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTSCHRITT_RUECKLESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FORTSCHRITT_RUECKLESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konfig_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONFIG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KONFIG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konfig_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONFIG_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KONFIG_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_ver_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_VER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_VER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_47" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_start_flash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_START_FLASH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_START_FLASH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_48" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_status_flash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_STATUS_FLASH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_STATUS_FLASH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_49" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_start_download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_START_DOWNLOAD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_START_DOWNLOAD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_50" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_download_pcmda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_DOWNLOAD_PCMDA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_DOWNLOAD_PCMDA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_ende_download" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_ENDE_DOWNLOAD
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_ENDE_DOWNLOAD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kl15_check_firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KL15_CHECK_FIRMWARE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KL15_CHECK_FIRMWARE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_can_accept_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SET_CAN_ACCEPT_FILTER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SET_CAN_ACCEPT_FILTER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_can_message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET_CAN_MESSAGE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GET_CAN_MESSAGE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#send_can_message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SEND_CAN_MESSAGE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SEND_CAN_MESSAGE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_56" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_auto_assign" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SET_AUTO_ASSIGN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SET_AUTO_ASSIGN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_57" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_auto_assign_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WRITE_AUTO_ASSIGN_DATA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WRITE_AUTO_ASSIGN_DATA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_58" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read_auto_assign_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        READ_AUTO_ASSIGN_DATA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="READ_AUTO_ASSIGN_DATA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_59" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read_auto_assign_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        READ_AUTO_ASSIGN_STATUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="READ_AUTO_ASSIGN_STATUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_60" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_running_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET_RUNNING_TIME
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GET_RUNNING_TIME">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_error_count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GET_ERROR_COUNT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GET_ERROR_COUNT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clr_error_count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLR_ERROR_COUNT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLR_ERROR_COUNT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_set_master_com_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _SET_MASTER_COM_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_SET_MASTER_COM_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BITS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ifrprg">IFR.PRG</h1>
+<ul>
+<li>Jobs: <a href="#jobs">65</a></li>
+<li>Tables: <a href="#tables">1</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>IFR</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-430 Haase</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>10.01</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-430 Penzenstadler, BMW TI-430 Huber, BMW TI-430 Drexel,</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>communication with MDA as pseudo ECU</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.05</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter DS2</li>
+<li><a href="#job-init-ifr">INIT_IFR</a> - Initialisierung mit Zuordnung Adresse</li>
+<li><a href="#job-start-pruefung">START_PRUEFUNG</a> - Start mit FZS</li>
+<li><a href="#job-ende-pruefung">ENDE_PRUEFUNG</a> - Trennt logische Verbindung zum Slave-MDA Ab V3.07: 3s Wartezeit wenn Antwort nicht OK (0x00) war gewaehrleistet Umschaltung des Slave in Koordinierungskanal bei entsprechender Slave-Konfiguration</li>
+<li><a href="#job-set-communication-para">SET_COMMUNICATION_PARA</a> - Setzen Kommunikationsparameter AUTOMATIK und CAN_EIN aus INIT_IFR</li>
+<li><a href="#job-get-communication-para">GET_COMMUNICATION_PARA</a> - Auslesen Kommunikationsparameter AUTOMATIK und CAN_EIN aus INIT_IFR</li>
+<li><a href="#job-set-confirmed-com">SET_CONFIRMED_COM</a> - Setzt den MDA in Kommunikationsmodus ConfirmedCom</li>
+<li><a href="#job-cpu-port-k1-ein">CPU_PORT_K1_EIN</a> - Einschalten des Relais K1 im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-k1-aus">CPU_PORT_K1_AUS</a> - Ausschalten des Relais K1 im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-k1-lesen">CPU_PORT_K1_LESEN</a> - Lesen ob das Relais K1 im Funk-Mobilteil aktiv ist</li>
+<li><a href="#job-cpu-port-k2-ein">CPU_PORT_K2_EIN</a> - Einschalten des Relais K2 im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-k2-aus">CPU_PORT_K2_AUS</a> - Ausschalten des Relais K2 im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-k2-lesen">CPU_PORT_K2_LESEN</a> - Lesen ob das Relais K2 im Funk-Mobilteil aktiv ist</li>
+<li><a href="#job-cpu-can-ein">CPU_CAN_EIN</a> - Einschalten des CAN Relais im Funk-Mobilteil</li>
+<li><a href="#job-cpu-can-aus">CPU_CAN_AUS</a> - Ausschalten des CAN Relais im Funk-Mobilteil</li>
+<li><a href="#job-cpu-can-lesen">CPU_CAN_LESEN</a> - Lesen ob das CAN Relais im Funk-Mobilteil aktiv ist</li>
+<li><a href="#job-status-cpu-k1-k2-can">STATUS_CPU_K1_K2_CAN</a> - Lesen ob das CAN Relais im Funk-Mobilteil aktiv ist</li>
+<li><a href="#job-cpu-port-stromregelung-ein">CPU_PORT_STROMREGELUNG_EIN</a> - Einschalten des Stromregelung im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-stromregelung-aus">CPU_PORT_STROMREGELUNG_AUS</a> - Einschalten des Stromregelung im Funk-Mobilteil</li>
+<li><a href="#job-cpu-port-stromregelung-lesen">CPU_PORT_STROMREGELUNG_LESEN</a> - Lesen ob die Stromregelung im Funk-Mobilteil aktiv ist</li>
+<li><a href="#job-adresse-lesen">ADRESSE_LESEN</a> - Abfrage Adresse des Mobiladapters (Slave-MDA) HINWEIS: wird nur noch aus Kompatibilaetsgruenden unterstuetzt HINWEIS: neuer Job ADRESSEN_LESEN_SLAVE</li>
+<li><a href="#job-adresse-lesen-master">ADRESSE_LESEN_MASTER</a> - Abfrage der Adresse des Master-MDA HINWEIS: schnelle Ausfuehrung, da keine Funk-Kommunikation</li>
+<li><a href="#job-adresse-lesen-slave">ADRESSE_LESEN_SLAVE</a> - Abfrage der Adresse des Slave-MDA</li>
+<li><a href="#job-adressen-lesen">ADRESSEN_LESEN</a> - Abfrage der Adressen des Master- und des Slave-MDA HINWEIS: Verbindung zum Slave-MDA erforderlich</li>
+<li><a href="#job-sleep-ifr">SLEEP_IFR</a> - Abbruch der Infrarot-Verbindung (IFR-ADS -&gt; SLEEP-Mode) Es kommt keine Antwort zurueck !</li>
+<li><a href="#job-version-lesen">VERSION_LESEN</a> - Abfrage der Version des Masters und des Mobiladapters Abfrage der Adresse des Masters und des Mobiladapters</li>
+<li><a href="#job-check-sleep">CHECK_SLEEP</a> - Test ob MDA in den Sleepmodus geschaltet hat bei Sleep Modus Adresse = 0 und Softwareversion = 0000</li>
+<li><a href="#job-status-klemmen">STATUS_KLEMMEN</a> - Abfrage der Klemmenstati des Mobiladapters</li>
+<li><a href="#job-status-slave-zielnummer">STATUS_SLAVE_ZIELNUMMER</a> - Abfrage der Slave Zielnummer</li>
+<li><a href="#job-status-statistik-master">STATUS_STATISTIK_MASTER</a> - Statistik aus dem Master lesen</li>
+<li><a href="#job-status-statistik-slave">STATUS_STATISTIK_SLAVE</a> - Statistik aus dem Slave lesen</li>
+<li><a href="#job-loeschen-statistik-master">LOESCHEN_STATISTIK_MASTER</a> - Statistik im Master loeschen</li>
+<li><a href="#job-loeschen-statistik-slave">LOESCHEN_STATISTIK_SLAVE</a> - Statistik im Slave loeschen</li>
+<li><a href="#job-ziel-master-lesen">ZIEL_MASTER_LESEN</a> - Zieladresse des Masters lesen (Auto-Update) Erweiteter ADS-Befehl: 0x01</li>
+<li><a href="#job-bin-download-start">BIN_DOWNLOAD_START</a> - Download Start, binären Datentransfer vom PC in den SDA-RAM starten (Auto-Update) Erweiteter ADS-Befehl: 0x10</li>
+<li><a href="#job-bin-file-download">BIN_FILE_DOWNLOAD</a> - Download, binaeren Datentransfer vom PC in den SDA-RAM (Auto-Update) Erweiteter ADS-Befehl: 0x11</li>
+<li><a href="#job-bin-download-ende">BIN_DOWNLOAD_ENDE</a> - Download Ende, binaeren Datentransfer vom PC in den SDA-RAM beenden (Auto-Update) Erweiteter ADS-Befehl: 0x12</li>
+<li><a href="#job-start-flashen">START_FLASHEN</a> - Start des Flashens vom SDA-RAM in den MDA oder in den SDA Erweiteter ADS-Befehl: 0x19</li>
+<li><a href="#job-check-firmware">CHECK_FIRMWARE</a> - Versions- und Checksummenprüfung der mit 0x10-0x12 in den SDA-RAM geladenen Firmware Erweiteter ADS-Befehl: 0x18</li>
+<li><a href="#job-fortschritt-flashen">FORTSCHRITT_FLASHEN</a> - Fortschrittsabfrage des Flashens Erweiteter ADS-Befehl: 0x1A</li>
+<li><a href="#job-ruecklesen-fw-aus-mda">RUECKLESEN_FW_AUS_MDA</a> - Start des Rücklesens vom MDA in den SDA-RAM Erweiteter ADS-Befehl: 0x1B</li>
+<li><a href="#job-fortschritt-ruecklesen">FORTSCHRITT_RUECKLESEN</a> - Fortschrittsabfrage des Ruecklesens der FW aus MDA Erweiteter ADS-Befehl: 0x1C</li>
+<li><a href="#job-konfig-lesen">KONFIG_LESEN</a> - Konfiguration lesen Erweiteter ADS-Befehl: 0x20</li>
+<li><a href="#job-konfig-schreiben">KONFIG_SCHREIBEN</a> - Konfiguration schreiben Erweiteter ADS-Befehl: 0x21</li>
+<li><a href="#job-reset">RESET</a> - Reset MDA/SDA Erweiteter ADS-Befehl: 0x30</li>
+<li><a href="#job-kl15-ver-lesen">KL15_VER_LESEN</a> - KL15 FW-Version lesen (incl. Checksum) Erweiteter ADS-Befehl: 0x40</li>
+<li><a href="#job-kl15-reset">KL15_RESET</a> - Reset Klemme-15-Simulator Erweiteter ADS-Befehl: 0x41</li>
+<li><a href="#job-kl15-start-flash">KL15_START_FLASH</a> - Start des Flashens KL15 vom MDA-RAM in die KL15 Erweiteter ADS-Befehl: 0x42</li>
+<li><a href="#job-kl15-status-flash">KL15_STATUS_FLASH</a> - Fortschrittsabfrage des Ruecklesens der FW aus MDA Erweiteter ADS-Befehl: 0x1C</li>
+<li><a href="#job-kl15-start-download">KL15_START_DOWNLOAD</a> - Download Start, binären Datentransfer KL15-FW vom PC in den MDA-RAM starten Erweiteter ADS-Befehl: 0x44</li>
+<li><a href="#job-kl15-download-pcmda">KL15_DOWNLOAD_PCMDA</a> - Download, binaeren Datentransfer KL15 FW vom PC in den MDA-RAM Erweiteter ADS-Befehl: 0x45</li>
+<li><a href="#job-kl15-ende-download">KL15_ENDE_DOWNLOAD</a> - Download Ende, binaeren Datentransfer KL15 Firmware beendet Erweiteter ADS-Befehl: 0x46</li>
+<li><a href="#job-kl15-check-firmware">KL15_CHECK_FIRMWARE</a> - Versions- und Checksummenprüfung der mit 0x44-0x46 in das MDA-RAM geladenen KL15-Firmware Erweiteter ADS-Befehl: 0x47</li>
+<li><a href="#job-set-can-accept-filter">SET_CAN_ACCEPT_FILTER</a> - Set CAN Acceptance Filter (11 Bit ID) ID A und ID B geben den gültigen ID Bereich an Wird A = B = 0 übergeben, ist das Acceptance Filter nicht aktiv</li>
+<li><a href="#job-get-can-message">GET_CAN_MESSAGE</a> - Emfangen von CAN-Botschaften Die erwartete ID muss sich im Bereich der mit "Set CAN Acceptance Filter" gesetzten Werte A und B befinden</li>
+<li><a href="#job-send-can-message">SEND_CAN_MESSAGE</a> - Send CAN Message (11 Bit ID) Sendet 0 bis 8 Datenbytes (0 = nur Frame)</li>
+<li><a href="#job-set-auto-assign">SET_AUTO_ASSIGN</a> - Aktivieren der Automatischen Taufe 0 == "OFF" 1 == "ON"</li>
+<li><a href="#job-write-auto-assign-data">WRITE_AUTO_ASSIGN_DATA</a> - Schreiben der Daten die für die automaische Taufe im MDA abgelegt werden sollen</li>
+<li><a href="#job-read-auto-assign-data">READ_AUTO_ASSIGN_DATA</a> - Auslesen der Daten die für die automatische Taufe im MDA abgelegt sind</li>
+<li><a href="#job-read-auto-assign-status">READ_AUTO_ASSIGN_STATUS</a> - Auslesen des aktuellen Status der automatischen Taufe</li>
+<li><a href="#job-get-running-time">GET_RUNNING_TIME</a> - Liefert Systemzeit nach dem Einschalten</li>
+<li><a href="#job-get-error-count">GET_ERROR_COUNT</a> - Liefert Fehlerspeicherausgaben</li>
+<li><a href="#job-clr-error-count">CLR_ERROR_COUNT</a> - Rücksetzen des Fehlerspreichers</li>
+<li><a href="#job-set-master-com-mode">_SET_MASTER_COM_MODE</a> - Einstellen Kommunikationsmode Master-to-Slave</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter DS2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-init-ifr"></a></p>
+<h3 id="init_ifr">INIT_IFR</h3>
+<p>Initialisierung mit Zuordnung Adresse</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FZS</td>
+<td>string</td>
+<td>Fahrzeug-Steuerschluessel wenn nur numerisch wird in  4 Byte-long   gewandelt wenn alphanumerisch wird in 7 Byte-String gewandelt</td>
+</tr>
+<tr>
+<td>ADRESSE_IFR</td>
+<td>string</td>
+<td>Adresse Mobiladapter (muss ungleich 0 sein)</td>
+</tr>
+<tr>
+<td>AUTOMATIK</td>
+<td>long</td>
+<td>0 = Automatische CAN / K-Line Umschaltung aus 1 = Automatische CAN / K-Line Umschaltung ein</td>
+</tr>
+<tr>
+<td>CAN_EIN</td>
+<td>long</td>
+<td>0 = K-Line 1 = CAN</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY oder ERROR_NAK</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-start-pruefung"></a></p>
+<h3 id="start_pruefung">START_PRUEFUNG</h3>
+<p>Start mit FZS</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FZS</td>
+<td>string</td>
+<td>Fahrzeug-Steuerschluessel wenn nur numerisch wird in  4 Byte-long   gewandelt wenn alphanumerisch wird in 7 Byte-String gewandelt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ende-pruefung"></a></p>
+<h3 id="ende_pruefung">ENDE_PRUEFUNG</h3>
+<p>Trennt logische Verbindung zum Slave-MDA Ab V3.07: 3s Wartezeit wenn Antwort nicht OK (0x00) war gewaehrleistet Umschaltung des Slave in Koordinierungskanal bei entsprechender Slave-Konfiguration</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>die derzeitige Implementierung liefert immer OKAY</td>
+</tr>
+<tr>
+<td>JOB_STATUS_WERT</td>
+<td>int</td>
+<td>tatsaechlicher Zahlenwert des Jobstatus vom Master</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-communication-para"></a></p>
+<h3 id="set_communication_para">SET_COMMUNICATION_PARA</h3>
+<p>Setzen Kommunikationsparameter AUTOMATIK und CAN_EIN aus INIT_IFR</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUTOMATIK</td>
+<td>long</td>
+<td>0 = Automatische CAN / K-Line Umschaltung aus 1 = Automatische CAN / K-Line Umschaltung ein</td>
+</tr>
+<tr>
+<td>CAN_EIN</td>
+<td>long</td>
+<td>0 = K-Line 1 = CAN</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-get-communication-para"></a></p>
+<h3 id="get_communication_para">GET_COMMUNICATION_PARA</h3>
+<p>Auslesen Kommunikationsparameter AUTOMATIK und CAN_EIN aus INIT_IFR</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUTOMATIK</td>
+<td>int</td>
+<td>0 = Automatische CAN / K-Line Umschaltung aus 1 = Automatische CAN / K-Line Umschaltung ein</td>
+</tr>
+<tr>
+<td>CAN_EIN</td>
+<td>int</td>
+<td>0 = K-Line 1 = CAN</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-confirmed-com"></a></p>
+<h3 id="set_confirmed_com">SET_CONFIRMED_COM</h3>
+<p>Setzt den MDA in Kommunikationsmodus ConfirmedCom</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COM_PORT</td>
+<td>int</td>
+<td>Parameter Confirmed Communication 0 = K-Line, 1 = D-CAN</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k1-ein"></a></p>
+<h3 id="cpu_port_k1_ein">CPU_PORT_K1_EIN</h3>
+<p>Einschalten des Relais K1 im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k1-aus"></a></p>
+<h3 id="cpu_port_k1_aus">CPU_PORT_K1_AUS</h3>
+<p>Ausschalten des Relais K1 im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k1-lesen"></a></p>
+<h3 id="cpu_port_k1_lesen">CPU_PORT_K1_LESEN</h3>
+<p>Lesen ob das Relais K1 im Funk-Mobilteil aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_PORT_K1</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k2-ein"></a></p>
+<h3 id="cpu_port_k2_ein">CPU_PORT_K2_EIN</h3>
+<p>Einschalten des Relais K2 im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k2-aus"></a></p>
+<h3 id="cpu_port_k2_aus">CPU_PORT_K2_AUS</h3>
+<p>Ausschalten des Relais K2 im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-k2-lesen"></a></p>
+<h3 id="cpu_port_k2_lesen">CPU_PORT_K2_LESEN</h3>
+<p>Lesen ob das Relais K2 im Funk-Mobilteil aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_PORT_K2</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-can-ein"></a></p>
+<h3 id="cpu_can_ein">CPU_CAN_EIN</h3>
+<p>Einschalten des CAN Relais im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-can-aus"></a></p>
+<h3 id="cpu_can_aus">CPU_CAN_AUS</h3>
+<p>Ausschalten des CAN Relais im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-can-lesen"></a></p>
+<h3 id="cpu_can_lesen">CPU_CAN_LESEN</h3>
+<p>Lesen ob das CAN Relais im Funk-Mobilteil aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_CAN</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-cpu-k1-k2-can"></a></p>
+<h3 id="status_cpu_k1_k2_can">STATUS_CPU_K1_K2_CAN</h3>
+<p>Lesen ob das CAN Relais im Funk-Mobilteil aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_CAN</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>CPU_K1</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>CPU_K2</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-stromregelung-ein"></a></p>
+<h3 id="cpu_port_stromregelung_ein">CPU_PORT_STROMREGELUNG_EIN</h3>
+<p>Einschalten des Stromregelung im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-stromregelung-aus"></a></p>
+<h3 id="cpu_port_stromregelung_aus">CPU_PORT_STROMREGELUNG_AUS</h3>
+<p>Einschalten des Stromregelung im Funk-Mobilteil</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cpu-port-stromregelung-lesen"></a></p>
+<h3 id="cpu_port_stromregelung_lesen">CPU_PORT_STROMREGELUNG_LESEN</h3>
+<p>Lesen ob die Stromregelung im Funk-Mobilteil aktiv ist</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_PORT_STROMREGELUNG</td>
+<td>long</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-adresse-lesen"></a></p>
+<h3 id="adresse_lesen">ADRESSE_LESEN</h3>
+<p>Abfrage Adresse des Mobiladapters (Slave-MDA) HINWEIS: wird nur noch aus Kompatibilaetsgruenden unterstuetzt HINWEIS: neuer Job ADRESSEN_LESEN_SLAVE</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>NUMMER</td>
+<td>int</td>
+<td>Slave-Adresse als Integer</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-adresse-lesen-master"></a></p>
+<h3 id="adresse_lesen_master">ADRESSE_LESEN_MASTER</h3>
+<p>Abfrage der Adresse des Master-MDA HINWEIS: schnelle Ausfuehrung, da keine Funk-Kommunikation</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY wenn Job erfolgreich ausgefuehrt</td>
+</tr>
+<tr>
+<td>ADRESSE_MASTER</td>
+<td>int</td>
+<td>Adresse des Master-MDA</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-adresse-lesen-slave"></a></p>
+<h3 id="adresse_lesen_slave">ADRESSE_LESEN_SLAVE</h3>
+<p>Abfrage der Adresse des Slave-MDA</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY wenn Job erfolgreich ausgefuehrt</td>
+</tr>
+<tr>
+<td>ADRESSE_SLAVE</td>
+<td>int</td>
+<td>Adresse des Slave-MDA</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-adressen-lesen"></a></p>
+<h3 id="adressen_lesen">ADRESSEN_LESEN</h3>
+<p>Abfrage der Adressen des Master- und des Slave-MDA HINWEIS: Verbindung zum Slave-MDA erforderlich</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY wenn Job erfolgreich ausgefuehrt</td>
+</tr>
+<tr>
+<td>ADRESSE_MASTER</td>
+<td>int</td>
+<td>Adresse des Masters-MDA</td>
+</tr>
+<tr>
+<td>ADRESSE_SLAVE</td>
+<td>int</td>
+<td>Adresse des Slave-MDA</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sleep-ifr"></a></p>
+<h3 id="sleep_ifr">SLEEP_IFR</h3>
+<p>Abbruch der Infrarot-Verbindung (IFR-ADS -&gt; SLEEP-Mode) Es kommt keine Antwort zurueck !</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-version-lesen"></a></p>
+<h3 id="version_lesen">VERSION_LESEN</h3>
+<p>Abfrage der Version des Masters und des Mobiladapters Abfrage der Adresse des Masters und des Mobiladapters</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>VERSION_MASTER</td>
+<td>string</td>
+<td>Version des Masters</td>
+</tr>
+<tr>
+<td>ADRESSE_MASTER</td>
+<td>int</td>
+<td>Adresse des Masters</td>
+</tr>
+<tr>
+<td>VERSION_SLAVE</td>
+<td>string</td>
+<td>Version des Mobilteils</td>
+</tr>
+<tr>
+<td>ADRESSE_SLAVE</td>
+<td>int</td>
+<td>Adresse des Mobilteils</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-check-sleep"></a></p>
+<h3 id="check_sleep">CHECK_SLEEP</h3>
+<p>Test ob MDA in den Sleepmodus geschaltet hat bei Sleep Modus Adresse = 0 und Softwareversion = 0000</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>VERSION_SLAVE</td>
+<td>string</td>
+<td>Version des Mobilteils, "0000" im Sleepmodus</td>
+</tr>
+<tr>
+<td>ADRESSE_SLAVE</td>
+<td>int</td>
+<td>Adresse des Mobilteils, "0" im Sleepmodus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-klemmen"></a></p>
+<h3 id="status_klemmen">STATUS_KLEMMEN</h3>
+<p>Abfrage der Klemmenstati des Mobiladapters</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_K1</td>
+<td>int</td>
+<td>Status K1-Relay als Integer</td>
+</tr>
+<tr>
+<td>STAT_K2</td>
+<td>int</td>
+<td>Status K2-Relay als Integer</td>
+</tr>
+<tr>
+<td>STAT_K15</td>
+<td>int</td>
+<td>Status K15 als Integer</td>
+</tr>
+<tr>
+<td>STAT_K30</td>
+<td>int</td>
+<td>Status K30 als Integer</td>
+</tr>
+<tr>
+<td>STAT_KONSTANTSTROM</td>
+<td>int</td>
+<td>Status Konstantstrom als Integer</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-slave-zielnummer"></a></p>
+<h3 id="status_slave_zielnummer">STATUS_SLAVE_ZIELNUMMER</h3>
+<p>Abfrage der Slave Zielnummer</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_SLAVE_ZIELNUMMER</td>
+<td>int</td>
+<td>Rückgabe Zielnummer Master bei P2P</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-statistik-master"></a></p>
+<h3 id="status_statistik_master">STATUS_STATISTIK_MASTER</h3>
+<p>Statistik aus dem Master lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_ABBRUCH</td>
+<td>int</td>
+<td>Anzahl der Verbindungsabbrueche am Master</td>
+</tr>
+<tr>
+<td>STAT_WIEDERHOLUNGEN</td>
+<td>int</td>
+<td>Anzahl der WIEDERHOLUNGEN am Master</td>
+</tr>
+<tr>
+<td>STAT_VERBUNDENER_SLAVE</td>
+<td>int</td>
+<td>Verbundener Slave</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Anwort-Telegramm vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>die derzeitige Implementierung liefert immer OKAY</td>
+</tr>
+<tr>
+<td>JOB_STATUS_WERT</td>
+<td>int</td>
+<td>tatsaechlicher Zahlenwert des Jobstatus vom Master</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-statistik-slave"></a></p>
+<h3 id="status_statistik_slave">STATUS_STATISTIK_SLAVE</h3>
+<p>Statistik aus dem Slave lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_ABBRUCH</td>
+<td>int</td>
+<td>Anzahl der Verbindungsabbrueche am Slave</td>
+</tr>
+<tr>
+<td>STAT_WIEDERHOLUNGEN</td>
+<td>int</td>
+<td>Anzahl der WIEDERHOLUNGEN am Slave</td>
+</tr>
+<tr>
+<td>STAT_VERBUNDENER_MASTER</td>
+<td>int</td>
+<td>Verbundener Master</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Anwort-Telegramm vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>die derzeitige Implementierung liefert immer OKAY</td>
+</tr>
+<tr>
+<td>JOB_STATUS_WERT</td>
+<td>int</td>
+<td>tatsaechlicher Zahlenwert des Jobstatus vom Master</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-loeschen-statistik-master"></a></p>
+<h3 id="loeschen_statistik_master">LOESCHEN_STATISTIK_MASTER</h3>
+<p>Statistik im Master loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-loeschen-statistik-slave"></a></p>
+<h3 id="loeschen_statistik_slave">LOESCHEN_STATISTIK_SLAVE</h3>
+<p>Statistik im Slave loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ziel-master-lesen"></a></p>
+<h3 id="ziel_master_lesen">ZIEL_MASTER_LESEN</h3>
+<p>Zieladresse des Masters lesen (Auto-Update) Erweiteter ADS-Befehl: 0x01</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_34">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>ZIEL_ADRESSE</td>
+<td>int</td>
+<td>Zieladresse (Slave-Nummer bei P2P) aus Konfigurationdaten</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-bin-download-start"></a></p>
+<h3 id="bin_download_start">BIN_DOWNLOAD_START</h3>
+<p>Download Start, binären Datentransfer vom PC in den SDA-RAM starten (Auto-Update) Erweiteter ADS-Befehl: 0x10</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FILE_LEN</td>
+<td>long</td>
+<td>Uebergabe File-Laenge</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_35">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-bin-file-download"></a></p>
+<h3 id="bin_file_download">BIN_FILE_DOWNLOAD</h3>
+<p>Download, binaeren Datentransfer vom PC in den SDA-RAM (Auto-Update) Erweiteter ADS-Befehl: 0x11</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Puffer zur Aufnahme der Firmware-Daten-Bloecke</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_36">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-bin-download-ende"></a></p>
+<h3 id="bin_download_ende">BIN_DOWNLOAD_ENDE</h3>
+<p>Download Ende, binaeren Datentransfer vom PC in den SDA-RAM beenden (Auto-Update) Erweiteter ADS-Befehl: 0x12</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FILE_LEN</td>
+<td>long</td>
+<td>Uebergabe File-Länge</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_37">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei, Dateilänge OK</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-start-flashen"></a></p>
+<h3 id="start_flashen">START_FLASHEN</h3>
+<p>Start des Flashens vom SDA-RAM in den MDA oder in den SDA Erweiteter ADS-Befehl: 0x19</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FLASH_TARGET</td>
+<td>int</td>
+<td>Ziel der Daten aus dem SDA-RAM "1" = Start des Flashens vom SDA-RAM in den SDA (Master) "2" = Start des Flashens vom SDA-RAM in den MDA (Slave)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_38">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-check-firmware"></a></p>
+<h3 id="check_firmware">CHECK_FIRMWARE</h3>
+<p>Versions- und Checksummenprüfung der mit 0x10-0x12 in den SDA-RAM geladenen Firmware Erweiteter ADS-Befehl: 0x18</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FW_VER</td>
+<td>string</td>
+<td>FW-Version der geladenen FW(wie im MDA-Display angezeigt) Eingabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>CHECK_SUM</td>
+<td>string</td>
+<td>Check-Summe der geladenen FW Eingabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_39">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_REJECTED --&gt; Keine FW geladen, Argumentfehler, MDA nicht bereit</td>
+</tr>
+<tr>
+<td>FW_STATUS</td>
+<td>long</td>
+<td>00 = NOK --&gt; FW nicht geladen, Versionsabgleich NOK oder Checksumme NOK 01 = OK</td>
+</tr>
+<tr>
+<td>FW_VER_LOADED</td>
+<td>long</td>
+<td>FW-Version der im SDA-RAM vorhandenen FW Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>CHECK_SUM_LOADED</td>
+<td>long</td>
+<td>Check-Summe der im SDA-RAM vorhandenen FW Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fortschritt-flashen"></a></p>
+<h3 id="fortschritt_flashen">FORTSCHRITT_FLASHEN</h3>
+<p>Fortschrittsabfrage des Flashens Erweiteter ADS-Befehl: 0x1A</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_40">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>FORTSCHRITT</td>
+<td>long</td>
+<td>Fortschrittsanzeige des Flashens</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ruecklesen-fw-aus-mda"></a></p>
+<h3 id="ruecklesen_fw_aus_mda">RUECKLESEN_FW_AUS_MDA</h3>
+<p>Start des Rücklesens vom MDA in den SDA-RAM Erweiteter ADS-Befehl: 0x1B</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_41">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fortschritt-ruecklesen"></a></p>
+<h3 id="fortschritt_ruecklesen">FORTSCHRITT_RUECKLESEN</h3>
+<p>Fortschrittsabfrage des Ruecklesens der FW aus MDA Erweiteter ADS-Befehl: 0x1C</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_42">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>FORTSCHRITT</td>
+<td>long</td>
+<td>Fortschrittsanzeige des Ruecklesens</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-konfig-lesen"></a></p>
+<h3 id="konfig_lesen">KONFIG_LESEN</h3>
+<p>Konfiguration lesen Erweiteter ADS-Befehl: 0x20</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOURCE</td>
+<td>int</td>
+<td>Quelle der Konfigurationsdaten 1 = Lesen aus SDA (Master) 2 = Lesen aus MDA (Slave)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_43">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>KONFIG</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-konfig-schreiben"></a></p>
+<h3 id="konfig_schreiben">KONFIG_SCHREIBEN</h3>
+<p>Konfiguration schreiben Erweiteter ADS-Befehl: 0x21</p>
+<h4 id="arguments_10">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TARGET</td>
+<td>int</td>
+<td>Wahl des Ziels zum schreiben der Konfigurationsdaten 1 = Schreiben in den SDA (Master) 2 = Schreiben in den MDA (Slave)</td>
+</tr>
+<tr>
+<td>CONFIG_STRING</td>
+<td>string</td>
+<td>Konfigurationsstring ohne Checksum Byte</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_44">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-reset"></a></p>
+<h3 id="reset">RESET</h3>
+<p>Reset MDA/SDA Erweiteter ADS-Befehl: 0x30</p>
+<h4 id="arguments_11">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TARGET</td>
+<td>int</td>
+<td>Wahl des Ziels für den RESET 1 = SDA (Master) 2 = MDA (Slave)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_45">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-ver-lesen"></a></p>
+<h3 id="kl15_ver_lesen">KL15_VER_LESEN</h3>
+<p>KL15 FW-Version lesen (incl. Checksum) Erweiteter ADS-Befehl: 0x40</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_46">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>KL15_FW_VER</td>
+<td>string</td>
+<td>KL15-FW-Version Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>KL15_CHECK_SUM</td>
+<td>long</td>
+<td>Check-Summe KL15-FW Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-reset"></a></p>
+<h3 id="kl15_reset">KL15_RESET</h3>
+<p>Reset Klemme-15-Simulator Erweiteter ADS-Befehl: 0x41</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_47">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-start-flash"></a></p>
+<h3 id="kl15_start_flash">KL15_START_FLASH</h3>
+<p>Start des Flashens KL15 vom MDA-RAM in die KL15 Erweiteter ADS-Befehl: 0x42</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_48">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-status-flash"></a></p>
+<h3 id="kl15_status_flash">KL15_STATUS_FLASH</h3>
+<p>Fortschrittsabfrage des Ruecklesens der FW aus MDA Erweiteter ADS-Befehl: 0x1C</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_49">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>FLASH_RESULT</td>
+<td>string</td>
+<td>"0" = Flashen i.O, "Fehlernummer" = n.i.O.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-start-download"></a></p>
+<h3 id="kl15_start_download">KL15_START_DOWNLOAD</h3>
+<p>Download Start, binären Datentransfer KL15-FW vom PC in den MDA-RAM starten Erweiteter ADS-Befehl: 0x44</p>
+<h4 id="arguments_12">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATA_LEN</td>
+<td>long</td>
+<td>Uebergabe File-Laenge</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_50">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-download-pcmda"></a></p>
+<h3 id="kl15_download_pcmda">KL15_DOWNLOAD_PCMDA</h3>
+<p>Download, binaeren Datentransfer KL15 FW vom PC in den MDA-RAM Erweiteter ADS-Befehl: 0x45</p>
+<h4 id="arguments_13">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Puffer zur Aufnahme der Firmware-Daten-Bloecke</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_51">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-ende-download"></a></p>
+<h3 id="kl15_ende_download">KL15_ENDE_DOWNLOAD</h3>
+<p>Download Ende, binaeren Datentransfer KL15 Firmware beendet Erweiteter ADS-Befehl: 0x46</p>
+<h4 id="arguments_14">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATA_LEN</td>
+<td>long</td>
+<td>Längeninformation der geschriebenen Daten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_52">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei, Dateilänge OK</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kl15-check-firmware"></a></p>
+<h3 id="kl15_check_firmware">KL15_CHECK_FIRMWARE</h3>
+<p>Versions- und Checksummenprüfung der mit 0x44-0x46 in das MDA-RAM geladenen KL15-Firmware Erweiteter ADS-Befehl: 0x47</p>
+<h4 id="arguments_15">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FW_VER</td>
+<td>string</td>
+<td>KL15-FW-Version der geladenen FW Eingabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>CHECK_SUM</td>
+<td>string</td>
+<td>Check-Summe der geladenen KL15-FW Eingabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_53">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_REJECTED --&gt; fehlerhafte Parameter</td>
+</tr>
+<tr>
+<td>FW_STATUS</td>
+<td>long</td>
+<td>00 = NOK --&gt; KL15-FW nicht geladen, Versionsabgleich NOK oder Checksumme NOK 01 = OK</td>
+</tr>
+<tr>
+<td>FW_VER_LOADED</td>
+<td>long</td>
+<td>KL15-FW-Version der im MDA-RAM vorhandenen FW Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>CHECK_SUM_LOADED</td>
+<td>long</td>
+<td>Check-Summe der im MDA-RAM vorhandenen KL15-FW Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-can-accept-filter"></a></p>
+<h3 id="set_can_accept_filter">SET_CAN_ACCEPT_FILTER</h3>
+<p>Set CAN Acceptance Filter (11 Bit ID) ID A und ID B geben den gültigen ID Bereich an Wird A = B = 0 übergeben, ist das Acceptance Filter nicht aktiv</p>
+<h4 id="arguments_16">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACCEPTANCEFILTER_FROM</td>
+<td>unsigned int</td>
+<td>Kennzeichnet Bereichsstart --&gt; erste gültige ID Eingabe als z.B. 0x700</td>
+</tr>
+<tr>
+<td>ACCEPTANCEFILTER_TO</td>
+<td>unsigned int</td>
+<td>Kennzeichnet Bereichsende --&gt; letzte gültige ID Eingabe als z.B. 0x7FF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_54">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-get-can-message"></a></p>
+<h3 id="get_can_message">GET_CAN_MESSAGE</h3>
+<p>Emfangen von CAN-Botschaften Die erwartete ID muss sich im Bereich der mit "Set CAN Acceptance Filter" gesetzten Werte A und B befinden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_55">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>CANIDENTIFIER</td>
+<td>unsigned int</td>
+<td></td>
+</tr>
+<tr>
+<td>DATALEN</td>
+<td>unsigned int</td>
+<td></td>
+</tr>
+<tr>
+<td>DATA</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-send-can-message"></a></p>
+<h3 id="send_can_message">SEND_CAN_MESSAGE</h3>
+<p>Send CAN Message (11 Bit ID) Sendet 0 bis 8 Datenbytes (0 = nur Frame)</p>
+<h4 id="arguments_17">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CANIDENTIFIER</td>
+<td>unsigned int</td>
+<td></td>
+</tr>
+<tr>
+<td>DATALENGTH</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D1</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D2</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D3</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D4</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D5</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D6</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D7</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+<tr>
+<td>D8</td>
+<td>unsigned char</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_56">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>IN</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-auto-assign"></a></p>
+<h3 id="set_auto_assign">SET_AUTO_ASSIGN</h3>
+<p>Aktivieren der Automatischen Taufe 0 == "OFF" 1 == "ON"</p>
+<h4 id="arguments_18">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SET_MODE</td>
+<td>int</td>
+<td>0 == "OFF" 1 == "ON"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_57">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-write-auto-assign-data"></a></p>
+<h3 id="write_auto_assign_data">WRITE_AUTO_ASSIGN_DATA</h3>
+<p>Schreiben der Daten die für die automaische Taufe im MDA abgelegt werden sollen</p>
+<h4 id="arguments_19">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUTO_ASSIGN_DATA</td>
+<td>string</td>
+<td>Auto-Assign-Daten sind auf 252 Zeichen durch SGBD begrenzt Hexadezimalwerte Daten für Auto-Taufstring --&gt; 0x00,0x02,0x00,0x02,0x1A,0x90,.... String_Bsp: 000200021A90....</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_58">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-read-auto-assign-data"></a></p>
+<h3 id="read_auto_assign_data">READ_AUTO_ASSIGN_DATA</h3>
+<p>Auslesen der Daten die für die automatische Taufe im MDA abgelegt sind</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_59">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>AUTO_ASSIGN_DATA</td>
+<td>string</td>
+<td>Rückgabe-Bsp: 000200021A900208100322F1900D13 zu lesen wie --&gt; 0x00,0x02,0x00,0x02,0x1A,0x90,....</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-read-auto-assign-status"></a></p>
+<h3 id="read_auto_assign_status">READ_AUTO_ASSIGN_STATUS</h3>
+<p>Auslesen des aktuellen Status der automatischen Taufe</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_60">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>AUTO_ASSIGN_STATE</td>
+<td>string</td>
+<td>Automatische Taufe ON/OFF 0 == OFF 1 == ON</td>
+</tr>
+<tr>
+<td>MDA_VIN_CONF</td>
+<td>string</td>
+<td>Status VIN confirmed/unconfirmed 0x00 == unconfirmed 0x01 == confirmed 0xFF == AUTO_ASSIGN_STATE "OFF"</td>
+</tr>
+<tr>
+<td>ECU_NR</td>
+<td>string</td>
+<td>Nummer des SGs mit dem die Auto-Taufe zuletzt erfolgreich war 0xFF: keine erfolgreiche Auto-Taufe durchgeführt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-get-running-time"></a></p>
+<h3 id="get_running_time">GET_RUNNING_TIME</h3>
+<p>Liefert Systemzeit nach dem Einschalten</p>
+<h4 id="arguments_20">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SET_TARGET</td>
+<td>int</td>
+<td>1 == "Zeit des SDA" 2 == "Zeit des MDA"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_61">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>RUNNING_TIME</td>
+<td>long</td>
+<td>Systemzeit nach dem Einschalten in 100ms (z.B. 1011 --&gt; 101,1sec Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-get-error-count"></a></p>
+<h3 id="get_error_count">GET_ERROR_COUNT</h3>
+<p>Liefert Fehlerspeicherausgaben</p>
+<h4 id="arguments_21">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SET_TARGET</td>
+<td>int</td>
+<td>1 == "Zeit des SDA" 2 == "Zeit des MDA"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_62">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>SLEEP_ERROR</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>WATCHDOG_RESET</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>STACK_OVERFLOW</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>STACK_UNDERFLOW</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>NMI_INTERRUPT</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>PAR_ERROR_STARTUP</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+<tr>
+<td>PAR_ERROR_RUNNING</td>
+<td>long</td>
+<td>Rueckgabe als [HIGH-byte] [LOW-byte]</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-clr-error-count"></a></p>
+<h3 id="clr_error_count">CLR_ERROR_COUNT</h3>
+<p>Rücksetzen des Fehlerspreichers</p>
+<h4 id="arguments_22">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SET_TARGET</td>
+<td>int</td>
+<td>1 == "Zeit des SDA" 2 == "Zeit des MDA"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_63">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-master-com-mode"></a></p>
+<h3 id="_set_master_com_mode">_SET_MASTER_COM_MODE</h3>
+<p>Einstellen Kommunikationsmode Master-to-Slave</p>
+<h4 id="arguments_23">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TARGET</td>
+<td>int</td>
+<td>Adresse SLAVE TARGET = 0  --&gt; Verheiratungsmode TARGET &gt; 0 (bis 9999) --&gt; P2P-Mode</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_64">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-bits">BITS</a> (5 × 4)</li>
+</ul>
+<p><a id="table-bits"></a></p>
+<h3 id="bits">BITS</h3>
+<p>Dimensions: 5 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>BYTE</th>
+<th>MASK</th>
+<th>VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_K1</td>
+<td>3</td>
+<td>0x01</td>
+<td>0x01</td>
+</tr>
+<tr>
+<td>STAT_K2</td>
+<td>3</td>
+<td>0x02</td>
+<td>0x02</td>
+</tr>
+<tr>
+<td>STAT_K15</td>
+<td>3</td>
+<td>0x20</td>
+<td>0x20</td>
+</tr>
+<tr>
+<td>STAT_K30</td>
+<td>3</td>
+<td>0x10</td>
+<td>0x10</td>
+</tr>
+<tr>
+<td>STAT_STROM</td>
+<td>3</td>
+<td>0x80</td>
+<td>0x80</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

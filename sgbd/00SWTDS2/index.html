@@ -1,0 +1,3060 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/00SWTDS2/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>00SWTDS2.PRG - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#00swtds2prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              00SWTDS2.PRG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swt_parameter_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SWT_PARAMETER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SWT_PARAMETER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swt_parameter_setzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SWT_PARAMETER_SETZEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SWT_PARAMETER_SETZEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software_id_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SOFTWARE_ID_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SOFTWARE_ID_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software_signature_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SOFTWARE_SIGNATURE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SOFTWARE_SIGNATURE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_laenge_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_LAENGE_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_LAENGE_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_pruefen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_PRUEFEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_PRUEFEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_stornieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_STORNIEREN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_STORNIEREN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_laenge_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_LAENGE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_LAENGE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#freischaltcode_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FREISCHALTCODE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FREISCHALTCODE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#periodische_pruefung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PERIODISCHE_PRUEFUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PERIODISCHE_PRUEFUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#finger_print_mechanismus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FINGER_PRINT_MECHANISMUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FINGER_PRINT_MECHANISMUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zeit_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZEIT_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZEIT_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zeit_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZEIT_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZEIT_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fahrgestellnummer_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAHRGESTELLNUMMER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAHRGESTELLNUMMER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fahrgestellnummer_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FAHRGESTELLNUMMER_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAHRGESTELLNUMMER_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roverpartnumprefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROVERPARTNUMPREFIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konzept_tabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONZEPT_TABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swtstatustab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SWTSTATUSTAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#swtfehler_tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SWTFEHLER_TAB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="00swtds2prg">00SWTDS2.PRG</h1>
+<ul>
+<li>Jobs: <a href="#jobs">19</a></li>
+<li>Tables: <a href="#tables">6</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Spezial SGBD nur für SWT SG's</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW EE-21 Kalverkamp</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>2.05</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>Secunet AG Fechtelhoff(mf)</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.03</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-swt-parameter-lesen">SWT_PARAMETER_LESEN</a> - Gibt die SG-spezifischen SWT-Parameter zurück</li>
+<li><a href="#job-swt-parameter-setzen">SWT_PARAMETER_SETZEN</a> - Setzt die SG-spezifischen SWT-Parameter</li>
+<li><a href="#job-software-id-lesen">SOFTWARE_ID_LESEN</a> - Software ID lesen DS2:     $1F SweepingTechnologies $F8 SWTGetSoftwareID</li>
+<li><a href="#job-software-signature-lesen">SOFTWARE_SIGNATURE_LESEN</a> - Software Signature im SG lesen DS2:     $1F SweepingTechnologies $F7 SWTGetSigSID</li>
+<li><a href="#job-status-lesen">STATUS_LESEN</a> - Freischaltstatus einer Software lesen DS2:       $1F SweepingTechnologies $F6 SWTGetStatus</li>
+<li><a href="#job-freischaltcode-laenge-schreiben">FREISCHALTCODE_LAENGE_SCHREIBEN</a> - Freischaltcode einer Software in dem SG einbrechen DS2:     $1F SweepingTechnologies $F2 SWTSetFSCLength</li>
+<li><a href="#job-freischaltcode-schreiben">FREISCHALTCODE_SCHREIBEN</a> - Freischaltcode einer Software in dem SG einbrechen DS2:      $1F SweepingTechnologies $F1 SWTStoreFSC</li>
+<li><a href="#job-freischaltcode-pruefen">FREISCHALTCODE_PRUEFEN</a> - Freischaltcode nach dem Einspielen prüfen DS2:     $1F SweepingTechnologies $EE SWTCheckFSC</li>
+<li><a href="#job-freischaltcode-stornieren">FREISCHALTCODE_STORNIEREN</a> - Freischaltcode als ungültig/storniert kennzeichnen DS2:     $1F SweepingTechnologies $ED SWTDisableFSC</li>
+<li><a href="#job-freischaltcode-laenge-lesen">FREISCHALTCODE_LAENGE_LESEN</a> - Freischaltcode laenge lesen DS2:     $1F SweepingTechnologies $EC SWTGetFSCLength</li>
+<li><a href="#job-freischaltcode-lesen">FREISCHALTCODE_LESEN</a> - Freischaltcode lesen DS2:        $1F SweepingTechnologies $EB SWTGetFSC</li>
+<li><a href="#job-periodische-pruefung">PERIODISCHE_PRUEFUNG</a> - Zertifikate, FSCs und SWSignaturen regelmässig prüfen DS2:       $1F SweepingTechnologies $EA SWTPeriodicalChecks</li>
+<li><a href="#job-finger-print-mechanismus">FINGER_PRINT_MECHANISMUS</a> - Finger Print Mechanismus DS2:        $1F SweepingTechnologies $E9 SWTFingerPrintCheck</li>
+<li><a href="#job-zeit-lesen">ZEIT_LESEN</a> - Uhrzeit im Steuergeraet lesen DS2:       $1F SweepingTechnologies $E8 SWTGetTime</li>
+<li><a href="#job-zeit-schreiben">ZEIT_SCHREIBEN</a> - Uhrzeit im Steuergeraet schreiben DS2:       $1F SweepingTechnologies $E7 SWTSetTime</li>
+<li><a href="#job-fahrgestellnummer-lesen">FAHRGESTELLNUMMER_LESEN</a> - FGN lesen im Steuergeraet DS2:     $1F SweepingTechnologies $E6 SWTGetFZG</li>
+<li><a href="#job-fahrgestellnummer-schreiben">FAHRGESTELLNUMMER_SCHREIBEN</a> - FGN schreiben im Steuergeraet DS2:     $1F SweepingTechnologies $E5 SWTSetFZG</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-swt-parameter-lesen"></a></p>
+<h3 id="swt_parameter_lesen">SWT_PARAMETER_LESEN</h3>
+<p>Gibt die SG-spezifischen SWT-Parameter zurück</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>SG_ADRESSE</td>
+<td>int</td>
+<td>Steuergeräteadresse</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-swt-parameter-setzen"></a></p>
+<h3 id="swt_parameter_setzen">SWT_PARAMETER_SETZEN</h3>
+<p>Setzt die SG-spezifischen SWT-Parameter</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SG_ADRESSE</td>
+<td>int</td>
+<td>Steuergeräteadresse</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-software-id-lesen"></a></p>
+<h3 id="software_id_lesen">SOFTWARE_ID_LESEN</h3>
+<p>Software ID lesen DS2:     $1F SweepingTechnologies $F8 SWTGetSoftwareID</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER SW NICHT EINGESPIELT</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>SW_IDS</td>
+<td>binary</td>
+<td>In der Software abgelegte SW-IDs 4 bytes je Software Id</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-software-signature-lesen"></a></p>
+<h3 id="software_signature_lesen">SOFTWARE_SIGNATURE_LESEN</h3>
+<p>Software Signature im SG lesen DS2:     $1F SweepingTechnologies $F7 SWTGetSigSID</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER SW NICHT EINGESPIELT KEINE DATEN ZU ANGEGEBENEM SG VORHANDEN</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>SIGSID</td>
+<td>string</td>
+<td>In der Software abgelegte SW-ID</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lesen"></a></p>
+<h3 id="status_lesen">STATUS_LESEN</h3>
+<p>Freischaltstatus einer Software lesen DS2:     $1F SweepingTechnologies $F6 SWTGetStatus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER SW NICHT AKTIVIERT</td>
+</tr>
+<tr>
+<td>STAT_JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>STAT_ROOT_CERT_STATUS</td>
+<td>string</td>
+<td>Root Zertifikat benutzt bei SigS_Cert und FSCS_Cert table SwtStatusTab STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_ROOT_CERT_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format</td>
+</tr>
+<tr>
+<td>STAT_SIGS_CERT_STATUS</td>
+<td>string</td>
+<td>Public Key Infrastructure Zertifikat der Signaturstelle table StatusTab STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_SIGS_CERT_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format</td>
+</tr>
+<tr>
+<td>STAT_SW_SIG_STATUS</td>
+<td>string</td>
+<td>Signatur fuer die Software table StatusTab STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_SW_SIG_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format</td>
+</tr>
+<tr>
+<td>STAT_SW_ID</td>
+<td>string</td>
+<td>Software Id, 4 Byte Hex Format</td>
+</tr>
+<tr>
+<td>STAT_FSCS_CERT_STATUS</td>
+<td>string</td>
+<td>PKI Zertifikat der Freischaltcode Stelle table StatusTab STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_FSCS_CERT_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format</td>
+</tr>
+<tr>
+<td>STAT_FSC_STATUS</td>
+<td>string</td>
+<td>Freischaltcode Status table StatusTab STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_FSC_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-laenge-schreiben"></a></p>
+<h3 id="freischaltcode_laenge_schreiben">FREISCHALTCODE_LAENGE_SCHREIBEN</h3>
+<p>Freischaltcode einer Software in dem SG einbrechen DS2:     $1F SweepingTechnologies $F2 SWTSetFSCLength</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SW_ID</td>
+<td>string</td>
+<td>String hex Format 4 Bytes</td>
+</tr>
+<tr>
+<td>FSC_LAENGE</td>
+<td>unsigned int</td>
+<td>2 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER UNGUELTIGES FSC ERSTELLUNGSDATUM FLASH SCHREIBFEHLER FLASH-LESEFEHLER KEINE AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>MAXIMAL_BLOCK_LAENGE</td>
+<td>unsigned int</td>
+<td>2 Bytes</td>
+</tr>
+<tr>
+<td>CALL_ID</td>
+<td>unsigned int</td>
+<td>ID Nummer bei SG geliefert verbindet die 2 Funktionen $F2 und $F1</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_LAENGE</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_LAENGE</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-schreiben"></a></p>
+<h3 id="freischaltcode_schreiben">FREISCHALTCODE_SCHREIBEN</h3>
+<p>Freischaltcode einer Software in dem SG einbrechen DS2:    $1F SweepingTechnologies $F1 SWTStoreFSC</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FREISCHALTCODE</td>
+<td>binary</td>
+<td>1023 Maxi Das erste Byte stellt den Index des gesendeten Telegramms dar  Die zwei naechsten Bytes stellen die CALL_ID dar und werden im data Format eingetragen ID Nummer bei SG geliefert verbindet die 2 Funktionen $F2 und $F1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER UNGUELTIGES FSC ERSTELLUNGSDATUM FLASH SCHREIBFEHLER FLASH-LESEFEHLER KEINE AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>TELEGRAMM_INDEX</td>
+<td>int</td>
+<td>1 Byte Index des Telegramms, das bei dem SG empfängt worden ist</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_FSC</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_FSC</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-pruefen"></a></p>
+<h3 id="freischaltcode_pruefen">FREISCHALTCODE_PRUEFEN</h3>
+<p>Freischaltcode nach dem Einspielen prüfen DS2:     $1F SweepingTechnologies $EE SWTCheckFSC</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SW_ID</td>
+<td>string</td>
+<td>String hex Format 4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER SW ID PRUEFUNG SCHLUG FEHL SIGNATURPRUEFUNG SCHLUG FEHL FALSCHE FSC-ID IM FSC FSC NICHT VORHANDEN FSC STATUS ABGELEHNT FSC STORNIERT FSCS ZERTIFIKAT NICHT VORHANDEN FSCS ZERTIFIKAT NOCH NICHT GEPRUEFT FSCS ZERTIFIKAT UNGUELTIG FLASH-SCHREIBFEHLER FLASH-LESEFEHLER FGN PRUEFUNG SCHLUG FEHL KEINE AUTHENTISIERUNG FSCS ZERTIFIKAT ABGELEHNT KEIN SPEICHERPLATZ MEHR VORHANDEN</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-stornieren"></a></p>
+<h3 id="freischaltcode_stornieren">FREISCHALTCODE_STORNIEREN</h3>
+<p>Freischaltcode als ungültig/storniert kennzeichnen DS2:     $1F SweepingTechnologies $ED SWTDisableFSC</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SW_ID</td>
+<td>string</td>
+<td>String hex Format 4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER FSC NICHT VORHANDEN FSC STORNIERT KEINE AUTHENTISIERUNG KEINE DATEN ZU ANGEGEBENEM SG VORHANDEN</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-laenge-lesen"></a></p>
+<h3 id="freischaltcode_laenge_lesen">FREISCHALTCODE_LAENGE_LESEN</h3>
+<p>Freischaltcode laenge lesen DS2:     $1F SweepingTechnologies $EC SWTGetFSCLength</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SW_ID</td>
+<td>string</td>
+<td>String hex Format 4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResultExtended STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER FSC NICHT VORHANDEN KEINE DATEN ZU ANGEGEBENEM SG VORHANDEN FALSCHE PARAMETER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>FSC_LAENGE</td>
+<td>unsigned int</td>
+<td>2 Bytes Dezimal Ergebnis</td>
+</tr>
+<tr>
+<td>MAXIMAL_BLOCK_LAENGE</td>
+<td>unsigned int</td>
+<td>2 Bytes</td>
+</tr>
+<tr>
+<td>CALL_ID</td>
+<td>unsigned int</td>
+<td>ID Nummer bei SG geliefert verbindet die 2 Funktionen $EC und $EB</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_LAENGE</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_LAENGE</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-freischaltcode-lesen"></a></p>
+<h3 id="freischaltcode_lesen">FREISCHALTCODE_LESEN</h3>
+<p>Freischaltcode lesen DS2:      $1F SweepingTechnologies $EB SWTGetFSC</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TELEGRAMM_INDEX_AUFTRAG</td>
+<td>unsigned int</td>
+<td>1 Byte Index des Telegramms, das an dem SG gesendet wird</td>
+</tr>
+<tr>
+<td>CALL_ID</td>
+<td>unsigned int</td>
+<td>ID Nummer an das SG gesendet verbindet die 2 Funktionen $EC und $EB</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResultExtended STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER FSC NICHT VORHANDEN KEINE DATEN ZU ANGEGEBENEM SG VORHANDEN FALSCHE PARAMETER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>FSC</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>TELEGRAMM_INDEX_ANTWORT</td>
+<td>unsigned int</td>
+<td>1 Byte Index des Telegramms, das bei dem SG empfängt worden ist</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_FSC</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_FSC</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-periodische-pruefung"></a></p>
+<h3 id="periodische_pruefung">PERIODISCHE_PRUEFUNG</h3>
+<p>Zertifikate, FSCs und SWSignaturen regelmässig prüfen DS2:     $1F SweepingTechnologies $EA SWTPeriodicalChecks</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SW_ID</td>
+<td>string</td>
+<td>String hex Format 4 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER SW SIGNATURPRUEFUNG SCHLUG FEHL FSC PRUEFUNG SCHLUG FEHL ROOT ZERTIFIKAT NICHT LESBAR ROOT ZERTIFIKAT UNGUELITIG SIGS-ZERTIFIKAT PRUEFUNG SCHLUG FEHL FSCS-ZERTIFIKAT PRUEFUNG SCHLUG FEHL FAHRGESTELLNUMMER FEHLERHAFT KEINE AUTHENTISIERUNG KEINE DATEN ZU ANGEGEBENEM SG VORHANDEN KEIN SPEICHERPLATZ MEHR VORHANDEN</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-finger-print-mechanismus"></a></p>
+<h3 id="finger_print_mechanismus">FINGER_PRINT_MECHANISMUS</h3>
+<p>Finger Print Mechanismus DS2:      $1F SweepingTechnologies $E9 SWTFingerPrintCheck</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode FINGER PRINT MECHANISMUS NICHT OK</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-zeit-lesen"></a></p>
+<h3 id="zeit_lesen">ZEIT_LESEN</h3>
+<p>Uhrzeit im Steuergeraet lesen DS2:     $1F SweepingTechnologies $E8 SWTGetTime</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>JAHR</td>
+<td>string</td>
+<td>4 Stelle im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>MONAT</td>
+<td>string</td>
+<td>2 Stelle im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>TAG</td>
+<td>string</td>
+<td>2 Stelle im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>STUNDE</td>
+<td>string</td>
+<td>2 Stelle im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>MINUTE</td>
+<td>string</td>
+<td>2 Stelle im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>ZEIT_ZONE</td>
+<td>string</td>
+<td>1 oder 5 Stellen im DEZIMAL Format</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-zeit-schreiben"></a></p>
+<h3 id="zeit_schreiben">ZEIT_SCHREIBEN</h3>
+<p>Uhrzeit im Steuergeraet schreiben DS2:     $1F SweepingTechnologies $E7 SWTSetTime</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZEIT</td>
+<td>string</td>
+<td>Direkt hintereinander schreiben 13 oder 17 Stellen 13 =&gt; XX...XXZ 17 = &gt;XX...XX+XXXX 17 =&gt; XX...XX-XXXX</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fahrgestellnummer-lesen"></a></p>
+<h3 id="fahrgestellnummer_lesen">FAHRGESTELLNUMMER_LESEN</h3>
+<p>FGN lesen im Steuergeraet DS2:     $1F SweepingTechnologies $E6 SWTGetFZG</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer 17 Bytes oder 7 Bytes</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fahrgestellnummer-schreiben"></a></p>
+<h3 id="fahrgestellnummer_schreiben">FAHRGESTELLNUMMER_SCHREIBEN</h3>
+<p>FGN schreiben im Steuergeraet DS2:     $1F SweepingTechnologies $E5 SWTSetFZG</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer 17 Bytes oder 7 Bytes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table SwtFehler_Tab STATUS_TEXT Moegliche Fehlercode UNBEKANNTER FEHLER</td>
+</tr>
+<tr>
+<td>JOB_STATUS_CODE</td>
+<td>string</td>
+<td>1 Byte Hex Format Eingangspunkt im table SwtFehler</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (13 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (100 × 2)</li>
+<li><a href="#table-roverpartnumprefix">ROVERPARTNUMPREFIX</a> (21 × 2)</li>
+<li><a href="#table-konzept-tabelle">KONZEPT_TABELLE</a> (5 × 2)</li>
+<li><a href="#table-swtstatustab">SWTSTATUSTAB</a> (6 × 2)</li>
+<li><a href="#table-swtfehler-tab">SWTFEHLER_TAB</a> (54 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>0x??</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 100 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Continental Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>AISIN AW CO.LTD</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>Shorlock</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>Schrader</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>BERU Electronics GmbH</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>CEL</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>Audio Mobil</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>rd electronic</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>iSYS RTS GmbH</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>Westfalia Automotive GmbH</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>Tyco Electronics</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>Paragon AG</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>IEE S.A</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>TEMIC AUTOMOTIVE of NA</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>AKsys GmbH</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>META System</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>Hülsbeck &amp; Fürst GmbH &amp; Co KG</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>Mann &amp; Hummel Automotive GmbH</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>Brose Fahrzeugteile GmbH &amp; Co</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>Keihin</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>Vimercati S.p.A.</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>CRH</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>TPO Display Corp.</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>KÜSTER Automotive Control</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>Hitachi Automotive</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>Continental Automotive</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>TI-Automotive</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>Hydro</td>
+</tr>
+<tr>
+<td>0x99</td>
+<td>Johnson Controls</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-roverpartnumprefix"></a></p>
+<h3 id="roverpartnumprefix">ROVERPARTNUMPREFIX</h3>
+<p>Dimensions: 21 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ROVER_NR</th>
+<th>PREFIX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>AMR</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>HHF</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>JFC</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>MKC</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>SCB</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>SRB</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>XQC</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>XQD</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>XQE</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>XVD</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>YAC</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>YDB</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>YFC</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>YUB</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>YWC</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>YWQ</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>EGQ</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>YIB</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>YIC</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>YIE</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>???</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-konzept-tabelle"></a></p>
+<h3 id="konzept_tabelle">KONZEPT_TABELLE</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>D-CAN</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>KWP2000*</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KWP2000</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>DS2</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-swtstatustab"></a></p>
+<h3 id="swtstatustab">SWTSTATUSTAB</h3>
+<p>Dimensions: 6 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>EINGESPIELT</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>AKZEPTIERT</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ABGELEHNT</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>STORNIERT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_STATUS_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-swtfehler-tab"></a></p>
+<h3 id="swtfehler_tab">SWTFEHLER_TAB</h3>
+<p>Dimensions: 54 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x31</td>
+<td>UNZULAESSIGER_WERTEBEREICH</td>
+</tr>
+<tr>
+<td>0xCC</td>
+<td>SCHLUESSELABLEITUNG_NICHT_AKTIVIERT</td>
+</tr>
+<tr>
+<td>0xCD</td>
+<td>KEYFAKTOR_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xCE</td>
+<td>FSC_NICHT_MASKIERT</td>
+</tr>
+<tr>
+<td>0xCF</td>
+<td>FSC_MASKIERT</td>
+</tr>
+<tr>
+<td>0xD0</td>
+<td>FSC_ERWEITERUNG_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>FSC_UNGUELTIG</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>SW_ID_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>KEIN_SPEICHERPLATZ_MEHR_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>FALSCHER_ZERTIFIKATSINHALT_UNBEKANNTES_CRIT-ELEMENT</td>
+</tr>
+<tr>
+<td>0xD5</td>
+<td>FALSCHER_FSC_INHALT</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>FALSCHE_PARAMETER</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>FSCS_ZERTIFIKAT_ABGELEHNT</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>KEINE_DATEN_ZU_ANGEGEBENEM_SG_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>KEINE_AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>FINGER_PRINT_MECHANISMUS_NOT_OK</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>SIGS_ID_UND_ZERTIFIKAT_PASSEN_NICHT_ZUSAMMEN</td>
+</tr>
+<tr>
+<td>0xDC</td>
+<td>GUELTIGKEITS_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xDD</td>
+<td>FAHRGESTELLNUMMER_FEHLERHAFT</td>
+</tr>
+<tr>
+<td>0xDE</td>
+<td>FGN_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xDF</td>
+<td>FLASH_LESEFEHLER</td>
+</tr>
+<tr>
+<td>0xE0</td>
+<td>FLASH_SCHREIBFEHLER</td>
+</tr>
+<tr>
+<td>0xE1</td>
+<td>FALSCHER_ZERTIFIKATSINHALT_KEY_USAGE</td>
+</tr>
+<tr>
+<td>0xE2</td>
+<td>FALSCHER_ZERTIFIKATSINHALT_ISSUER</td>
+</tr>
+<tr>
+<td>0xE3</td>
+<td>FALSCHER_ZERTIFIKATSINHALT_VALIDITY</td>
+</tr>
+<tr>
+<td>0xE4</td>
+<td>FSCS_ZERTIFIKAT_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xE5</td>
+<td>FSCS_ZERTIFIKAT_UNGUELTIG</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>FSCS_ZERTIFIKAT_NOCH_NICHT_GEPRUEFT</td>
+</tr>
+<tr>
+<td>0xE7</td>
+<td>FSCS_ZERTIFIKAT_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xE8</td>
+<td>SIGS_ZERTIFIKAT_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>SIGS_ZERTIFIKAT_UNGUELTIG</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>SIGS_ZERTIFIKAT_NOCH_NICHT_GEPRUEFT</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>SIGS_ZERTIFIKAT_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>ROOT_ZERTIFIKAT_UNGUELTIG</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>ROOT_ZERTIFIKAT_STATUS_ABGELEHNT</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>ROOT_ZERTIFIKAT_FEHLERHAFT</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>ROOT_ZERTIFIKAT_NICHT_LESBAR</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>ROOT_ZERTIFIKAT_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>ZERTIFIKAT_STATUS_ABGELEHNT</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>ZERTIFIKAT_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>FSC_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>FSC_STORNIERT</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>FSC_STATUS_ABGELEHNT</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>FSC_NICHT_VORHANDEN</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>FALSCHE_FSCS_ID_IM_FSC</td>
+</tr>
+<tr>
+<td>0xF8</td>
+<td>UNGUELTIGES_FSC_ERSTELLUNGSDDATUM</td>
+</tr>
+<tr>
+<td>0xF9</td>
+<td>SIGNATUR_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>SW_SIGNATURPRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>SW_SIG_STATUS_ABGELEHNT</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>SW_ID_PRUEFUNG_SCHLUG_FEHL</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>SW_NICHT_AKTIVIERT</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>SW_NICHT_EINGESPIELT</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>UNBEKANNTER_FEHLER</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

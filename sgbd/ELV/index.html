@@ -1,0 +1,3016 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/ELV/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ELV.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#elvprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ELV.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#is_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPEICHER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_stat_vorg_gesch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_STAT_VORG_GESCH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_STAT_VORG_GESCH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_stat_vorg_ni_gesch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_STAT_VORG_NI_GESCH
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_STAT_VORG_NI_GESCH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CODIERDATEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLEEP_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLEEP_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codetexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODETEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iorttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iarttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sttexte_ebene0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STTEXTE_EBENE0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sttexte_ebene1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STTEXTE_EBENE1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#halltexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HALLTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kbustexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KBUSTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BITS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="elvprg">ELV.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">14</a></li>
+<li>Tables: <a href="#tables">12</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Elektrische Lenkungsverriegelung ELV</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-430 Stefan Bendel</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-433 Gerd Huber, Valeo ESE Hagen Friedrich</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>0.02</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung / Kommunikationsparameter fuer ELV automatischer Aufruf beim ersten Zugriff auf die SGBD</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten der Elektrischen Lenkungsverriegelung ELV auslesen</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen Low-Konzept nach Lastenheft Codierung/Diagnose Sonderfall: Loeschdatum (KW/Jahr) integriert !</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen Sonderfall: Loeschdatum (KW/Jahr) integriert !</li>
+<li><a href="#job-is-lesen">IS_LESEN</a> - Infospeicher lesen Info-Speicher ist im Aufbau analog zum Fehlerspeicher Low-Konzept nach Lastenheft Codierung/Diagnose</li>
+<li><a href="#job-speicher-lesen">SPEICHER_LESEN</a> - Lesen des internen Speichers der ELV Als Argumente werden die Anzahl und die Adresse der Datenbytes uebergeben.</li>
+<li><a href="#job-status-lesen">STATUS_LESEN</a> - Status der ELV auslesen</li>
+<li><a href="#job-steuern-stat-vorg-gesch">STEUERN_STAT_VORG_GESCH</a> - Status auf geschaerft setzen</li>
+<li><a href="#job-steuern-stat-vorg-ni-gesch">STEUERN_STAT_VORG_NI_GESCH</a> - Status auf nicht geschaerft setzen</li>
+<li><a href="#job-steuern">STEUERN</a> - Ansteuern der ELV ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] ELV.prg'</li>
+<li><a href="#job-codierdaten-lesen">CODIERDATEN_LESEN</a> - Auslesen der Codierdaten der ELV</li>
+<li><a href="#job-sleep-mode">SLEEP_MODE</a> - SG in Sleep-Mode versetzen</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung / Kommunikationsparameter fuer ELV automatischer Aufruf beim ersten Zugriff auf die SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten der Elektrischen Lenkungsverriegelung ELV auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>string</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>string</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>string</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>string</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>string</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>ID_AEND_NR</td>
+<td>string</td>
+<td>Aenderungsindex</td>
+</tr>
+<tr>
+<td>ID_SERIEN_NR</td>
+<td>string</td>
+<td>Seriennummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen Low-Konzept nach Lastenheft Codierung/Diagnose Sonderfall: Loeschdatum (KW/Jahr) integriert !</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Fehlerdaten pro Fehler als Hexcode</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Fehlerort momentan identisch Fehlerbyte</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text table FOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit Bereich: 0 - 31</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten Bereich: immer 1</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen Bereich: immer 0</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>1. (einzige) Fehlerart Bereich: 0, 1</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>1. (einzige) Fehlerart als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_LOESCHDATUM_KW</td>
+<td>int</td>
+<td>Loeschdatum des Fehlerspeichers (KW)</td>
+</tr>
+<tr>
+<td>F_LOESCHDATUM_JAHR</td>
+<td>int</td>
+<td>Loeschdatum des Fehlerspeichers (Jahr)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort(en) von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen Sonderfall: Loeschdatum (KW/Jahr) integriert !</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-is-lesen"></a></p>
+<h3 id="is_lesen">IS_LESEN</h3>
+<p>Infospeicher lesen Info-Speicher ist im Aufbau analog zum Fehlerspeicher Low-Konzept nach Lastenheft Codierung/Diagnose</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Infodaten pro Fehler als Hexcode</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Infoort momentan identisch Infobyte</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Infoort als Text table IOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Infohaeufigkeit Bereich: 0 - 31</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Infoarten Bereich: immer 1</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen Bereich: immer 0</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>1. (einzige) Infoart Bereich: 0, 1</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>1. (einzige) Infoart als Text table IArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-lesen"></a></p>
+<h3 id="speicher_lesen">SPEICHER_LESEN</h3>
+<p>Lesen des internen Speichers der ELV Als Argumente werden die Anzahl und die Adresse der Datenbytes uebergeben.</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANZAHL</td>
+<td>int</td>
+<td>Bereich 1 - 32</td>
+</tr>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>Bereich 0x0000 - 0xFFFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>ausgelesene Daten</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich table JobResult STATUS_TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lesen"></a></p>
+<h3 id="status_lesen">STATUS_LESEN</h3>
+<p>Status der ELV auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_IEIN_ENDLAGE_VER</td>
+<td>string</td>
+<td>Status Hallsensor 1 (Endlage Verriegelt) Interner Eingang keine Stoerung, Stoerung, 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_ENDLAGE_VER_int</td>
+<td>int</td>
+<td>Fehlerfreier Status Hallsensor 1 (Endlage Verriegelt) Interner Eingang Bereich: 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_ENDLAGE_ENT</td>
+<td>string</td>
+<td>gestoerter Status Hallsensor 2 (Endlage Entriegelt) Interner Eingang keine Stoerung, Stoerung, 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_ENDLAGE_ENT_int</td>
+<td>int</td>
+<td>Status Hallsensor 2 (Endlage Entriegelt) Interner Eingang Bereich: 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_SPERRP_GES</td>
+<td>string</td>
+<td>Status Hallsensor 3 (Sperrplattenstatus) Interner Eingang keine Stoerung, Stoerung, 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_SPERRP_GES_int</td>
+<td>int</td>
+<td>Status Hallsensor 3 (Sperrplattenstatus) Interner Eingang Bereich: 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_SPERRP_PN</td>
+<td>string</td>
+<td>Status Hallsensor 4 (Sperrplattenstatus fuer P/N) Interner Eingang keine Stoerung, Stoerung, 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_SPERRP_PN_int</td>
+<td>int</td>
+<td>Status Hallsensor 4 (Sperrplattenstatus fuer P/N) Interner Eingang Bereich: 0 (nicht erregt), 1 (erregt)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_R_PN_EWS</td>
+<td>int</td>
+<td>Rueckgelesener P/N-EWS-Ausgang Interner Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_IEIN_R_DRSP</td>
+<td>int</td>
+<td>Rueckgelesener Drehsperren-Treiberausgang Interner Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_IEIN_R_SMAG</td>
+<td>int</td>
+<td>Rueckgelesener SI-Magnettreiberausgang Interner Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_IEIN_R_MSP_ENT</td>
+<td>int</td>
+<td>Rueckgelesener Status 'Sperrplattenmotor Entriegeln' Interner Eingang Bereich: 0 (nicht angezogen), 1 (angezogen)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_D_DRSP</td>
+<td>int</td>
+<td>Diagnose (Status) Treiber Drehsperre Interner Eingang Bereich: 0 (nicht aktiv), 1 (aktiv)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_D_SMAG</td>
+<td>int</td>
+<td>Diagnose (Status) Treiber Sicherungsmagnet Interner Eingang Bereich: 0 (nicht aktiv), 1 (aktiv)</td>
+</tr>
+<tr>
+<td>STAT_IEIN_D_SPERR</td>
+<td>int</td>
+<td>Diagnose (Status) Vollbruecke Sperrplatte Interner Eingang Bereich: 0 (nicht aktiv), 1 (aktiv)</td>
+</tr>
+<tr>
+<td>STAT_EEIN_DREHK</td>
+<td>string</td>
+<td>Status Hallsensor 5 (Dreherkennung SZE) Externer Eingang Bereich: 0 (nicht erregt, nicht erkannt), 1 (erregt, erkannt), Stoerung</td>
+</tr>
+<tr>
+<td>STAT_EEIN_DREHK_int</td>
+<td>int</td>
+<td>Status Hallsensor 5 (Dreherkennung SZE) Externer Eingang Bereich: 0 (nicht erregt, nicht erkannt), 1 (erregt, erkannt)</td>
+</tr>
+<tr>
+<td>STAT_EEIN_P_N</td>
+<td>int</td>
+<td>Getriebewaehlhebel P/N-Eingang Externer Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_EEIN_KL15</td>
+<td>int</td>
+<td>Lokal ueber Hardware vorliegende Klemme 15 Externer Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_EEIN_KLR</td>
+<td>int</td>
+<td>Lokal ueber Hardware vorliegende Klemme R Externer Eingang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_EEIN_DFA_HL</td>
+<td>int</td>
+<td>Raddrehzahlfuehler hinten links Externer Eingang (Frequenz) Bereich: f &lt; 18Hz bedeutet "Fahrzeug steht" (&lt;3km/h)</td>
+</tr>
+<tr>
+<td>STAT_EEIN_DFA_PLAU</td>
+<td>int</td>
+<td>Plausibilitaet Geschwindigkeitssignal Externer Eingang Bereich: 1 = 'Fahrzeug faehrt' ist unplausibel, 0 = 'Fahrzeug faehrt' ist plausibel</td>
+</tr>
+<tr>
+<td>STAT_AUSG_12V_INT</td>
+<td>int</td>
+<td>12V getaktet intern Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_PN_EWS</td>
+<td>int</td>
+<td>P/N-Ausgang zur EWS3 (Freigabeleitung) Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_DRSP</td>
+<td>int</td>
+<td>Drehsperren-Ansteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_SMAG_TR</td>
+<td>int</td>
+<td>Sicherungsmagnet-Ansteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_UNTREL</td>
+<td>int</td>
+<td>Unterbrechungsrelais-Ansteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_SP_ENT</td>
+<td>int</td>
+<td>'Sperrplatte entriegeln'-Ansteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_SP_VER</td>
+<td>int</td>
+<td>'Sperrplatte verriegeln'-Ansteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_SP_BRK</td>
+<td>int</td>
+<td>'Sperrplatte bremsen'-Motoransteuerung Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_AUSG_UDREK</td>
+<td>int</td>
+<td>12V getaktet extern Ausgang Bereich: ein, aus</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KLR</td>
+<td>string</td>
+<td>'Klemme R'-Information ueber K-Bus K-Bus Bereich: "definiert" / "undefiniert"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KLR_int</td>
+<td>int</td>
+<td>'Klemme R'-Information ueber K-Bus K-Bus Bereich: 0 (aus), 1 (ein)</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KL15</td>
+<td>string</td>
+<td>'Klemme 15'-Information ueber K-Bus K-Bus Bereich: "definiert" / "undefiniert"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KL15_int</td>
+<td>int</td>
+<td>'Klemme 15'-Information ueber K-Bus K-Bus Bereich: 0 (aus), 1 (ein)</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_KEY</td>
+<td>string</td>
+<td>'Gueltiger Schluessel im Schloss'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_KEY_int</td>
+<td>int</td>
+<td>'Gueltiger Schluessel im Schloss'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_FREE</td>
+<td>string</td>
+<td>'EWS freigeschaltet ueber Schluessel'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_FREE_int</td>
+<td>int</td>
+<td>'EWS freigeschaltet ueber Schluessel'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_AIRBAG_CRASH</td>
+<td>string</td>
+<td>'Grundmodul ZV oeffnen'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_AIRBAG_CRASH_int</td>
+<td>int</td>
+<td>'Grundmodul ZV oeffnen'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KL_UNDEF</td>
+<td>string</td>
+<td>'Klemmenstatus undefiniert'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_KL_UNDEF_int</td>
+<td>int</td>
+<td>'Klemmenstatus undefiniert'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_UNDEF</td>
+<td>string</td>
+<td>'EWS-Status undefiniert'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_KBUS_EWS_UNDEF_int</td>
+<td>int</td>
+<td>'EWS-Status undefiniert'-Information ueber K-Bus K-Bus Bereich: "nein" / "ja"</td>
+</tr>
+<tr>
+<td>STAT_ER_SICH</td>
+<td>int</td>
+<td>ELV ist entriegelt und gesichert Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_VR</td>
+<td>int</td>
+<td>ELV ist verriegelt Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_ER_MOV</td>
+<td>int</td>
+<td>ELV wird momentan entriegelt Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_VR_MOV</td>
+<td>int</td>
+<td>ELV wird momentan verriegelt Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_ER</td>
+<td>int</td>
+<td>ELV ist entriegelt Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_GESCH</td>
+<td>int</td>
+<td>ELV geschaerft Bereich: 0 (nein), 1 (ja) interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_STATE_Ebene0</td>
+<td>string</td>
+<td>ELV Zustand interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_STATE_Ebene1</td>
+<td>string</td>
+<td>ELV Zustand interner ELV-Status</td>
+</tr>
+<tr>
+<td>STAT_ALOG_U_KL30</td>
+<td>string</td>
+<td>A/D-Wert von KL30 Analog-Werte Bereich: 0 .. 255 Digits Einheit: Volt</td>
+</tr>
+<tr>
+<td>STAT_ALOG_U_EINH</td>
+<td>string</td>
+<td>Einheit der gemessenen A/D-Werte der Versorgungsspannung Analog-Werte</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_DREK</td>
+<td>string</td>
+<td>A/D-Stromwert des Hallsensors 'Dreherkennung' Analog-Werte Bereich: 0 .. 255 Digits Einheit: mA</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_SMAG_HALL</td>
+<td>string</td>
+<td>A/D-Stromwert des Hallsensors 'Sperrplatte gesichert' Analog-Werte Bereich: 0 .. 255 Digits Einheit: mA</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_PN_HALL</td>
+<td>string</td>
+<td>A/D-Stromwert des Hallsensors 'P/N-Eingang' Analog-Werte Bereich: 0 .. 255 Digits Einheit: mA</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_ELEK_ENT</td>
+<td>string</td>
+<td>A/D-Stromwert des Hallsensors 'Endlage entriegelt' Analog-Werte Bereich: 0 .. 255 Digits Einheit: mA</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_ELEK_VER</td>
+<td>string</td>
+<td>A/D-Stromwert des Hallsensors 'Endlage verriegelt' Analog-Werte Bereich: 0 .. 255 Digits Einheit: mA</td>
+</tr>
+<tr>
+<td>STAT_ALOG_I_EINH</td>
+<td>string</td>
+<td>Einheit der gemessenen A/D-Werte der Hallsensorstroeme Analog-Werte</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-stat-vorg-gesch"></a></p>
+<h3 id="steuern_stat_vorg_gesch">STEUERN_STAT_VORG_GESCH</h3>
+<p>Status auf geschaerft setzen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-stat-vorg-ni-gesch"></a></p>
+<h3 id="steuern_stat_vorg_ni_gesch">STEUERN_STAT_VORG_NI_GESCH</h3>
+<p>Status auf nicht geschaerft setzen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern"></a></p>
+<h3 id="steuern">STEUERN</h3>
+<p>Ansteuern der ELV ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] ELV.prg'</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORT</td>
+<td>string</td>
+<td>gewuenschte Komponente table BITS NAME TEXT</td>
+</tr>
+<tr>
+<td>EIN</td>
+<td>int</td>
+<td>'1' zum Einschalten / '0' zum Ausschalten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_AN_SG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-codierdaten-lesen"></a></p>
+<h3 id="codierdaten_lesen">CODIERDATEN_LESEN</h3>
+<p>Auslesen der Codierdaten der ELV</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>CODE_PN_EINGANG</td>
+<td>string</td>
+<td>Auswertung des P/N-Einganges Codierdaten Bereich: 1 = ja, 0 = nein</td>
+</tr>
+<tr>
+<td>CODE_DSC_SIGNAL</td>
+<td>string</td>
+<td>Auswertung des DSC-Signales Codierdaten Bereich: 1 = Fahrzeug faehrt, 0 = Fahrzeug steht</td>
+</tr>
+<tr>
+<td>CODE_SCHL_NR_GESCH</td>
+<td>int</td>
+<td>Schluesselnummer fuer Wechsel zu 'geschaerft' Codierdaten Bereich: 1...3 (aktuell)</td>
+</tr>
+<tr>
+<td>CODE_CODIERUNG</td>
+<td>string</td>
+<td>Codierung Codierdaten Bereich: AAh = EEPROM, &lt;&gt;AAh = ROM</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sleep-mode"></a></p>
+<h3 id="sleep_mode">SLEEP_MODE</h3>
+<p>SG in Sleep-Mode versetzen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (8 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (33 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (35 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (3 × 2)</li>
+<li><a href="#table-codetexte">CODETEXTE</a> (4 × 2)</li>
+<li><a href="#table-iorttexte">IORTTEXTE</a> (8 × 2)</li>
+<li><a href="#table-iarttexte">IARTTEXTE</a> (3 × 2)</li>
+<li><a href="#table-sttexte-ebene0">STTEXTE_EBENE0</a> (13 × 2)</li>
+<li><a href="#table-sttexte-ebene1">STTEXTE_EBENE1</a> (33 × 2)</li>
+<li><a href="#table-halltexte">HALLTEXTE</a> (4 × 2)</li>
+<li><a href="#table-kbustexte">KBUSTEXTE</a> (8 × 2)</li>
+<li><a href="#table-bits">BITS</a> (48 × 4)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 33 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen / Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 35 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>ELV Watchdog uC intern</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ELV Prozessor ROM</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>ELV Taktgeber</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ELV EEPROM</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Fehler bei RAM-Check</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Fehler bei ROM-Check</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>ELV noch nie kodiert oder Kodierdaten verloren</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Treiber SI-Magnet defekt (Ub-Kurzschluss)</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Treiber SI-Magnet defekt (Gnd-Kurzschluss oder Unterbrechung)</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>Beide Endlagenerkennungen gleichzeitig aktiv</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Hallsensor 'Sicherungsmagnet' Unterbrechung oder Kurzschluss</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Hallsensor 'P/N-Freigabe' Unterbrechung oder Kurzschluss</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Hallsensor 'Endlage verriegelt' Unterbrechung oder Kurzschluss</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Hallsensor 'Endlage entriegelt' Unterbrechung oder Kurzschluss</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Fehler bei Verriegelungsvorgang (Anzahl Versuche ueberschritten)</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Unterbrechungsrelais defekt</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Spannungsueberwachung defekt</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>Sperrplattenmotor Kurz./Unterbr./Uebertemp. des Treibers in Richtung 'Ent'</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>Sicherungsmagnet defekt</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>Fehler bei Entriegelungsvorgang</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>Treiber Sicherungsmagnet Kurzschluss</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>Fehler bei Verriegelungsvorgang (Endlage 'Entr' nicht verlassen)</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>Interne Sensor-Spannungsversorgung defekt</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>Sperrplattenmotor Kurz./Unterbr./Uebertemp. des Treibers in Richtung 'Ver'</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>Verriegelung des SI-Magnettreibers ueber KL15 defekt</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>K-Bus oder EWS</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Treiber DRSP defekt (DRSP oder Leitung DRSP mit Ub-Kurzschluss)</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>Treiber DRSP defekt (DRSP oder Leitung DRSP mit Gnd-Kurzschluss)</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>P/N-EWS 'low' (Leitung P/N-EWS mit Gnd-Kurzschluss)</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>P/N-EWS 'high' (Leitung P/N-EWS mit Ub-Kurzschluss)</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>Dreherkennung defekt oder KLR/KL15 mit Ub-Kurzschluss</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Hallsensor 'Dreherkennung' hat Unterbrechung oder Kurzschluss</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>KLR mit Gnd-Kurzschluss/Unterbrechung oder KL15 mit Ub-Kurzschluss</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>Geschwindigkeitssignal unplausibel</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Fehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ART</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>sporadischer Fehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>aktiver Fehler</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codetexte"></a></p>
+<h3 id="codetexte">CODETEXTE</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>CODE_NR</th>
+<th>CODE_TEXTE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>nein</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>ROM</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>EEPROM</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iorttexte"></a></p>
+<h3 id="iorttexte">IORTTEXTE</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x80</td>
+<td>Fehler bei Verriegelvorgang</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>Fehler bei Entriegelvorgang</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>Ueberlastsicherung aktiviert</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>Unterspannung bei Entriegelungsvorgang</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>Crash wurde ausgeloest</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>Verriegelungssperre Unterspannung aktiv</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>KLR- oder KL15- Abfall nicht ueber K-Bus bestaetigt</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Info-Ort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iarttexte"></a></p>
+<h3 id="iarttexte">IARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ART</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>sporadischer Fehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>aktiver Fehler</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-sttexte-ebene0"></a></p>
+<h3 id="sttexte_ebene0">STTEXTE_EBENE0</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ST_ART0</th>
+<th>ST_TEXTE0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>CHECK_ACTIVE_ERRORS</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>RESET_INIT</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>CHECK_RAM_ROM_EEPROM</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>RAM_ROM_EEPROM_ERROR</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>RESET_INIT_DONE</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>GET_SYSTEM_STAT</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>VERRIEGELT</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>ENTRIEGELT_UND_GES</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>ENTRIEGELN</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>ENTRIEGELN_FERTIG</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>VERRIEGELN</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>VERRIEGELN_FERTIG</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Zustand</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-sttexte-ebene1"></a></p>
+<h3 id="sttexte_ebene1">STTEXTE_EBENE1</h3>
+<p>Dimensions: 33 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ST_ART1</th>
+<th>ST_TEXTE1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>WARTE_DREH_SET</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>WARTE_KBUS_MESSAGE</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>WARTE_KBUS_RESPONSE</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>START_NICHT_FREIGEBEN</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>MOT_ZULEITUNG_UNTERBRECHEN</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>DAUERFEHLER_PRUEFEN</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>DREHSPERRE_VOR_START</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>MOT_ZULEITUNG_UNTERBRECHEN_R</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>DREHSPERRE_VOR_FAHRT1</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>SICHERUNGSMAGNET_UEBERPRUEFEN</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>FAHREN_MOEGLICH</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>DREHSPERRE_NACH_START</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>DREHSPERRE_VOR_FAHRT2</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>DEFAULT</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>WARTE_DREH_SCHL</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>AUSFUEHREN</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>ENTRIEGELN_MOVING</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>CHECK_SIMGNT</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>AUSFUEHREN</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>CHECK_SENSORS</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>VERRIEGELN_MOVING</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>VERRIEGELN_FERTIG</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>CHECK_SIMGNT</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Zustand</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-halltexte"></a></p>
+<h3 id="halltexte">HALLTEXTE</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>HALL_NUMMER</th>
+<th>HALL_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>nicht erregt</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>erregt</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Stoerung</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Hallsensor-Status</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-kbustexte"></a></p>
+<h3 id="kbustexte">KBUSTEXTE</h3>
+<p>Dimensions: 8 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>KBUS_NUMMER</th>
+<th>KBUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>aus</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ein</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>undefiniert</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>gueltig</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ungueltig</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>nein</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter K-Bus Status</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-bits"></a></p>
+<h3 id="bits">BITS</h3>
+<p>Dimensions: 48 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>ZELLE</th>
+<th>BYTE</th>
+<th>NAME</th>
+<th>TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>STAT_EEIN_DREK</td>
+<td>Dreherkennung ist aktiviert (von SZE)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>STAT_EEIN_DREK_GEST</td>
+<td>Signal Dreherkennung gestoert</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>STAT_EEIN_P_N</td>
+<td>Getriebewaehlhebel P/N-Eingang 0: D , 1: P/N</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>STAT_EEIN_KLR</td>
+<td>Klemme R ein</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>STAT_EEIN_KL15</td>
+<td>Klemme 15 ein</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>STAT_EEIN_DFA_HL</td>
+<td>Fahrzeug faehrt (Raddrehzahlfuehler-Ausgang hinten links)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>STAT_EEIN_DFA_PLAU</td>
+<td>Geschwindigkeitssignal unplausibel</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>STAT_IEIN_ENDLAGE_VER</td>
+<td>Hallsensor 'Endlagenerkennung verriegelt'</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2</td>
+<td>STAT_IEIN_ENDLAGE_ENT</td>
+<td>Hallsensor 'Endlagenerkennung entriegelt'</td>
+</tr>
+<tr>
+<td>12</td>
+<td>2</td>
+<td>STAT_IEIN_SPERRP_GES</td>
+<td>Hallsensor 'Sicherungsmagnet gesichert', Anker angez./liegt auf Sperrplatte</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2</td>
+<td>STAT_IEIN_SPERRP_PN</td>
+<td>Hallsensor 'Sicherungsmagnet P/N-Freigabe gesichert', Anker angez./liegt auf Sperrplatte</td>
+</tr>
+<tr>
+<td>16</td>
+<td>3</td>
+<td>STAT_IEIN_R_PN_EWS</td>
+<td>Ausgang 'P/N-EWS' rueckgelesen</td>
+</tr>
+<tr>
+<td>17</td>
+<td>3</td>
+<td>STAT_IEIN_R_DRSP</td>
+<td>Ausgang 'Drehsperre' rueckgelesen</td>
+</tr>
+<tr>
+<td>18</td>
+<td>3</td>
+<td>STAT_IEIN_R_SMAG</td>
+<td>Ausgang 'Sicherungsmagnet' rueckgelesen</td>
+</tr>
+<tr>
+<td>19</td>
+<td>3</td>
+<td>STAT_IEIN_R_MSP_ENT</td>
+<td>Relais 'Motor Sperrplatte entriegeln' rueckgelesen</td>
+</tr>
+<tr>
+<td>20</td>
+<td>3</td>
+<td>STAT_IEIN_D_DRSP</td>
+<td>Diagnose (Status) 'Treiber Drehsperre'</td>
+</tr>
+<tr>
+<td>21</td>
+<td>3</td>
+<td>STAT_IEIN_D_SMAG</td>
+<td>Diagnose (Status) 'Treiber Sicherungsmagnet'</td>
+</tr>
+<tr>
+<td>22</td>
+<td>3</td>
+<td>STAT_IEIN_D_SPERR</td>
+<td>Diagnose (Status) 'Vollbruecke Sperrplatte'</td>
+</tr>
+<tr>
+<td>24</td>
+<td>4</td>
+<td>STAT_AUSG_12V_INT</td>
+<td>12V getaktet intern</td>
+</tr>
+<tr>
+<td>25</td>
+<td>4</td>
+<td>STAT_AUSG_PN_EWS</td>
+<td>P/N-Ausgang zur EWS3 (Freigabeleitung)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>4</td>
+<td>STAT_AUSG_DRSP</td>
+<td>Drehsperre angesteuert</td>
+</tr>
+<tr>
+<td>27</td>
+<td>4</td>
+<td>STAT_AUSG_SMAG_TR</td>
+<td>Sicherungsmagnet angesteuert</td>
+</tr>
+<tr>
+<td>28</td>
+<td>4</td>
+<td>STAT_AUSG_UNTREL</td>
+<td>Unterbrechungsrelais</td>
+</tr>
+<tr>
+<td>29</td>
+<td>4</td>
+<td>STAT_AUSG_SP_ENT</td>
+<td>Sperrplatte entriegeln</td>
+</tr>
+<tr>
+<td>30</td>
+<td>4</td>
+<td>STAT_AUSG_SP_VER</td>
+<td>Sperrplatte verriegeln</td>
+</tr>
+<tr>
+<td>31</td>
+<td>4</td>
+<td>STAT_AUSG_SP_BRK</td>
+<td>Motor Sperrplatte bremsen</td>
+</tr>
+<tr>
+<td>32</td>
+<td>5</td>
+<td>STAT_AUSG_UDREK</td>
+<td>12V getaktet extern</td>
+</tr>
+<tr>
+<td>40</td>
+<td>6</td>
+<td>STAT_KBUS_KLR</td>
+<td>'Klemme R'-Information ueber K-Bus</td>
+</tr>
+<tr>
+<td>41</td>
+<td>6</td>
+<td>STAT_KBUS_KL15</td>
+<td>'Klemme 15'-Information ueber K-Bus</td>
+</tr>
+<tr>
+<td>42</td>
+<td>6</td>
+<td>STAT_KBUS_EWS_Key</td>
+<td>'Gueltiger Schluessel im Schloss'-Information ueber K-Bus</td>
+</tr>
+<tr>
+<td>43</td>
+<td>6</td>
+<td>STAT_KBUS_ESW_free</td>
+<td>'EWS freigeschaltet ueber Schluessel'-Information ueber K-Bus</td>
+</tr>
+<tr>
+<td>44</td>
+<td>6</td>
+<td>STAT_KBUS_Airbag_Crash</td>
+<td>'Grundmodul ZV oeffnen'-Information ueber K-Bus</td>
+</tr>
+<tr>
+<td>45</td>
+<td>6</td>
+<td>STAT_KBUS_KL_undef</td>
+<td>Klemmenstatus ueber K-Bus ist undefiniert</td>
+</tr>
+<tr>
+<td>46</td>
+<td>6</td>
+<td>STAT_KBUS_EWS_undef</td>
+<td>Schluesselstatus ueber K-Bus ist undefiniert</td>
+</tr>
+<tr>
+<td>48</td>
+<td>7</td>
+<td>STAT_ER_SICH</td>
+<td>ELV ist entriegelt und gesichert</td>
+</tr>
+<tr>
+<td>49</td>
+<td>7</td>
+<td>STAT_VR</td>
+<td>ELV ist verriegelt</td>
+</tr>
+<tr>
+<td>50</td>
+<td>7</td>
+<td>STAT_ER_MOV</td>
+<td>ELV wird momentan entriegelt</td>
+</tr>
+<tr>
+<td>51</td>
+<td>7</td>
+<td>STAT_VR_MOV</td>
+<td>ELV wird momentan verriegelt</td>
+</tr>
+<tr>
+<td>52</td>
+<td>7</td>
+<td>STAT_ER</td>
+<td>ELV ist entriegelt</td>
+</tr>
+<tr>
+<td>56</td>
+<td>8</td>
+<td>STAT_GESCH</td>
+<td>ELV geschaerft</td>
+</tr>
+<tr>
+<td>64</td>
+<td>9</td>
+<td>STAT_STATE</td>
+<td>Momentan aktiver Zustand (nur fuer Entwickler)</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>10</td>
+<td>ALOG_U_KL30</td>
+<td>Spannung Klemme 30</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>14</td>
+<td>ALOG_I_DREK</td>
+<td>Strom ueber Hallsensor 'Dreherkennung'</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>15</td>
+<td>ALOG_I_SMAG_HALL</td>
+<td>Strom ueber Hallsensor 'Sicherungsmagnet'</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>16</td>
+<td>ALOG_I_PN_HALL</td>
+<td>Strom ueber Hallsensor 'P/N-Freigabe'</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>17</td>
+<td>ALOG_I_ELEK_ENT</td>
+<td>Strom ueber Hallsensor 'Endlagenerkennung entriegelt'</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>18</td>
+<td>ALOG_I_ELEK_VER</td>
+<td>Strom ueber Hallsensor 'Endlagenerkennung verriegelt'</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>XY</td>
+<td>XY</td>
+<td>nicht definiertes Signal</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

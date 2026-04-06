@@ -1,0 +1,3914 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/MRS3/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MRS3.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mrs3prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MRS3.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_quick_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_QUICK_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_QUICK_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPEICHER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ausstattung_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUSSTATTUNG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AUSSTATTUNG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herstellerdaten_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HERSTELLERDATEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HERSTELLERDATEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typ_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TYP_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TYP_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameter_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PARAMETER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PARAMETER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bmw_seriennummer_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BMW_SERIENNUMMER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BMW_SERIENNUMMER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verriegelung_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VERRIEGELUNG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VERRIEGELUNG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verriegelung_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VERRIEGELUNG_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="VERRIEGELUNG_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controller_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CONTROLLER_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CONTROLLER_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_LOGIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SG_LOGIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_erhalten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ERHALTEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ERHALTEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ausstattung_lesen_ews" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUSSTATTUNG_LESEN_EWS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AUSSTATTUNG_LESEN_EWS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefcode_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFCODE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFCODE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fartmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fumweltmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUMWELTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fumwelttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUMWELTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mrs3prg">MRS3.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">21</a></li>
+<li>Tables: <a href="#tables">7</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>MRS3</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-433 Winkler H.-J.</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>2.08</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-433 Winkler</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Init-Job fuer AIRBAG MRS3</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten fuer AIRBAG MRS3</li>
+<li><a href="#job-fs-quick-lesen">FS_QUICK_LESEN</a> - Quicktest High-Konzept nach Lastenheft</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen</li>
+<li><a href="#job-speicher-lesen">SPEICHER_LESEN</a> - Speicher lesen</li>
+<li><a href="#job-ausstattung-lesen">AUSSTATTUNG_LESEN</a> - Ausstattung lesen</li>
+<li><a href="#job-herstellerdaten-lesen">HERSTELLERDATEN_LESEN</a> - Kodierte KFZ-Herstellerdaten lesen</li>
+<li><a href="#job-typ-lesen">TYP_LESEN</a> - Lesen des Fahrzeugtyps (Baureihe)</li>
+<li><a href="#job-parameter-lesen">PARAMETER_LESEN</a> - 16 Byte aus Parametersatz 1 lesen</li>
+<li><a href="#job-bmw-seriennummer-lesen">BMW_SERIENNUMMER_LESEN</a> - Lesen der BMW-Seriennummer</li>
+<li><a href="#job-status-lesen">STATUS_LESEN</a> - Status des MRS3 lesen</li>
+<li><a href="#job-verriegelung-lesen">VERRIEGELUNG_LESEN</a> - Auslesen der Verriegelung (= Pruefstempel)</li>
+<li><a href="#job-verriegelung-schreiben">VERRIEGELUNG_SCHREIBEN</a> - Verriegelungsbytes setzen</li>
+<li><a href="#job-controller-reset">CONTROLLER_RESET</a> - Zuruecksetzen des Controllers</li>
+<li><a href="#job-sg-login">SG_LOGIN</a> - Berechtigung fuer EEPROM-Zugriffe</li>
+<li><a href="#job-diagnose-erhalten">DIAGNOSE_ERHALTEN</a> - Diagnose aufrechterhalten</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+<li><a href="#job-ausstattung-lesen-ews">AUSSTATTUNG_LESEN_EWS</a> - Ausstattung lesen</li>
+<li><a href="#job-pruefcode-lesen">PRUEFCODE_LESEN</a> - Lesen des Pruefcodes, besteht aus Identifikationsdaten, Ausstattungsdaten und dem FS-Inhalt, jedes Telegrammpaket ist durch ein 0x00 abgeschlossen</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergeraet im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Name aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Init-Job fuer AIRBAG MRS3</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten fuer AIRBAG MRS3</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>int</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferant</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>int</td>
+<td>Softwarenummer</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-quick-lesen"></a></p>
+<h3 id="fs_quick_lesen">FS_QUICK_LESEN</h3>
+<p>Quicktest High-Konzept nach Lastenheft</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise OKAY</td>
+</tr>
+<tr>
+<td>F_ANZ</td>
+<td>int</td>
+<td>Anzahl Fehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise OKAY</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Hex-Fehlerdaten je Fehler</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>identisch Fehlerbytemaske</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten (hier: immer 8)</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>Index der 1. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>1. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART2_NR</td>
+<td>int</td>
+<td>Index der 2. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART2_TEXT</td>
+<td>string</td>
+<td>2. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART3_NR</td>
+<td>int</td>
+<td>Index der 3. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART3_TEXT</td>
+<td>string</td>
+<td>3. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART4_NR</td>
+<td>int</td>
+<td>Index der 4. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART4_TEXT</td>
+<td>string</td>
+<td>4. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART5_NR</td>
+<td>int</td>
+<td>Index der 5. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART5_TEXT</td>
+<td>string</td>
+<td>5. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART6_NR</td>
+<td>int</td>
+<td>Index der 6. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART6_TEXT</td>
+<td>string</td>
+<td>6. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART7_NR</td>
+<td>int</td>
+<td>Index der 7. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART7_TEXT</td>
+<td>string</td>
+<td>7. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_ART8_NR</td>
+<td>int</td>
+<td>Index der 8. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART8_TEXT</td>
+<td>string</td>
+<td>8. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen (hier: immer 2)</td>
+</tr>
+<tr>
+<td>F_UW_SATZ</td>
+<td>int</td>
+<td>Anzahl der Umweltsaetze (hier: immer 1)</td>
+</tr>
+<tr>
+<td>F_UW1_NR</td>
+<td>int</td>
+<td>Index der 1. Umweltbedingung (hier: immer 1)</td>
+</tr>
+<tr>
+<td>F_UW1_TEXT</td>
+<td>string</td>
+<td>Text zur 1. Umweltbedingung (hier: immer Beginnfehleruhr)</td>
+</tr>
+<tr>
+<td>F_UW1_WERT</td>
+<td>long</td>
+<td>Wert der 1. Umweltbedingung</td>
+</tr>
+<tr>
+<td>F_UW1_EINH</td>
+<td>string</td>
+<td>Einheit der 1. Umweltbedingung (hier: immer Sek.)</td>
+</tr>
+<tr>
+<td>F_UW2_NR</td>
+<td>int</td>
+<td>Index der 2. Umweltbedingung (hier: immer 2)</td>
+</tr>
+<tr>
+<td>F_UW2_TEXT</td>
+<td>string</td>
+<td>Text zur 2. Umweltbedingung (hier: immer Endefehleruhr)</td>
+</tr>
+<tr>
+<td>F_UW2_WERT</td>
+<td>long</td>
+<td>Wert der 2. Umweltbedingung</td>
+</tr>
+<tr>
+<td>F_UW2_EINH</td>
+<td>string</td>
+<td>Einheit der 2. Umweltbedingung (hier: immer Sek.)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-lesen"></a></p>
+<h3 id="speicher_lesen">SPEICHER_LESEN</h3>
+<p>Speicher lesen</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H_ADR</td>
+<td>string</td>
+<td>Startadresse High-Byte (0x00-0xFF)</td>
+</tr>
+<tr>
+<td>L_ADR</td>
+<td>string</td>
+<td>Startadresse Low-Byte (0x00-0xFF)</td>
+</tr>
+<tr>
+<td>ANZ_BYTE</td>
+<td>string</td>
+<td>Anzahl der zu lesenden Bytes (&lt;=16)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Speicherinhalt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ausstattung-lesen"></a></p>
+<h3 id="ausstattung_lesen">AUSSTATTUNG_LESEN</h3>
+<p>Ausstattung lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>BYTE_1</td>
+<td>int</td>
+<td>Byte 1 der 4/5 Ausstattungsbytes</td>
+</tr>
+<tr>
+<td>BYTE_2</td>
+<td>int</td>
+<td>Byte 2 der 4/5 Ausstattungsbytes</td>
+</tr>
+<tr>
+<td>BYTE_3</td>
+<td>int</td>
+<td>Byte 3 der 4/5 Ausstattungsbytes</td>
+</tr>
+<tr>
+<td>BYTE_4</td>
+<td>int</td>
+<td>Byte 4 der 4/5 Ausstattungsbytes</td>
+</tr>
+<tr>
+<td>BYTE_5</td>
+<td>int</td>
+<td>Byte 5 der 4/5 Ausstattungsbytes -1 wenn Byte 5 nicht existent</td>
+</tr>
+<tr>
+<td>AB_F_VERBAUT</td>
+<td>int</td>
+<td>Airbag Fahrer verbaut (ZK0) --&gt; 1</td>
+</tr>
+<tr>
+<td>GS_F_VERBAUT</td>
+<td>int</td>
+<td>Gurtstrammer Fahrer verbaut (ZK1) --&gt; 1</td>
+</tr>
+<tr>
+<td>GS_BF_VERBAUT</td>
+<td>int</td>
+<td>Gurtstrammer Beifahrer verbaut (ZK2) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_BF_VERBAUT</td>
+<td>int</td>
+<td>Airbag Beifahrer verbaut (ZK3) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_SEITE_VORNE_LINKS</td>
+<td>int</td>
+<td>Airbag Seite vorne links verbaut (ZK4) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_SEITE_VORNE_RECHTS</td>
+<td>int</td>
+<td>Airbag Seite vorne rechts verbaut (ZK5) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_SEITE_HINTEN_LINKS</td>
+<td>int</td>
+<td>Airbag Seite hinten links verbaut (ZK6) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_SEITE_HINTEN_RECHTS</td>
+<td>int</td>
+<td>Airbag Seite hinten rechts verbaut (ZK7) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_KOPF_VORNE_LINKS</td>
+<td>int</td>
+<td>Airbag Kopf vorne links verbaut (ZK8) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_KOPF_VORNE_RECHTS</td>
+<td>int</td>
+<td>Airbag Kopf vorne rechts verbaut (ZK9) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_BATTERIE_1</td>
+<td>int</td>
+<td>Batterie-Plus-Abtrennung-1 verbaut (ZK10) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_BF2_VERBAUT</td>
+<td>int</td>
+<td>Airbag Beifahrer Stufe 2 verbaut (ZK11) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_F2_VERBAUT</td>
+<td>int</td>
+<td>Airbag Fahrer Stufe 2 verbaut (ZK12) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_KOPF_HINTEN_LINKS</td>
+<td>int</td>
+<td>Airbag Kopf hinten links verbaut (ZK13) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_KOPF_HINTEN_RECHTS</td>
+<td>int</td>
+<td>Airbag Kopf hinten rechts verbaut (ZK14) --&gt; 1</td>
+</tr>
+<tr>
+<td>AB_BATTERIE_2</td>
+<td>int</td>
+<td>Batterie-Plus-Abtrennung-2 verbaut (ZK15) --&gt; 1</td>
+</tr>
+<tr>
+<td>SCHLOSS_F_VERBAUT</td>
+<td>int</td>
+<td>Gurtschloss Fahrer verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SCHLOSS_BF_VERBAUT</td>
+<td>int</td>
+<td>Gurtschloss Beifahrer verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SCHLOSS_STROM_VERBAUT</td>
+<td>int</td>
+<td>Gurtschloesser Stromschnittstelle verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SCHLOSS_SPANNUNG_VERBAUT</td>
+<td>int</td>
+<td>Gurtschloesser Spannungsschnittstelle verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>FM_VERBAUT</td>
+<td>int</td>
+<td>Fond-Modul verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SBE_VERBAUT</td>
+<td>int</td>
+<td>Sitzbelegungserkennung verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SBE2_VERBAUT</td>
+<td>int</td>
+<td>Sitzbelegungserkennung 2 verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SITZ_ERKENNUNG_VERBAUT</td>
+<td>int</td>
+<td>Veroderung der Results SBE_VERBAUT und SBE2_VERBAUT Notwendig ausschliesslich fuer ELDI-Job E3_SIV!!!</td>
+</tr>
+<tr>
+<td>UERS_VERBAUT</td>
+<td>int</td>
+<td>Ueberrollsensor verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SAT_VORNE_VERBAUT</td>
+<td>int</td>
+<td>Frontsatelliten verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>SAT_HINTEN_VERBAUT</td>
+<td>int</td>
+<td>Fondsatelliten verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>KBUS</td>
+<td>int</td>
+<td>K-BUS-Anbindung --&gt; 1 / D-Bus-Anbindung --&gt; 0</td>
+</tr>
+<tr>
+<td>HWL</td>
+<td>int</td>
+<td>Hinweisleuchte brennt bei KSE --&gt; 1</td>
+</tr>
+<tr>
+<td>ZAE2_EMULATION</td>
+<td>int</td>
+<td>ZAE2-Emulation aktiv --&gt; 1</td>
+</tr>
+<tr>
+<td>MRS1_EMULATION</td>
+<td>int</td>
+<td>MRS1-Emulation aktiv --&gt; 1</td>
+</tr>
+<tr>
+<td>TRIGGERSCHALTER_VERBAUT</td>
+<td>int</td>
+<td>Triggerschalter verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>US_VERSION</td>
+<td>int</td>
+<td>USA-Version --&gt; 1</td>
+</tr>
+<tr>
+<td>LEHNE_F_VERBAUT</td>
+<td>int</td>
+<td>Sitzlehnenverriegelung Fahrer verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>LEHNE_BF_VERBAUT</td>
+<td>int</td>
+<td>Sitzlehnenverriegelung Beifahrer verbaut --&gt; 1</td>
+</tr>
+<tr>
+<td>LINKSLENKER</td>
+<td>int</td>
+<td>Rechtslenker --&gt; 0, Linkslenker --&gt; 1</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-herstellerdaten-lesen"></a></p>
+<h3 id="herstellerdaten_lesen">HERSTELLERDATEN_LESEN</h3>
+<p>Kodierte KFZ-Herstellerdaten lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>TYP</td>
+<td>string</td>
+<td>Baureihe z.B: E31 / 03h , E34 / 01h ...</td>
+</tr>
+<tr>
+<td>CODIERDATUM</td>
+<td>string</td>
+<td>z.B: 21.4.93 ...</td>
+</tr>
+<tr>
+<td>WERKSKENNUNG</td>
+<td>string</td>
+<td>4-stellige Dezimalzahl als String</td>
+</tr>
+<tr>
+<td>HAENDLERKENNUNG</td>
+<td>string</td>
+<td>5-stellige Dezimalzahl als String</td>
+</tr>
+<tr>
+<td>FGNUMMER</td>
+<td>string</td>
+<td>Kurze Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+<tr>
+<td>DATEN1</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-typ-lesen"></a></p>
+<h3 id="typ_lesen">TYP_LESEN</h3>
+<p>Lesen des Fahrzeugtyps (Baureihe)</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>TYP</td>
+<td>string</td>
+<td>Baureihe z.B: E31 / 03h , E34 / 01h ...</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-parameter-lesen"></a></p>
+<h3 id="parameter_lesen">PARAMETER_LESEN</h3>
+<p>16 Byte aus Parametersatz 1 lesen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOCKNR</td>
+<td>int</td>
+<td>(0 &lt;= BLOCKNR &lt;= 9) --&gt; 16 Parameterbytes ab Byte (16*BLOCKNR) werden angefordert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Spezifizierte Parameterdaten</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-bmw-seriennummer-lesen"></a></p>
+<h3 id="bmw_seriennummer_lesen">BMW_SERIENNUMMER_LESEN</h3>
+<p>Lesen der BMW-Seriennummer</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-lesen"></a></p>
+<h3 id="status_lesen">STATUS_LESEN</h3>
+<p>Status des MRS3 lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>normalerweise OKAY</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>STAT_ZK0</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK1</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK2</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK3</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK4</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK5</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK6</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK7</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK8</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK9</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK10</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK11</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK12</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK13</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK14</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_ZK15</td>
+<td>int</td>
+<td>0 = n.i.O. (externer Fehler), 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_SBE</td>
+<td>int</td>
+<td>0 = belegt, 1 = unbelegt</td>
+</tr>
+<tr>
+<td>STAT_GURTSCHLOSS_F</td>
+<td>int</td>
+<td>0 = (nicht da, nicht gesteckt oder defekt), 1 = gesteckt</td>
+</tr>
+<tr>
+<td>STAT_GURTSCHLOSS_BF</td>
+<td>int</td>
+<td>0 = (nicht da, nicht gesteckt oder defekt), 1 = gesteckt</td>
+</tr>
+<tr>
+<td>STAT_SBE_X_FEHLER</td>
+<td>int</td>
+<td>0 = fehlerhaft, 1 = fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_SACSR_FEHLER</td>
+<td>int</td>
+<td>0 = fehlerhaft, 1 = fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_SACSL_FEHLER</td>
+<td>int</td>
+<td>0 = fehlerhaft, 1 = fehlerfrei</td>
+</tr>
+<tr>
+<td>STAT_SBE2_KIND</td>
+<td>int</td>
+<td>0 = Kindersitz, 1 = kein Kindersitz</td>
+</tr>
+<tr>
+<td>STAT_SBE2_OOP</td>
+<td>int</td>
+<td>0 = OOP, 1 = nicht OOP</td>
+</tr>
+<tr>
+<td>STAT_F_LEHNE_NV</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = Fahrerlehne verriegelt oder n.i.O. 1 = Fahrerlehne nicht verriegelt</td>
+</tr>
+<tr>
+<td>STAT_F_LEHNE_V</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = Fahrerlehne nicht verriegelt oder n.i.O. 1 = Fahrerlehne verriegelt</td>
+</tr>
+<tr>
+<td>STAT_F_LEHNE_MODUL_FEHLER</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = n.i.O., 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_F_LEHNE_SYSTEM_FEHLER</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = n.i.O., 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_BF_LEHNE_NV</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = Beifahrerlehne verriegelt oder n.i.O. 1 = Beifahrerlehne nicht verriegelt</td>
+</tr>
+<tr>
+<td>STAT_BF_LEHNE_V</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = Beifahrerlehne nicht verriegelt oder n.i.O. 1 = Beifahrerlehne verriegelt</td>
+</tr>
+<tr>
+<td>STAT_BF_LEHNE_MODUL_FEHLER</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = n.i.O., 1 = i.O.</td>
+</tr>
+<tr>
+<td>STAT_BF_LEHNE_SYSTEM_FEHLER</td>
+<td>int</td>
+<td>-1 = Information nicht verfuegbar 0 = n.i.O., 1 = i.O.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-verriegelung-lesen"></a></p>
+<h3 id="verriegelung_lesen">VERRIEGELUNG_LESEN</h3>
+<p>Auslesen der Verriegelung (= Pruefstempel)</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>Datenbyte 1</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>Datenbyte 2</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>Datenbyte 3</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-verriegelung-schreiben"></a></p>
+<h3 id="verriegelung_schreiben">VERRIEGELUNG_SCHREIBEN</h3>
+<p>Verriegelungsbytes setzen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>ERROR_CODE</td>
+<td>string</td>
+<td>Bei NIO Fehlertext, sonst Leerstring</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-controller-reset"></a></p>
+<h3 id="controller_reset">CONTROLLER_RESET</h3>
+<p>Zuruecksetzen des Controllers</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sg-login"></a></p>
+<h3 id="sg_login">SG_LOGIN</h3>
+<p>Berechtigung fuer EEPROM-Zugriffe</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-erhalten"></a></p>
+<h3 id="diagnose_erhalten">DIAGNOSE_ERHALTEN</h3>
+<p>Diagnose aufrechterhalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ausstattung-lesen-ews"></a></p>
+<h3 id="ausstattung_lesen_ews">AUSSTATTUNG_LESEN_EWS</h3>
+<p>Ausstattung lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, FEHLER</td>
+</tr>
+<tr>
+<td>AUSSTATTUNG</td>
+<td>string</td>
+<td>x Ausstattungsbytes als String</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefcode-lesen"></a></p>
+<h3 id="pruefcode_lesen">PRUEFCODE_LESEN</h3>
+<p>Lesen des Pruefcodes, besteht aus Identifikationsdaten, Ausstattungsdaten und dem FS-Inhalt, jedes Telegrammpaket ist durch ein 0x00 abgeschlossen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation (z.B. ACK)</td>
+</tr>
+<tr>
+<td>PRUEFCODE</td>
+<td>binary</td>
+<td>Daten in Hex-Format</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (6 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (31 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (50 × 2)</li>
+<li><a href="#table-fartmatrix">FARTMATRIX</a> (50 × 17)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (28 × 2)</li>
+<li><a href="#table-fumweltmatrix">FUMWELTMATRIX</a> (1 × 5)</li>
+<li><a href="#table-fumwelttexte">FUMWELTTEXTE</a> (2 × 3)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 6 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNKTION</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 31 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen / Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 50 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Zuendkreis ZK0 -&gt; Airbag Fahrer</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Zuendkreis ZK1 -&gt; Gurtstrammer Fahrer</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Zuendkreis ZK2 -&gt; Gurtstrammer Beifahrer</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Zuendkreis ZK3 -&gt; Airbag Beifahrer</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Zuendkreis ZK4 -&gt; Seitenairbag vorne links</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Zuendkreis ZK5 -&gt; Seitenairbag vorne rechts</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Zuendkreis ZK6 -&gt; Seitenairbag hinten links</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Zuendkreis ZK7 -&gt; Seitenairbag hinten rechts</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Zuendkreis ZK8 -&gt; Kopfairbag (ITS) vorne links</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Zuendkreis ZK9 -&gt; Kopfairbag (ITS) vorne rechts</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Zuendkreis ZK10 -&gt; Batterie Pluspoltrennung 1</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Zuendkreis ZK11 -&gt; Airbag Beifahrer Stufe 2</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Zuendkreis ZK12 -&gt; Airbag Fahrer Stufe 2</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Zuendkreis ZK13 -&gt; Kopfairbag hinten links</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Zuendkreis ZK14 -&gt; Kopfairbag hinten rechts</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Zuendkreis ZK15 -&gt; Batterie Pluspoltrennung 2</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Versorgungsspannung</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>Fehlerlampe (AWL)</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Hinweislampe (HWL)</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Gurtschloss Fahrer</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Gurtschloss Beifahrer</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>MRSA vorne links</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>MRSA vorne rechts</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Externer Ueberrollsensor (UERS)</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Sitzbelegungserkennung 2 (SBE2)</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>Sitzbelegungserkennung 1 (SBE1)</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>Crashtelegrammspeicher</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>Verkopplung in Zuendkreis ZK0 -&gt; Airbag Fahrer</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>Verkopplung in Zuendkreis ZK1 -&gt; Gurtstrammer Fahrer</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>Verkopplung in Zuendkreis ZK2 -&gt; Gurtstrammer Beifahrer</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>Verkopplung in Zuendkreis ZK3 -&gt; Airbag Beifahrer</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Verkopplung in Zuendkreis ZK4 -&gt; Seitenairbag vorne links</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Verkopplung in Zuendkreis ZK5 -&gt; Seitenairbag vorne rechts</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Verkopplung in Zuendkreis ZK6 -&gt; Seitenairbag hinten links</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Verkopplung in Zuendkreis ZK7 -&gt; Seitenairbag hinten rechts</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Verkopplung in Zuendkreis ZK8 -&gt; Kopfairbag (ITS) vorne links</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Verkopplung in Zuendkreis ZK9 -&gt; Kopfairbag (ITS) vorne rechts</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>Verkopplung in Zuendkreis ZK10 -&gt; Batterie Pluspoltrennung 1</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Verkopplung in Zuendkreis ZK11 -&gt; Airbag Beifahrer Stufe 2</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>Verkopplung in Zuendkreis ZK12 -&gt; Airbag Fahrer Stufe 2</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>Verkopplung in Zuendkreis ZK13 -&gt; Kopfairbag hinten links</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>Verkopplung in Zuendkreis ZK14 -&gt; Kopfairbag hinten rechts</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>Verkopplung in Zuendkreis ZK15 -&gt; Batterie Pluspoltrennung 2</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>Checksumme Codierdaten</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>MRSA vorne (links und rechts)</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>Sitzlehnenverriegelung Fahrer</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>Sitzlehnenverriegelung Beifahrer</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>Sitzlehnenverriegelung K-Bus</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>Interner Steuergeraetefehler</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fartmatrix"></a></p>
+<h3 id="fartmatrix">FARTMATRIX</h3>
+<p>Dimensions: 50 rows × 17 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>A1_0</th>
+<th>A1_1</th>
+<th>A2_0</th>
+<th>A2_1</th>
+<th>A3_0</th>
+<th>A3_1</th>
+<th>A4_0</th>
+<th>A4_1</th>
+<th>A5_0</th>
+<th>A5_1</th>
+<th>A6_0</th>
+<th>A6_1</th>
+<th>A7_0</th>
+<th>A7_1</th>
+<th>A8_0</th>
+<th>A8_1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x03</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x06</td>
+<td>0xFF</td>
+<td>0x07</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x13</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x14</td>
+<td>0xFF</td>
+<td>0x15</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x14</td>
+<td>0xFF</td>
+<td>0x15</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0A</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x0B</td>
+<td>0xFF</td>
+<td>0x0C</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0A</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x0B</td>
+<td>0xFF</td>
+<td>0x0C</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0x0F</td>
+<td>0xFF</td>
+<td>0x17</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0x0F</td>
+<td>0xFF</td>
+<td>0x17</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x04</td>
+<td>0xFF</td>
+<td>0x05</td>
+<td>0xFF</td>
+<td>0x10</td>
+<td>0xFF</td>
+<td>0x11</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x12</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x16</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x18</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x19</td>
+<td>0xFF</td>
+<td>0x0F</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0x1A</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0x0D</td>
+<td>0xFF</td>
+<td>0x0E</td>
+<td>0xFF</td>
+<td>0x1A</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>0xFF</td>
+<td>0x00</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+<td>0xFF</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 28 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Plausibilitaetsfehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Fehler zur Zeit nicht aktiv</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Fehler zur Zeit aktiv</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Unterbrechung</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Masseschluss</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Batterieschluss</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Widerstand zu klein</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Widerstand zu gross</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Fehler ist nicht sporadisch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Fehler ist sporadisch</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Widerstand nicht definiert oder Graubereich</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Masseschluss / Widerstand zu klein</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Batterieschluss / Unterbrechung / Widerstand zu gross</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Kommunikationsfehler</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Modul sendet Fehlersignal</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Falsche Algorithmusparameter</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Unterbrechung Sitzmatte</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Kurzschluss Sitzmatte</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>Crashtelegramm(e) gespeichert</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Unterspannung</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>Masseschluss / Unterbrechung</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Batterieschluss / Ansteuerung defekt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Verkopplung mit einem anderen Zuendkreis</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Falscher Typ</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Checksummen-Fehler beim Schreiben der Daten</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Unterschiedliche Typen</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>Mind. ein Modul inaktiv</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fumweltmatrix"></a></p>
+<h3 id="fumweltmatrix">FUMWELTMATRIX</h3>
+<p>Dimensions: 1 rows × 5 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>UW_ANZ</th>
+<th>UW_SATZ</th>
+<th>UW1_NR</th>
+<th>UW2_NR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xFF</td>
+<td>0x02</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>0x02</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fumwelttexte"></a></p>
+<h3 id="fumwelttexte">FUMWELTTEXTE</h3>
+<p>Dimensions: 2 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>UWNR</th>
+<th>UWTEXT</th>
+<th>UW_EINH</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Beginnfehleruhr</td>
+<td>Sek.</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Endefehleruhr</td>
+<td>Sek.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

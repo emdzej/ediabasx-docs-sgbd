@@ -1,0 +1,4284 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/zcs_e36/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>zcs_e36.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zcs_e36prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              zcs_e36.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zcs_gm_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZCS_GM_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZCS_GM_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod_datum_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROD_DATUM_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PROD_DATUM_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fgnr_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FGNR_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FGNR_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aif_zcs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AIF_ZCS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AIF_ZCS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kd_daten_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KD_DATEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KD_DATEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_fortsetzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_FORTSETZEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_FORTSETZEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zcs_texte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZCS_TEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="zcs_e36prg">zcs_e36.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">10</a></li>
+<li>Tables: <a href="#tables">3</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Elektronische Wegfahrsperre - alle Typen</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW VS-221 Waegner</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.07</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TP-421 Huber, BMW TP-421 Drexel, BMW VS-221 Waegner</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>SGBD zur Fahrzeugidentifikation E36, zcs_e36.b2v</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Init-Job fuer EWS automatischer Aufruf beim ersten Zugriff auf SGBD</li>
+<li><a href="#job-info">INFO</a> - Info fuer Anwender</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten fuer EWS</li>
+<li><a href="#job-zcs-gm-lesen">ZCS_GM_LESEN</a></li>
+<li><a href="#job-prod-datum-lesen">PROD_DATUM_LESEN</a></li>
+<li><a href="#job-fgnr-lesen">FGNR_LESEN</a> - Auslesen der Fahrgestellnummer aus der EWS</li>
+<li><a href="#job-aif-zcs-lesen">AIF_ZCS_LESEN</a> - Auslesen des Zentralen Codierschluessels aus KD-Daten</li>
+<li><a href="#job-kd-daten-lesen">KD_DATEN_LESEN</a> - Auslesen der Kundendienstdaten aus der EWS</li>
+<li><a href="#job-diagnose-fortsetzen">DIAGNOSE_FORTSETZEN</a> - Diagnose mit EWS aufrecht erhalten</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Init-Job fuer EWS automatischer Aufruf beim ersten Zugriff auf SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Info fuer Anwender</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerat im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch / english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten fuer EWS</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>int</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>int</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-zcs-gm-lesen"></a></p>
+<h3 id="zcs_gm_lesen">ZCS_GM_LESEN</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>TYP_TXT</td>
+<td>string</td>
+<td>Typschluessel</td>
+</tr>
+<tr>
+<td>BR_TXT</td>
+<td>string</td>
+<td>Baureihe</td>
+</tr>
+<tr>
+<td>MO_TXT</td>
+<td>string</td>
+<td>Modell</td>
+</tr>
+<tr>
+<td>LA_TXT</td>
+<td>string</td>
+<td>Laenderausfuehrung mit Typschluessel</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-prod-datum-lesen"></a></p>
+<h3 id="prod_datum_lesen">PROD_DATUM_LESEN</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>TAG_TXT</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>TAG_DEC</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>MONAT_TXT</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>MONAT_DEC</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>JAHR_TXT</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>JAHR_DEC</td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fgnr-lesen"></a></p>
+<h3 id="fgnr_lesen">FGNR_LESEN</h3>
+<p>Auslesen der Fahrgestellnummer aus der EWS</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-aif-zcs-lesen"></a></p>
+<h3 id="aif_zcs_lesen">AIF_ZCS_LESEN</h3>
+<p>Auslesen des Zentralen Codierschluessels aus KD-Daten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>GM</td>
+<td>string</td>
+<td>Zentralcode C1 - Grundmerkmal</td>
+</tr>
+<tr>
+<td>SA</td>
+<td>string</td>
+<td>Zentralcode C2 - Sonderausstattung</td>
+</tr>
+<tr>
+<td>VM</td>
+<td>string</td>
+<td>Zentralcode C3 - Versionsmerkmal</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT1</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT2</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-kd-daten-lesen"></a></p>
+<h3 id="kd_daten_lesen">KD_DATEN_LESEN</h3>
+<p>Auslesen der Kundendienstdaten aus der EWS</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOCK</td>
+<td>int</td>
+<td>0 bis 11</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>KD_BLOCK</td>
+<td>int</td>
+<td>0 bis 11</td>
+</tr>
+<tr>
+<td>KD_DATEN</td>
+<td>binary</td>
+<td>16 Byte</td>
+</tr>
+<tr>
+<td>KD_DATEN_TEXT</td>
+<td>string</td>
+<td>16 Byte</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-fortsetzen"></a></p>
+<h3 id="diagnose_fortsetzen">DIAGNOSE_FORTSETZEN</h3>
+<p>Diagnose mit EWS aufrecht erhalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (7 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (24 × 2)</li>
+<li><a href="#table-zcs-texte">ZCS_TEXTE</a> (319 × 7)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_SG_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_SG_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_SG_FUNKTION</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_SG_NACK</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>ERROR_SG_UNBEKANNTES_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 24 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-zcs-texte"></a></p>
+<h3 id="zcs_texte">ZCS_TEXTE</h3>
+<p>Dimensions: 319 rows × 7 columns</p>
+<table>
+<thead>
+<tr>
+<th>GM</th>
+<th>TYP</th>
+<th>BAUREIHE</th>
+<th>MODELL</th>
+<th>LA</th>
+<th>TAIS</th>
+<th>DESRS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1031</td>
+<td>BE11</td>
+<td>E36</td>
+<td>316i_M43_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1032</td>
+<td>BE12</td>
+<td>E36</td>
+<td>316i_M43_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1041</td>
+<td>BE21</td>
+<td>E36</td>
+<td>316i_M43_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1042</td>
+<td>BE22</td>
+<td>E36</td>
+<td>316i_M43_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1051</td>
+<td>BE51</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1052</td>
+<td>BE52</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1053</td>
+<td>BE53</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1061</td>
+<td>BE61</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1062</td>
+<td>BE62</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1063</td>
+<td>BE63</td>
+<td>E36</td>
+<td>318is_M42_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1071</td>
+<td>BE71</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1072</td>
+<td>BE72</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1073</td>
+<td>BE73</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1081</td>
+<td>BE81</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1082</td>
+<td>BE82</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1083</td>
+<td>BE83</td>
+<td>E36</td>
+<td>318is_M44_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1103</td>
+<td>BF03</td>
+<td>E36</td>
+<td>M3_S50US_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1111</td>
+<td>BF11</td>
+<td>E36</td>
+<td>320i_M50_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1112</td>
+<td>BF12</td>
+<td>E36</td>
+<td>320i_M50_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1121</td>
+<td>BF21</td>
+<td>E36</td>
+<td>320i_M50_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1122</td>
+<td>BF22</td>
+<td>E36</td>
+<td>320i_M50_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1131</td>
+<td>BF31</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1132</td>
+<td>BF32</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1133</td>
+<td>BF33</td>
+<td>E36</td>
+<td>325is_M50_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1138</td>
+<td>BF38</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1141</td>
+<td>BF41</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1142</td>
+<td>BF42</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1143</td>
+<td>BF43</td>
+<td>E36</td>
+<td>325is_M50_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1148</td>
+<td>BF48</td>
+<td>E36</td>
+<td>325i_M50_COUPE</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1151</td>
+<td>BF51</td>
+<td>E36</td>
+<td>320i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1161</td>
+<td>BF61</td>
+<td>E36</td>
+<td>320i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1171</td>
+<td>BF71</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1172</td>
+<td>BF72</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1173</td>
+<td>BF73</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1181</td>
+<td>BF81</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1182</td>
+<td>BF82</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1183</td>
+<td>BF83</td>
+<td>E36</td>
+<td>323i_M52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1191</td>
+<td>BF91</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1192</td>
+<td>BF92</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1193</td>
+<td>BF93</td>
+<td>E36</td>
+<td>M3_S50US_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1198</td>
+<td>BF98</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1199</td>
+<td>BF99</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11A1</td>
+<td>BG11</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11A2</td>
+<td>BG12</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11A3</td>
+<td>BG13</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11B1</td>
+<td>BG21</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11B2</td>
+<td>BG22</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11B3</td>
+<td>BG23</td>
+<td>E36</td>
+<td>328i_M52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11E1</td>
+<td>BG91</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11E2</td>
+<td>BG92</td>
+<td>E36</td>
+<td>M3_S50_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>11E3</td>
+<td>BG93</td>
+<td>E36</td>
+<td>M3_S52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>13E1</td>
+<td>BH31</td>
+<td>E36</td>
+<td>318i_M43_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>13E2</td>
+<td>BH32</td>
+<td>E36</td>
+<td>318i_M43_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1401</td>
+<td>BH41</td>
+<td>E36</td>
+<td>318i_M43_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1402</td>
+<td>BH42</td>
+<td>E36</td>
+<td>318i_M43_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14C3</td>
+<td>BH73</td>
+<td>E36</td>
+<td>318is_M44_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14D3</td>
+<td>BH83</td>
+<td>E36</td>
+<td>318is_M44_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1411</td>
+<td>BJ11</td>
+<td>E36</td>
+<td>320i_M50_CABRIO</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1412</td>
+<td>BJ12</td>
+<td>E36</td>
+<td>320i_M50_CABRIO</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1421</td>
+<td>BJ21</td>
+<td>E36</td>
+<td>320i_M50_CABRIO</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1422</td>
+<td>BJ22</td>
+<td>E36</td>
+<td>320i_M50_CABRIO</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1431</td>
+<td>BJ31</td>
+<td>E36</td>
+<td>320i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1432</td>
+<td>BJ32</td>
+<td>E36</td>
+<td>320i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1441</td>
+<td>BJ41</td>
+<td>E36</td>
+<td>320i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1442</td>
+<td>BJ42</td>
+<td>E36</td>
+<td>320i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1451</td>
+<td>BJ51</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1452</td>
+<td>BJ52</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1453</td>
+<td>BJ53</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1461</td>
+<td>BJ61</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1462</td>
+<td>BJ62</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1463</td>
+<td>BJ63</td>
+<td>E36</td>
+<td>325i_M50_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1471</td>
+<td>BJ71</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1472</td>
+<td>BJ72</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1473</td>
+<td>BJ73</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1481</td>
+<td>BJ81</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1482</td>
+<td>BJ82</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1483</td>
+<td>BJ83</td>
+<td>E36</td>
+<td>323i_M52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1491</td>
+<td>BJ91</td>
+<td>E36</td>
+<td>M3_S50_CABRIO</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1492</td>
+<td>BJ92</td>
+<td>E36</td>
+<td>M3_S50_CABRIO</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>14A3</td>
+<td>BK53</td>
+<td>E36</td>
+<td>318i_M42_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>14B3</td>
+<td>BK63</td>
+<td>E36</td>
+<td>318i_M42_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>14E1</td>
+<td>BK71</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14E2</td>
+<td>BK72</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14E3</td>
+<td>BK73</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14F1</td>
+<td>BK81</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14F2</td>
+<td>BK82</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>14F3</td>
+<td>BK83</td>
+<td>E36</td>
+<td>328i_M52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1391</td>
+<td>BK91</td>
+<td>E36</td>
+<td>M3_S50_CABRIO</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1392</td>
+<td>BK92</td>
+<td>E36</td>
+<td>M3_S50_CABRIO</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1303</td>
+<td>BK03</td>
+<td>E36</td>
+<td>M3_S52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1393</td>
+<td>BK93</td>
+<td>E36</td>
+<td>M3_S52_CABRIO</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1501</td>
+<td>CA01</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1502</td>
+<td>CA02</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1242</td>
+<td>CP42</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1504</td>
+<td>CA04</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1505</td>
+<td>CA05</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1508</td>
+<td>CA08</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1509</td>
+<td>CA09</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1511</td>
+<td>CA11</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1512</td>
+<td>CA12</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1521</td>
+<td>CA21</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1522</td>
+<td>CA22</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1531</td>
+<td>CA31</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1532</td>
+<td>CA32</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1534</td>
+<td>CA34</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1535</td>
+<td>CA35</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1537</td>
+<td>CA37</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1538</td>
+<td>CA38</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1541</td>
+<td>CA41</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1542</td>
+<td>CA42</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1544</td>
+<td>CA44</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1545</td>
+<td>CA45</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1547</td>
+<td>CA47</td>
+<td>E36</td>
+<td>318i_M40_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1548</td>
+<td>CA48</td>
+<td>E36</td>
+<td>316i_M40_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1551</td>
+<td>CA51</td>
+<td>E36</td>
+<td>318is_M42_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1552</td>
+<td>CA52</td>
+<td>E36</td>
+<td>318is_M42_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1553</td>
+<td>CA53</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1558</td>
+<td>CA58</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1561</td>
+<td>CA61</td>
+<td>E36</td>
+<td>318is_M42_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1562</td>
+<td>CA62</td>
+<td>E36</td>
+<td>318is_M42_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1563</td>
+<td>CA63</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1568</td>
+<td>CA68</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1571</td>
+<td>CA71</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1572</td>
+<td>CA72</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1579</td>
+<td>CA79</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>PHL_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1581</td>
+<td>CA81</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1221</td>
+<td>CP21</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>ZAF_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1582</td>
+<td>CA82</td>
+<td>E36</td>
+<td>316i_M43_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1591</td>
+<td>CA91</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1231</td>
+<td>CP31</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1592</td>
+<td>CA92</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1232</td>
+<td>CP32</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1594</td>
+<td>CA94</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1595</td>
+<td>CA95</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1597</td>
+<td>CA97</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1598</td>
+<td>CA98</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1599</td>
+<td>CA99</td>
+<td>E36</td>
+<td>318i_M43_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1611</td>
+<td>CB11</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1612</td>
+<td>CB12</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1613</td>
+<td>CB13</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1617</td>
+<td>CB17</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1618</td>
+<td>CB18</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1621</td>
+<td>CB21</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1622</td>
+<td>CB22</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1623</td>
+<td>CB23</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1627</td>
+<td>CB27</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1628</td>
+<td>CB28</td>
+<td>E36</td>
+<td>320i_M50_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1631</td>
+<td>CB31</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1632</td>
+<td>CB32</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1633</td>
+<td>CB33</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1634</td>
+<td>CB34</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1635</td>
+<td>CB35</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1638</td>
+<td>CB38</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1639</td>
+<td>CB39</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>URY_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1641</td>
+<td>CB41</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1642</td>
+<td>CB42</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1643</td>
+<td>CB43</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1644</td>
+<td>CB44</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1645</td>
+<td>CB45</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1647</td>
+<td>CB47</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>MEX_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1648</td>
+<td>CB48</td>
+<td>E36</td>
+<td>325i_M50_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1651</td>
+<td>CB51</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1652</td>
+<td>CB52</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1657</td>
+<td>CB57</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1659</td>
+<td>CB59</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>VNM_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1661</td>
+<td>CB61</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1662</td>
+<td>CB62</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1667</td>
+<td>CB67</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1669</td>
+<td>CB69</td>
+<td>E36</td>
+<td>320i_M52_LIM</td>
+<td>PHL_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1671</td>
+<td>CB71</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1271</td>
+<td>CP71</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1672</td>
+<td>CB72</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1272</td>
+<td>CP72</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1675</td>
+<td>CB75</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1677</td>
+<td>CB77</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1678</td>
+<td>CB78</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1681</td>
+<td>CB81</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1281</td>
+<td>CP81</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1682</td>
+<td>CB82</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1282</td>
+<td>CP82</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1685</td>
+<td>CB85</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>THA_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1687</td>
+<td>CB87</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>IDN_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1688</td>
+<td>CB88</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1689</td>
+<td>CB89</td>
+<td>E36</td>
+<td>323i_M52_LIM</td>
+<td>MEX_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1691</td>
+<td>CB91</td>
+<td>E36</td>
+<td>M3_S50_LIM</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1692</td>
+<td>CB92</td>
+<td>E36</td>
+<td>M3_S50_LIM</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1711</td>
+<td>CC11</td>
+<td>E36</td>
+<td>325td_M51_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1712</td>
+<td>CC12</td>
+<td>E36</td>
+<td>325td_M51_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1721</td>
+<td>CC21</td>
+<td>E36</td>
+<td>325td_M51_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1722</td>
+<td>CC22</td>
+<td>E36</td>
+<td>325td_M51_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1731</td>
+<td>CC31</td>
+<td>E36</td>
+<td>325tds_M51_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1732</td>
+<td>CC32</td>
+<td>E36</td>
+<td>325tds_M51_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1738</td>
+<td>CC38</td>
+<td>E36</td>
+<td>325tds_M51_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1741</td>
+<td>CC41</td>
+<td>E36</td>
+<td>325tds_M51_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1742</td>
+<td>CC42</td>
+<td>E36</td>
+<td>325tds_M51_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1751</td>
+<td>CC51</td>
+<td>E36</td>
+<td>318tds_M41_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1752</td>
+<td>CC52</td>
+<td>E36</td>
+<td>318tds_M41_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15A3</td>
+<td>CC73</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15B3</td>
+<td>CC83</td>
+<td>E36</td>
+<td>318i_M42_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>16F3</td>
+<td>CD03</td>
+<td>E36</td>
+<td>M3_S52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16A1</td>
+<td>CD11</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16A2</td>
+<td>CD12</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>16A3</td>
+<td>CD13</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16A8</td>
+<td>CD18</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16B1</td>
+<td>CD21</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16B2</td>
+<td>CD22</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>16B3</td>
+<td>CD23</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16B4</td>
+<td>CD24</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>MYS_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16B7</td>
+<td>CD27</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>MEX_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16B8</td>
+<td>CD28</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16C3</td>
+<td>CD33</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16D3</td>
+<td>CD43</td>
+<td>E36</td>
+<td>328i_M52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>15C1</td>
+<td>CD71</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15C2</td>
+<td>CD72</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15E2</td>
+<td>CD52</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>15C3</td>
+<td>CD73</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15C8</td>
+<td>CD78</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>15D1</td>
+<td>CD81</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15D2</td>
+<td>CD82</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15F2</td>
+<td>CD62</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>15D3</td>
+<td>CD83</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>15D8</td>
+<td>CD88</td>
+<td>E36</td>
+<td>318is_M44_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16E1</td>
+<td>CD91</td>
+<td>E36</td>
+<td>M3_S50_LIM</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>16E2</td>
+<td>CD92</td>
+<td>E36</td>
+<td>M3_S50_LIM</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>16E3</td>
+<td>CD93</td>
+<td>E36</td>
+<td>M3_S52_LIM</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>16E8</td>
+<td>CD98</td>
+<td>E36</td>
+<td>M3_S50_LIM</td>
+<td>ZAF_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1811</td>
+<td>CE11</td>
+<td>E36</td>
+<td>316i_M43_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1812</td>
+<td>CE12</td>
+<td>E36</td>
+<td>316i_M43_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1821</td>
+<td>CE21</td>
+<td>E36</td>
+<td>316i_M43_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1822</td>
+<td>CE22</td>
+<td>E36</td>
+<td>316i_M43_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1831</td>
+<td>CE31</td>
+<td>E36</td>
+<td>318i_M43_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1832</td>
+<td>CE32</td>
+<td>E36</td>
+<td>318i_M43_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1841</td>
+<td>CE41</td>
+<td>E36</td>
+<td>318i_M43_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1842</td>
+<td>CE42</td>
+<td>E36</td>
+<td>318i_M43_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1851</td>
+<td>CE51</td>
+<td>E36</td>
+<td>320i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1852</td>
+<td>CE52</td>
+<td>E36</td>
+<td>320i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1861</td>
+<td>CE61</td>
+<td>E36</td>
+<td>320i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1862</td>
+<td>CE62</td>
+<td>E36</td>
+<td>320i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1871</td>
+<td>CE71</td>
+<td>E36</td>
+<td>323i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1872</td>
+<td>CE72</td>
+<td>E36</td>
+<td>323i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1881</td>
+<td>CE81</td>
+<td>E36</td>
+<td>323i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1882</td>
+<td>CE82</td>
+<td>E36</td>
+<td>323i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17D1</td>
+<td>CF01</td>
+<td>E36</td>
+<td>325tds_M51_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17D2</td>
+<td>CF02</td>
+<td>E36</td>
+<td>325tds_M51_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>18A1</td>
+<td>CF11</td>
+<td>E36</td>
+<td>328i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>18A2</td>
+<td>CF12</td>
+<td>E36</td>
+<td>328i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>18B1</td>
+<td>CF21</td>
+<td>E36</td>
+<td>328i_M52_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>18B2</td>
+<td>CF22</td>
+<td>E36</td>
+<td>328i_M52_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17A1</td>
+<td>CF51</td>
+<td>E36</td>
+<td>318tds_M41_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17A2</td>
+<td>CF52</td>
+<td>E36</td>
+<td>318tds_M41_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17C1</td>
+<td>CF91</td>
+<td>E36</td>
+<td>325tds_M51_TOUR</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>17C2</td>
+<td>CF92</td>
+<td>E36</td>
+<td>325tds_M51_TOUR</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C11</td>
+<td>CG11</td>
+<td>E36</td>
+<td>316i_M43_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C12</td>
+<td>CG12</td>
+<td>E36</td>
+<td>316i_M43_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C21</td>
+<td>CG21</td>
+<td>E36</td>
+<td>316i_M43_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C22</td>
+<td>CG22</td>
+<td>E36</td>
+<td>316i_M43_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C31</td>
+<td>CG31</td>
+<td>E36</td>
+<td>323ti_M52_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C41</td>
+<td>CG41</td>
+<td>E36</td>
+<td>323ti_M52_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D11</td>
+<td>CT31</td>
+<td>E36</td>
+<td>323ti_M52_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D21</td>
+<td>CT41</td>
+<td>E36</td>
+<td>323ti_M52_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D31</td>
+<td>CS11</td>
+<td>E36</td>
+<td>316i_M43/TU_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D32</td>
+<td>CS12</td>
+<td>E36</td>
+<td>316i_M43/TU_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D41</td>
+<td>CS21</td>
+<td>E36</td>
+<td>316i_M43/TU_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D42</td>
+<td>CS22</td>
+<td>E36</td>
+<td>316i_M43/TU_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C51</td>
+<td>CG51</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C52</td>
+<td>CG52</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C53</td>
+<td>CG53</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C61</td>
+<td>CG61</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>ECE_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C62</td>
+<td>CG62</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>ECE_RL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C63</td>
+<td>CG63</td>
+<td>E36</td>
+<td>318ti_M42_COMP</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>O</td>
+</tr>
+<tr>
+<td>1C71</td>
+<td>CG71</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C72</td>
+<td>CG72</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C73</td>
+<td>CG73</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C81</td>
+<td>CG81</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C82</td>
+<td>CG82</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1C83</td>
+<td>CG83</td>
+<td>E36</td>
+<td>318ti_M44_COMP</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1CA1</td>
+<td>CH11</td>
+<td>E36</td>
+<td>316g_M43_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D51</td>
+<td>CJ51</td>
+<td>E36</td>
+<td>318tds_M41_COMP</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1D52</td>
+<td>CJ52</td>
+<td>E36</td>
+<td>318tds_M41_COMP</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E11</td>
+<td>CH71</td>
+<td>E36</td>
+<td>Z3_1.9_M44_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E12</td>
+<td>CH72</td>
+<td>E36</td>
+<td>Z3_1.9_M44_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E13</td>
+<td>CH73</td>
+<td>E36</td>
+<td>Z3_1.9_M44_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E31</td>
+<td>CJ11</td>
+<td>E36</td>
+<td>Z3_1.8_M43_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E41</td>
+<td>CM11</td>
+<td>E36</td>
+<td>Z3_1.8_M43/TU_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E42</td>
+<td>CM12</td>
+<td>E36</td>
+<td>Z3_1.8_M43/TU_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E51</td>
+<td>CJ31</td>
+<td>E36</td>
+<td>Z3_2.8_M52_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E52</td>
+<td>CJ32</td>
+<td>E36</td>
+<td>Z3_2.8_M52_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E53</td>
+<td>CJ33</td>
+<td>E36</td>
+<td>Z3_2.8_M52_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E81</td>
+<td>CL31</td>
+<td>E36</td>
+<td>Z3_2.0_M52/TU_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E82</td>
+<td>CL32</td>
+<td>E36</td>
+<td>Z3_2.0_M52/TU_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E61</td>
+<td>CH31</td>
+<td>E36</td>
+<td>Z3_2.8_M52/TU_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E62</td>
+<td>CH32</td>
+<td>E36</td>
+<td>Z3_2.8_M52/TU_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E63</td>
+<td>CH33</td>
+<td>E36</td>
+<td>Z3_2.8_M52/TU_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E73</td>
+<td>CH93</td>
+<td>E36</td>
+<td>Z3_2.3_M52/TU_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EA1</td>
+<td>CN11</td>
+<td>E36</td>
+<td>Z3_2.2_M54_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EA2</td>
+<td>CN12</td>
+<td>E36</td>
+<td>Z3_2.2_M54_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EA3</td>
+<td>CN13</td>
+<td>E36</td>
+<td>Z3_2.2_M54_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EB3</td>
+<td>CN33</td>
+<td>E36</td>
+<td>Z3_2.5_M54_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EC1</td>
+<td>CN51</td>
+<td>E36</td>
+<td>Z3_3.0_M54_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EC2</td>
+<td>CN52</td>
+<td>E36</td>
+<td>Z3_3.0_M54_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EC3</td>
+<td>CN53</td>
+<td>E36</td>
+<td>Z3_3.0_M54_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1ED1</td>
+<td>CK71</td>
+<td>E36</td>
+<td>Z3_3.0_M54_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1ED3</td>
+<td>CK73</td>
+<td>E36</td>
+<td>Z3_3.0_M54_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EE1</td>
+<td>CK31</td>
+<td>E36</td>
+<td>Z3_2.8_M52_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E01</td>
+<td>CM91</td>
+<td>E36</td>
+<td>Z3_S50_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E02</td>
+<td>CM92</td>
+<td>E36</td>
+<td>Z3_S50_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E03</td>
+<td>CM93</td>
+<td>E36</td>
+<td>Z3_S52_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E04</td>
+<td>CN91</td>
+<td>E36</td>
+<td>Z3_S54_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E05</td>
+<td>CN92</td>
+<td>E36</td>
+<td>Z3_S54_COUPE</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E06</td>
+<td>CN93</td>
+<td>E36</td>
+<td>Z3_S54_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EF1</td>
+<td>CK51</td>
+<td>E36</td>
+<td>Z3_2.8_M52/TU_COUPE</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1EF3</td>
+<td>CK53</td>
+<td>E36</td>
+<td>Z3_2.8_M52/TU_COUPE</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E91</td>
+<td>CK91</td>
+<td>E36</td>
+<td>Z3_S50_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E92</td>
+<td>CK92</td>
+<td>E36</td>
+<td>Z3_S50_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E93</td>
+<td>CK93</td>
+<td>E36</td>
+<td>Z3_S52_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E94</td>
+<td>CL91</td>
+<td>E36</td>
+<td>Z3_S54_ROADST</td>
+<td>EUR_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E95</td>
+<td>CL92</td>
+<td>E36</td>
+<td>Z3_S54_ROADST</td>
+<td>EUR_RL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>1E96</td>
+<td>CL93</td>
+<td>E36</td>
+<td>Z3_S54_ROADST</td>
+<td>USA_LL</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td>xxxx</td>
+<td>xxxx</td>
+<td>UNBEKANNT</td>
+<td>UNBEKANNT</td>
+<td>UNBEKANNT</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

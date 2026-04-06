@@ -1,0 +1,2196 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/C_GM5/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>C_GM5.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c_gm5prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C_GM5.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_fg_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_FG_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_FG_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_fg_auftrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_FG_AUFTRAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_FG_AUFTRAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_c_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_C_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_C_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c_c_auftrag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C_C_AUFTRAG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C_C_AUFTRAG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_DIGITAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_DIGITAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_funkschluessel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_FUNKSCHLUESSEL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_FUNKSCHLUESSEL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_key_memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_KEY_MEMORY
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_KEY_MEMORY">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="c_gm5prg">C_GM5.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">11</a></li>
+<li>Tables: <a href="#tables">2</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>C_SGBD GM 5</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-433 Mario Spoljarec</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.05</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-433 Mario Spoljarec, BMW TI-433 Arnold Pollmann</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Verifiziert</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Info fuer Anwender</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Init-Job fuer Grundmodul V automatischer Aufruf beim ersten Zugriff auf SGBD</li>
+<li><a href="#job-ident">IDENT</a> - Ident-Daten fuer GM V</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+<li><a href="#job-c-fg-lesen">C_FG_LESEN</a> - Auslesen des Pruefstempels und Interpretation als FG-Nummer</li>
+<li><a href="#job-c-fg-auftrag">C_FG_AUFTRAG</a> - Beschreiben des Pruefstempels mit der FG-Nummer</li>
+<li><a href="#job-c-c-lesen">C_C_LESEN</a> - Codierdaten lesen</li>
+<li><a href="#job-c-c-auftrag">C_C_AUFTRAG</a> - Codierdaten schreiben und verifizieren</li>
+<li><a href="#job-status-digital">STATUS_DIGITAL</a> - Status der Digitalsignale des GM V (Ein-/Ausgaenge) Der Wertebereich ist bei fast allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE Andernfalls ist der Bereich gezielt spezifiziert.</li>
+<li><a href="#job-status-funkschluessel">STATUS_FUNKSCHLUESSEL</a> - Auslesen der Funkschluesseldaten aus dem internen Speicher der ZKE V</li>
+<li><a href="#job-status-key-memory">STATUS_KEY_MEMORY</a> - Auslesen der Nummer des Funkschluessels, mit dem zuletzt entriegelt wurde</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Info fuer Anwender</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerat im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch / english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Init-Job fuer Grundmodul V automatischer Aufruf beim ersten Zugriff auf SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Ident-Daten fuer GM V</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>int</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>int</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-fg-lesen"></a></p>
+<h3 id="c_fg_lesen">C_FG_LESEN</h3>
+<p>Auslesen des Pruefstempels und Interpretation als FG-Nummer</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-fg-auftrag"></a></p>
+<h3 id="c_fg_auftrag">C_FG_AUFTRAG</h3>
+<p>Beschreiben des Pruefstempels mit der FG-Nummer</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer (18-stellig)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-c-lesen"></a></p>
+<h3 id="c_c_lesen">C_C_LESEN</h3>
+<p>Codierdaten lesen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CODIER_DATEN</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-c-c-auftrag"></a></p>
+<h3 id="c_c_auftrag">C_C_AUFTRAG</h3>
+<p>Codierdaten schreiben und verifizieren</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BINAER_BUFFER</td>
+<td>binary</td>
+<td>Codierdaten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, ERROR_..</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-digital"></a></p>
+<h3 id="status_digital">STATUS_DIGITAL</h3>
+<p>Status der Digitalsignale des GM V (Ein-/Ausgaenge) Der Wertebereich ist bei fast allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE Andernfalls ist der Bereich gezielt spezifiziert.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_SIB</td>
+<td>int</td>
+<td>Eingang: Schalter Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_TOEHK</td>
+<td>int</td>
+<td>Eingang: Taster Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_TZV</td>
+<td>int</td>
+<td>Eingang: Taster Centerlock</td>
+</tr>
+<tr>
+<td>STAT_TOEHS</td>
+<td>int</td>
+<td>Eingang: Taster Entriegeln Heckscheibe</td>
+</tr>
+<tr>
+<td>STAT_TOEHKI</td>
+<td>int</td>
+<td>Eingang: Taster Entriegeln Heckklappe innen</td>
+</tr>
+<tr>
+<td>STAT_HKK</td>
+<td>int</td>
+<td>Eingang: Heckklappen-Kontakt</td>
+</tr>
+<tr>
+<td>STAT_ERHK</td>
+<td>int</td>
+<td>Eingang: Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_RSK</td>
+<td>int</td>
+<td>Eingang: Rueckstellkontakt Wischer</td>
+</tr>
+<tr>
+<td>STAT_SFFA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_SFFZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SFBA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_SFBZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SW2</td>
+<td>int</td>
+<td>Eingang: Wischerschalter 2</td>
+</tr>
+<tr>
+<td>STAT_KISI</td>
+<td>int</td>
+<td>Eingang: Kindersicherung Fensterheber hinten</td>
+</tr>
+<tr>
+<td>STAT_MHK</td>
+<td>int</td>
+<td>Eingang: Motorhauben-Kontakt</td>
+</tr>
+<tr>
+<td>STAT_HFK</td>
+<td>int</td>
+<td>Eingang: Handschuhfach-Kontakt</td>
+</tr>
+<tr>
+<td>STAT_HSK</td>
+<td>int</td>
+<td>Eingang: Heckscheiben-Kontakt</td>
+</tr>
+<tr>
+<td>STAT_INRS</td>
+<td>int</td>
+<td>Eingang: Innenraumschutz</td>
+</tr>
+<tr>
+<td>STAT_NG</td>
+<td>int</td>
+<td>Eingang: Neigungsgeber</td>
+</tr>
+<tr>
+<td>STAT_INRS2</td>
+<td>int</td>
+<td>Eingang: Innenraumschutz 2</td>
+</tr>
+<tr>
+<td>STAT_KL_R_HW</td>
+<td>int</td>
+<td>Eingang: Klemme R (Hardware)</td>
+</tr>
+<tr>
+<td>STAT_REE1</td>
+<td>int</td>
+<td>Eingang: Reserve 1</td>
+</tr>
+<tr>
+<td>STAT_REE3</td>
+<td>int</td>
+<td>Eingang: Reserve 3</td>
+</tr>
+<tr>
+<td>STAT_CS</td>
+<td>int</td>
+<td>Eingang: Crash-Sensor</td>
+</tr>
+<tr>
+<td>STAT_KL30BTS</td>
+<td>int</td>
+<td>Eingang: Versorgung fuer IB, WP, MERHK und VA</td>
+</tr>
+<tr>
+<td>STAT_KL30ZV</td>
+<td>int</td>
+<td>Eingang: Versorgung fuer Zentralverriegelung</td>
+</tr>
+<tr>
+<td>STAT_KL30FHV</td>
+<td>int</td>
+<td>Eingang: Versorgung fuer Klemme 30 Fensterheber vorne</td>
+</tr>
+<tr>
+<td>STAT_SFFHA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFFHZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_SFBHA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFBHZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_SFFHA2</td>
+<td>int</td>
+<td>Eingang: Schalter 2 Fensterheber Fahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFFHZ2</td>
+<td>int</td>
+<td>Eingang: Schalter 2 Fensterheber Fahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_SFBHA2</td>
+<td>int</td>
+<td>Eingang: Schalter 2 Fensterheber Beifahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFBHZ2</td>
+<td>int</td>
+<td>Eingang: Schalter 2 Fensterheber Beifahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_REE2</td>
+<td>int</td>
+<td>Eingang: Reserve 2</td>
+</tr>
+<tr>
+<td>STAT_VRHK</td>
+<td>int</td>
+<td>Eingang: Verriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_SWA</td>
+<td>int</td>
+<td>Eingang: Schalter Waschen</td>
+</tr>
+<tr>
+<td>STAT_SW1</td>
+<td>int</td>
+<td>Eingang: Schalter Wischerstufe 1</td>
+</tr>
+<tr>
+<td>STAT_DMVR</td>
+<td>int</td>
+<td>Eingang: Diagnose Verriegeln</td>
+</tr>
+<tr>
+<td>STAT_DMER</td>
+<td>int</td>
+<td>Eingang: Diagnose Entriegeln</td>
+</tr>
+<tr>
+<td>STAT_DMZS</td>
+<td>int</td>
+<td>Eingang: Diagnose Sichern</td>
+</tr>
+<tr>
+<td>STAT_DMVRFT</td>
+<td>int</td>
+<td>Eingang: Diagnose Verriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_TKFT</td>
+<td>int</td>
+<td>Eingang: Tuerkontakt Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_TKBT</td>
+<td>int</td>
+<td>Eingang: Tuerkontakt Beifahrertuer</td>
+</tr>
+<tr>
+<td>STAT_TKFH</td>
+<td>int</td>
+<td>Eingang: Tuerkontakt Fahrertuer hinten</td>
+</tr>
+<tr>
+<td>STAT_TKBH</td>
+<td>int</td>
+<td>Eingang: Tuerkontakt Beifahrertuer hinten</td>
+</tr>
+<tr>
+<td>STAT_VRFT</td>
+<td>int</td>
+<td>Eingang: Verriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_ERFT</td>
+<td>int</td>
+<td>Eingang: Entriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_VRBT</td>
+<td>int</td>
+<td>Eingang: Verriegeln Beifahrertuer</td>
+</tr>
+<tr>
+<td>STAT_ERBT</td>
+<td>int</td>
+<td>Eingang: Entriegeln Beifahrertuer</td>
+</tr>
+<tr>
+<td>STAT_DSTDWA</td>
+<td>int</td>
+<td>Eingang: Diagnose Status DWA</td>
+</tr>
+<tr>
+<td>STAT_FZV</td>
+<td>int</td>
+<td>Eingang: Funkfernbedienung Zentralverriegelung</td>
+</tr>
+<tr>
+<td>STAT_DERHK</td>
+<td>int</td>
+<td>Eingang: Diagnose Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_DWP</td>
+<td>int</td>
+<td>Eingang: Diagnose Waschpumpe</td>
+</tr>
+<tr>
+<td>STAT_DVA</td>
+<td>int</td>
+<td>Eingang: Diagnose Verbraucherabschaltung</td>
+</tr>
+<tr>
+<td>STAT_DIB</td>
+<td>int</td>
+<td>Eingang: Diagnose Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_SFF</td>
+<td>int</td>
+<td>Schalter Fensterheber Fahrer moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFF_TEXT</td>
+<td>string</td>
+<td>Schalter Fensterheber Fahrer moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFB</td>
+<td>int</td>
+<td>Schalter Fensterheber Beifahrer moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFB_TEXT</td>
+<td>string</td>
+<td>Schalter Fensterheber Beifahrer moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFFH</td>
+<td>int</td>
+<td>Schalter Fensterheber Fahrer hinten moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFFH_TEXT</td>
+<td>string</td>
+<td>Schalter Fensterheber Fahrer hinten moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFBH</td>
+<td>int</td>
+<td>Schalter Fensterheber Beifahrer hinten moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFBH_TEXT</td>
+<td>string</td>
+<td>Schalter Fensterheber Beifahrer hinten moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFFH2</td>
+<td>int</td>
+<td>Schalter 2 Fensterheber Fahrer hinten moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFFH2_TEXT</td>
+<td>string</td>
+<td>Schalter 2 Fensterheber Fahrer hinten moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFBH2</td>
+<td>int</td>
+<td>Schalter 2 Fensterheber Beifahrer hinten moegliche Werte: 0=AUS, 1=AUF, 2=ZU, 3=AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SFBH2_TEXT</td>
+<td>string</td>
+<td>Schalter 2 Fensterheber Beifahrer hinten moegliche Texte: AUS, AUF, ZU, AUTOMATIK</td>
+</tr>
+<tr>
+<td>STAT_SW</td>
+<td>int</td>
+<td>Schalter Wischer moegliche Werte: 0=AUS, 1=INTERVALL, 2=STUFE1, 3=STUFE2</td>
+</tr>
+<tr>
+<td>STAT_SW_TEXT</td>
+<td>string</td>
+<td>Schalter Wischer moegliche Texte: AUS, INTERVALL, STUFE1, STUFE2</td>
+</tr>
+<tr>
+<td>STAT_VERFT</td>
+<td>int</td>
+<td>Verriegeln / Entriegeln Fahrertuer moegliche Werte: 0=RUHE, 1=VERRIEGELN, 2=ENTRIEGELN, 3=FEHLER</td>
+</tr>
+<tr>
+<td>STAT_VERFT_TEXT</td>
+<td>string</td>
+<td>Verriegeln / Entriegeln Fahrertuer moegliche Texte: RUHE, ENTRIEGELN, VERRIEGELN, FEHLER</td>
+</tr>
+<tr>
+<td>STAT_VERBT</td>
+<td>int</td>
+<td>Verriegeln / Entriegeln Beifahrertuer moegliche Werte: 0=RUHE, 1=VERRIEGELN, 2=ENTRIEGELN, 3=FEHLER</td>
+</tr>
+<tr>
+<td>STAT_VERBT_TEXT</td>
+<td>string</td>
+<td>Verriegeln / Entriegeln Beifahrertuer moegliche Texte: RUHE, ENTRIEGELN, VERRIEGELN, FEHLER</td>
+</tr>
+<tr>
+<td>STAT_MFFHA</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Fahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_MFFHZ</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Fahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_MFBHZ</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Beifahrer hinten zu</td>
+</tr>
+<tr>
+<td>STAT_MFBHA</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Beifahrer hinten auf</td>
+</tr>
+<tr>
+<td>STAT_MER</td>
+<td>int</td>
+<td>Ausgang: Motor Entriegeln</td>
+</tr>
+<tr>
+<td>STAT_MZS</td>
+<td>int</td>
+<td>Ausgang: Motor Sichern</td>
+</tr>
+<tr>
+<td>STAT_MVRFT</td>
+<td>int</td>
+<td>Ausgang: Motor Verriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_REA3</td>
+<td>int</td>
+<td>Ausgang: Reserve 3</td>
+</tr>
+<tr>
+<td>STAT_WI1</td>
+<td>int</td>
+<td>Ausgang: Wischerrelais Stufe 1</td>
+</tr>
+<tr>
+<td>STAT_WI2</td>
+<td>int</td>
+<td>Ausgang: Wischerrelais Stufe 2</td>
+</tr>
+<tr>
+<td>STAT_SRA</td>
+<td>int</td>
+<td>Ausgang: Relais Scheinwerferreinigung</td>
+</tr>
+<tr>
+<td>STAT_RERHS</td>
+<td>int</td>
+<td>Ausgang: Relais Entriegeln Heckscheibe</td>
+</tr>
+<tr>
+<td>STAT_SIRENE</td>
+<td>int</td>
+<td>Ausgang: Sirene bzw. Alarmhorn</td>
+</tr>
+<tr>
+<td>STAT_DWAL</td>
+<td>int</td>
+<td>Ausgang: DWA-LED</td>
+</tr>
+<tr>
+<td>STAT_MVR</td>
+<td>int</td>
+<td>Ausgang: Motor Verriegeln</td>
+</tr>
+<tr>
+<td>STAT_MFFA</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_MFFZ</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_MFBA</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_MFBZ</td>
+<td>int</td>
+<td>Ausgang: Motor Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_STDWA</td>
+<td>int</td>
+<td>Ausgang: Status Diebstahlwarnanlage</td>
+</tr>
+<tr>
+<td>STAT_ENEKS</td>
+<td>int</td>
+<td>Ausgang: Einklemmschutz-Versorgung aktiv</td>
+</tr>
+<tr>
+<td>STAT_ENPU</td>
+<td>int</td>
+<td>Ausgang: Enable Pull Up</td>
+</tr>
+<tr>
+<td>STAT_REA1</td>
+<td>int</td>
+<td>Ausgang: Reserve 1</td>
+</tr>
+<tr>
+<td>STAT_REA2</td>
+<td>int</td>
+<td>Ausgang: Reserve 2</td>
+</tr>
+<tr>
+<td>STAT_ENANGR1</td>
+<td>int</td>
+<td>Ausgang: Enable Analogsignale Gruppe 1</td>
+</tr>
+<tr>
+<td>STAT_IB</td>
+<td>int</td>
+<td>Ausgang: Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_VA</td>
+<td>int</td>
+<td>Ausgang: Verbraucherabschaltung EIN</td>
+</tr>
+<tr>
+<td>STAT_WP</td>
+<td>int</td>
+<td>Ausgang: Waschpumpe</td>
+</tr>
+<tr>
+<td>STAT_MERHK</td>
+<td>int</td>
+<td>Ausgang: Motor Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_KL_R</td>
+<td>int</td>
+<td>K-Bus: Klemme R</td>
+</tr>
+<tr>
+<td>STAT_KL15</td>
+<td>int</td>
+<td>K-Bus: Klemme 15</td>
+</tr>
+<tr>
+<td>STAT_KL58</td>
+<td>int</td>
+<td>K-Bus: Klemme 58</td>
+</tr>
+<tr>
+<td>STAT_EWS_FREE</td>
+<td>int</td>
+<td>K-Bus: EWS freigeschaltet</td>
+</tr>
+<tr>
+<td>STAT_EWS_KEY</td>
+<td>int</td>
+<td>K-Bus: gueltiger Schluessel steckt</td>
+</tr>
+<tr>
+<td>STAT_CSMODE</td>
+<td>int</td>
+<td>K-Bus: System im Crash-Mode</td>
+</tr>
+<tr>
+<td>STAT_DIAGMOD</td>
+<td>int</td>
+<td>K-Bus: System im Diagnosemode</td>
+</tr>
+<tr>
+<td>STAT_ZV</td>
+<td>int</td>
+<td>K-Bus: ZV ist verriegelt</td>
+</tr>
+<tr>
+<td>STAT_ZS</td>
+<td>int</td>
+<td>K-Bus: ZV ist gesichert</td>
+</tr>
+<tr>
+<td>STAT_SER</td>
+<td>int</td>
+<td>K-Bus: Selektiv entriegelt</td>
+</tr>
+<tr>
+<td>STAT_WB</td>
+<td>int</td>
+<td>K-Bus: Crash-Warnblinken, DWA-Quittierung</td>
+</tr>
+<tr>
+<td>STAT_OA</td>
+<td>int</td>
+<td>K-Bus: Optischer Alarm</td>
+</tr>
+<tr>
+<td>STAT_ES</td>
+<td>int</td>
+<td>K-Bus: ZV ist entsichert</td>
+</tr>
+<tr>
+<td>STAT_QFFZ</td>
+<td>int</td>
+<td>K-Bus: Quittierung Fensterheber Fahrer ist zu</td>
+</tr>
+<tr>
+<td>STAT_QFBZ</td>
+<td>int</td>
+<td>K-Bus: Quittierung Fensterheber Beifahrer ist zu</td>
+</tr>
+<tr>
+<td>STAT_QFFHZ</td>
+<td>int</td>
+<td>K-Bus: Quittierung Fensterheber Fahrer hinten ist zu</td>
+</tr>
+<tr>
+<td>STAT_QFBHZ</td>
+<td>int</td>
+<td>K-Bus: Quittierung Fensterheber Beifahrer hinten ist zu</td>
+</tr>
+<tr>
+<td>STAT_SOFTON</td>
+<td>int</td>
+<td>K-Bus: IB-Lampe ist an oder Ansteuerung laeuft</td>
+</tr>
+<tr>
+<td>STAT_KB_FSHD</td>
+<td>int</td>
+<td>K-Bus: Schiebe-Hebedach-Handbedienung</td>
+</tr>
+<tr>
+<td>STAT_KB_KOE</td>
+<td>int</td>
+<td>K-Bus: Komfortfunktion Oeffnen</td>
+</tr>
+<tr>
+<td>STAT_KB_KS</td>
+<td>int</td>
+<td>K-Bus: Komfortfunktion Schliessen</td>
+</tr>
+<tr>
+<td>STAT_FB_BAT</td>
+<td>int</td>
+<td>K-Bus: Fernbedien-Sender Batterie schwach</td>
+</tr>
+<tr>
+<td>STAT_FB_NR</td>
+<td>int</td>
+<td>K-Bus: Gueltige FB-Nr. liegt vor (Personalisierung)</td>
+</tr>
+<tr>
+<td>STAT_FB_SEND_L</td>
+<td>int</td>
+<td>K-Bus: Sender-Nr. Low-Bit, bei dem zuletzt ER-Taste gedrueckt</td>
+</tr>
+<tr>
+<td>STAT_FB_SEND_H</td>
+<td>int</td>
+<td>K-Bus: Sender-Nr. High-Bit, bei dem zuletzt ER-Taste gedrueckt</td>
+</tr>
+<tr>
+<td>STAT_FB_VR</td>
+<td>int</td>
+<td>K-Bus: VR-Taste gedrueckt</td>
+</tr>
+<tr>
+<td>STAT_FB_ER</td>
+<td>int</td>
+<td>K-Bus: ER-Taste gedrueckt</td>
+</tr>
+<tr>
+<td>STAT_FB_HK</td>
+<td>int</td>
+<td>K-Bus: HK-Taste gedrueckt</td>
+</tr>
+<tr>
+<td>STAT_SEND_L</td>
+<td>int</td>
+<td>Eingang Funk: Sender-Nummer (Low-Bit)</td>
+</tr>
+<tr>
+<td>STAT_SEND_H</td>
+<td>int</td>
+<td>Eingang Funk: Sender-Nummer (High-Bit)</td>
+</tr>
+<tr>
+<td>STAT_FZVSIG</td>
+<td>int</td>
+<td>Eingang Funk: Funksignal empfangen</td>
+</tr>
+<tr>
+<td>STAT_FZVKEY</td>
+<td>int</td>
+<td>Eingang Funk: Funkschluesselsignale empfangen</td>
+</tr>
+<tr>
+<td>STAT_TASTE1</td>
+<td>int</td>
+<td>Eingang Funk: Fernbedienung Taste 1 betaetigt</td>
+</tr>
+<tr>
+<td>STAT_TASTE2</td>
+<td>int</td>
+<td>Eingang Funk: Fernbedienung Taste 2 betaetigt</td>
+</tr>
+<tr>
+<td>STAT_TASTE3</td>
+<td>int</td>
+<td>Eingang Funk: Fernbedienung Taste 3 betaetigt</td>
+</tr>
+<tr>
+<td>STAT_FUINIT</td>
+<td>int</td>
+<td>Eingang Funk: Initialisierung Funkschluessel moeglich</td>
+</tr>
+<tr>
+<td>STAT_LOBAT1</td>
+<td>int</td>
+<td>Eingang Funk: Schluessel Sender 1 Batterie schwach</td>
+</tr>
+<tr>
+<td>STAT_LOBAT2</td>
+<td>int</td>
+<td>Eingang Funk: Schluessel Sender 2 Batterie schwach</td>
+</tr>
+<tr>
+<td>STAT_LOBAT3</td>
+<td>int</td>
+<td>Eingang Funk: Schluessel Sender 3 Batterie schwach</td>
+</tr>
+<tr>
+<td>STAT_LOBAT4</td>
+<td>int</td>
+<td>Eingang Funk: Schluessel Sender 4 Batterie schwach</td>
+</tr>
+<tr>
+<td>STAT_FSIB</td>
+<td>int</td>
+<td>Eingang Funk: FS IB-Befehl</td>
+</tr>
+<tr>
+<td>STAT_FSAHK</td>
+<td>int</td>
+<td>Eingang Funk: Heckklappentaste Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_ZV1FS</td>
+<td>int</td>
+<td>Eingang Funk: ZV-Befehl entriegeln</td>
+</tr>
+<tr>
+<td>STAT_ZV0FS</td>
+<td>int</td>
+<td>Eingang Funk: ZV-Befehl verriegeln</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-funkschluessel"></a></p>
+<h3 id="status_funkschluessel">STATUS_FUNKSCHLUESSEL</h3>
+<p>Auslesen der Funkschluesseldaten aus dem internen Speicher der ZKE V</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_NR_AKTUELL_CODE</td>
+<td>int</td>
+<td>Zahlencode der momentan eingelesenen Schluesselnummer Bereich: 0 bis 255 (Zufallszahl) Wenn der momentane Schluessel zum Fahrzeug gehoert, muss dieser Wert identisch mit einem der Werte STAT_NR_n sein.</td>
+</tr>
+<tr>
+<td>STAT_NR_AKTUELL</td>
+<td>int</td>
+<td>momentan eingelesene Schluesselnummer Bereich: IO  (Schluessel gehoert zum FZG)      : 1 bis 4 NIO (Schluessel gehoert NICHT zum FZG): 0</td>
+</tr>
+<tr>
+<td>STAT_INIT_ANZ</td>
+<td>int</td>
+<td>Anzahl der initialisierten Schluessel Bereich: 0 bis 4</td>
+</tr>
+<tr>
+<td>STAT_NR_1</td>
+<td>int</td>
+<td>Speicher von Schluesselnummer 1 (auf ZKE V initialisiert) Bereich: 0 bis 255</td>
+</tr>
+<tr>
+<td>STAT_NR_2</td>
+<td>int</td>
+<td>Speicher von Schluesselnummer 2 (auf ZKE V initialisiert) Bereich: 0 bis 255</td>
+</tr>
+<tr>
+<td>STAT_NR_3</td>
+<td>int</td>
+<td>Speicher von Schluesselnummer 3 (auf ZKE V initialisiert) Bereich: 0 bis 255</td>
+</tr>
+<tr>
+<td>STAT_NR_4</td>
+<td>int</td>
+<td>Speicher von Schluesselnummer 4 (auf ZKE V initialisiert) Bereich: 0 bis 255</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-key-memory"></a></p>
+<h3 id="status_key_memory">STATUS_KEY_MEMORY</h3>
+<p>Auslesen der Nummer des Funkschluessels, mit dem zuletzt entriegelt wurde</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_NR</td>
+<td>int</td>
+<td>0   : ungueltig ! (z.B.: mechanisch entriegelt) 1-4 : Nr. des Funkschluessels, mit dem entriegelt wurde</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (7 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (27 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNKTION</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 27 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

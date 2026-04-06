@@ -1,0 +1,3822 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/CARB/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>CARB.PRG - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#carbprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CARB.PRG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set_parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SET_PARAMETER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SET_PARAMETER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start_bus_communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start_Bus_Communication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Start_Bus_Communication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_mode1_reqcurrentpowertraindiagnosticdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODE1_ReqCurrentPowertrainDiagnosticData
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODE1_ReqCurrentPowertrainDiagnosticData">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_mode2_reqpowertrainfreezeframedata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODE2_ReqPowertrainFreezeFrameData
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODE2_ReqPowertrainFreezeFrameData">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_mode3_reqemissionreleatedpowertraindtc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODE3_ReqEmissionReleatedPowertrainDTC
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODE3_ReqEmissionReleatedPowertrainDTC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_mode4_clearresetemissionreleateddiagnosticinformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODE4_ClearResetEmissionReleatedDiagnosticInformation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODE4_ClearResetEmissionReleatedDiagnosticInformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_mode5_reqoxygensensormonitoringtestresults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODE5_ReqOxygenSensorMonitoringTestResults
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODE5_ReqOxygenSensorMonitoringTestResults">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_modex_transparentmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _MODEX_TransparentMode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_MODEX_TransparentMode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_reqrawmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _ReqRawMode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_ReqRawMode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnosticend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DiagnosticEnd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DiagnosticEnd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errorcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ERRORCODE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MODES
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#carbsource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CARBSOURCE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="carbprg">CARB.PRG</h1>
+<ul>
+<li>Jobs: <a href="#jobs">12</a></li>
+<li>Tables: <a href="#tables">3</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>CARB-Schnittstelle SAE J1979</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-435 Drexel</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>3.1</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TP-421 Weber, BMW TI-433 Drexel, softing SAG DM</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Dieser Job wird vom EDIABAS automatisch beim erstem Zugriff auf eine SGBD aufgerufen. Bei weitern Zugriffen auf die selbe SGBD wird dieser Job nicht mehr aufgerufen. In der INITIALISIERUNG werden alle Funktionen aufgerufen, die nur einmal, vor der Kommunikation mit einem SG notwendig sind.</li>
+<li><a href="#job-set-parameter">SET_PARAMETER</a> - Setzen der Carb Parameter im EIDBSS</li>
+<li><a href="#job-start-bus-communication">Start_Bus_Communication</a> - Auslesen der Identifikationsdaten</li>
+<li><a href="#job-mode1-reqcurrentpowertraindiagnosticdata">_MODE1_ReqCurrentPowertrainDiagnosticData</a> - MODE 1</li>
+<li><a href="#job-mode2-reqpowertrainfreezeframedata">_MODE2_ReqPowertrainFreezeFrameData</a> - MODE 2</li>
+<li><a href="#job-mode3-reqemissionreleatedpowertraindtc">_MODE3_ReqEmissionReleatedPowertrainDTC</a> - MODE 3</li>
+<li><a href="#job-mode4-clearresetemissionreleateddiagnosticinformation">_MODE4_ClearResetEmissionReleatedDiagnosticInformation</a> - MODE 4</li>
+<li><a href="#job-mode5-reqoxygensensormonitoringtestresults">_MODE5_ReqOxygenSensorMonitoringTestResults</a> - MODE 5</li>
+<li><a href="#job-modex-transparentmode">_MODEX_TransparentMode</a> - so muss das EDIC die Checksumme berechnen!</li>
+<li><a href="#job-reqrawmode">_ReqRawMode</a> - Tel von Oben!</li>
+<li><a href="#job-diagnosticend">DiagnosticEnd</a></li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergeraet im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Name aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Dieser Job wird vom EDIABAS automatisch beim erstem Zugriff auf eine SGBD aufgerufen. Bei weitern Zugriffen auf die selbe SGBD wird dieser Job nicht mehr aufgerufen. In der INITIALISIERUNG werden alle Funktionen aufgerufen, die nur einmal, vor der Kommunikation mit einem SG notwendig sind.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>0:n.i.O. 1:i.O Default Automatic Required Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-set-parameter"></a></p>
+<h3 id="set_parameter">SET_PARAMETER</h3>
+<p>Setzen der Carb Parameter im EIDBSS</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PARAMETER</td>
+<td>binary</td>
+<td>Parametersatz als Array, entsprechend der Spezifikation EDIC-Firmware fuer das CARB-Tool (Kapitel 2.1)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-start-bus-communication"></a></p>
+<h3 id="start_bus_communication">Start_Bus_Communication</h3>
+<p>Auslesen der Identifikationsdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-mode1-reqcurrentpowertraindiagnosticdata"></a></p>
+<h3 id="_mode1_reqcurrentpowertraindiagnosticdata">_MODE1_ReqCurrentPowertrainDiagnosticData</h3>
+<p>MODE 1</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PID</td>
+<td>unsigned char</td>
+<td>requested PID</td>
+</tr>
+<tr>
+<td>ANALYZE</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>TESTER</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+<tr>
+<td>FAST_INIT</td>
+<td>string</td>
+<td>Wenn existiert, dann Kommunikation schneller Reizung</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergebnissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-mode2-reqpowertrainfreezeframedata"></a></p>
+<h3 id="_mode2_reqpowertrainfreezeframedata">_MODE2_ReqPowertrainFreezeFrameData</h3>
+<p>MODE 2</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PID</td>
+<td>unsigned char</td>
+<td>requested PID</td>
+</tr>
+<tr>
+<td>FRAME</td>
+<td>unsigned char</td>
+<td>requested Freeze Frame</td>
+</tr>
+<tr>
+<td>ANALYZE</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>TESTER</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-mode3-reqemissionreleatedpowertraindtc"></a></p>
+<h3 id="_mode3_reqemissionreleatedpowertraindtc">_MODE3_ReqEmissionReleatedPowertrainDTC</h3>
+<p>MODE 3</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANALYZE</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>TESTER</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-mode4-clearresetemissionreleateddiagnosticinformation"></a></p>
+<h3 id="_mode4_clearresetemissionreleateddiagnosticinformation">_MODE4_ClearResetEmissionReleatedDiagnosticInformation</h3>
+<p>MODE 4</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANALYZE</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>TESTER</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-mode5-reqoxygensensormonitoringtestresults"></a></p>
+<h3 id="_mode5_reqoxygensensormonitoringtestresults">_MODE5_ReqOxygenSensorMonitoringTestResults</h3>
+<p>MODE 5</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TID</td>
+<td>unsigned char</td>
+<td>requested PID</td>
+</tr>
+<tr>
+<td>SENSOR</td>
+<td>unsigned char</td>
+<td>requested Freeze Frame</td>
+</tr>
+<tr>
+<td>ANALYZE</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>TESTER</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-modex-transparentmode"></a></p>
+<h3 id="_modex_transparentmode">_MODEX_TransparentMode</h3>
+<p>so muss das EDIC die Checksumme berechnen!</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARG0</td>
+<td>unsigned char</td>
+<td>requested MODE</td>
+</tr>
+<tr>
+<td>ARG1</td>
+<td>unsigned char</td>
+<td>requested PID</td>
+</tr>
+<tr>
+<td>ARG2</td>
+<td>unsigned char</td>
+<td>requested Freeze Frame</td>
+</tr>
+<tr>
+<td>ARG3</td>
+<td>int</td>
+<td>do analyze or not</td>
+</tr>
+<tr>
+<td>ARG4</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+<tr>
+<td>ARG5</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+<tr>
+<td>ARG6</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+<tr>
+<td>ARG7</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+<tr>
+<td>ARG8</td>
+<td>unsigned char</td>
+<td>Adress in request</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-reqrawmode"></a></p>
+<h3 id="_reqrawmode">_ReqRawMode</h3>
+<p>Tel von Oben!</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SENDTEL</td>
+<td>binary</td>
+<td>tel to send</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+<tr>
+<td>TELEGRAM</td>
+<td>binary</td>
+<td>Raw Received Telegram</td>
+</tr>
+<tr>
+<td>RESULTNAME</td>
+<td>string</td>
+<td>Name of the Result</td>
+</tr>
+<tr>
+<td>RESULTDATA</td>
+<td>string</td>
+<td>Value of the Result</td>
+</tr>
+<tr>
+<td>RESULTSOURCE</td>
+<td>string</td>
+<td>Source of the Result</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnosticend"></a></p>
+<h3 id="diagnosticend">DiagnosticEnd</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>int</td>
+<td>Gibt fuer jeden Ergenissatz den Ergebnis- und Fehlerstatus zurueck Folgende Werte sind definiert: CARB_ERROR = -1 =&gt; Fehler beim JOB-Aufruf (Parameter) CARB_IGNORE_NONE = 0 =&gt; Alle Results dieses Satzes sind gueltig CARB_IGNORE_TELEGRAM = 1 =&gt; Ergebnis TELEGRAM nicht belegt CARB_IGNORE_RESULT = 2 =&gt; Nur das Ergebnis TELEGRAM ist gueltig CARB_IGNORE_BOTH = 3 =&gt; Kein Ergebnis wurde belegt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-errorcode">ERRORCODE</a> (273 × 2)</li>
+<li><a href="#table-modes">MODES</a> (7 × 2)</li>
+<li><a href="#table-carbsource">CARBSOURCE</a> (257 × 2)</li>
+</ul>
+<p><a id="table-errorcode"></a></p>
+<h3 id="errorcode">ERRORCODE</h3>
+<p>Dimensions: 273 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000</td>
+<td>P0000: virtual DTC (no Error)</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>P0100: Mass or Volume Air Flow Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0101</td>
+<td>P0101: Mass or Volume Air Flow Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0102</td>
+<td>P0102: Mass or Volume Air Flow Circuit Low Input</td>
+</tr>
+<tr>
+<td>0103</td>
+<td>P0103: Mass or Volume Air Flow Circuit High Input</td>
+</tr>
+<tr>
+<td>0104</td>
+<td>P0104: ...yet not specified</td>
+</tr>
+<tr>
+<td>0105</td>
+<td>P0105: Manifold Absolute Pressure/Barometric Pressure Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0106</td>
+<td>P0106: Manifold Absolute Pressure/Barometric Pressure Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0107</td>
+<td>P0107: Manifold Absolute Pressure/Barometric Pressure Circuit Low Input</td>
+</tr>
+<tr>
+<td>0108</td>
+<td>P0108: Manifold Absolute Pressure/Barometric Pressure Circuit High Input</td>
+</tr>
+<tr>
+<td>0109</td>
+<td>P0109: ...yet not specified</td>
+</tr>
+<tr>
+<td>0110</td>
+<td>P0110: Intake Air Tempurature Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0111</td>
+<td>P0111: Intake Air Tempurature Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0112</td>
+<td>P0112: Intake Air Tempurature Circuit Low Input</td>
+</tr>
+<tr>
+<td>0113</td>
+<td>P0113: Intake Air Tempurature Circuit High Input</td>
+</tr>
+<tr>
+<td>0114</td>
+<td>P0114: ...yet not specified</td>
+</tr>
+<tr>
+<td>0115</td>
+<td>P0115: Engine Coolant Temperature Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0116</td>
+<td>P0116: Engine Coolant Temperature Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0117</td>
+<td>P0117: Engine Coolant Temperature Circuit Low Input</td>
+</tr>
+<tr>
+<td>0118</td>
+<td>P0118: Engine Coolant Temperature Circuit High Input</td>
+</tr>
+<tr>
+<td>0119</td>
+<td>P0119: ...yet not specified</td>
+</tr>
+<tr>
+<td>0120</td>
+<td>P0120: Throttle Position Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0121</td>
+<td>P0121: Throttle Position Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0122</td>
+<td>P0122: Throttle Position Circuit Low Input</td>
+</tr>
+<tr>
+<td>0123</td>
+<td>P0123: Throttle Position Circuit High Input</td>
+</tr>
+<tr>
+<td>0124</td>
+<td>P0124: ...yet not specified</td>
+</tr>
+<tr>
+<td>0125</td>
+<td>*P0125: Insufficient Coolant Tempurature for Closed Loop Fuel Control</td>
+</tr>
+<tr>
+<td>0126</td>
+<td>P0126: ...yet not specified</td>
+</tr>
+<tr>
+<td>0127</td>
+<td>P0127: ...yet not specified</td>
+</tr>
+<tr>
+<td>0128</td>
+<td>P0128: ...yet not specified</td>
+</tr>
+<tr>
+<td>0129</td>
+<td>P0129: ...yet not specified</td>
+</tr>
+<tr>
+<td>0130</td>
+<td>P0130: O2 Sensor Circuit Malfunction               (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0131</td>
+<td>P0131: O2 Sensor Circuit Low Voltage               (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0132</td>
+<td>P0132: O2 Sensor Circuit High Voltage              (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0133</td>
+<td>P0133: O2 Sensor Circuit Slow Response             (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0134</td>
+<td>P0134: O2 Sensor Circuit No Activity Detected      (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0135</td>
+<td>P0135: O2 Sensor Heater Circuit Malfunction        (Bank1*Sensor1)</td>
+</tr>
+<tr>
+<td>0136</td>
+<td>P0136: O2 Sensor Circuit Malfunction               (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0137</td>
+<td>P0137: O2 Sensor Circuit Low Voltage               (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0138</td>
+<td>P0138: O2 Sensor Circuit High Voltage              (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0139</td>
+<td>P0139: O2 Sensor Circuit Slow Response             (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0140</td>
+<td>P0140: O2 Sensor Circuit No Activity Detected      (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0141</td>
+<td>P0141: O2 Sensor Heater Circuit Malfunction        (Bank1*Sensor2)</td>
+</tr>
+<tr>
+<td>0142</td>
+<td>P0142: O2 Sensor Circuit Malfunction               (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0143</td>
+<td>P0143: O2 Sensor Circuit Low Voltage               (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0144</td>
+<td>P0144: O2 Sensor Circuit High Voltage              (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0145</td>
+<td>P0145: O2 Sensor Circuit Slow Response             (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0146</td>
+<td>P0146: O2 Sensor Circuit No Activity Detected      (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0147</td>
+<td>P0147: O2 Sensor Heater Circuit Malfunction        (Bank1*Sensor3)</td>
+</tr>
+<tr>
+<td>0148</td>
+<td>P0148: ...yet not specified</td>
+</tr>
+<tr>
+<td>0149</td>
+<td>P0149: ...yet not specified</td>
+</tr>
+<tr>
+<td>0150</td>
+<td>P0150: O2 Sensor Circuit Malfunction               (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0151</td>
+<td>P0151: O2 Sensor Circuit Low Voltage               (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0152</td>
+<td>P0152: O2 Sensor Circuit High Voltage              (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0153</td>
+<td>P0153: O2 Sensor Circuit Slow Response             (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0154</td>
+<td>P0154: O2 Sensor Circuit No Activity Detected      (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0155</td>
+<td>P0155: O2 Sensor Heater Circuit Malfunction        (Bank2 Sensor1)</td>
+</tr>
+<tr>
+<td>0156</td>
+<td>P0156: O2 Sensor Circuit Malfunction               (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0157</td>
+<td>P0157: O2 Sensor Circuit Low Voltage               (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0158</td>
+<td>P0158: O2 Sensor Circuit High Voltage              (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0159</td>
+<td>P0159: O2 Sensor Circuit Slow Response             (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0160</td>
+<td>P0160: O2 Sensor Circuit No Activity Detected      (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0161</td>
+<td>P0161: O2 Sensor Heater Circuit Malfunction        (Bank2 Sensor2)</td>
+</tr>
+<tr>
+<td>0162</td>
+<td>P0162: O2 Sensor Circuit Malfunction               (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0163</td>
+<td>P0163: O2 Sensor Circuit Low Voltage               (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0164</td>
+<td>P0164: O2 Sensor Circuit High Voltage              (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0165</td>
+<td>P0165: O2 Sensor Circuit Slow Response             (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0166</td>
+<td>P0166: O2 Sensor Circuit No Activity Detected      (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0167</td>
+<td>P0167: O2 Sensor Heater Circuit Malfunction        (Bank2 Sensor3)</td>
+</tr>
+<tr>
+<td>0168</td>
+<td>P0168: ...yet not specified</td>
+</tr>
+<tr>
+<td>0169</td>
+<td>P0169: ...yet not specified</td>
+</tr>
+<tr>
+<td>0170</td>
+<td>P0170: Fuel Trim Malfunction                       (Bank1*)</td>
+</tr>
+<tr>
+<td>0171</td>
+<td>P0171: System Too Lean                             (Bank1*)</td>
+</tr>
+<tr>
+<td>0172</td>
+<td>P0172: System Too Rich                             (Bank1*)</td>
+</tr>
+<tr>
+<td>0173</td>
+<td>P0173: Fuel Trim Malfunction                       (Bank2)</td>
+</tr>
+<tr>
+<td>0174</td>
+<td>P0174: System Too Lean                             (Bank2)</td>
+</tr>
+<tr>
+<td>0175</td>
+<td>P0175: System Too Rich                             (Bank2)</td>
+</tr>
+<tr>
+<td>0176</td>
+<td>P0176: Fuel Composition Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0177</td>
+<td>P0177: Fuel Composition Sensor Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0178</td>
+<td>P0178: Fuel Composition Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0179</td>
+<td>P0179: Fuel Composition Sensor Circuit High Input</td>
+</tr>
+<tr>
+<td>0180</td>
+<td>P0180: Fuel Temperature Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0181</td>
+<td>P0181: Fuel Temperature Sensor Circuit Range/Performance Problem</td>
+</tr>
+<tr>
+<td>0182</td>
+<td>P0182: Fuel Temperature Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0183</td>
+<td>P0183: Fuel Temperature Sensor Circuit High Input</td>
+</tr>
+<tr>
+<td>0184</td>
+<td>P0184: ...yet not specified</td>
+</tr>
+<tr>
+<td>0185</td>
+<td>P0185: ...yet not specified</td>
+</tr>
+<tr>
+<td>0200</td>
+<td>*P0200: Injector Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0201</td>
+<td>*P0201: Injector Circuit Malfunction - Cylinder 1 (1A)</td>
+</tr>
+<tr>
+<td>0202</td>
+<td>*P0202: Injector Circuit Malfunction - Cylinder 2 (2A)</td>
+</tr>
+<tr>
+<td>0203</td>
+<td>*P0203: Injector Circuit Malfunction - Cylinder 3 (3A)</td>
+</tr>
+<tr>
+<td>0204</td>
+<td>*P0204: Injector Circuit Malfunction - Cylinder 4 (4A)</td>
+</tr>
+<tr>
+<td>0205</td>
+<td>*P0205: Injector Circuit Malfunction - Cylinder 5 (5A)</td>
+</tr>
+<tr>
+<td>0206</td>
+<td>*P0206: Injector Circuit Malfunction - Cylinder 6 (6A)</td>
+</tr>
+<tr>
+<td>0207</td>
+<td>*P0207: Injector Circuit Malfunction - Cylinder 7 (1B)</td>
+</tr>
+<tr>
+<td>0208</td>
+<td>*P0208: Injector Circuit Malfunction - Cylinder 8 (2B)</td>
+</tr>
+<tr>
+<td>0209</td>
+<td>*P0209: Injector Circuit Malfunction - Cylinder 9 (3B)</td>
+</tr>
+<tr>
+<td>0210</td>
+<td>*P0210: Injector Circuit Malfunction - Cylinder 10 (4B)</td>
+</tr>
+<tr>
+<td>0211</td>
+<td>*P0211: Injector Circuit Malfunction - Cylinder 11 (5B)</td>
+</tr>
+<tr>
+<td>0212</td>
+<td>*P0212: Injector Circuit Malfunction - Cylinder 12 (6B)</td>
+</tr>
+<tr>
+<td>0300</td>
+<td>P0300: Random Misfire Detected</td>
+</tr>
+<tr>
+<td>0301</td>
+<td>P0301: Cylinder 1 Misfire Detected</td>
+</tr>
+<tr>
+<td>0302</td>
+<td>P0302: Cylinder 2 Misfire Detected</td>
+</tr>
+<tr>
+<td>0303</td>
+<td>P0303: Cylinder 3 Misfire Detected</td>
+</tr>
+<tr>
+<td>0304</td>
+<td>P0304: Cylinder 4 Misfire Detected</td>
+</tr>
+<tr>
+<td>0305</td>
+<td>P0305: Cylinder 5 Misfire Detected</td>
+</tr>
+<tr>
+<td>0306</td>
+<td>P0306: Cylinder 6 Misfire Detected</td>
+</tr>
+<tr>
+<td>0307</td>
+<td>P0307: Cylinder 7 Misfire Detected</td>
+</tr>
+<tr>
+<td>0308</td>
+<td>P0308: Cylinder 8 Misfire Detected</td>
+</tr>
+<tr>
+<td>0309</td>
+<td>P0309: Cylinder 9 Misfire Detected</td>
+</tr>
+<tr>
+<td>0310</td>
+<td>P0310: Cylinder 10 Misfire Detected</td>
+</tr>
+<tr>
+<td>0311</td>
+<td>P0311: Cylinder 11 Misfire Detected</td>
+</tr>
+<tr>
+<td>0312</td>
+<td>P0312: Cylinder 12 Misfire Detected</td>
+</tr>
+<tr>
+<td>0313</td>
+<td>P0313: ...yet not specified</td>
+</tr>
+<tr>
+<td>0314</td>
+<td>P0314: ...yet not specified</td>
+</tr>
+<tr>
+<td>0315</td>
+<td>P0315: ...yet not specified</td>
+</tr>
+<tr>
+<td>0316</td>
+<td>P0316: ...yet not specified</td>
+</tr>
+<tr>
+<td>0317</td>
+<td>P0317: ...yet not specified</td>
+</tr>
+<tr>
+<td>0318</td>
+<td>P0318: ...yet not specified</td>
+</tr>
+<tr>
+<td>0319</td>
+<td>P0319: ...yet not specified</td>
+</tr>
+<tr>
+<td>0320</td>
+<td>P0320: Ignition/Distributor Engine Speed Input Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0321</td>
+<td>P0321: Ignition/Distributor Engine Speed Input Circuit Range/Performance</td>
+</tr>
+<tr>
+<td>0322</td>
+<td>P0322: Ignition/Distributor Engine Speed Input Circuit No Signal</td>
+</tr>
+<tr>
+<td>0323</td>
+<td>P0323: ...yet not specified</td>
+</tr>
+<tr>
+<td>0324</td>
+<td>P0324: ...yet not specified</td>
+</tr>
+<tr>
+<td>0325</td>
+<td>P0325: Kock Sensor 1 Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0326</td>
+<td>P0326: Kock Sensor 1 Circuit Range/Performance</td>
+</tr>
+<tr>
+<td>0327</td>
+<td>P0327: Kock Sensor 1 Circuit Low Input</td>
+</tr>
+<tr>
+<td>0328</td>
+<td>P0328: Kock Sensor 1 Circuit High Input</td>
+</tr>
+<tr>
+<td>0329</td>
+<td>P0329: ...yet not specified</td>
+</tr>
+<tr>
+<td>0330</td>
+<td>P0330: Kock Sensor 2 Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0331</td>
+<td>P0331: Kock Sensor 2 Circuit Range/Performance</td>
+</tr>
+<tr>
+<td>0332</td>
+<td>P0332: Kock Sensor 2 Circuit Low Input</td>
+</tr>
+<tr>
+<td>0333</td>
+<td>P0333: Kock Sensor 2 Circuit High Input</td>
+</tr>
+<tr>
+<td>0334</td>
+<td>P0334: ...yet not specified</td>
+</tr>
+<tr>
+<td>0335</td>
+<td>P0335: Crankshaft Position Sensor Curcuit Malfunction</td>
+</tr>
+<tr>
+<td>0336</td>
+<td>P0336: Crankshaft Position Sensor Curcuit Range/Performance</td>
+</tr>
+<tr>
+<td>0337</td>
+<td>P0337: Crankshaft Position Sensor Curcuit Low Input</td>
+</tr>
+<tr>
+<td>0338</td>
+<td>P0338: Crankshaft Position Sensor Curcuit High Input</td>
+</tr>
+<tr>
+<td>0339</td>
+<td>P0339: ...yet not specified</td>
+</tr>
+<tr>
+<td>0340</td>
+<td>P0340: Camshaft Position Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0341</td>
+<td>P0341: Camshaft Position Sensor Circuit Range/Performance</td>
+</tr>
+<tr>
+<td>0342</td>
+<td>P0342: Camshaft Position Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0343</td>
+<td>P0343: Camshaft Position Sensor Circuit High Input</td>
+</tr>
+<tr>
+<td>0400</td>
+<td>P0400: Exhaust Gas Recirculation Flow Malfunction</td>
+</tr>
+<tr>
+<td>0401</td>
+<td>P0401: Exhaust Gas Recirculation Flow Insufficient Detected</td>
+</tr>
+<tr>
+<td>0402</td>
+<td>P0402: Exhaust Gas Recirculation Flow Excessive Detected</td>
+</tr>
+<tr>
+<td>0403</td>
+<td>P0403: Exhaust Gas Recirculation Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0404</td>
+<td>P0404: Exhaust Gas Recirculation Pintle Error</td>
+</tr>
+<tr>
+<td>0405</td>
+<td>P0405: Air Conditioner Refrigerant Charge Loss</td>
+</tr>
+<tr>
+<td>0406</td>
+<td>P0406: ...yet not specified</td>
+</tr>
+<tr>
+<td>0407</td>
+<td>P0407: ...yet not specified</td>
+</tr>
+<tr>
+<td>0408</td>
+<td>P0408: ...yet not specified</td>
+</tr>
+<tr>
+<td>0409</td>
+<td>P0409: ...yet not specified</td>
+</tr>
+<tr>
+<td>0410</td>
+<td>P0410: Secundary Air Injection System Malfunction</td>
+</tr>
+<tr>
+<td>0411</td>
+<td>*P0411: Secundary Air Injection System Incorrect Flow Detected</td>
+</tr>
+<tr>
+<td>0412</td>
+<td>P0412: Secundary Air Injection System Switching Valve/Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0413</td>
+<td>P0413: Secundary Air Injection System Switching Valve/Circuit Open</td>
+</tr>
+<tr>
+<td>0414</td>
+<td>P0414: Secundary Air Injection System Switching Valve/Circuit Shorted</td>
+</tr>
+<tr>
+<td>0420</td>
+<td>P0420: Catalyst System Efficiency Below Threshold    (Bank1*)</td>
+</tr>
+<tr>
+<td>0421</td>
+<td>P0421: Warm Up Catalyst Efficiency Below Threshold   (Bank1*)</td>
+</tr>
+<tr>
+<td>0422</td>
+<td>P0422: Main Catalyst Efficiency Below Threshold      (Bank1*)</td>
+</tr>
+<tr>
+<td>0423</td>
+<td>P0423: Heated Catalyst Efficiency Below Threshold    (Bank1*)</td>
+</tr>
+<tr>
+<td>0424</td>
+<td>P0424: Heated Catalyst Temperature Below Threshold   (Bank1*)</td>
+</tr>
+<tr>
+<td>0425</td>
+<td>P0425: ...yet not specified</td>
+</tr>
+<tr>
+<td>0426</td>
+<td>P0426: ...yet not specified</td>
+</tr>
+<tr>
+<td>0427</td>
+<td>P0427: ...yet not specified</td>
+</tr>
+<tr>
+<td>0428</td>
+<td>P0428: ...yet not specified</td>
+</tr>
+<tr>
+<td>0429</td>
+<td>P0429: ...yet not specified</td>
+</tr>
+<tr>
+<td>0430</td>
+<td>P0430: Catalyst System Efficiency Below Threshold    (Bank2)</td>
+</tr>
+<tr>
+<td>0431</td>
+<td>P0431: Warm Up Catalyst Efficiency Below Threshold   (Bank2)</td>
+</tr>
+<tr>
+<td>0432</td>
+<td>P0432: Main Catalyst Efficiency Below Threshold      (Bank2)</td>
+</tr>
+<tr>
+<td>0433</td>
+<td>P0433: Heated Catalyst Efficiency Below Threshold    (Bank2)</td>
+</tr>
+<tr>
+<td>0434</td>
+<td>P0434: Heated Catalyst Temperature Below Threshold   (Bank2)</td>
+</tr>
+<tr>
+<td>0440</td>
+<td>P0440: Evaporative Emission Control System Malfunction</td>
+</tr>
+<tr>
+<td>0441</td>
+<td>*P0441: Evaporative Emission Control System Incorrect Purge Flow</td>
+</tr>
+<tr>
+<td>0442</td>
+<td>P0442: Evaporative Emission Control System Leak Detected</td>
+</tr>
+<tr>
+<td>0443</td>
+<td>P0443: Evaporative Emission Control System Purge Control Valve Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0444</td>
+<td>P0444: Evaporative Emission Control System Purge Control Valve Circuit Open</td>
+</tr>
+<tr>
+<td>0445</td>
+<td>P0445: Evaporative Emission Control System Purge Control Valve Circuit Shorted</td>
+</tr>
+<tr>
+<td>0500</td>
+<td>P0500: Vehicle Speed Sensor Malfunction</td>
+</tr>
+<tr>
+<td>0501</td>
+<td>P0501: Vehicle Speed Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0502</td>
+<td>*P0502: Vehicle Speed Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0503</td>
+<td>P0503: ...yet not specified</td>
+</tr>
+<tr>
+<td>0504</td>
+<td>P0504: ...yet not specified</td>
+</tr>
+<tr>
+<td>0505</td>
+<td>P0505: Idle Control System Malfunction</td>
+</tr>
+<tr>
+<td>0506</td>
+<td>P0506: Idle Control System RPM Lower Than Expected</td>
+</tr>
+<tr>
+<td>0507</td>
+<td>P0507: Idle Control System RPM Higher Than Expected</td>
+</tr>
+<tr>
+<td>0508</td>
+<td>P0508: ...yet not specified</td>
+</tr>
+<tr>
+<td>0509</td>
+<td>P0509: ...yet not specified</td>
+</tr>
+<tr>
+<td>0510</td>
+<td>P0510: Closed Throttle Position Switsch Malfunction</td>
+</tr>
+<tr>
+<td>0600</td>
+<td>P0600: Serial Communication Link Malfunction</td>
+</tr>
+<tr>
+<td>0601</td>
+<td>P0601: Check Sum Error</td>
+</tr>
+<tr>
+<td>0602</td>
+<td>P0602: Programming Error</td>
+</tr>
+<tr>
+<td>0603</td>
+<td>P0603: ...yet not specified</td>
+</tr>
+<tr>
+<td>0604</td>
+<td>P0604: ...yet not specified</td>
+</tr>
+<tr>
+<td>0605</td>
+<td>P0605: Internal Control Module</td>
+</tr>
+<tr>
+<td>0700</td>
+<td>*P0700: Transmission Control System Malfunction</td>
+</tr>
+<tr>
+<td>0701</td>
+<td>*P0701: Transmission Control System Range/Performance</td>
+</tr>
+<tr>
+<td>0702</td>
+<td>*P0702: Transmission Control System Electrical</td>
+</tr>
+<tr>
+<td>0703</td>
+<td>P0703: Brake Switch Input Malfunction</td>
+</tr>
+<tr>
+<td>0704</td>
+<td>P0704: ...yet not specified</td>
+</tr>
+<tr>
+<td>0705</td>
+<td>P0705: Transmission Range Sensor Circuit Malfunction (PRNDL Input)</td>
+</tr>
+<tr>
+<td>0706</td>
+<td>P0706: Transmission Range Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0707</td>
+<td>P0707: Transmission Range Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0708</td>
+<td>P0708: Transmission Range Sensor Circuit High Input</td>
+</tr>
+<tr>
+<td>0709</td>
+<td>P0709: ...yet not specified</td>
+</tr>
+<tr>
+<td>0710</td>
+<td>P0710: Transmission Fluid Temperatur Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0711</td>
+<td>P0711: Transmission Fluid Temperatur Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0712</td>
+<td>P0712: Transmission Fluid Temperatur Sensor Circuit Low Input</td>
+</tr>
+<tr>
+<td>0713</td>
+<td>P0713: Transmission Fluid Temperatur Sensor Circuit High Input</td>
+</tr>
+<tr>
+<td>0714</td>
+<td>P0714: ...yet not specified</td>
+</tr>
+<tr>
+<td>0715</td>
+<td>P0715: Input/Turbine Speed Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0716</td>
+<td>P0716: Input/Turbine Speed Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0717</td>
+<td>P0717: Input/Turbine Speed Sensor Circuit No Signal</td>
+</tr>
+<tr>
+<td>0718</td>
+<td>P0718: ...yet not specified</td>
+</tr>
+<tr>
+<td>0719</td>
+<td>P0719: ...yet not specified</td>
+</tr>
+<tr>
+<td>0720</td>
+<td>P0720: Output Speed Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0721</td>
+<td>P0721: Output Speed Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0722</td>
+<td>P0722: Output Speed Sensor Circuit No Signal</td>
+</tr>
+<tr>
+<td>0723</td>
+<td>P0723: ...yet not specified</td>
+</tr>
+<tr>
+<td>0724</td>
+<td>P0724: ...yet not specified</td>
+</tr>
+<tr>
+<td>0725</td>
+<td>P0725: Engine Speed Sensor Circuit Malfunction</td>
+</tr>
+<tr>
+<td>0726</td>
+<td>P0726: Engine Speed Sensor Range/Performance</td>
+</tr>
+<tr>
+<td>0727</td>
+<td>P0727: Engine Speed Sensor Circuit No Signal</td>
+</tr>
+<tr>
+<td>0728</td>
+<td>P0728: ...yet not specified</td>
+</tr>
+<tr>
+<td>0729</td>
+<td>P0729: ...yet not specified</td>
+</tr>
+<tr>
+<td>0730</td>
+<td>P0730: Incorrect Gear Ratio</td>
+</tr>
+<tr>
+<td>0731</td>
+<td>P0731: Gear 1: Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0732</td>
+<td>P0732: Gear 2: Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0733</td>
+<td>P0733: Gear 3: Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0734</td>
+<td>P0734: Gear 4: Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0735</td>
+<td>P0735: Gear 5: Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0736</td>
+<td>P0736: Reverse Incorrect Ratio</td>
+</tr>
+<tr>
+<td>0737</td>
+<td>P0737: ...yet not specified</td>
+</tr>
+<tr>
+<td>0738</td>
+<td>P0738: ...yet not specified</td>
+</tr>
+<tr>
+<td>0739</td>
+<td>P0739: ...yet not specified</td>
+</tr>
+<tr>
+<td>0740</td>
+<td>P0740: Tourque Converter Clutch System Malfunction</td>
+</tr>
+<tr>
+<td>0741</td>
+<td>P0741: Tourque Converter Clutch System Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0742</td>
+<td>P0742: Tourque Converter Clutch System Stuck On</td>
+</tr>
+<tr>
+<td>0743</td>
+<td>P0743: Tourque Converter Clutch Electrical</td>
+</tr>
+<tr>
+<td>0744</td>
+<td>P0744: ...yet not specified</td>
+</tr>
+<tr>
+<td>0745</td>
+<td>P0740: Pressure Control Solenoid Malfunction</td>
+</tr>
+<tr>
+<td>0746</td>
+<td>P0741: Pressure Control Solenoid Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0747</td>
+<td>P0742: Pressure Control Solenoid Stuck On</td>
+</tr>
+<tr>
+<td>0748</td>
+<td>P0743: Pressure Control Solenoid Electrical</td>
+</tr>
+<tr>
+<td>0749</td>
+<td>P0749: ...yet not specified</td>
+</tr>
+<tr>
+<td>0750</td>
+<td>P0750: Shift Solenoid A Malfunction</td>
+</tr>
+<tr>
+<td>0751</td>
+<td>P0751: Shift Solenoid A Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0752</td>
+<td>P0752: Shift Solenoid A Stuck On</td>
+</tr>
+<tr>
+<td>0753</td>
+<td>P0753: Shift Solenoid A Electrical</td>
+</tr>
+<tr>
+<td>0754</td>
+<td>P0754: ...yet not specified</td>
+</tr>
+<tr>
+<td>0755</td>
+<td>P0755: Shift Solenoid B Malfunction</td>
+</tr>
+<tr>
+<td>0756</td>
+<td>P0756: Shift Solenoid B Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0757</td>
+<td>P0757: Shift Solenoid B Stuck On</td>
+</tr>
+<tr>
+<td>0758</td>
+<td>P0758: Shift Solenoid B Electrical</td>
+</tr>
+<tr>
+<td>0759</td>
+<td>P0759: ...yet not specified</td>
+</tr>
+<tr>
+<td>0760</td>
+<td>P0760: Shift Solenoid C Malfunction</td>
+</tr>
+<tr>
+<td>0761</td>
+<td>P0761: Shift Solenoid C Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0762</td>
+<td>P0762: Shift Solenoid C Stuck On</td>
+</tr>
+<tr>
+<td>0763</td>
+<td>P0763: Shift Solenoid C Electrical</td>
+</tr>
+<tr>
+<td>0764</td>
+<td>P0764: ...yet not specified</td>
+</tr>
+<tr>
+<td>0765</td>
+<td>P0765: Shift Solenoid D Malfunction</td>
+</tr>
+<tr>
+<td>0766</td>
+<td>P0766: Shift Solenoid D Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0767</td>
+<td>P0767: Shift Solenoid D Stuck On</td>
+</tr>
+<tr>
+<td>0768</td>
+<td>P0768: Shift Solenoid D Electrical</td>
+</tr>
+<tr>
+<td>0769</td>
+<td>P0769: ...yet not specified</td>
+</tr>
+<tr>
+<td>0770</td>
+<td>P0770: Shift Solenoid E Malfunction</td>
+</tr>
+<tr>
+<td>0771</td>
+<td>P0771: Shift Solenoid E Performance or Stuck Off</td>
+</tr>
+<tr>
+<td>0772</td>
+<td>P0772: Shift Solenoid E Stuck On</td>
+</tr>
+<tr>
+<td>0773</td>
+<td>P0773: Shift Solenoid E Electrical</td>
+</tr>
+<tr>
+<td>1XXX</td>
+<td>P1xxx: Manufacturer Specific DTC</td>
+</tr>
+<tr>
+<td>XXXX</td>
+<td>Pxxxx: Unknown DTC</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-modes"></a></p>
+<h3 id="modes">MODES</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MODE1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>MODE2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>MODE3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>MODE4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>MODE5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>MODE6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>MODE7</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-carbsource"></a></p>
+<h3 id="carbsource">CARBSOURCE</h3>
+<p>Dimensions: 257 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ADRESS</th>
+<th>ECU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>[00 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>[01 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>[02 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>[03 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>[04 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>[05 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>[06 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>[07 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>[08 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>[09 (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>[0A (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>[0B (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>[0C (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>[0D (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>[0E (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>[0F (Powertrain/Integration)]</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>[10 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>[11 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>[12 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>[13 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>[14 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>[15 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>[16 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>[17 (Powertrain/Engine Controller)]</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>[18 (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>[19 (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>[1A (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>[1B (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>[1C (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>[1D (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>[1E (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>[1F (Powertrain/Transmission Controller)]</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>[20 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>[21 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>[22 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>[23 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>[24 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>[25 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>[26 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>[27 (Chassis/Integration)]</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>[28 (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>[29 (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>[2A (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>[2B (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>[2C (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>[2D (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>[2E (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x2F</td>
+<td>[2F (Chassis/Brake Controller)]</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>[30 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>[31 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>[32 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>[33 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>[34 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>[35 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>[36 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>[37 (Chassis/Steering Controller)]</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>[38 (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>[39 (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>[3A (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>[3B (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>[3C (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>[3D (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3E</td>
+<td>[3E (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>[3F (Chassis/Suspension Controller)]</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>[40 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>[41 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>[42 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>[43 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>[44 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>[45 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>[46 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>[47 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>[48 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>[49 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>[4A (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>[4B (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>[4C (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>[4D (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>[4E (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>[4F (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>[50 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>[51 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>[52 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>[53 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>[54 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>[55 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>[56 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>[57 (Body/Integration)]</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>[58 (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>[59 (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5A</td>
+<td>[5A (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5B</td>
+<td>[5B (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5C</td>
+<td>[5C (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5D</td>
+<td>[5D (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5E</td>
+<td>[5E (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x5F</td>
+<td>[5F (Body/Restraint)]</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>[60 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>[61 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>[62 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>[63 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>[64 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>[65 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>[66 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>[67 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>[68 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>[69 (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>[6A (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6B</td>
+<td>[6B (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6C</td>
+<td>[6C (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6D</td>
+<td>[6D (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6E</td>
+<td>[6E (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x6F</td>
+<td>[6F (Body/Driver Information)]</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>[70 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>[71 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>[72 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>[73 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>[74 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>[75 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>[76 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>[77 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>[78 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>[79 (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7A</td>
+<td>[7A (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7B</td>
+<td>[7B (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7C</td>
+<td>[7C (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7D</td>
+<td>[7D (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>[7E (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>[7F (Body/Lighting)]</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>[80 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>[81 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>[82 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>[83 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>[84 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>[85 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>[86 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>[87 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>[88 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>[89 (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>[8A (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>[8B (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>[8C (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>[8D (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>[8E (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>[8F (Body/Entertainment)]</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>[90 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>[91 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>[92 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>[93 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>[94 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>[95 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>[96 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x97</td>
+<td>[97 (Body/Personal Communications)]</td>
+</tr>
+<tr>
+<td>0x98</td>
+<td>[98 (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x99</td>
+<td>[99 (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9A</td>
+<td>[9A (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9B</td>
+<td>[9B (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9C</td>
+<td>[9C (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9D</td>
+<td>[9D (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9E</td>
+<td>[9E (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x9F</td>
+<td>[9F (Body/Climate Control)]</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>[A0 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>[A1 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>[A2 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>[A3 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>[A4 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>[A5 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>[A6 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>[A7 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>[A8 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>[A9 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>[AA (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>[AB (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>[AC (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>[AD (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>[AE (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>[AF (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>[B0 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>[B1 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>[B2 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>[B3 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB4</td>
+<td>[B4 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB5</td>
+<td>[B5 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB6</td>
+<td>[B6 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB7</td>
+<td>[B7 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB8</td>
+<td>[B8 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xB9</td>
+<td>[B9 (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBA</td>
+<td>[BA (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBB</td>
+<td>[BB (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBC</td>
+<td>[BC (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBD</td>
+<td>[BD (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBE</td>
+<td>[BE (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xBF</td>
+<td>[BF (Body/Convenience)]</td>
+</tr>
+<tr>
+<td>0xC0</td>
+<td>[C0 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC1</td>
+<td>[C1 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC2</td>
+<td>[C2 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC3</td>
+<td>[C3 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC4</td>
+<td>[C4 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC5</td>
+<td>[C5 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC6</td>
+<td>[C6 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC7</td>
+<td>[C7 (Body/Security)]</td>
+</tr>
+<tr>
+<td>0xC8</td>
+<td>[C8 (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xC9</td>
+<td>[C9 (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCA</td>
+<td>[CA (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCB</td>
+<td>[CB (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCC</td>
+<td>[CC (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCD</td>
+<td>[CD (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCE</td>
+<td>[CE (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xCF</td>
+<td>[CF (Future Expansion)]</td>
+</tr>
+<tr>
+<td>0xD0</td>
+<td>[D0 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD1</td>
+<td>[D1 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD2</td>
+<td>[D2 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD3</td>
+<td>[D3 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD4</td>
+<td>[D4 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD5</td>
+<td>[D5 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD6</td>
+<td>[D6 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD7</td>
+<td>[D7 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD8</td>
+<td>[D8 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xD9</td>
+<td>[D9 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDA</td>
+<td>[DA (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDB</td>
+<td>[DB (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDC</td>
+<td>[DC (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDD</td>
+<td>[DD (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDE</td>
+<td>[DE (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xDF</td>
+<td>[DF (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE0</td>
+<td>[E0 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE1</td>
+<td>[E1 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE2</td>
+<td>[E2 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE3</td>
+<td>[E3 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE4</td>
+<td>[E4 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE5</td>
+<td>[E5 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE6</td>
+<td>[E6 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE7</td>
+<td>[E7 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE8</td>
+<td>[E8 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xE9</td>
+<td>[E9 (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>[EA (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>[EB (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>[EC (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>[ED (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>[EE (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>[EF (Manufacturer Specific)]</td>
+</tr>
+<tr>
+<td>0xF0</td>
+<td>[F0 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>[F1 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF2</td>
+<td>[F2 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF3</td>
+<td>[F3 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF4</td>
+<td>[F4 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF5</td>
+<td>[F5 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF6</td>
+<td>[F6 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF7</td>
+<td>[F7 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF8</td>
+<td>[F8 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xF9</td>
+<td>[F9 (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>[FA (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>[FB (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>[FC (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>[FD (Tester/Diagnostic Tools)]</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>[FE (All Nodes)]</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>[FF (Null Node)]</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>[XX (Vehicle)]</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

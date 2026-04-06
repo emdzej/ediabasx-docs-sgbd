@@ -1,0 +1,1936 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/virtsg98/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>virtsg98.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#virtsg98prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              virtsg98.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnoseprotokoll_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSEPROTOKOLL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSEPROTOKOLL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnoseprotokoll_setzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSEPROTOKOLL_SETZEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSEPROTOKOLL_SETZEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physikalische_hw_nr_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PHYSIKALISCHE_HW_NR_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PHYSIKALISCHE_HW_NR_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aif_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AIF_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AIF_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_diagnosekonzept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_DIAGNOSEKONZEPT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konzept_tabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONZEPT_TABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUTHENTISIERUNG
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="virtsg98prg">virtsg98.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">7</a></li>
+<li>Tables: <a href="#tables">5</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Virtuelles Steuergerät an Adresse 0x98</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW EI-44 Mallinson</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>0.04</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW EI-44 Mallinson</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.31</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-diagnoseprotokoll-lesen">DIAGNOSEPROTOKOLL_LESEN</a> - Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück</li>
+<li><a href="#job-diagnoseprotokoll-setzen">DIAGNOSEPROTOKOLL_SETZEN</a> - Wählt ein Diagnoseprotokoll aus</li>
+<li><a href="#job-ident">IDENT</a> - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</li>
+<li><a href="#job-physikalische-hw-nr-lesen">PHYSIKALISCHE_HW_NR_LESEN</a> - Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default</li>
+<li><a href="#job-aif-lesen">AIF_LESEN</a> - Auslesen des Anwender Informations Feldes Abgespeckte Version nur fuer virtuelle SGs KWP 2000: $23 ReadMemoryByAddress Modus   : Default</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnoseprotokoll-lesen"></a></p>
+<h3 id="diagnoseprotokoll_lesen">DIAGNOSEPROTOKOLL_LESEN</h3>
+<p>Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY oder ERROR_DIAG_PROT</td>
+</tr>
+<tr>
+<td>DIAG_PROT_IST</td>
+<td>string</td>
+<td>Gibt das aktuelle gewählte Protokoll aus table KONZEPT_TABELLE KONZEPT_TEXT</td>
+</tr>
+<tr>
+<td>DIAG_PROT_ANZAHL</td>
+<td>int</td>
+<td>Anzahl der Diagnoseprotokolle</td>
+</tr>
+<tr>
+<td>DIAG_PROT_NR1</td>
+<td>string</td>
+<td>Alle möglichen Diagnose-Protokolle Falls mehrere Protokolle möglich sind werden die entsprechenden Results DIAG_PROT_NRx dynamisch erzeugt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnoseprotokoll-setzen"></a></p>
+<h3 id="diagnoseprotokoll_setzen">DIAGNOSEPROTOKOLL_SETZEN</h3>
+<p>Wählt ein Diagnoseprotokoll aus</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DIAG_PROT</td>
+<td>string</td>
+<td>Diagnoseprotokoll table KONZEPT_TABELLE KONZEPT_TEXT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>string</td>
+<td>BMW-Hardware-Versionsindex</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_VAR_INDEX</td>
+<td>int</td>
+<td>Varianten-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum (Jahr)</td>
+</tr>
+<tr>
+<td>ID_DATUM_MONAT</td>
+<td>int</td>
+<td>Herstelldatum (Monat)</td>
+</tr>
+<tr>
+<td>ID_DATUM_TAG</td>
+<td>int</td>
+<td>Herstelldatum (Tag)</td>
+</tr>
+<tr>
+<td>ID_DATUM</td>
+<td>string</td>
+<td>Herstelldatum (TT.MM.JJJJ)</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR_MCV</td>
+<td>string</td>
+<td>Softwarenummer (message catalogue version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_FSV</td>
+<td>string</td>
+<td>Softwarenummer (functional software version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_OSV</td>
+<td>string</td>
+<td>Softwarenummer (operating system version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_RES</td>
+<td>string</td>
+<td>Softwarenummer (reserved - currently unused)</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse bzw. LIN Master Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>ID_LIN_SLAVE_ADR</td>
+<td>long</td>
+<td>LIN Slave Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>ID_EWS_SS</td>
+<td>int</td>
+<td>Identifikation EWS-Schnittstelle Nur fuer DS2-Bordnetz benoetigt Fuer EWS-DME/DDE Abgleich</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-physikalische-hw-nr-lesen"></a></p>
+<h3 id="physikalische_hw_nr_lesen">PHYSIKALISCHE_HW_NR_LESEN</h3>
+<p>Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) oder alternativ KWP2000: $1A ReadECUIdentification $80 ECUIdentificationDataTable Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>PHYSIKALISCHE_HW_NR</td>
+<td>string</td>
+<td>Physikalische Hardware-Nummer</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_2</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_2</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-aif-lesen"></a></p>
+<h3 id="aif_lesen">AIF_LESEN</h3>
+<p>Auslesen des Anwender Informations Feldes Abgespeckte Version nur fuer virtuelle SGs KWP 2000: $23 ReadMemoryByAddress Modus   : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIF_FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer 7-stellig</td>
+</tr>
+<tr>
+<td>AIF_DATUM</td>
+<td>string</td>
+<td>Datum der SG-Programmierung in der Form TT.MM.JJJJ</td>
+</tr>
+<tr>
+<td>AIF_ZB_NR</td>
+<td>string</td>
+<td>BMW/Rover Zusammenbaunummer</td>
+</tr>
+<tr>
+<td>AIF_ANZ_FREI</td>
+<td>int</td>
+<td>Anzahl noch vorhandener AIF-Eintraege</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_2</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_2</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-sg-diagnosekonzept">SG_DIAGNOSEKONZEPT</a> (4 × 2)</li>
+<li><a href="#table-konzept-tabelle">KONZEPT_TABELLE</a> (5 × 2)</li>
+<li><a href="#table-jobresult">JOBRESULT</a> (95 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (77 × 2)</li>
+<li><a href="#table-authentisierung">AUTHENTISIERUNG</a> (4 × 2)</li>
+</ul>
+<p><a id="table-sg-diagnosekonzept"></a></p>
+<h3 id="sg_diagnosekonzept">SG_DIAGNOSEKONZEPT</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>RANG</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>-</td>
+<td>KWP2000*</td>
+</tr>
+<tr>
+<td>-</td>
+<td>KWP2000</td>
+</tr>
+<tr>
+<td>-</td>
+<td>DS2</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-konzept-tabelle"></a></p>
+<h3 id="konzept_tabelle">KONZEPT_TABELLE</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>D-CAN</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>KWP2000*</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KWP2000</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>DS2</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 95 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>ERROR_ECU_ROUTINE_NOT_COMPLETE</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>ERROR_ECU_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>ERROR_ECU_IMPROPER_DOWNLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>ERROR_ECU_UPLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ERROR_ECU_IMPROPER_UPLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_TRANSFER_ABORTED</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?04?</td>
+<td>ERROR_ECU_INCORRECT_LIN_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?05?</td>
+<td>ERROR_ECU_INCORRECT_LIN_LEN</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?11?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_SEGMENT</td>
+</tr>
+<tr>
+<td>?21?</td>
+<td>ERROR_ADDRESS</td>
+</tr>
+<tr>
+<td>?22?</td>
+<td>ERROR_NUMBER</td>
+</tr>
+<tr>
+<td>?30?</td>
+<td>ERROR_DATA</td>
+</tr>
+<tr>
+<td>?40?</td>
+<td>ERROR_MODE</td>
+</tr>
+<tr>
+<td>?41?</td>
+<td>ERROR_BAUDRATE</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_DATA_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?73?</td>
+<td>ERROR_NO_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?74?</td>
+<td>ERROR_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?75?</td>
+<td>ERROR_DATA_TYPE</td>
+</tr>
+<tr>
+<td>?76?</td>
+<td>ERROR_CHECKSUM</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_FLASH_SIGNATURE_CHECK</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_VIHICLE_IDENTFICATON_NR</td>
+</tr>
+<tr>
+<td>?82?</td>
+<td>ERROR_PROGRAMMING_DATE</td>
+</tr>
+<tr>
+<td>?83?</td>
+<td>ERROR_ASSEMBLY_NR</td>
+</tr>
+<tr>
+<td>?84?</td>
+<td>ERROR_CALIBRATION_DATASET_NR</td>
+</tr>
+<tr>
+<td>?85?</td>
+<td>ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR</td>
+</tr>
+<tr>
+<td>?86?</td>
+<td>ERROR_REPAIR_SHOP_NR</td>
+</tr>
+<tr>
+<td>?87?</td>
+<td>ERROR_TESTER_SERIAL_NR</td>
+</tr>
+<tr>
+<td>?88?</td>
+<td>ERROR_MILAGE</td>
+</tr>
+<tr>
+<td>?89?</td>
+<td>ERROR_PROGRAMMING_REFERENCE</td>
+</tr>
+<tr>
+<td>?8A?</td>
+<td>ERROR_NO_FREE_UIF</td>
+</tr>
+<tr>
+<td>?8B?</td>
+<td>ERROR_MAX_UIF</td>
+</tr>
+<tr>
+<td>?8C?</td>
+<td>ERROR_SIZE_UIF</td>
+</tr>
+<tr>
+<td>?8D?</td>
+<td>ERROR_LEVEL</td>
+</tr>
+<tr>
+<td>?8E?</td>
+<td>ERROR_KEY</td>
+</tr>
+<tr>
+<td>?8F?</td>
+<td>ERROR_AUTHENTICATION</td>
+</tr>
+<tr>
+<td>?90?</td>
+<td>ERROR_NO_DREF</td>
+</tr>
+<tr>
+<td>?91?</td>
+<td>ERROR_CHECK_PECUHN</td>
+</tr>
+<tr>
+<td>?92?</td>
+<td>ERROR_CHECK_PRGREF</td>
+</tr>
+<tr>
+<td>?93?</td>
+<td>ERROR_AIF_NR</td>
+</tr>
+<tr>
+<td>?94?</td>
+<td>ERROR_CHECK_DREF</td>
+</tr>
+<tr>
+<td>?95?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?96?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?97?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?98?</td>
+<td>ERROR_CHECK_VMECUH*NB</td>
+</tr>
+<tr>
+<td>?99?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?9A?</td>
+<td>ERROR_CHECK_VMECUH*N</td>
+</tr>
+<tr>
+<td>?9B?</td>
+<td>ERROR_MOST_CAN_GATEWAY_DISABLE</td>
+</tr>
+<tr>
+<td>?9C?</td>
+<td>ERROR_NO_P2MIN</td>
+</tr>
+<tr>
+<td>?9D?</td>
+<td>ERROR_NO_P2MAX</td>
+</tr>
+<tr>
+<td>?9E?</td>
+<td>ERROR_NO_P3MIN</td>
+</tr>
+<tr>
+<td>?9F?</td>
+<td>ERROR_NO_P3MAX</td>
+</tr>
+<tr>
+<td>?A0?</td>
+<td>ERROR_NO_P4MIN</td>
+</tr>
+<tr>
+<td>?B0?</td>
+<td>ERROR_DIAG_PROT</td>
+</tr>
+<tr>
+<td>?B1?</td>
+<td>ERROR_SG_ADRESSE</td>
+</tr>
+<tr>
+<td>?B2?</td>
+<td>ERROR_SG_MAXANZAHL_AIF</td>
+</tr>
+<tr>
+<td>?B3?</td>
+<td>ERROR_SG_GROESSE_AIF</td>
+</tr>
+<tr>
+<td>?B4?</td>
+<td>ERROR_SG_ENDEKENNUNG_AIF</td>
+</tr>
+<tr>
+<td>?B5?</td>
+<td>ERROR_SG_AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>?C0?</td>
+<td>ERROR_TELEGRAM_LEN_OUT_OFF_RANGE</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 77 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Continental Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ASIN AWCO.LTD</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>Shorlock</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>Schrader</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>BERU Electronics GmbH</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>CEL</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-authentisierung"></a></p>
+<h3 id="authentisierung">AUTHENTISIERUNG</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>AUTH_NR</th>
+<th>AUTH_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Simple</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Symetrisch</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Asymetrisch</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>Keine</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

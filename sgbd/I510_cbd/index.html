@@ -1,0 +1,3424 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/I510_cbd/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>I510_cbd.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#i510_cbdprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              I510_cbd.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen_detail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN_DETAIL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN_DETAIL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pruefstempel_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRUEFSTEMPEL_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PRUEFSTEMPEL_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normaler_datenverkehr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NORMALER_DATENVERKEHR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NORMALER_DATENVERKEHR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_aufrecht" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_AUFRECHT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_AUFRECHT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#referenz_felder_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REFERENZ_FELDER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REFERENZ_FELDER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cbd_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CBD_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CBD_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fz_abgleich_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FZ_ABGLEICH_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FZ_ABGLEICH_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wabco_abgleich_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WABCO_ABGLEICH_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WABCO_ABGLEICH_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#brif_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BRIF_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BRIF_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zif_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZIF_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZIF_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prog_status_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROG_STATUS_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PROG_STATUS_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dif_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIF_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIF_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aif_default_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AIF_DEFAULT_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AIF_DEFAULT_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalargument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALARGUMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagmode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGMODE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speichersegment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHERSEGMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programmierstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROGRAMMIERSTATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fdetailstruktur" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FDETAILSTRUKTUR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALID
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analogid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ANALOGID
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eepromid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EEPROMID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="i510_cbdprg">I510_cbd.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">19</a></li>
+<li>Tables: <a href="#tables">13</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>1-Achs-Luftfederung E65</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>intern</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>0.04</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>WABCO PF-6 Dittrich, Piepho</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Codierdaten I4-E65 29.10.99</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>0.10</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-ident">IDENT</a> - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default</li>
+<li><a href="#job-fs-lesen-detail">FS_LESEN_DETAIL</a> - Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default</li>
+<li><a href="#job-pruefstempel-lesen">PRUEFSTEMPEL_LESEN</a> - Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default</li>
+<li><a href="#job-pruefstempel-schreiben">PRUEFSTEMPEL_SCHREIBEN</a> - Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default</li>
+<li><a href="#job-normaler-datenverkehr">NORMALER_DATENVERKEHR</a> - Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default</li>
+<li><a href="#job-diagnose-aufrecht">DIAGNOSE_AUFRECHT</a> - Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default</li>
+<li><a href="#job-referenz-felder-lesen">REFERENZ_FELDER_LESEN</a> - Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $3000 HardwareReferenz Modus  : Default</li>
+<li><a href="#job-cbd-schreiben">CBD_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3000 CBD Modus  : Default</li>
+<li><a href="#job-fz-abgleich-schreiben">FZ_ABGLEICH_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3001 FZ_ABGLEICH Modus  : Default</li>
+<li><a href="#job-wabco-abgleich-schreiben">WABCO_ABGLEICH_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3002 WABCO_ABGLEICH Modus  : Default</li>
+<li><a href="#job-brif-schreiben">BRIF_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3010 BRIF Modus  : Default</li>
+<li><a href="#job-zif-schreiben">ZIF_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3011 ZIF Modus  : Default</li>
+<li><a href="#job-prog-status-schreiben">PROG_STATUS_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3013 Status Modus  : Default</li>
+<li><a href="#job-dif-schreiben">DIF_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3012 DIF Modus  : Default</li>
+<li><a href="#job-aif-default-schreiben">AIF_DEFAULT_SCHREIBEN</a> - Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3014 AIF Modus  : Default</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergeraet im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeraete-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>string</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_VAR_INDEX</td>
+<td>int</td>
+<td>Varianten-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum (Jahr)</td>
+</tr>
+<tr>
+<td>ID_DATUM_MONAT</td>
+<td>int</td>
+<td>Herstelldatum (Monat)</td>
+</tr>
+<tr>
+<td>ID_DATUM_TAG</td>
+<td>int</td>
+<td>Herstelldatum (Tag)</td>
+</tr>
+<tr>
+<td>ID_DATUM</td>
+<td>string</td>
+<td>Herstelldatum (TT.MM.JJJJ)</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR_MCV</td>
+<td>string</td>
+<td>Softwarenummer (message catalogue version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_FSV</td>
+<td>string</td>
+<td>Softwarenummer (functional software version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_OSV</td>
+<td>string</td>
+<td>Softwarenummer (operating system version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_RES</td>
+<td>string</td>
+<td>Softwarenummer (reserved - currently unused)</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>F_VERSION</td>
+<td>int</td>
+<td>Typ des Fehlerspeichers Fuer KWP-2000 immer 2</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Fehlerdaten pro Fehler als Hexcode</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Fehlerort</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text table FOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_SYMPTOM_NR</td>
+<td>int</td>
+<td>Fehlersymptom (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_SYMPTOM_TEXT</td>
+<td>string</td>
+<td>Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_READY_NR</td>
+<td>int</td>
+<td>Readyness Flag (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_READY_TEXT</td>
+<td>string</td>
+<td>Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_VORHANDEN_NR</td>
+<td>int</td>
+<td>Fehler vorhanden (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_VORHANDEN_TEXT</td>
+<td>string</td>
+<td>Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_WARNUNG_NR</td>
+<td>int</td>
+<td>Warnlampen Flag (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_WARNUNG_TEXT</td>
+<td>string</td>
+<td>Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen-detail"></a></p>
+<h3 id="fs_lesen_detail">FS_LESEN_DETAIL</h3>
+<p>Fehlerspeicher lesen (ein Fehler / alle Details) KWP2000: $17 ReadStatusOfDiagnosticTroubleCodes Modus: Default</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F_CODE</td>
+<td>int</td>
+<td>gewaehlter Fehlercode</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>F_VERSION</td>
+<td>int</td>
+<td>Typ des Fehlerspeichers Fuer KWP-2000 immer 2</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Fehlerdaten pro Fehler als Hexcode</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Fehlerort</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text table FOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_SYMPTOM_NR</td>
+<td>int</td>
+<td>Fehlersymptom (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_SYMPTOM_TEXT</td>
+<td>string</td>
+<td>Fehlersymptom (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_READY_NR</td>
+<td>int</td>
+<td>Readyness Flag (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_READY_TEXT</td>
+<td>string</td>
+<td>Readyness Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_VORHANDEN_NR</td>
+<td>int</td>
+<td>Fehler vorhanden (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_VORHANDEN_TEXT</td>
+<td>string</td>
+<td>Fehler vorhanden (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_WARNUNG_NR</td>
+<td>int</td>
+<td>Warnlampen Flag (Standard-Fehlerart) als Zahl</td>
+</tr>
+<tr>
+<td>F_WARNUNG_TEXT</td>
+<td>string</td>
+<td>Warnlampen Flag (Standard-Fehlerart) als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Haufigkeitszaehler als Zahl Wertebereich 0 - 255 -1: ohne Haufigkeitszaehler</td>
+</tr>
+<tr>
+<td>F_LZ</td>
+<td>int</td>
+<td>Logistikzaehler als Zahl Wertebereich 0 - 255 -1: ohne Logistikzaehler</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der zusaetzlichen Fehlerarten Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ARTi_NR   Index der i. Fehlerart (string) F_ARTi_TEXT Text  zur i. Fehlerart</td>
+</tr>
+<tr>
+<td>F_UW_KM</td>
+<td>long</td>
+<td>Umweltbedingung Kilometerstand Wertebereich: 0 - 524280 km</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_UWi_NR   Index   der i. Umweltbedingung (string) F_UWi_TEXT Text    zur i. Umweltbedingung (real)   F_Uwi_WERT Wert    der i. Umweltbedingung (string) F_UWi_EINH Einheit der i. Umweltbedingung</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-lesen"></a></p>
+<h3 id="pruefstempel_lesen">PRUEFSTEMPEL_LESEN</h3>
+<p>Auslesen des Pruefstempels KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-pruefstempel-schreiben"></a></p>
+<h3 id="pruefstempel_schreiben">PRUEFSTEMPEL_SCHREIBEN</h3>
+<p>Beschreiben des Pruefstempels Es muessen immer alle drei Argumente im Bereich von 0-255 bzw. 0x00-0xFF uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-normaler-datenverkehr"></a></p>
+<h3 id="normaler_datenverkehr">NORMALER_DATENVERKEHR</h3>
+<p>Sperren bzw. Freigeben des normalen Datenverkehrs KWP2000: $28 DisableNormalMessageTransmission KWP2000: $29 EnableNormalMessageTransmission Modus  : Default</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FREIGEBEN</td>
+<td>string</td>
+<td>"ja"   -&gt; normalen Datenverkehr freigeben "nein" -&gt; normalen Datenverkehr sperren table DigitalArgument TEXT</td>
+</tr>
+<tr>
+<td>SG_ANTWORT</td>
+<td>string</td>
+<td>"ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten</td>
+</tr>
+<tr>
+<td>FUNKTIONAL</td>
+<td>string</td>
+<td>"ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-aufrecht"></a></p>
+<h3 id="diagnose_aufrecht">DIAGNOSE_AUFRECHT</h3>
+<p>Diagnosemode des SG aufrecht erhalten KWP2000: $3E TesterPresent Modus  : Default</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SG_ANTWORT</td>
+<td>string</td>
+<td>"ja"   -&gt; SG soll antworten "nein" -&gt; SG soll nicht antworten table DigitalArgument TEXT Default:  SG soll antworten</td>
+</tr>
+<tr>
+<td>FUNKTIONAL</td>
+<td>string</td>
+<td>"ja"   -&gt; Funktionale Adresse 0xEF wird benutzt nur in Verbindung mit SG_ANTWORT="nein" "nein" -&gt; SG Adresse wird benutzt table DigitalArgument TEXT Default:  SG Adresse wird benutzt</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-referenz-felder-lesen"></a></p>
+<h3 id="referenz_felder_lesen">REFERENZ_FELDER_LESEN</h3>
+<p>Auslesen der Hardware Referenz KWP2000: $22   ReadDataByCommonIdentifier $3000 HardwareReferenz Modus  : Default</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REFERENZ</td>
+<td>int</td>
+<td>?Erklaerung? Bereich: ?min? bis ?max? ?Einheit?</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>REFERENZ_OUT</td>
+<td>string</td>
+<td>Hardware Referenz</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-cbd-schreiben"></a></p>
+<h3 id="cbd_schreiben">CBD_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3000 CBD Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fz-abgleich-schreiben"></a></p>
+<h3 id="fz_abgleich_schreiben">FZ_ABGLEICH_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3001 FZ_ABGLEICH Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-wabco-abgleich-schreiben"></a></p>
+<h3 id="wabco_abgleich_schreiben">WABCO_ABGLEICH_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3002 WABCO_ABGLEICH Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-brif-schreiben"></a></p>
+<h3 id="brif_schreiben">BRIF_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3010 BRIF Modus  : Default</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HSW</td>
+<td>int</td>
+<td>?Erklaerung? Bereich: ?min? bis ?max? ?Einheit?</td>
+</tr>
+<tr>
+<td>MSW</td>
+<td>int</td>
+<td>?Erklaerung? Bereich: ?min? bis ?max? ?Einheit?</td>
+</tr>
+<tr>
+<td>LSW</td>
+<td>int</td>
+<td>?Erklaerung? Bereich: ?min? bis ?max? ?Einheit?</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-zif-schreiben"></a></p>
+<h3 id="zif_schreiben">ZIF_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3011 ZIF Modus  : Default</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E_INDEX</td>
+<td>int</td>
+<td>?Erklaerung? Bereich: ?min? bis ?max? ?Einheit?</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-prog-status-schreiben"></a></p>
+<h3 id="prog_status_schreiben">PROG_STATUS_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3013 Status Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-dif-schreiben"></a></p>
+<h3 id="dif_schreiben">DIF_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3012 DIF Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-aif-default-schreiben"></a></p>
+<h3 id="aif_default_schreiben">AIF_DEFAULT_SCHREIBEN</h3>
+<p>Auslesen des Backups der Programm Referenz KWP2000: $2E   WriteDataByCommonIdentifier $3014 AIF Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BUFFER_LENGTH</td>
+<td>int</td>
+<td>laenge des zu uebertragenden Buffers</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (70 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (50 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (14 × 2)</li>
+<li><a href="#table-digitalargument">DIGITALARGUMENT</a> (12 × 2)</li>
+<li><a href="#table-diagmode">DIAGMODE</a> (14 × 3)</li>
+<li><a href="#table-speichersegment">SPEICHERSEGMENT</a> (10 × 3)</li>
+<li><a href="#table-programmierstatus">PROGRAMMIERSTATUS</a> (19 × 2)</li>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (2 × 2)</li>
+<li><a href="#table-fdetailstruktur">FDETAILSTRUKTUR</a> (4 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (27 × 2)</li>
+<li><a href="#table-digitalid">DIGITALID</a> (11 × 4)</li>
+<li><a href="#table-analogid">ANALOGID</a> (7 × 4)</li>
+<li><a href="#table-eepromid">EEPROMID</a> (3 × 4)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 70 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>ERROR_ECU_ROUTINE_NOT_COMPLETE</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>ERROR_ECU_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>ERROR_ECU_IMPROPER_DOWNLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>ERROR_ECU_UPLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ERROR_ECU_IMPROPER_UPLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_TRANSFER_ABORTED</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?11?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_SEGMENT</td>
+</tr>
+<tr>
+<td>?21?</td>
+<td>ERROR_ADDRESS</td>
+</tr>
+<tr>
+<td>?22?</td>
+<td>ERROR_NUMBER</td>
+</tr>
+<tr>
+<td>?30?</td>
+<td>ERROR_DATA</td>
+</tr>
+<tr>
+<td>?40?</td>
+<td>ERROR_MODE</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_DATA_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?73?</td>
+<td>ERROR_NO_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?74?</td>
+<td>ERROR_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?75?</td>
+<td>ERROR_DATA_TYPE</td>
+</tr>
+<tr>
+<td>?76?</td>
+<td>ERROR_CHECKSUM</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_FLASH_SIGNATURE_CHECK</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_VIHICLE_IDENTFICATON_NR</td>
+</tr>
+<tr>
+<td>?82?</td>
+<td>ERROR_PROGRAMMING_DATE</td>
+</tr>
+<tr>
+<td>?83?</td>
+<td>ERROR_ASSEMBLY_NR</td>
+</tr>
+<tr>
+<td>?84?</td>
+<td>ERROR_CALIBRATION_DATASET_NR</td>
+</tr>
+<tr>
+<td>?85?</td>
+<td>ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR</td>
+</tr>
+<tr>
+<td>?86?</td>
+<td>ERROR_REPAIR_SHOP_NR</td>
+</tr>
+<tr>
+<td>?87?</td>
+<td>ERROR_TESTER_SERIAL_NR</td>
+</tr>
+<tr>
+<td>?88?</td>
+<td>ERROR_MILAGE</td>
+</tr>
+<tr>
+<td>?89?</td>
+<td>ERROR_PROGRAMMING_REFERENCE</td>
+</tr>
+<tr>
+<td>?8A?</td>
+<td>ERROR_LARGE_UIF_FOUND</td>
+</tr>
+<tr>
+<td>?8B?</td>
+<td>ERROR_SMALL_UIF_FOUND</td>
+</tr>
+<tr>
+<td>?8C?</td>
+<td>ERROR_NO_FREE_UIF</td>
+</tr>
+<tr>
+<td>?8D?</td>
+<td>ERROR_MAX_UIF</td>
+</tr>
+<tr>
+<td>?8E?</td>
+<td>ERROR_LEVEL</td>
+</tr>
+<tr>
+<td>?8F?</td>
+<td>ERROR_KEY</td>
+</tr>
+<tr>
+<td>?90?</td>
+<td>ERROR_AUTHENTICATION</td>
+</tr>
+<tr>
+<td>?91?</td>
+<td>ERROR_FLASH_SIGNATURE_METHOD</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 50 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen / Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>BERU (DODUCO)</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 14 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>kein passendes Fehlersymptom</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Signal oder Wert oberhalb Schwelle</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Signal oder Wert unterhalb Schwelle</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>kein Signal oder Wert</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>unplausibles Signal oder Wert</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Testbedingungen erfuellt</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Testbedingungen noch nicht erfuellt</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Fehler bisher nicht aufgetreten</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Fehler momentan nicht vorhanden, aber bereits gespeichert</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Fehler momentan vorhanden, aber noch nicht gespeichert (Entprellphase)</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Fehler momentan vorhanden und bereits gespeichert</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>Fehler wuerde kein Aufleuchten einer Warnlampe verursachen</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>Fehler wuerde das Aufleuchten einer Warnlampe verursachen</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalargument"></a></p>
+<h3 id="digitalargument">DIGITALARGUMENT</h3>
+<p>Dimensions: 12 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ein</td>
+<td>1</td>
+</tr>
+<tr>
+<td>aus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>1</td>
+</tr>
+<tr>
+<td>nein</td>
+<td>0</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>on</td>
+<td>1</td>
+</tr>
+<tr>
+<td>off</td>
+<td>0</td>
+</tr>
+<tr>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-diagmode"></a></p>
+<h3 id="diagmode">DIAGMODE</h3>
+<p>Dimensions: 14 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>MODE</th>
+<th>MODE_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x81</td>
+<td>DEFAULT</td>
+<td>DefaultMode</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>PT</td>
+<td>PeriodicTransmissions</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>EOLSSM</td>
+<td>EndOfLineSystemSupplierMode</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>ECUPM</td>
+<td>ECUProgrammingMode</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>ECUDM</td>
+<td>ECUDevelopmentMode</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>ECUAM</td>
+<td>ECUAdjustmentMode</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>ECUVCM</td>
+<td>ECUVariantCodingMode</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>ECUSM</td>
+<td>ECUSafetyMode</td>
+</tr>
+<tr>
+<td>0xFA</td>
+<td>SSS_A</td>
+<td>SystemSupplierSpecific (A)</td>
+</tr>
+<tr>
+<td>0xFB</td>
+<td>SSS_B</td>
+<td>SystemSupplierSpecific (B)</td>
+</tr>
+<tr>
+<td>0xFC</td>
+<td>SSS_C</td>
+<td>SystemSupplierSpecific (C)</td>
+</tr>
+<tr>
+<td>0xFD</td>
+<td>SSS_D</td>
+<td>SystemSupplierSpecific (D)</td>
+</tr>
+<tr>
+<td>0xFE</td>
+<td>SSS_E</td>
+<td>SystemSupplierSpecific (E)</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>--</td>
+<td>unbekannter Diagnose-Mode</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-speichersegment"></a></p>
+<h3 id="speichersegment">SPEICHERSEGMENT</h3>
+<p>Dimensions: 10 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>SEG_BYTE</th>
+<th>SEG_NAME</th>
+<th>SEG_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>LAR</td>
+<td>linearAdressRange</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>ROMI</td>
+<td>ROM / EPROM, internal</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>ROMX</td>
+<td>ROM / EPROM, external</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>NVRAM</td>
+<td>NV-RAM (characteristic zones, DTC memory</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>RAMIS</td>
+<td>RAM, internal (short MOV)</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>RAMXX</td>
+<td>RAM, external (x data MOV)</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>FLASH</td>
+<td>Flash EPROM</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>UIFM</td>
+<td>User Info Field Memory</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>RAMIL</td>
+<td>RAM, internal (long MOV / Register)</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>???</td>
+<td>unbekanntes Speichersegment</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-programmierstatus"></a></p>
+<h3 id="programmierstatus">PROGRAMMIERSTATUS</h3>
+<p>Dimensions: 19 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Anlieferzustand</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Normalbetrieb</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Programmprogrammiersitzung aktiv</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Datenprogrammiersitzung aktiv</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Datenreferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Programmreferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Referenzierungsfehler Hardware -&gt; Programm</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Programm nicht vollstaendig</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Datenreferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Referenzierungsfehler Programm -&gt; Daten</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Daten nicht vollstaendig</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Reserviert fuer BMW</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>Reserviert fuer Zulieferer</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Programmierstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 2 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x08</td>
+<td>Fehler nun bekannt</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fdetailstruktur"></a></p>
+<h3 id="fdetailstruktur">FDETAILSTRUKTUR</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NAME</th>
+<th>TYP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F_ART_ERW</td>
+<td>nein</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>F_LZ</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>F_UWB_ERW</td>
+<td>nein</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 27 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x5F8E</td>
+<td>Sensor hinten links</td>
+</tr>
+<tr>
+<td>0x5F8F</td>
+<td>Sensor hinten rechts</td>
+</tr>
+<tr>
+<td>0x5F90</td>
+<td>ECU Spannungsversorgung</td>
+</tr>
+<tr>
+<td>0x5F92</td>
+<td>Sensorspannungsversorgung hinten links</td>
+</tr>
+<tr>
+<td>0x5F93</td>
+<td>Sensorspannungsversorgung hinten rechts</td>
+</tr>
+<tr>
+<td>0x5F94</td>
+<td>Magnetventil hinten links</td>
+</tr>
+<tr>
+<td>0x5F95</td>
+<td>Magnetventil hinten rechts</td>
+</tr>
+<tr>
+<td>0x5F96</td>
+<td>Ablass Ventil</td>
+</tr>
+<tr>
+<td>0x5F97</td>
+<td>Kompressor-Relais</td>
+</tr>
+<tr>
+<td>0x5F98</td>
+<td>Regelzeit einseitig hinten links</td>
+</tr>
+<tr>
+<td>0x5F99</td>
+<td>Regelzeit einseitig hinten rechts</td>
+</tr>
+<tr>
+<td>0x5F9A</td>
+<td>Regelzeit heben</td>
+</tr>
+<tr>
+<td>0x5F9B</td>
+<td>Regelzeit senken</td>
+</tr>
+<tr>
+<td>0x5F9C</td>
+<td>Sensoraktivitaet hinten links</td>
+</tr>
+<tr>
+<td>0x5F9D</td>
+<td>Sensoraktivitaet hinten rechts</td>
+</tr>
+<tr>
+<td>0x5FB0</td>
+<td>Steuergeraet interner Fehler</td>
+</tr>
+<tr>
+<td>0xD004</td>
+<td>K-CAN Signal KL. 15</td>
+</tr>
+<tr>
+<td>0xD005</td>
+<td>K-CAN Signal Klappe</td>
+</tr>
+<tr>
+<td>0xD006</td>
+<td>K-CAN Hoehenstand von LWR</td>
+</tr>
+<tr>
+<td>0xD007</td>
+<td>K-CAN Signal Motor Status</td>
+</tr>
+<tr>
+<td>0xD008</td>
+<td>K-CAN Signal KL. VA</td>
+</tr>
+<tr>
+<td>0xD009</td>
+<td>K-CAN Signal Lenkwinkel</td>
+</tr>
+<tr>
+<td>0xD00A</td>
+<td>K-CAN Signal Geschwindigkeit</td>
+</tr>
+<tr>
+<td>0xD00B</td>
+<td>K-CAN Signal Querbeschleunigung</td>
+</tr>
+<tr>
+<td>0xD00C</td>
+<td>K-CAN Signal Wegstrecke_KM</td>
+</tr>
+<tr>
+<td>0xD00D</td>
+<td>K-CAN Signal Relativzeit</td>
+</tr>
+<tr>
+<td>0xFFFF</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalid"></a></p>
+<h3 id="digitalid">DIGITALID</h3>
+<p>Dimensions: 11 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>LID</th>
+<th>NAME</th>
+<th>READ/WRITE</th>
+<th>BESCHREIBUNG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x11</td>
+<td>MV_RL</td>
+<td>RW</td>
+<td>Balgventil hinten links</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MV_RR</td>
+<td>RW</td>
+<td>Balgventil hinten rechts</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>MV_EX</td>
+<td>RW</td>
+<td>Ablassventil</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>COMP</td>
+<td>RW</td>
+<td>Kompressoransteuerung</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>U_RL</td>
+<td>RW</td>
+<td>Sensorspannungsversorgung hinten links</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>U_RR</td>
+<td>RW</td>
+<td>Sensorspannungsversorgung hinten rechts</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>INH</td>
+<td>RW</td>
+<td>Selbsthaltung vom uController</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>CAN_MOT</td>
+<td>RW</td>
+<td>K-CAN Signal Motor An</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>CAN_KLR</td>
+<td>RW</td>
+<td>K-CAN Signal Klemme R</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>CAN_KL15</td>
+<td>RW</td>
+<td>K-CAN Signal Klemme 15</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>CAN_DOOR</td>
+<td>RW</td>
+<td>K-CAN Signal Tuerzustand</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-analogid"></a></p>
+<h3 id="analogid">ANALOGID</h3>
+<p>Dimensions: 7 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>LID</th>
+<th>NAME</th>
+<th>READ/WRITE</th>
+<th>BESCHREIBUNG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>ADC_RL</td>
+<td>RW</td>
+<td>AD Wandlerwert hinten links</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>ADC_RR</td>
+<td>RW</td>
+<td>AD Wandlerwert hinten rechts</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ADC_KL30</td>
+<td>RW</td>
+<td>AD Wandlerwert Kl. 30</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ADC_U_RL</td>
+<td>RW</td>
+<td>AD Wandlerwert Sensorversorgung hinten links</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ADC_U_RR</td>
+<td>RW</td>
+<td>AD Wandlerwert Sensorversorgung hinten rechts</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>CAN_SPEED</td>
+<td>RW</td>
+<td>K-CAN Signal Geschwindigkeit</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>CAN_AQUER</td>
+<td>RW</td>
+<td>K-CAN Signal Querbeschleunigung</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-eepromid"></a></p>
+<h3 id="eepromid">EEPROMID</h3>
+<p>Dimensions: 3 rows × 4 columns</p>
+<table>
+<thead>
+<tr>
+<th>LID</th>
+<th>NAME</th>
+<th>READ/WRITE</th>
+<th>BESCHREIBUNG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x40</td>
+<td>MODE</td>
+<td>RW</td>
+<td>Betriebsmodus</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>ADJ_RL</td>
+<td>RW</td>
+<td>Nullabgleich hinten links</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>ADJ_RR</td>
+<td>RW</td>
+<td>Nullabgleich hinten rechts</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

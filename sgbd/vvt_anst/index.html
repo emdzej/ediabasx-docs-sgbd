@@ -1,0 +1,2499 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/vvt_anst/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>vvt_anst.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vvt_anstprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              vvt_anst.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_vvt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_VVT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_VVT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sg_diagnosekonzept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SG_DIAGNOSEKONZEPT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUTHENTISIERUNG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konzept_tabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONZEPT_TABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="vvt_anstprg">vvt_anst.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">3</a></li>
+<li>Tables: <a href="#tables">4</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>ME9.2.2 fuer NG-Motoren</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW VS-22 Martin Björnsson</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.000</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW VS-22 Martin Björnsson</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Sonder-SGBD für die Ansteuerung des VVT und gleichzeitigen Auslesen der Laufunruhewerte</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.26</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-steuern-vvt">STEUERN_VVT</a> - Stellgliedansteuerung VVT</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-vvt"></a></p>
+<h3 id="steuern_vvt">STEUERN_VVT</h3>
+<p>Stellgliedansteuerung VVT</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VERSTELLWINKEL</td>
+<td>int</td>
+<td>gibt einen absoluten Verstellwinkel an (0..180 Grd)</td>
+</tr>
+<tr>
+<td>MINHUB</td>
+<td>int</td>
+<td>Gewünschter Minhub (Wertebereich: 0...255)</td>
+</tr>
+<tr>
+<td>MAXHUB</td>
+<td>int</td>
+<td>Gewünschter Maxhub (Wertebereich: 0...255)</td>
+</tr>
+<tr>
+<td>SCHRITT</td>
+<td>int</td>
+<td>Gewünschte Schrittgrösse (Wertebereich: 0...255)</td>
+</tr>
+<tr>
+<td>DURCHLAUF</td>
+<td>int</td>
+<td>Durchlauf Minhub-Maxhub = 1 Maxhub-Minhub = 2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LUTSFI_WERTE_1</td>
+<td>string</td>
+<td>Laufunruhewerte erste Durchlauf für alle Zylinder</td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_2</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_3</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_4</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_5</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_6</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_7</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_8</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_9</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_10</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_11</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_12</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_13</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_14</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_15</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_16</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_17</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_18</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_19</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_20</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_21</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_22</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_23</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_24</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_25</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_26</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_27</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_28</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_29</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_30</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_31</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_32</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_33</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_34</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_35</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_36</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_37</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_38</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_39</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_40</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_41</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_42</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_43</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_44</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_45</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_46</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_47</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_48</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_49</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_50</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_51</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_52</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_53</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_54</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_55</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_56</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_57</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_58</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_59</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_60</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_61</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_62</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_63</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_64</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_65</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_66</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_67</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_68</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_69</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_70</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_71</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_72</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_73</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_74</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_75</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_76</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_77</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_78</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_79</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_80</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_81</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_82</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_83</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_84</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_85</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_86</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_87</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_88</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_89</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_90</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_91</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_92</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_93</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_94</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_95</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_96</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_97</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_98</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_99</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_100</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_101</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_102</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_103</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_104</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_105</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_106</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_107</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_108</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_109</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_110</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_111</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_112</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_113</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_114</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_115</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_116</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_117</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_118</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_119</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_120</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_121</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_122</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_123</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_124</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_125</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_126</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_127</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_128</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_129</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_130</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_131</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_132</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_133</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_134</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_135</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_136</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_137</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_138</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_139</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_140</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_141</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_142</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_143</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_144</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_145</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_146</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_147</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_148</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_149</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_150</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_151</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_152</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_153</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_154</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_155</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_156</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_157</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_158</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_159</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_160</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_161</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_162</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_163</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_164</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_165</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_166</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_167</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_168</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_169</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_170</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_171</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_172</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_173</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_174</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_175</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_176</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_177</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_178</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_179</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_180</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_181</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_182</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_183</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_184</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_185</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_186</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_187</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_188</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_189</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_190</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_191</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_192</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_193</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_194</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_195</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_196</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_197</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_198</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_199</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_200</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_201</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_202</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_203</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_204</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_205</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_206</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_207</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_208</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_209</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_210</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_211</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_212</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_213</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_214</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_215</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_216</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_217</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_218</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_219</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_220</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_221</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_222</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_223</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_224</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_225</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_226</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_227</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_228</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_229</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_230</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_231</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_232</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_233</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_234</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_235</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_236</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_237</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_238</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_239</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_240</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_241</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_242</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_243</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_244</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_245</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_246</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_247</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_248</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_249</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>LUTSFI_WERTE_250</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>"OKAY", wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-sg-diagnosekonzept">SG_DIAGNOSEKONZEPT</a> (4 × 2)</li>
+<li><a href="#table-jobresult">JOBRESULT</a> (95 × 2)</li>
+<li><a href="#table-authentisierung">AUTHENTISIERUNG</a> (4 × 2)</li>
+<li><a href="#table-konzept-tabelle">KONZEPT_TABELLE</a> (4 × 2)</li>
+</ul>
+<p><a id="table-sg-diagnosekonzept"></a></p>
+<h3 id="sg_diagnosekonzept">SG_DIAGNOSEKONZEPT</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>RANG</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>2</td>
+<td>KWP2000*</td>
+</tr>
+<tr>
+<td>-</td>
+<td>KWP2000</td>
+</tr>
+<tr>
+<td>-</td>
+<td>DS2</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 95 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>ERROR_ECU_ROUTINE_NOT_COMPLETE</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>ERROR_ECU_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>ERROR_ECU_IMPROPER_DOWNLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>ERROR_ECU_UPLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ERROR_ECU_IMPROPER_UPLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_TRANSFER_ABORTED</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?04?</td>
+<td>ERROR_ECU_INCORRECT_LIN_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?05?</td>
+<td>ERROR_ECU_INCORRECT_LIN_LEN</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?11?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_SEGMENT</td>
+</tr>
+<tr>
+<td>?21?</td>
+<td>ERROR_ADDRESS</td>
+</tr>
+<tr>
+<td>?22?</td>
+<td>ERROR_NUMBER</td>
+</tr>
+<tr>
+<td>?30?</td>
+<td>ERROR_DATA</td>
+</tr>
+<tr>
+<td>?40?</td>
+<td>ERROR_MODE</td>
+</tr>
+<tr>
+<td>?41?</td>
+<td>ERROR_BAUDRATE</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_DATA_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?73?</td>
+<td>ERROR_NO_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?74?</td>
+<td>ERROR_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?75?</td>
+<td>ERROR_DATA_TYPE</td>
+</tr>
+<tr>
+<td>?76?</td>
+<td>ERROR_CHECKSUM</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_FLASH_SIGNATURE_CHECK</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_VIHICLE_IDENTFICATON_NR</td>
+</tr>
+<tr>
+<td>?82?</td>
+<td>ERROR_PROGRAMMING_DATE</td>
+</tr>
+<tr>
+<td>?83?</td>
+<td>ERROR_ASSEMBLY_NR</td>
+</tr>
+<tr>
+<td>?84?</td>
+<td>ERROR_CALIBRATION_DATASET_NR</td>
+</tr>
+<tr>
+<td>?85?</td>
+<td>ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR</td>
+</tr>
+<tr>
+<td>?86?</td>
+<td>ERROR_REPAIR_SHOP_NR</td>
+</tr>
+<tr>
+<td>?87?</td>
+<td>ERROR_TESTER_SERIAL_NR</td>
+</tr>
+<tr>
+<td>?88?</td>
+<td>ERROR_MILAGE</td>
+</tr>
+<tr>
+<td>?89?</td>
+<td>ERROR_PROGRAMMING_REFERENCE</td>
+</tr>
+<tr>
+<td>?8A?</td>
+<td>ERROR_NO_FREE_UIF</td>
+</tr>
+<tr>
+<td>?8B?</td>
+<td>ERROR_MAX_UIF</td>
+</tr>
+<tr>
+<td>?8C?</td>
+<td>ERROR_SIZE_UIF</td>
+</tr>
+<tr>
+<td>?8D?</td>
+<td>ERROR_LEVEL</td>
+</tr>
+<tr>
+<td>?8E?</td>
+<td>ERROR_KEY</td>
+</tr>
+<tr>
+<td>?8F?</td>
+<td>ERROR_AUTHENTICATION</td>
+</tr>
+<tr>
+<td>?90?</td>
+<td>ERROR_NO_DREF</td>
+</tr>
+<tr>
+<td>?91?</td>
+<td>ERROR_CHECK_PECUHN</td>
+</tr>
+<tr>
+<td>?92?</td>
+<td>ERROR_CHECK_PRGREF</td>
+</tr>
+<tr>
+<td>?93?</td>
+<td>ERROR_AIF_NR</td>
+</tr>
+<tr>
+<td>?94?</td>
+<td>ERROR_CHECK_DREF</td>
+</tr>
+<tr>
+<td>?95?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?96?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?97?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?98?</td>
+<td>ERROR_CHECK_VMECUH*NB</td>
+</tr>
+<tr>
+<td>?99?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?9A?</td>
+<td>ERROR_CHECK_VMECUH*N</td>
+</tr>
+<tr>
+<td>?9B?</td>
+<td>ERROR_MOST_CAN_GATEWAY_DISABLE</td>
+</tr>
+<tr>
+<td>?9C?</td>
+<td>ERROR_NO_P2MIN</td>
+</tr>
+<tr>
+<td>?9D?</td>
+<td>ERROR_NO_P2MAX</td>
+</tr>
+<tr>
+<td>?9E?</td>
+<td>ERROR_NO_P3MIN</td>
+</tr>
+<tr>
+<td>?9F?</td>
+<td>ERROR_NO_P3MAX</td>
+</tr>
+<tr>
+<td>?A0?</td>
+<td>ERROR_NO_P4MIN</td>
+</tr>
+<tr>
+<td>?B0?</td>
+<td>ERROR_DIAG_PROT</td>
+</tr>
+<tr>
+<td>?B1?</td>
+<td>ERROR_SG_ADRESSE</td>
+</tr>
+<tr>
+<td>?B2?</td>
+<td>ERROR_SG_MAXANZAHL_AIF</td>
+</tr>
+<tr>
+<td>?B3?</td>
+<td>ERROR_SG_GROESSE_AIF</td>
+</tr>
+<tr>
+<td>?B4?</td>
+<td>ERROR_SG_ENDEKENNUNG_AIF</td>
+</tr>
+<tr>
+<td>?B5?</td>
+<td>ERROR_SG_AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>?C0?</td>
+<td>ERROR_TELEGRAM_LEN_OUT_OFF_RANGE</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-authentisierung"></a></p>
+<h3 id="authentisierung">AUTHENTISIERUNG</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>AUTH_NR</th>
+<th>AUTH_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Simple</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Symetrisch</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Asymetrisch</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>Keine</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-konzept-tabelle"></a></p>
+<h3 id="konzept_tabelle">KONZEPT_TABELLE</h3>
+<p>Dimensions: 4 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0F</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>KWP2000*</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KWP2000</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>DS2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

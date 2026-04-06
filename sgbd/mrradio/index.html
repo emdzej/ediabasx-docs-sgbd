@@ -1,0 +1,3400 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/mrradio/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>mrradio.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mrradioprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mrradio.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_teilenummer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_TEILENUMMER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_TEILENUMMER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_hardwarestand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_HARDWARESTAND
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_HARDWARESTAND">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_codierindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CODIERINDEX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CODIERINDEX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_diagnoseindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_DIAGNOSEINDEX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_DIAGNOSEINDEX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_busindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_BUSINDEX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_BUSINDEX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_herstellungskalenderwoche" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_HERSTELLUNGSKALENDERWOCHE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_HERSTELLUNGSKALENDERWOCHE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_herstellungskalenderjahr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_HERSTELLUNGSKALENDERJAHR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_HERSTELLUNGSKALENDERJAHR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_zulieferer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ZULIEFERER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ZULIEFERER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_softwarestand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_SOFTWARESTAND
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_SOFTWARESTAND">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_aenderungsindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_AENDERUNGSINDEX
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_AENDERUNGSINDEX">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gal_einstellung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GAL_EINSTELLUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GAL_EINSTELLUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_vf_mindestlautstaerke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_VF_MINDESTLAUTSTAERKE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_VF_MINDESTLAUTSTAERKE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gal_signal_einheit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GAL_SIGNAL_EINHEIT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GAL_SIGNAL_EINHEIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_gal_signal_wert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_GAL_SIGNAL_WERT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_GAL_SIGNAL_WERT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_feldstaerke_wert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_FELDSTAERKE_WERT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_FELDSTAERKE_WERT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_qualitaet_wert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_QUALITAET_WERT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_QUALITAET_WERT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautsprecher_alle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSPRECHER_ALLE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSPRECHER_ALLE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautsprecher_vl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSPRECHER_VL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSPRECHER_VL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautsprecher_vr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSPRECHER_VR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSPRECHER_VR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautsprecher_hr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSPRECHER_HR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSPRECHER_HR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautsprecher_hl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSPRECHER_HL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSPRECHER_HL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautstarke_erhoehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSTARKE_ERHOEHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSTARKE_ERHOEHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_lautstarke_erniedrigen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUTSTARKE_ERNIEDRIGEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUTSTARKE_ERNIEDRIGEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_suchlauf_tastendruck_vor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SUCHLAUF_TASTENDRUCK_VOR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SUCHLAUF_TASTENDRUCK_VOR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_suchlauf_tastendruck_zurueck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SUCHLAUF_TASTENDRUCK_ZURUECK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SUCHLAUF_TASTENDRUCK_ZURUECK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_mode_weiterschaltung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_MODE_WEITERSCHALTUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_MODE_WEITERSCHALTUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_frequenz_einstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_FREQUENZ_EINSTELLEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_FREQUENZ_EINSTELLEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_radio_einschalten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_RADIO_EINSCHALTEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_RADIO_EINSCHALTEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_radio_ausschalten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_RADIO_AUSSCHALTEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_RADIO_AUSSCHALTEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_autostore_ausfuehren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_AUTOSTORE_AUSFUEHREN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_AUTOSTORE_AUSFUEHREN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_laustaerke_einstellen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_LAUSTAERKE_EINSTELLEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_LAUSTAERKE_EINSTELLEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_gal_kurve_verringern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_GAL_KURVE_VERRINGERN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_GAL_KURVE_VERRINGERN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_gal_kurve_erhoehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_GAL_KURVE_ERHOEHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_GAL_KURVE_ERHOEHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_vf_mindestlautstaerke_verringern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_VF_MINDESTLAUTSTAERKE_VERRINGERN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_VF_MINDESTLAUTSTAERKE_VERRINGERN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_vf_mindestlautstaerke_erhoehen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_VF_MINDESTLAUTSTAERKE_ERHOEHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_VF_MINDESTLAUTSTAERKE_ERHOEHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_seriennummer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_SERIENNUMMER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_SERIENNUMMER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_selbsttest_aktivieren" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SELBSTTEST_AKTIVIEREN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SELBSTTEST_AKTIVIEREN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mrradioprg">mrradio.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">40</a></li>
+<li>Tables: <a href="#tables">2</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Radio</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>I+ME Actia GmbH, Keck</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.021</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>I+ME Actia GmbH, Keck und BMW Motorrad, Kufer</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.52</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung</li>
+<li><a href="#job-ident">IDENT</a> - Lesen der Teilenummer Byte 4-7</li>
+<li><a href="#job-status-teilenummer">STATUS_TEILENUMMER</a> - Lesen der Teilenummer Byte 4-7 BCD</li>
+<li><a href="#job-status-hardwarestand">STATUS_HARDWARESTAND</a> - Lesen Hardwarestand Byte 8 BCD</li>
+<li><a href="#job-status-codierindex">STATUS_CODIERINDEX</a> - Lesen der Codierbarkeit Byte 9</li>
+<li><a href="#job-status-diagnoseindex">STATUS_DIAGNOSEINDEX</a> - Lesen Diagnoseindex Byte 10 BCD</li>
+<li><a href="#job-status-busindex">STATUS_BUSINDEX</a> - Lesen BusIndex Byte 11 BCD</li>
+<li><a href="#job-status-herstellungskalenderwoche">STATUS_HERSTELLUNGSKALENDERWOCHE</a> - Lesen der Kalenderwoche Byte 12 BCD</li>
+<li><a href="#job-status-herstellungskalenderjahr">STATUS_HERSTELLUNGSKALENDERJAHR</a> - Lesen Kalenderjahr Byte 13 BCD</li>
+<li><a href="#job-status-zulieferer">STATUS_ZULIEFERER</a> - Lesen Zulieferer Byte 14 BCD</li>
+<li><a href="#job-status-softwarestand">STATUS_SOFTWARESTAND</a> - Lesen Softwarestand Byte 15 BCD</li>
+<li><a href="#job-status-aenderungsindex">STATUS_AENDERUNGSINDEX</a> - Lesen Änderungsindex Byte 16-17 in ASCII</li>
+<li><a href="#job-status-gal-einstellung">STATUS_GAL_EINSTELLUNG</a> - Einstellung Geschwindigkeits abhängige Lautstärke lesen</li>
+<li><a href="#job-status-vf-mindestlautstaerke">STATUS_VF_MINDESTLAUTSTAERKE</a> - Mindestlautstärke Verkehrsfunk lesen</li>
+<li><a href="#job-status-gal-signal-einheit">STATUS_GAL_SIGNAL_EINHEIT</a> - Einheit Geschwindigkeits abhängige Lautstärke</li>
+<li><a href="#job-status-gal-signal-wert">STATUS_GAL_SIGNAL_WERT</a> - Wert Geschwindigkeits abhängige Lautstärke</li>
+<li><a href="#job-status-feldstaerke-wert">STATUS_FELDSTAERKE_WERT</a> - Feldstärke Wert</li>
+<li><a href="#job-status-qualitaet-wert">STATUS_QUALITAET_WERT</a> - Qualität Wert</li>
+<li><a href="#job-steuern-lautsprecher-alle">STEUERN_LAUTSPRECHER_ALLE</a> - alle Lautsprecher Kanäle ansteuern</li>
+<li><a href="#job-steuern-lautsprecher-vl">STEUERN_LAUTSPRECHER_VL</a> - Lautsprecher vorn links ansteuern</li>
+<li><a href="#job-steuern-lautsprecher-vr">STEUERN_LAUTSPRECHER_VR</a> - Lautsprecher vorn rechts ansteuern</li>
+<li><a href="#job-steuern-lautsprecher-hr">STEUERN_LAUTSPRECHER_HR</a> - Lautsprecher hinten rechts ansteuern</li>
+<li><a href="#job-steuern-lautsprecher-hl">STEUERN_LAUTSPRECHER_HL</a> - Lautsprecher hinten links ansteuern</li>
+<li><a href="#job-steuern-lautstarke-erhoehen">STEUERN_LAUTSTARKE_ERHOEHEN</a> - Lautstärke um 1 Schritt erhöhen</li>
+<li><a href="#job-steuern-lautstarke-erniedrigen">STEUERN_LAUTSTARKE_ERNIEDRIGEN</a> - Lautstärke um 1 Schritt verringern</li>
+<li><a href="#job-steuern-suchlauf-tastendruck-vor">STEUERN_SUCHLAUF_TASTENDRUCK_VOR</a> - Tastendruck auf Suchlauftaste &gt; nachbilden</li>
+<li><a href="#job-steuern-suchlauf-tastendruck-zurueck">STEUERN_SUCHLAUF_TASTENDRUCK_ZURUECK</a> - Tastendruck auf Suchlauftaste &lt; nachbilden</li>
+<li><a href="#job-steuern-mode-weiterschaltung">STEUERN_MODE_WEITERSCHALTUNG</a> - Mode weiterschalten (Tuner-&gt;Tape-&gt;CD)</li>
+<li><a href="#job-steuern-frequenz-einstellen">STEUERN_FREQUENZ_EINSTELLEN</a> - Empfangsfrequenz einstellen</li>
+<li><a href="#job-steuern-radio-einschalten">STEUERN_RADIO_EINSCHALTEN</a> - Radio einschalten</li>
+<li><a href="#job-steuern-radio-ausschalten">STEUERN_RADIO_AUSSCHALTEN</a> - Radio ausschalten</li>
+<li><a href="#job-steuern-autostore-ausfuehren">STEUERN_AUTOSTORE_AUSFUEHREN</a> - Autostore ausführen</li>
+<li><a href="#job-steuern-laustaerke-einstellen">STEUERN_LAUSTAERKE_EINSTELLEN</a> - Lautstärke einstellen</li>
+<li><a href="#job-steuern-gal-kurve-verringern">STEUERN_GAL_KURVE_VERRINGERN</a> - nächste niedrige Geschwindigkeits abhängige Laustärke Kurve wählen</li>
+<li><a href="#job-steuern-gal-kurve-erhoehen">STEUERN_GAL_KURVE_ERHOEHEN</a> - nächste höhere Geschwindigkeits abhängige Lautstärke Kurve wählen</li>
+<li><a href="#job-steuern-vf-mindestlautstaerke-verringern">STEUERN_VF_MINDESTLAUTSTAERKE_VERRINGERN</a> - Verkehrsfunk Mindestlautstärke um einen Schritt verringern</li>
+<li><a href="#job-steuern-vf-mindestlautstaerke-erhoehen">STEUERN_VF_MINDESTLAUTSTAERKE_ERHOEHEN</a> - Verkehrsfunk Mindestlautstärke um einen Schritt erhöhen</li>
+<li><a href="#job-status-seriennummer">STATUS_SERIENNUMMER</a> - Lesen der Seriennummer</li>
+<li><a href="#job-steuern-selbsttest-aktivieren">STEUERN_SELBSTTEST_AKTIVIEREN</a> - Steuergeräte Test starten</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn i.O.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Lesen der Teilenummer Byte 4-7</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>BMW-Teilenummer, BCD</td>
+</tr>
+<tr>
+<td>VARIANTE_IND</td>
+<td>string</td>
+<td>Name der SGBD, immer MRRADIO</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-teilenummer"></a></p>
+<h3 id="status_teilenummer">STATUS_TEILENUMMER</h3>
+<p>Lesen der Teilenummer Byte 4-7 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>BMW-Teilenummer, BCD</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-hardwarestand"></a></p>
+<h3 id="status_hardwarestand">STATUS_HARDWARESTAND</h3>
+<p>Lesen Hardwarestand Byte 8 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Hardwarestand Wert BCD</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Hardwarestand Text</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-codierindex"></a></p>
+<h3 id="status_codierindex">STATUS_CODIERINDEX</h3>
+<p>Lesen der Codierbarkeit Byte 9</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Codierindex</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Wert Codierindex</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-diagnoseindex"></a></p>
+<h3 id="status_diagnoseindex">STATUS_DIAGNOSEINDEX</h3>
+<p>Lesen Diagnoseindex Byte 10 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Diagnoseindex</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-busindex"></a></p>
+<h3 id="status_busindex">STATUS_BUSINDEX</h3>
+<p>Lesen BusIndex Byte 11 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Busindex</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-herstellungskalenderwoche"></a></p>
+<h3 id="status_herstellungskalenderwoche">STATUS_HERSTELLUNGSKALENDERWOCHE</h3>
+<p>Lesen der Kalenderwoche Byte 12 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Kalenderwoche</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-herstellungskalenderjahr"></a></p>
+<h3 id="status_herstellungskalenderjahr">STATUS_HERSTELLUNGSKALENDERJAHR</h3>
+<p>Lesen Kalenderjahr Byte 13 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Kalenderjahr</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-zulieferer"></a></p>
+<h3 id="status_zulieferer">STATUS_ZULIEFERER</h3>
+<p>Lesen Zulieferer Byte 14 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Wert Zulieferer</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Text Zulieferer</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-softwarestand"></a></p>
+<h3 id="status_softwarestand">STATUS_SOFTWARESTAND</h3>
+<p>Lesen Softwarestand Byte 15 BCD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Softwarestand Wert BCD</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Softwarestand Text</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-aenderungsindex"></a></p>
+<h3 id="status_aenderungsindex">STATUS_AENDERUNGSINDEX</h3>
+<p>Lesen Änderungsindex Byte 16-17 in ASCII</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Änderungsindex Wert Ascii</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gal-einstellung"></a></p>
+<h3 id="status_gal_einstellung">STATUS_GAL_EINSTELLUNG</h3>
+<p>Einstellung Geschwindigkeits abhängige Lautstärke lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>int</td>
+<td>Wert als Zahl</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-vf-mindestlautstaerke"></a></p>
+<h3 id="status_vf_mindestlautstaerke">STATUS_VF_MINDESTLAUTSTAERKE</h3>
+<p>Mindestlautstärke Verkehrsfunk lesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>int</td>
+<td>Wert als Zahl</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gal-signal-einheit"></a></p>
+<h3 id="status_gal_signal_einheit">STATUS_GAL_SIGNAL_EINHEIT</h3>
+<p>Einheit Geschwindigkeits abhängige Lautstärke</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Einheit: km/h oder Hz</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-gal-signal-wert"></a></p>
+<h3 id="status_gal_signal_wert">STATUS_GAL_SIGNAL_WERT</h3>
+<p>Wert Geschwindigkeits abhängige Lautstärke</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Geschwindigkeits abhängige Lautstärke als String</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-feldstaerke-wert"></a></p>
+<h3 id="status_feldstaerke_wert">STATUS_FELDSTAERKE_WERT</h3>
+<p>Feldstärke Wert</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Feldstärke Wert</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-qualitaet-wert"></a></p>
+<h3 id="status_qualitaet_wert">STATUS_QUALITAET_WERT</h3>
+<p>Qualität Wert</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>STAT_WERT_TEXT</td>
+<td>string</td>
+<td>Qualität Wert</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautsprecher-alle"></a></p>
+<h3 id="steuern_lautsprecher_alle">STEUERN_LAUTSPRECHER_ALLE</h3>
+<p>alle Lautsprecher Kanäle ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautsprecher-vl"></a></p>
+<h3 id="steuern_lautsprecher_vl">STEUERN_LAUTSPRECHER_VL</h3>
+<p>Lautsprecher vorn links ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautsprecher-vr"></a></p>
+<h3 id="steuern_lautsprecher_vr">STEUERN_LAUTSPRECHER_VR</h3>
+<p>Lautsprecher vorn rechts ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautsprecher-hr"></a></p>
+<h3 id="steuern_lautsprecher_hr">STEUERN_LAUTSPRECHER_HR</h3>
+<p>Lautsprecher hinten rechts ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautsprecher-hl"></a></p>
+<h3 id="steuern_lautsprecher_hl">STEUERN_LAUTSPRECHER_HL</h3>
+<p>Lautsprecher hinten links ansteuern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautstarke-erhoehen"></a></p>
+<h3 id="steuern_lautstarke_erhoehen">STEUERN_LAUTSTARKE_ERHOEHEN</h3>
+<p>Lautstärke um 1 Schritt erhöhen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-lautstarke-erniedrigen"></a></p>
+<h3 id="steuern_lautstarke_erniedrigen">STEUERN_LAUTSTARKE_ERNIEDRIGEN</h3>
+<p>Lautstärke um 1 Schritt verringern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-suchlauf-tastendruck-vor"></a></p>
+<h3 id="steuern_suchlauf_tastendruck_vor">STEUERN_SUCHLAUF_TASTENDRUCK_VOR</h3>
+<p>Tastendruck auf Suchlauftaste &gt; nachbilden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-suchlauf-tastendruck-zurueck"></a></p>
+<h3 id="steuern_suchlauf_tastendruck_zurueck">STEUERN_SUCHLAUF_TASTENDRUCK_ZURUECK</h3>
+<p>Tastendruck auf Suchlauftaste &lt; nachbilden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-mode-weiterschaltung"></a></p>
+<h3 id="steuern_mode_weiterschaltung">STEUERN_MODE_WEITERSCHALTUNG</h3>
+<p>Mode weiterschalten (Tuner-&gt;Tape-&gt;CD)</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-frequenz-einstellen"></a></p>
+<h3 id="steuern_frequenz_einstellen">STEUERN_FREQUENZ_EINSTELLEN</h3>
+<p>Empfangsfrequenz einstellen</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FREQUENZ</td>
+<td>string</td>
+<td>Frequenz in kHz als String 89,3MHz -&gt; Eingabe 89300 als String</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-radio-einschalten"></a></p>
+<h3 id="steuern_radio_einschalten">STEUERN_RADIO_EINSCHALTEN</h3>
+<p>Radio einschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-radio-ausschalten"></a></p>
+<h3 id="steuern_radio_ausschalten">STEUERN_RADIO_AUSSCHALTEN</h3>
+<p>Radio ausschalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-autostore-ausfuehren"></a></p>
+<h3 id="steuern_autostore_ausfuehren">STEUERN_AUTOSTORE_AUSFUEHREN</h3>
+<p>Autostore ausführen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-laustaerke-einstellen"></a></p>
+<h3 id="steuern_laustaerke_einstellen">STEUERN_LAUSTAERKE_EINSTELLEN</h3>
+<p>Lautstärke einstellen</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAUTSTAERKE</td>
+<td>string</td>
+<td>Lautstärke 0..99 Eingabe als String</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-gal-kurve-verringern"></a></p>
+<h3 id="steuern_gal_kurve_verringern">STEUERN_GAL_KURVE_VERRINGERN</h3>
+<p>nächste niedrige Geschwindigkeits abhängige Laustärke Kurve wählen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_34">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-gal-kurve-erhoehen"></a></p>
+<h3 id="steuern_gal_kurve_erhoehen">STEUERN_GAL_KURVE_ERHOEHEN</h3>
+<p>nächste höhere Geschwindigkeits abhängige Lautstärke Kurve wählen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_35">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-vf-mindestlautstaerke-verringern"></a></p>
+<h3 id="steuern_vf_mindestlautstaerke_verringern">STEUERN_VF_MINDESTLAUTSTAERKE_VERRINGERN</h3>
+<p>Verkehrsfunk Mindestlautstärke um einen Schritt verringern</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_36">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-vf-mindestlautstaerke-erhoehen"></a></p>
+<h3 id="steuern_vf_mindestlautstaerke_erhoehen">STEUERN_VF_MINDESTLAUTSTAERKE_ERHOEHEN</h3>
+<p>Verkehrsfunk Mindestlautstärke um einen Schritt erhöhen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_37">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANFRAGE</td>
+<td>binary</td>
+<td>Hex Anfrage zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-seriennummer"></a></p>
+<h3 id="status_seriennummer">STATUS_SERIENNUMMER</h3>
+<p>Lesen der Seriennummer</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_38">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+<tr>
+<td>STAT_WERT</td>
+<td>string</td>
+<td>Seriennummer</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-selbsttest-aktivieren"></a></p>
+<h3 id="steuern_selbsttest_aktivieren">STEUERN_SELBSTTEST_AKTIVIEREN</h3>
+<p>Steuergeräte Test starten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_39">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS TEXT</td>
+</tr>
+<tr>
+<td>ERGEBNIS_WERT</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>ERGEBNIS_TEXT</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex Antwort vom SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (12 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (81 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 12 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>FEHLER</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>FEHLER: ARGUMENTE</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>FEHLER: AUSSERHALB BEREICH</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>FEHLER: ZUGRIFF VERWEIGERT</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>FEHLER: FORMATFEHLER DATEN (NICHT HEX)</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>FEHLER: ZUGRIFF VERWEIGERT</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>FEHLER: AUSFUEHRUNG NICHT MOEGLICH</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>FEHLER: FUNKTION</td>
+</tr>
+<tr>
+<td>0xF1</td>
+<td>FEHLER: NO_RESPONE_FROM_CONTROL_UNIT</td>
+</tr>
+<tr>
+<td>0x00</td>
+<td>FEHLER: UNBEKANNT</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 81 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Continental Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ASIN AWCO.LTD</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>Shorlock</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>Schrader</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>BERU Electronics GmbH</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>CEL</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>Audio Mobil</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>rd electronic</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>iSYS RTS GmbH</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>Westfalia Automotive GmbH</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

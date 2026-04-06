@@ -1,0 +1,4074 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/ZKE6/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ZKE6.PRG - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#zke6prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ZKE6.PRG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLEEP_MODE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLEEP_MODE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_aufrecht" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_AUFRECHT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_AUFRECHT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_ende" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSE_ENDE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSE_ENDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnose_start
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="diagnose_start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reset
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="reset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnose_restart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnose_restart
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="diagnose_restart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#herstelldaten_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HERSTELLDATEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HERSTELLDATEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_DIGITAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_DIGITAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_analog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_ANALOG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_ANALOG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_digital" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_DIGITAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_DIGITAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speicher_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPEICHER_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SPEICHER_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roverpartnumprefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROVERPARTNUMPREFIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iorttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iarttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BITS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitsaus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BITSAUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="zke6prg">ZKE6.PRG</h1>
+<ul>
+<li>Jobs: <a href="#jobs">16</a></li>
+<li>Tables: <a href="#tables">9</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Zentrale Karosserie-Elektronik VI fuer R40/R41</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-431 Krueger</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>Krueger TI-433, Crichton TI-435</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>Ansteuern nur bei entsichertem Fahrzeug!</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>0.05</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter DS2</li>
+<li><a href="#job-ident">IDENT</a> - Identdaten</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-sleep-mode">SLEEP_MODE</a> - SG in Sleep-Mode versetzen</li>
+<li><a href="#job-diagnose-aufrecht">DIAGNOSE_AUFRECHT</a> - Diagnosemode aufrechterhalten</li>
+<li><a href="#job-diagnose-ende">DIAGNOSE_ENDE</a> - Diagnose beenden</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen DS2-Low-Konzept mit Abweichungen Sonderfall: externer und interner Fehlerspeicher</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Alle Fehlerspeicher loeschen</li>
+<li><a href="#job-diagnose-start">diagnose_start</a> - Start der Diagnose</li>
+<li><a href="#job-reset">reset</a> - Grundeinstellung nach Diagnose</li>
+<li><a href="#job-diagnose-restart">diagnose_restart</a> - Start der Diagnose</li>
+<li><a href="#job-herstelldaten-lesen">HERSTELLDATEN_LESEN</a> - Auslesen der Herstelldaten</li>
+<li><a href="#job-status-digital">STATUS_DIGITAL</a> - Status der Digitalsignale des GM VI (Ein-/Ausgaenge) Der Wertebereich ist bei fast allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE Andernfalls ist der Bereich gezielt spezifiziert.</li>
+<li><a href="#job-status-analog">STATUS_ANALOG</a> - Status der Analogsignale des GM VI</li>
+<li><a href="#job-steuern-digital">STEUERN_DIGITAL</a> - Ansteuern eines digitalen Ein- oder Ausgangs v. GM5 ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] ZKE6.prg'</li>
+<li><a href="#job-speicher-lesen">SPEICHER_LESEN</a> - Lesen des internen Speichers der ZKE VI Als Argumente werden die Anzahl und die Adresse der Datenbytes uebergeben.</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter DS2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident"></a></p>
+<h3 id="ident">IDENT</h3>
+<p>Identdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>int</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_BUS_INDEX</td>
+<td>int</td>
+<td>Bus-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_KW</td>
+<td>int</td>
+<td>Herstelldatum KW</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum Jahr</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_SW_NR</td>
+<td>int</td>
+<td>Softwarenummer</td>
+</tr>
+<tr>
+<td>TELEGRAMM</td>
+<td>binary</td>
+<td>Antworttelegramm</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sleep-mode"></a></p>
+<h3 id="sleep_mode">SLEEP_MODE</h3>
+<p>SG in Sleep-Mode versetzen</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZEIT</td>
+<td>real</td>
+<td>a) Zeit nach der das Steuergerät einschläft Bereich   : 0.5 bis 20.0 [Sekunden] Auflösung : 0.5 [Sekunden] =&gt; zeitgesteuerter Power-Down (0x9B) wird aktiviert b) Default: (Es wird kein Argument übergeben!) =&gt; normaler Power-Down (0x9D) wird aktiviert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag von SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-aufrecht"></a></p>
+<h3 id="diagnose_aufrecht">DIAGNOSE_AUFRECHT</h3>
+<p>Diagnosemode aufrechterhalten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-ende"></a></p>
+<h3 id="diagnose_ende">DIAGNOSE_ENDE</h3>
+<p>Diagnose beenden</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen DS2-Low-Konzept mit Abweichungen Sonderfall: externer und interner Fehlerspeicher</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Fehlerdaten pro Fehler als Hexcode</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>Index fuer Fehlerort momentan identisch Fehlerbyte</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text table FOrtTexte ORTTEXT</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit Bereich: 0 - 200</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten Bereich: immer 1</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen Bereich: immer 0</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>1. (einzige) Fehlerart Bereich: 0, 1</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>1. (einzige) Fehlerart als Text table FArtTexte ARTTEXT</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antworten vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Alle Fehlerspeicher loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-start"></a></p>
+<h3 id="diagnose_start">diagnose_start</h3>
+<p>Start der Diagnose</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antworten vom SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-reset"></a></p>
+<h3 id="reset">reset</h3>
+<p>Grundeinstellung nach Diagnose</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnose-restart"></a></p>
+<h3 id="diagnose_restart">diagnose_restart</h3>
+<p>Start der Diagnose</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-herstelldaten-lesen"></a></p>
+<h3 id="herstelldaten_lesen">HERSTELLDATEN_LESEN</h3>
+<p>Auslesen der Herstelldaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>BYTE1</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE2</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE3</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE4</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE5</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE6</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE7</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE8</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE9</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE10</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>BYTE11</td>
+<td>int</td>
+<td>Bereich: 0-255 bzw. 0x00-0xFF</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-digital"></a></p>
+<h3 id="status_digital">STATUS_DIGITAL</h3>
+<p>Status der Digitalsignale des GM VI (Ein-/Ausgaenge) Der Wertebereich ist bei fast allen Results: Bereich: 0, wenn FALSE / 1, wenn TRUE Andernfalls ist der Bereich gezielt spezifiziert.</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_ZVA</td>
+<td>int</td>
+<td>Eingang: Schluesselschalter ZV auf</td>
+</tr>
+<tr>
+<td>STAT_ZVZ</td>
+<td>int</td>
+<td>Eingang: Schluesselschalter ZV zu</td>
+</tr>
+<tr>
+<td>STAT_TFA</td>
+<td>int</td>
+<td>Eingang: Tuer Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_TBA</td>
+<td>int</td>
+<td>Eingang: Tuer Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_THRA</td>
+<td>int</td>
+<td>Eingang: Tuer Rechts hinten auf</td>
+</tr>
+<tr>
+<td>STAT_THLA</td>
+<td>int</td>
+<td>Eingang: Tuer Links hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFHFZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SFHFA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_SFHBZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SFHBA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_LVS</td>
+<td>int</td>
+<td>Eingang: Luftverschmutzungssensor</td>
+</tr>
+<tr>
+<td>STAT_WPH</td>
+<td>int</td>
+<td>Eingang: Waschmittelpumpe Heckwischer</td>
+</tr>
+<tr>
+<td>STAT_STFHH</td>
+<td>int</td>
+<td>Eingang: Sicherungstest Fensterheber Heck</td>
+</tr>
+<tr>
+<td>STAT_STFHF</td>
+<td>int</td>
+<td>Eingang: Sicherungstest Fensterheber Front</td>
+</tr>
+<tr>
+<td>STAT_STZV</td>
+<td>int</td>
+<td>Eingang: Sicherungstest Zentralverriegelung</td>
+</tr>
+<tr>
+<td>STAT_STIB</td>
+<td>int</td>
+<td>Eingang: Sicherungstest Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_SFHHRZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Heck Rechts zu</td>
+</tr>
+<tr>
+<td>STAT_SFHHRA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Heck Rechts auf</td>
+</tr>
+<tr>
+<td>STAT_SFHHLZ</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Heck Links zu</td>
+</tr>
+<tr>
+<td>STAT_SFHHLA</td>
+<td>int</td>
+<td>Eingang: Schalter Fensterheber Heck Links auf</td>
+</tr>
+<tr>
+<td>STAT_RFHHRZ</td>
+<td>int</td>
+<td>Eingang: Relais Fensterheber Heck Rechts zu</td>
+</tr>
+<tr>
+<td>STAT_RFHHRA</td>
+<td>int</td>
+<td>Eingang: Relais Fensterheber Heck Rechts auf</td>
+</tr>
+<tr>
+<td>STAT_RFHHLZ</td>
+<td>int</td>
+<td>Eingang: Relais Fensterheber Heck Links zu</td>
+</tr>
+<tr>
+<td>STAT_RFHHLA</td>
+<td>int</td>
+<td>Eingang: Relais Fensterheber Heck Links auf</td>
+</tr>
+<tr>
+<td>STAT_ESFW</td>
+<td>int</td>
+<td>Eingang: Wischer Endschalter Stopposition Front</td>
+</tr>
+<tr>
+<td>STAT_ESHW</td>
+<td>int</td>
+<td>Eingang: Wischer Endschalter Stopposition Heck</td>
+</tr>
+<tr>
+<td>STAT_SWH</td>
+<td>int</td>
+<td>Eingang: Schalter Wischermotor Heck</td>
+</tr>
+<tr>
+<td>STAT_SAC</td>
+<td>int</td>
+<td>Eingang: Schalter Klimaanlage</td>
+</tr>
+<tr>
+<td>STAT_SUML</td>
+<td>int</td>
+<td>Eingang: Schalter autom. Umluft-Control</td>
+</tr>
+<tr>
+<td>STAT_SS1</td>
+<td>int</td>
+<td>Eingang: Schalter 1 Lenksaeule</td>
+</tr>
+<tr>
+<td>STAT_SS2</td>
+<td>int</td>
+<td>Eingang: Schalter 2 Lenksaeule</td>
+</tr>
+<tr>
+<td>STAT_SHSH</td>
+<td>int</td>
+<td>Eingang: Schalter Heckscheibenheizung</td>
+</tr>
+<tr>
+<td>STAT_SZVPZ</td>
+<td>int</td>
+<td>Eingang: Schalter Zentralverriegelung Panikschliessung zu</td>
+</tr>
+<tr>
+<td>STAT_SZVPA</td>
+<td>int</td>
+<td>Eingang: Schalter Zentralverriegelung Panikschliessung auf</td>
+</tr>
+<tr>
+<td>STAT_SKS</td>
+<td>int</td>
+<td>Eingang: Schalter Kofferraumschloss</td>
+</tr>
+<tr>
+<td>STAT_SKA</td>
+<td>int</td>
+<td>Eingang: Endschalter Kofferraum auf</td>
+</tr>
+<tr>
+<td>STAT_SIB</td>
+<td>int</td>
+<td>Eingang: Schalter Innenraumbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_SMA</td>
+<td>int</td>
+<td>Eingang: Endschalter Motorhaube auf</td>
+</tr>
+<tr>
+<td>STAT_SKVA</td>
+<td>int</td>
+<td>Eingang: Schalter Kofferraum Verriegelung auf</td>
+</tr>
+<tr>
+<td>STAT_SKVHA</td>
+<td>int</td>
+<td>Eingang: Schalter Kofferraumscheibe Verriegelung auf</td>
+</tr>
+<tr>
+<td>STAT_ERS1</td>
+<td>int</td>
+<td>Eingang: Ersatz 1 nicht benutzt</td>
+</tr>
+<tr>
+<td>STAT_ERS2</td>
+<td>int</td>
+<td>Eingang: Ersatz 2 nicht benutzt</td>
+</tr>
+<tr>
+<td>STAT_SWPFA</td>
+<td>int</td>
+<td>Eingang: Schalter Waschmittelpumpe Front aktiv</td>
+</tr>
+<tr>
+<td>STAT_FZVSIG</td>
+<td>int</td>
+<td>Eingang: Funksignal empfangen</td>
+</tr>
+<tr>
+<td>STAT_KIPPE</td>
+<td>int</td>
+<td>Eingang: Kippsensor</td>
+</tr>
+<tr>
+<td>STAT_POS1</td>
+<td>int</td>
+<td>Eingang: Zuendschluessel Position 1</td>
+</tr>
+<tr>
+<td>STAT_CRASH</td>
+<td>int</td>
+<td>Eingang: Crashsensor</td>
+</tr>
+<tr>
+<td>STAT_KLES</td>
+<td>int</td>
+<td>Eingang: Kuehlerluefter ein Sensor</td>
+</tr>
+<tr>
+<td>STAT_HIGH1</td>
+<td>int</td>
+<td>Eingang: immer High/1</td>
+</tr>
+<tr>
+<td>STAT_RSF</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Schloss Fahrer</td>
+</tr>
+<tr>
+<td>STAT_RFHBZ</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_RFHFZ</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_RFHBA</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_RFHFA</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_RGZ</td>
+<td>int</td>
+<td>Eingang:Relaiskontakt Gesamtfahrzeug zu</td>
+</tr>
+<tr>
+<td>STAT_RZVG</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Zentralverriegelung +12V</td>
+</tr>
+<tr>
+<td>STAT_RZVPZ</td>
+<td>int</td>
+<td>Eingang: Relaiskontakt Zentralverriegelung Panikschliessung zu</td>
+</tr>
+<tr>
+<td>STAT_IBD</td>
+<td>int</td>
+<td>Eingang: Diagnose Innenbeleuchtung ( nicht realisiert)</td>
+</tr>
+<tr>
+<td>STAT_KLD</td>
+<td>int</td>
+<td>Eingang: Diagnose Kartenlampe (nicht realisiert)</td>
+</tr>
+<tr>
+<td>STAT_TANK</td>
+<td>int</td>
+<td>Eingang: Diagnose Tank und Kofferraum</td>
+</tr>
+<tr>
+<td>STAT_MFHFA</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_MFHFZ</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_MFHFU</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Fahrer Automatik</td>
+</tr>
+<tr>
+<td>STAT_MFHBA</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_MFHBZ</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_MFHBU</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Beifahrer Automatik</td>
+</tr>
+<tr>
+<td>STAT_MFHHRA</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Rechts Heck auf</td>
+</tr>
+<tr>
+<td>STAT_MFHHRZ</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Rechts Heck zu</td>
+</tr>
+<tr>
+<td>STAT_MFHHRU</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Rechts Heck Automatik</td>
+</tr>
+<tr>
+<td>STAT_MFHHLA</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Links Heck auf</td>
+</tr>
+<tr>
+<td>STAT_MFHHLZ</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Links Heck zu</td>
+</tr>
+<tr>
+<td>STAT_MFHHLU</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Links Heck Automatik</td>
+</tr>
+<tr>
+<td>STAT_MFHHSP</td>
+<td>int</td>
+<td>Eingang: Fahrertuermodul Schalter Fensterheber Heck gesperrt</td>
+</tr>
+<tr>
+<td>STAT_FSHKA</td>
+<td>int</td>
+<td>Eingang: Heckklappe oeffnen mit Funksignal</td>
+</tr>
+<tr>
+<td>STAT_SCHLO</td>
+<td>int</td>
+<td>Eingang: Zuendschluessel im Schloss</td>
+</tr>
+<tr>
+<td>STAT_IGN</td>
+<td>int</td>
+<td>Eingang: Status Zuendung</td>
+</tr>
+<tr>
+<td>STAT_BBS</td>
+<td>int</td>
+<td>Ausgang: Batteriegepufferte Hupe</td>
+</tr>
+<tr>
+<td>STAT_SFBZ</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SFBA</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>STAT_SFLHA</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Links hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFRHA</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Rechts hinten auf</td>
+</tr>
+<tr>
+<td>STAT_SFRHZ</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Rechts hinten zu</td>
+</tr>
+<tr>
+<td>STAT_SFLHZ</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Links hinten zu</td>
+</tr>
+<tr>
+<td>STAT_ACLED</td>
+<td>int</td>
+<td>Ausgang: LED Schalter Klimaanlage</td>
+</tr>
+<tr>
+<td>STAT_ERFT</td>
+<td>int</td>
+<td>Ausgang: Entriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>STAT_ERFZG</td>
+<td>int</td>
+<td>Ausgang: Entriegeln restliches Fahrzeug</td>
+</tr>
+<tr>
+<td>STAT_EGFZG</td>
+<td>int</td>
+<td>Ausgang: Entriegeln Gesamtfahrzeug</td>
+</tr>
+<tr>
+<td>STAT_SFFZ</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>STAT_SFFA</td>
+<td>int</td>
+<td>Ausgang: Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>STAT_PANIK</td>
+<td>int</td>
+<td>Ausgang: Panikschliessung</td>
+</tr>
+<tr>
+<td>STAT_HSHLED</td>
+<td>int</td>
+<td>Ausgang: LED Hechscheibenheizung</td>
+</tr>
+<tr>
+<td>STAT_UMLLED</td>
+<td>int</td>
+<td>Ausgang: LED Umluftregelung</td>
+</tr>
+<tr>
+<td>STAT_5VFEED</td>
+<td>int</td>
+<td>Ausgang: Geschaltete +5V Quelle</td>
+</tr>
+<tr>
+<td>STAT_IB</td>
+<td>int</td>
+<td>Ausgang: Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_BBSE</td>
+<td>int</td>
+<td>Ausgang: BBS sichern/entsichern</td>
+</tr>
+<tr>
+<td>STAT_KL</td>
+<td>int</td>
+<td>Ausgang: Kartenbeleuchtung</td>
+</tr>
+<tr>
+<td>STAT_ALVER</td>
+<td>int</td>
+<td>Ausgang: Alarm Spannungsversorgung</td>
+</tr>
+<tr>
+<td>STAT_12VFEE</td>
+<td>int</td>
+<td>Ausgang: Geschaltete +12V Quelle</td>
+</tr>
+<tr>
+<td>STAT_FSAHK</td>
+<td>int</td>
+<td>Ausgang: Heckklappentaste entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>STAT_ADMUX</td>
+<td>int</td>
+<td>Ausgang: A/D Auswahl</td>
+</tr>
+<tr>
+<td>STAT_FSAHS</td>
+<td>int</td>
+<td>Ausgang: Heckklappentaste entriegeln Heckklappenscheibe</td>
+</tr>
+<tr>
+<td>STAT_ALLED</td>
+<td>int</td>
+<td>Ausgang: Alarm LED</td>
+</tr>
+<tr>
+<td>STAT_W1</td>
+<td>int</td>
+<td>Ausgang: Frontwischer in Geschwindigkeit 1</td>
+</tr>
+<tr>
+<td>STAT_W2</td>
+<td>int</td>
+<td>Ausgang: Frontwischer in Geschwindigkeit 2</td>
+</tr>
+<tr>
+<td>STAT_ZULUFT</td>
+<td>int</td>
+<td>Ausgang: Luefter Zuluft</td>
+</tr>
+<tr>
+<td>STAT_UMLUFT</td>
+<td>int</td>
+<td>Ausgang: Luefter Umluft</td>
+</tr>
+<tr>
+<td>STAT_HSWR</td>
+<td>int</td>
+<td>Ausgang: Hupe und Heckscheinwerferreinigung</td>
+</tr>
+<tr>
+<td>STAT_HW</td>
+<td>int</td>
+<td>Ausgang: Heckscheibenwischerrelais</td>
+</tr>
+<tr>
+<td>STAT_HZG</td>
+<td>int</td>
+<td>Ausgang: Luefter Heizung Relais</td>
+</tr>
+<tr>
+<td>STAT_HSH</td>
+<td>int</td>
+<td>Ausgang: Relais Heckscheibenheizung</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-analog"></a></p>
+<h3 id="status_analog">STATUS_ANALOG</h3>
+<p>Status der Analogsignale des GM VI</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>STAT_GKL_WERT</td>
+<td>int</td>
+<td>Geschwindigkeitsklasse fuer Wisch/Wasch Bereich: 0 bis 5</td>
+</tr>
+<tr>
+<td>STAT_GKL_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_IFHF_WERT</td>
+<td>real</td>
+<td>Strom Fensterheber Fahrer Bereich: 0 bis 61,2 [A]</td>
+</tr>
+<tr>
+<td>STAT_IFHF_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_IFHB_WERT</td>
+<td>real</td>
+<td>Strom Fensterheber Beifahrer Bereich: 0 bis 61,2 [A]</td>
+</tr>
+<tr>
+<td>STAT_IFHB_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_IFRH_WERT</td>
+<td>real</td>
+<td>Strom Fensterheber Rechts hinten Bereich: 0 bis 61,2 [A]</td>
+</tr>
+<tr>
+<td>STAT_IFRH_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_IFLH_WERT</td>
+<td>real</td>
+<td>Strom Fensterheber Links hinten Bereich: 0 bis 61,2 [A]</td>
+</tr>
+<tr>
+<td>STAT_IFLH_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_SEKSFF_WERT</td>
+<td>real</td>
+<td>Impedanz Einklemmschutz Fahrer Bereich: x bis x [Ohm]</td>
+</tr>
+<tr>
+<td>STAT_SEKSFF_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_SEKSBF_WERT</td>
+<td>real</td>
+<td>Impedanz Einklemmschutz Beifahrer Bereich: x bis x [Ohm]</td>
+</tr>
+<tr>
+<td>STAT_SEKSBF_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_SEKSLH_WERT</td>
+<td>real</td>
+<td>Impedanz Einklemmschutz Links Heck Bereich: x bis x [Ohm]</td>
+</tr>
+<tr>
+<td>STAT_SEKSLH_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_SEKSRH_WERT</td>
+<td>real</td>
+<td>Impedanz Einklemmschutz Rechts Heck Bereich: x bis x [Ohm]</td>
+</tr>
+<tr>
+<td>STAT_SEKSRH_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_SWINT_WERT</td>
+<td>real</td>
+<td>Wischer-Intervall-Potistufenspannung Bereich: 0 bis 25,5 [V]</td>
+</tr>
+<tr>
+<td>STAT_SWINT_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_POTI_STUFE_WERT</td>
+<td>int</td>
+<td>Potentiometer-Stufe Wischer-Intervall-Stufenschalter Bereich: 0 bis 5</td>
+</tr>
+<tr>
+<td>STAT_POTI_STUFE_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_THERMISTOR_WERT</td>
+<td>int</td>
+<td>Thermistor Wert</td>
+</tr>
+<tr>
+<td>STAT_THERMISTOR_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>STAT_VBAT_WERT</td>
+<td>int</td>
+<td>Spannung Batterie Wert</td>
+</tr>
+<tr>
+<td>STAT_VBAT_EINH</td>
+<td>string</td>
+<td>Einheit: 1</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-digital"></a></p>
+<h3 id="steuern_digital">STEUERN_DIGITAL</h3>
+<p>Ansteuern eines digitalen Ein- oder Ausgangs v. GM5 ! erlaubte Namen des Arguments 'ORT' ueber Tool XTRACT.exe ! Aufruf 'XTRACT [-F] ZKE6.prg'</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORT</td>
+<td>string</td>
+<td>gewuenschte Komponente table BITSAUS NAME TEXT</td>
+</tr>
+<tr>
+<td>EIN</td>
+<td>int</td>
+<td>'1', wenn einschalten / '0', wenn ausschalten</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_AN_SG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-speicher-lesen"></a></p>
+<h3 id="speicher_lesen">SPEICHER_LESEN</h3>
+<p>Lesen des internen Speichers der ZKE VI Als Argumente werden die Anzahl und die Adresse der Datenbytes uebergeben.</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANZAHL</td>
+<td>int</td>
+<td>1 - 32</td>
+</tr>
+<tr>
+<td>ADRESSE</td>
+<td>int</td>
+<td>0x0000 - 0xFFFF</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATEN</td>
+<td>binary</td>
+<td>ausgelesene Daten</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei ERROR_argumentname, wenn argument nicht uebergeben oder ausser Bereich table JobResult STATUS_TEXT</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (13 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (56 × 2)</li>
+<li><a href="#table-roverpartnumprefix">ROVERPARTNUMPREFIX</a> (21 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (46 × 2)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (3 × 2)</li>
+<li><a href="#table-iorttexte">IORTTEXTE</a> (23 × 2)</li>
+<li><a href="#table-iarttexte">IARTTEXTE</a> (3 × 2)</li>
+<li><a href="#table-bits">BITS</a> (77 × 6)</li>
+<li><a href="#table-bitsaus">BITSAUS</a> (35 × 6)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>0x??</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 56 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-roverpartnumprefix"></a></p>
+<h3 id="roverpartnumprefix">ROVERPARTNUMPREFIX</h3>
+<p>Dimensions: 21 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ROVER_NR</th>
+<th>PREFIX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>AMR</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>HHF</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>JFC</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>MKC</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>SCB</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>SRB</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>XQC</td>
+</tr>
+<tr>
+<td>0xA7</td>
+<td>XQD</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>XQE</td>
+</tr>
+<tr>
+<td>0xA9</td>
+<td>XVD</td>
+</tr>
+<tr>
+<td>0xAA</td>
+<td>YAC</td>
+</tr>
+<tr>
+<td>0xAB</td>
+<td>YDB</td>
+</tr>
+<tr>
+<td>0xAC</td>
+<td>YFC</td>
+</tr>
+<tr>
+<td>0xAD</td>
+<td>YUB</td>
+</tr>
+<tr>
+<td>0xAE</td>
+<td>YWC</td>
+</tr>
+<tr>
+<td>0xAF</td>
+<td>YWQ</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>EGQ</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>YIB</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>YIC</td>
+</tr>
+<tr>
+<td>0xB3</td>
+<td>YIE</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>???</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 46 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x06</td>
+<td>Interner Fehler im Grundmodul VI: Relais Treiber Fehler</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Interner Fehler im Grundmodul VI: Relais Allgemein Fehler</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Interner Fehler im Grundmodul VI: Relais  Fehler</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Interner Fehler im Grundmodul VI: Leistungsrelais Fehler</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Interner Fehler im Grundmodul VI: Relais Fensterhebermotor Fahrertuer Fehler</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Interner Fehler im Grundmodul VI: Relais Fensterhebermotor Beifahrertuer Fehler</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Interner Fehler im Grundmodul VI: Relais Fensterhebermotor Tuer hinten Rechts Fehler</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Interner Fehler im Grundmodul VI: Relais Fensterhebermotor Tuer hinten Links Fehler</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>Fensterheber Fahrertuer Ausgang</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>Fensterheber Beifahrertuer Ausgang</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>Fensterheber Tuer Rechts hinten Ausgang</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>Fensterheber Tuer Links hinten Ausgang</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>Fensterheber Heck Sicherung defekt</td>
+</tr>
+<tr>
+<td>0xA3</td>
+<td>Fensterheber Front Sicherung defekt</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>Wischer Front Ein Fehler</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>Wischer Front Aus Fehler</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>Wischer Front Geschwindigkeit Ein Fehler</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>Wischer Heck Ein Fehler</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>Wischer Front Geschwindigkeit Aus</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>Wischer Heck Aus Fehler</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>Wischer Front Feedback Fehler</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>Wischer Front blockiert</td>
+</tr>
+<tr>
+<td>0x96</td>
+<td>Wischer Heck blockiert</td>
+</tr>
+<tr>
+<td>0x9F</td>
+<td>Wischer Front Intervall Potentiometer Masseschluss</td>
+</tr>
+<tr>
+<td>0xA0</td>
+<td>Wischer Front Intervall Potentiometer Kontakte offen</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>Lueftung Frischluft Ein Fehler</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>Umluft Ein Fehler</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>Lueftung Warmluft Ein Fehler</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>Heckscheibenheizung Ein Fehler</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>Lueftung Frischluft Aus</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>Umluft Aus</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>Lueftung Warmluft Aus Fehler</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>Heckscheibenheizung Aus Fehler</td>
+</tr>
+<tr>
+<td>0xA6</td>
+<td>Klimaanlage Kompressor defekt</td>
+</tr>
+<tr>
+<td>0x9A</td>
+<td>Busfehler Fenster</td>
+</tr>
+<tr>
+<td>0xA4</td>
+<td>Zentralverriegelung Sicherung defekt</td>
+</tr>
+<tr>
+<td>0x9B</td>
+<td>TRAP-Sensor Fahrertuer Fehler</td>
+</tr>
+<tr>
+<td>0x9C</td>
+<td>TRAP-Sensor Beifahrertuer Fehler</td>
+</tr>
+<tr>
+<td>0x9D</td>
+<td>TRAP-Sensor Tuer Links hinten Fehler</td>
+</tr>
+<tr>
+<td>0x9E</td>
+<td>TRAP-Sensor Tuer Rechts hinten Fehler</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>Regensensor Fehler</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>Hupe oder Waschduesen Ein Fehler</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>Hupe oder Waschduesen Aus Fehler</td>
+</tr>
+<tr>
+<td>0xA5</td>
+<td>Lampen Sicherung defekt</td>
+</tr>
+<tr>
+<td>0xA8</td>
+<td>Thermistor Checksumme falsch</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Fehlerort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ART</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>sporadischer Fehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>statischer Fehler</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iorttexte"></a></p>
+<h3 id="iorttexte">IORTTEXTE</h3>
+<p>Dimensions: 23 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x80</td>
+<td>Alarmspeicher: Klemme R</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>Alarmspeicher: Tuerkontakt Fahrertuer</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>Alarmspeicher: Tuerkontakt Beifahrertuer</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>Alarmspeicher: Tuerkontakt Fahrerseite hinten / Verdeckklappe</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>Alarmspeicher: Tuerkontakt Beifahrerseite hinten</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>Alarmspeicher: Heckklappe</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>Alarmspeicher: Heckscheibe</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>Alarmspeicher: RDC</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>Alarmspeicher: Motorhaube</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>Alarmspeicher: Neigungsgeber</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>Alarmspeicher: Funkinnenraumschutz</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>Alarmspeicher: Funkinnenraumschutz hinten (E46/3) / Handschuhfach (E46/C)</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>Alarmspeicher: Reserve</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>Alarmspeicher: Schlosskontakt Fahrertuer</td>
+</tr>
+<tr>
+<td>0x8E</td>
+<td>Alarmspeicher: Schlosskontakt Beifahrertuer</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>Alarmspeicher: Panik-Mode wurde ausgeloest</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>Batteriespannung: Unterbrechung</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>Crash: wurde ausgeloest</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>Wiederholsperre: Zentralverriegelung</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>Wiederholsperre: Entriegelung Heckklappe</td>
+</tr>
+<tr>
+<td>0x94</td>
+<td>Wiederholsperre: Entriegelung Heckscheibe</td>
+</tr>
+<tr>
+<td>0x95</td>
+<td>Wiederholsperre: Fensterheber</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Info-Ort</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-iarttexte"></a></p>
+<h3 id="iarttexte">IARTTEXTE</h3>
+<p>Dimensions: 3 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ART</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>sporadischer Fehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>statischer Fehler</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte Fehlerart</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-bits"></a></p>
+<h3 id="bits">BITS</h3>
+<p>Dimensions: 77 rows × 6 columns</p>
+<table>
+<thead>
+<tr>
+<th>ZELLE</th>
+<th>BYTE</th>
+<th>MASK</th>
+<th>VALUE</th>
+<th>NAME</th>
+<th>TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>ZVA</td>
+<td>Schluesselschalter Auf</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>ZVZ</td>
+<td>Schluesselschalter Zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>TFA</td>
+<td>Tuer Fahrer Auf</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>TBA</td>
+<td>Tuer Beifahrer Auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>THRA</td>
+<td>Tuer Rechts hinten auf</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>THLA</td>
+<td>Tuer Links hinten auf</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>SFHFZ</td>
+<td>Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>SFHFA</td>
+<td>Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SFHBZ</td>
+<td>Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SFHBA</td>
+<td>Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>LVS</td>
+<td>Luftverschmutzungssensor</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>WPH</td>
+<td>Waschmittelpumpe Heckwischer</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>STFHH</td>
+<td>Sicherungstest Fensterheber Heck</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>STFHF</td>
+<td>Sicherungstest Fensterheber Front</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>STZV</td>
+<td>Sicherungstest ZV</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>STIB</td>
+<td>Sicherungstest Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SFHHRZ</td>
+<td>Schalter Fensterheber Heck Rechts zu</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SFHHRA</td>
+<td>Schalter Fensterheber Heck Rechts auf</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>SFHHLZ</td>
+<td>Schalter Fensterheber Heck Links zu</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>SFHHLA</td>
+<td>Schalter Fensterheber Heck Links auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>RFHHRZ</td>
+<td>Relais Fensterheber Heck Rechts zu</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>RFHHRA</td>
+<td>Relais Fensterheber Heck Rechts auf</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>RFHHLZ</td>
+<td>Relais Fensterheber Heck Links zu</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>RFHHLA</td>
+<td>Relais Fensterheber Heck Links auf</td>
+</tr>
+<tr>
+<td>0</td>
+<td>4</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>ESFW</td>
+<td>Wischer Endschalter Stopposition Front</td>
+</tr>
+<tr>
+<td>1</td>
+<td>4</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>ESHW</td>
+<td>Wischer Endschalter Stopposition Heck</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>SWH</td>
+<td>Wischermotor Schalter Heck</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>SAC</td>
+<td>Schalter Klimaanlage</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>SUML</td>
+<td>Schalter Umluftsteuerung</td>
+</tr>
+<tr>
+<td>5</td>
+<td>4</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>SS1</td>
+<td>Schalter1 Lenksaeule</td>
+</tr>
+<tr>
+<td>6</td>
+<td>4</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>SS2</td>
+<td>Schalter2 Lenksaeule</td>
+</tr>
+<tr>
+<td>0</td>
+<td>5</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SHSH</td>
+<td>Schalter Heckscheibenheizung</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SZVPZ</td>
+<td>Schalter ZV Panikschliessung zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>SZVPA</td>
+<td>Schalter ZV Panikschliessung auf</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>SKS</td>
+<td>Schalter Kofferraumschloss</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SKA</td>
+<td>Endschalter Kofferraum auf</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SIB</td>
+<td>Schalter Innenraumbeleuchtung</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>SMA</td>
+<td>Endschalter Motorhaube auf</td>
+</tr>
+<tr>
+<td>0</td>
+<td>6</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SKVA</td>
+<td>Schalter Kofferraum Verriegelung auf</td>
+</tr>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SKVHA</td>
+<td>Schalter Kofferraum Scheibe Verriegelung auf</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>ERS1</td>
+<td>Ersatz 1 nicht benutzt</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>ERS2</td>
+<td>Ersatz 2 nicht benutzt</td>
+</tr>
+<tr>
+<td>0</td>
+<td>7</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>SWPFA</td>
+<td>Schalter Waschmittelpumpe Front aktiv</td>
+</tr>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>FZVSIG</td>
+<td>Funksignal empfangen</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>KIPPE</td>
+<td>Kippsensor</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>POS1</td>
+<td>Zuendschluessel Position 1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>7</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>CRASH</td>
+<td>Crashunterbrechung Benzinpumpe</td>
+</tr>
+<tr>
+<td>5</td>
+<td>7</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>KLES</td>
+<td>Kuehlerluefter Ein Sensor</td>
+</tr>
+<tr>
+<td>6</td>
+<td>7</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>HIGH1</td>
+<td>Immer logisch 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>8</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>RSF</td>
+<td>Relais Kontakt Schloss Fahrer</td>
+</tr>
+<tr>
+<td>1</td>
+<td>8</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>RFHBZ</td>
+<td>Relais Kontakt Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>RFHFZ</td>
+<td>Relais Kontakt Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>RFHBA</td>
+<td>Relais Kontakt Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>8</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>RFHFA</td>
+<td>Relais Kontakt Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>5</td>
+<td>8</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>RGZ</td>
+<td>Relais Kontakt Gesamtfzg zu</td>
+</tr>
+<tr>
+<td>6</td>
+<td>8</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>RZVG</td>
+<td>Relais Kontakt ZV +12V</td>
+</tr>
+<tr>
+<td>7</td>
+<td>8</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>RZVPZ</td>
+<td>Relais Kontakt ZV Panikschliessung zu</td>
+</tr>
+<tr>
+<td>0</td>
+<td>9</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>IBD</td>
+<td>Diagnose Innenbeleuchtung - nicht realisiert</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>KLD</td>
+<td>Diagnose Kartenlampe - nicht realisiert</td>
+</tr>
+<tr>
+<td>5</td>
+<td>9</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>TANK</td>
+<td>Tank u. Kofferraum Diagnose</td>
+</tr>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>MFHFA</td>
+<td>Fahrertuermodul Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>MFHFZ</td>
+<td>Fahrertuermodul Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>MFHFU</td>
+<td>Fahrertuermodul Schalter Fensterheber Fahrer Automatik</td>
+</tr>
+<tr>
+<td>3</td>
+<td>10</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>MFHBA</td>
+<td>Fahrertuermodul Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>10</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>MFHBZ</td>
+<td>Fahrertuermodul Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>5</td>
+<td>10</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>MFHBU</td>
+<td>Fahrertuermodul Schalter Fensterheber Beifahrer Automatik</td>
+</tr>
+<tr>
+<td>0</td>
+<td>11</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>MFHHRA</td>
+<td>Fahrertuermodul Schalter Fensterheber Rechts hinten auf</td>
+</tr>
+<tr>
+<td>1</td>
+<td>11</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>MFHHRZ</td>
+<td>Fahrertuermodul Schalter Fensterheber Rechts hinten zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>11</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>MFHHRU</td>
+<td>Fahrertuermodul Schalter Fensterheber Rechts hinten Automatik</td>
+</tr>
+<tr>
+<td>3</td>
+<td>11</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>MFHHLA</td>
+<td>Fahrertuermodul Schalter Fensterheber Links hinten auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>11</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>MFHHLZ</td>
+<td>Fahrertuermodul Schalter Fensterheber Links hinten zu</td>
+</tr>
+<tr>
+<td>5</td>
+<td>11</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>MFHHLU</td>
+<td>Fahrertuermodul Schalter Fensterheber Links hinten Automaik</td>
+</tr>
+<tr>
+<td>6</td>
+<td>11</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>MFHHSP</td>
+<td>Fahrertuermodul Schalter Fensterheber hinten gesperrt</td>
+</tr>
+<tr>
+<td>0</td>
+<td>17</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>FSHKA</td>
+<td>Heckklappe oeffnen mit Funksignal</td>
+</tr>
+<tr>
+<td>1</td>
+<td>17</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SCHLO</td>
+<td>Zuendschluessel im Schloss</td>
+</tr>
+<tr>
+<td>2</td>
+<td>17</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>IGN</td>
+<td>Status Zuendung</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>XY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>XY</td>
+<td>nicht definiertes Signal</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-bitsaus"></a></p>
+<h3 id="bitsaus">BITSAUS</h3>
+<p>Dimensions: 35 rows × 6 columns</p>
+<table>
+<thead>
+<tr>
+<th>ZELLE</th>
+<th>BYTE</th>
+<th>MASK</th>
+<th>VALUE</th>
+<th>NAME</th>
+<th>TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>BBS</td>
+<td>Batteriegepufferte Hupe</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>SFBZ</td>
+<td>Schalter Fensterheber Beifahrer zu</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>SFBA</td>
+<td>Schalter Fensterheber Beifahrer auf</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>SFLHA</td>
+<td>Schalter Fensterheber Links Hinten auf</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>SFRHA</td>
+<td>Schalter Fensterheber Rechts Hinten auf</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>SFRHZ</td>
+<td>Schalter Fensterheber Rechts Hinten zu</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>SFLHZ</td>
+<td>Schalter Fensterheber Links Hinten zu</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>ACLED</td>
+<td>LED Klimaanlage</td>
+</tr>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>ERFT</td>
+<td>Entriegeln Fahrertuer</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>ERFZG</td>
+<td>Entriegeln restliches Fahrzeug</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>EGFZG</td>
+<td>Entriegeln Gesamtfahrzeug</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>SFFZ</td>
+<td>Schalter Fensterheber Fahrer zu</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>SFFA</td>
+<td>Schalter Fensterheber Fahrer auf</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>PANIK</td>
+<td>Panikschliessung</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>HSHLED</td>
+<td>LED Heckscheibenheizung</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>UMLLED</td>
+<td>LED Umluft</td>
+</tr>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>5VFEED</td>
+<td>Geschaltete 5V Quelle</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>IB</td>
+<td>Innenbeleuchtung</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>BBSE</td>
+<td>BBS sichern/entsichern</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>KL</td>
+<td>Kartenbeleuchtung</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>ALVER</td>
+<td>Alarm Spannungsversorgung</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>12VFEE</td>
+<td>Geschaltete 12V Quelle</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>FSAHK</td>
+<td>Heckklappentaste Entriegeln Heckklappe</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>ADMUX</td>
+<td>A/D Auswahl</td>
+</tr>
+<tr>
+<td>6</td>
+<td>4</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>FSAHS</td>
+<td>Heckklappentaste Entriegeln Heckklappenscheibe</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>ALLED</td>
+<td>Alarm LED</td>
+</tr>
+<tr>
+<td>0</td>
+<td>5</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>W1</td>
+<td>Frontwischer ein Geschwindigkeit 1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>0x02</td>
+<td>0x02</td>
+<td>W2</td>
+<td>Frontwischer ein Geschwindigkeit 2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>0x04</td>
+<td>0x04</td>
+<td>ZULUFT</td>
+<td>Luefter Frischluft</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>0x08</td>
+<td>0x08</td>
+<td>UMLUFT</td>
+<td>Luefter Umluft</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>0x10</td>
+<td>0x10</td>
+<td>HSWR</td>
+<td>Hupe und Scheinwerferreinigung</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td>0x20</td>
+<td>0x20</td>
+<td>HW</td>
+<td>Heckscheibenrelais</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5</td>
+<td>0x40</td>
+<td>0x40</td>
+<td>HZG</td>
+<td>Luefter Heizungrelais</td>
+</tr>
+<tr>
+<td>7</td>
+<td>5</td>
+<td>0x80</td>
+<td>0x80</td>
+<td>HSH</td>
+<td>Heckscheibenheizungrelais</td>
+</tr>
+<tr>
+<td>XY</td>
+<td>XY</td>
+<td>0xXY</td>
+<td>0xXY</td>
+<td>XY</td>
+<td>nicht definiertes Signal</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3129 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/W2V/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>W2V.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#w2vprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              W2V.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_restart_hsfz_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_RESTART_HSFZ_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_RESTART_HSFZ_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_restart_hsfz_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_RESTART_HSFZ_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_RESTART_HSFZ_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_restart_hsfz_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_RESTART_HSFZ_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_RESTART_HSFZ_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_restart_hsfz_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_RESTART_HSFZ_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_RESTART_HSFZ_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_create_ecu_routes_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CREATE_ECU_ROUTES_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CREATE_ECU_ROUTES_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_create_ecu_routes_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_CREATE_ECU_ROUTES_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_CREATE_ECU_ROUTES_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_create_ecu_routes_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_CREATE_ECU_ROUTES_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_CREATE_ECU_ROUTES_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_create_ecu_routes_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CREATE_ECU_ROUTES_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CREATE_ECU_ROUTES_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_act_line_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_ACT_LINE_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_ACT_LINE_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_switch_act_line_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_SWITCH_ACT_LINE_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_SWITCH_ACT_LINE_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_act_line_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_ACT_LINE_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_ACT_LINE_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_act_line_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_ACT_LINE_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_ACT_LINE_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_link_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_LINK_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_LINK_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_switch_link_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_SWITCH_LINK_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_SWITCH_LINK_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_link_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_LINK_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_LINK_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_switch_link_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_SWITCH_LINK_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_SWITCH_LINK_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#active_diagnostic_session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ACTIVE_DIAGNOSTIC_SESSION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ACTIVE_DIAGNOSTIC_SESSION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_inq_hsfz_gw_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_INQ_HSFZ_GW_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_INQ_HSFZ_GW_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_inq_hsfz_gw_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_INQ_HSFZ_GW_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_INQ_HSFZ_GW_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_inq_hsfz_gw_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_INQ_HSFZ_GW_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_INQ_HSFZ_GW_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_inq_hsfz_gw_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_INQ_HSFZ_GW_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_INQ_HSFZ_GW_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_check_url_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CHECK_URL_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CHECK_URL_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_check_url_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_CHECK_URL_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_CHECK_URL_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_check_url_stp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CHECK_URL_STP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CHECK_URL_STP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_check_url_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CHECK_URL_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CHECK_URL_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_pin_control_str" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_PIN_CONTROL_STR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_PIN_CONTROL_STR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_pin_control_str_imloif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_PIN_CONTROL_STR_IMLOIF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_PIN_CONTROL_STR_IMLOIF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_steuern_pin_control_stop_routine_sfns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_STEUERN_PIN_CONTROL_STOP_ROUTINE_SFNS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_STEUERN_PIN_CONTROL_STOP_ROUTINE_SFNS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_pin_control_rrr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_PIN_CONTROL_RRR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_PIN_CONTROL_RRR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_unknown_service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_UNKNOWN_SERVICE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_UNKNOWN_SERVICE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_test_unimplemented_routine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _TEST_UNIMPLEMENTED_ROUTINE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="_TEST_UNIMPLEMENTED_ROUTINE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cu_err_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CU_ERR_TEXT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="w2vprg">W2V.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">32</a></li>
+<li>Tables: <a href="#tables">2</a></li>
+</ul>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a></li>
+<li><a href="#job-steuern-restart-hsfz-str">STEUERN_RESTART_HSFZ_STR</a> - Restart HSFZ Start Routine</li>
+<li><a href="#job-test-steuern-restart-hsfz-str-imloif">_TEST_STEUERN_RESTART_HSFZ_STR_IMLOIF</a> - Restart HSFZ Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-test-steuern-restart-hsfz-stp">_TEST_STEUERN_RESTART_HSFZ_STP</a> - Restart HSFZ Stop Routine Test Stop Routine, soll Fehlermeldung SFNS provozieren</li>
+<li><a href="#job-steuern-restart-hsfz-rrr">STEUERN_RESTART_HSFZ_RRR</a> - Restart HSFZ Request Routine Results</li>
+<li><a href="#job-steuern-create-ecu-routes-str">STEUERN_CREATE_ECU_ROUTES_STR</a> - CreateEcuRoutes Start Routine Anlegen der Routen für ein Steuergerät</li>
+<li><a href="#job-test-steuern-create-ecu-routes-str-imloif">_TEST_STEUERN_CREATE_ECU_ROUTES_STR_IMLOIF</a> - Restart HSFZ Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-test-create-ecu-routes-stp">_TEST_CREATE_ECU_ROUTES_STP</a> - Restart HSFZ Stop Routine Test Stop Routine, soll Fehlermeldung SFNS provozieren</li>
+<li><a href="#job-steuern-create-ecu-routes-rrr">STEUERN_CREATE_ECU_ROUTES_RRR</a> - Restart HSFZ Request Routine Results</li>
+<li><a href="#job-steuern-switch-act-line-str">STEUERN_SWITCH_ACT_LINE_STR</a> - SwitchActLine Start Routine Ethernet Aktivierungsleitung schalten</li>
+<li><a href="#job-test-steuern-switch-act-line-str-imloif">_TEST_STEUERN_SWITCH_ACT_LINE_STR_IMLOIF</a> - SwitchActLine Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-steuern-switch-act-line-stp">STEUERN_SWITCH_ACT_LINE_STP</a> - SwitchActLine Stop Routine</li>
+<li><a href="#job-steuern-switch-act-line-rrr">STEUERN_SWITCH_ACT_LINE_RRR</a> - SwitchActLine Request Routine Results</li>
+<li><a href="#job-steuern-switch-link-str">STEUERN_SWITCH_LINK_STR</a> - SwitchActLine Start Routine Ethernet Aktivierungsleitung schalten</li>
+<li><a href="#job-test-steuern-switch-link-str-imloif">_TEST_STEUERN_SWITCH_LINK_STR_IMLOIF</a> - SwitchActLine Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-steuern-switch-link-stp">STEUERN_SWITCH_LINK_STP</a> - SwitchActLine Stop Routine</li>
+<li><a href="#job-steuern-switch-link-rrr">STEUERN_SWITCH_LINK_RRR</a> - SwitchActLine Request Routine Results</li>
+<li><a href="#job-active-diagnostic-session">ACTIVE_DIAGNOSTIC_SESSION</a> - active diagnostic session</li>
+<li><a href="#job-steuern-inq-hsfz-gw-str">STEUERN_INQ_HSFZ_GW_STR</a> - Inquire HSFZ GatewayStart Routine</li>
+<li><a href="#job-test-steuern-inq-hsfz-gw-str-imloif">_TEST_STEUERN_INQ_HSFZ_GW_STR_IMLOIF</a> - Inquire HSFZ GatewayStart Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-steuern-inq-hsfz-gw-stp">STEUERN_INQ_HSFZ_GW_STP</a> - Inquire HSFZ Gateway Stop Routine</li>
+<li><a href="#job-steuern-inq-hsfz-gw-rrr">STEUERN_INQ_HSFZ_GW_RRR</a> - Inquire HSFZ Gateway Request Routine Results</li>
+<li><a href="#job-steuern-check-url-str">STEUERN_CHECK_URL_STR</a> - Inquire HSFZ GatewayStart Routine</li>
+<li><a href="#job-test-steuern-check-url-str-imloif">_TEST_STEUERN_CHECK_URL_STR_IMLOIF</a> - Inquire HSFZ GatewayStart Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-steuern-check-url-stp">STEUERN_CHECK_URL_STP</a> - Inquire HSFZ Gateway Stop Routine</li>
+<li><a href="#job-steuern-check-url-rrr">STEUERN_CHECK_URL_RRR</a> - Inquire HSFZ Gateway Request Routine Results</li>
+<li><a href="#job-steuern-pin-control-str">STEUERN_PIN_CONTROL_STR</a> - PinControl Start Routine Einstellen der gewünschten Pullup-Werte</li>
+<li><a href="#job-test-steuern-pin-control-str-imloif">_TEST_STEUERN_PIN_CONTROL_STR_IMLOIF</a> - Test Routine for PIN Control Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</li>
+<li><a href="#job-test-steuern-pin-control-stop-routine-sfns">_TEST_STEUERN_PIN_CONTROL_STOP_ROUTINE_SFNS</a> - Pin Control Stop Routine</li>
+<li><a href="#job-steuern-pin-control-rrr">STEUERN_PIN_CONTROL_RRR</a> - Pin Control Request Results Routine</li>
+<li><a href="#job-test-unknown-service">_TEST_UNKNOWN_SERVICE</a> - Test des Diagnoseservers: soll $7F $11 provozieren</li>
+<li><a href="#job-test-unimplemented-routine">_TEST_UNIMPLEMENTED_ROUTINE</a> - Test des Diagnoseservers: soll Request Out Of Range ($7F $31 $31) provozieren</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-restart-hsfz-str"></a></p>
+<h3 id="steuern_restart_hsfz_str">STEUERN_RESTART_HSFZ_STR</h3>
+<p>Restart HSFZ Start Routine</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEACT_TIME_MS</td>
+<td>int</td>
+<td>Zeit, die die Aktivierungsleitung auf 0 gezogen wird in Millisekunden, Default = 1000</td>
+</tr>
+<tr>
+<td>ROUTING_MODE</td>
+<td>string</td>
+<td>"ROUTING" (Default) | "DIRECT"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-restart-hsfz-str-imloif"></a></p>
+<h3 id="_test_steuern_restart_hsfz_str_imloif">_TEST_STEUERN_RESTART_HSFZ_STR_IMLOIF</h3>
+<p>Restart HSFZ Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-restart-hsfz-stp"></a></p>
+<h3 id="_test_steuern_restart_hsfz_stp">_TEST_STEUERN_RESTART_HSFZ_STP</h3>
+<p>Restart HSFZ Stop Routine Test Stop Routine, soll Fehlermeldung SFNS provozieren</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei es sollte aber SFNS - Subfunction Not Supported kommen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-restart-hsfz-rrr"></a></p>
+<h3 id="steuern_restart_hsfz_rrr">STEUERN_RESTART_HSFZ_RRR</h3>
+<p>Restart HSFZ Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_HSFZ_READY</td>
+<td>string</td>
+<td>BUSY = HSFZ Restart laeuft READY = HSFZ Restart laeuft nicht</td>
+</tr>
+<tr>
+<td>STAT_ETH_LINK</td>
+<td>string</td>
+<td>ON = Fahrzeug Ethernet hat Link OFF = Fahrzeug Ethernet hat kein Link</td>
+</tr>
+<tr>
+<td>STAT_GW_STATUS</td>
+<td>string</td>
+<td>OK = GW hat sich gemeldet, IP i.O. BAD GATEWAY_IP = GW hat sich gemeldet, IP n.i.O. NO_GATEWAY = GW hat sich nicht gemeldet</td>
+</tr>
+<tr>
+<td>STAT_GW_DIAGADR</td>
+<td>string</td>
+<td>Diagnoseadresse des Gateways als Hexstring</td>
+</tr>
+<tr>
+<td>STAT_VIN</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-create-ecu-routes-str"></a></p>
+<h3 id="steuern_create_ecu_routes_str">STEUERN_CREATE_ECU_ROUTES_STR</h3>
+<p>CreateEcuRoutes Start Routine Anlegen der Routen für ein Steuergerät</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SG_DIAG_ADDRESS</td>
+<td>string</td>
+<td>Diagnoseadresse des Steuergeräts (z.B. "0x63")</td>
+</tr>
+<tr>
+<td>SG_IP_ADDRESS</td>
+<td>string</td>
+<td>IP-Adresse des Steuergeräts (z.B. "192.168.11.3")</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_IP1</td>
+<td>int</td>
+<td>IP-Adresse Byte 1</td>
+</tr>
+<tr>
+<td>_IP2</td>
+<td>int</td>
+<td>IP-Adresse Byte 2</td>
+</tr>
+<tr>
+<td>_IP3</td>
+<td>int</td>
+<td>IP-Adresse Byte 3</td>
+</tr>
+<tr>
+<td>_IP4</td>
+<td>int</td>
+<td>IP-Adresse Byte 4</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-create-ecu-routes-str-imloif"></a></p>
+<h3 id="_test_steuern_create_ecu_routes_str_imloif">_TEST_STEUERN_CREATE_ECU_ROUTES_STR_IMLOIF</h3>
+<p>Restart HSFZ Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-create-ecu-routes-stp"></a></p>
+<h3 id="_test_create_ecu_routes_stp">_TEST_CREATE_ECU_ROUTES_STP</h3>
+<p>Restart HSFZ Stop Routine Test Stop Routine, soll Fehlermeldung SFNS provozieren</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei es sollte aber SFNS - Subfunction Not Supported kommen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-create-ecu-routes-rrr"></a></p>
+<h3 id="steuern_create_ecu_routes_rrr">STEUERN_CREATE_ECU_ROUTES_RRR</h3>
+<p>Restart HSFZ Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_DIAG_ADDR</td>
+<td>string</td>
+<td>Diagnoseadresse in Hex</td>
+</tr>
+<tr>
+<td>STAT_ROUTETYPE</td>
+<td>string</td>
+<td>"HSFZ" | "DOIP"</td>
+</tr>
+<tr>
+<td>STAT_IP_ADDR</td>
+<td>string</td>
+<td>IP-Adresse des SG</td>
+</tr>
+<tr>
+<td>STAT_PORT</td>
+<td>string</td>
+<td>Basisport in dezimal</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-act-line-str"></a></p>
+<h3 id="steuern_switch_act_line_str">STEUERN_SWITCH_ACT_LINE_STR</h3>
+<p>SwitchActLine Start Routine Ethernet Aktivierungsleitung schalten</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MODE</td>
+<td>string</td>
+<td>Modus: "OFF" | "ON" | "PULSE"</td>
+</tr>
+<tr>
+<td>PULSE_DURATION_MS</td>
+<td>int</td>
+<td>Ausschaltzeit in ms wenn MODE == "PULSE"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-switch-act-line-str-imloif"></a></p>
+<h3 id="_test_steuern_switch_act_line_str_imloif">_TEST_STEUERN_SWITCH_ACT_LINE_STR_IMLOIF</h3>
+<p>SwitchActLine Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-act-line-stp"></a></p>
+<h3 id="steuern_switch_act_line_stp">STEUERN_SWITCH_ACT_LINE_STP</h3>
+<p>SwitchActLine Stop Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-act-line-rrr"></a></p>
+<h3 id="steuern_switch_act_line_rrr">STEUERN_SWITCH_ACT_LINE_RRR</h3>
+<p>SwitchActLine Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_LEVEL</td>
+<td>string</td>
+<td>"ON" | "OFF"</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-link-str"></a></p>
+<h3 id="steuern_switch_link_str">STEUERN_SWITCH_LINK_STR</h3>
+<p>SwitchActLine Start Routine Ethernet Aktivierungsleitung schalten</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MODE</td>
+<td>string</td>
+<td>Modus: "OFF" | "ON" | "PULSE"</td>
+</tr>
+<tr>
+<td>PULSE_DURATION_MS</td>
+<td>int</td>
+<td>Ausschaltzeit in ms wenn MODE == "PULSE"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-switch-link-str-imloif"></a></p>
+<h3 id="_test_steuern_switch_link_str_imloif">_TEST_STEUERN_SWITCH_LINK_STR_IMLOIF</h3>
+<p>SwitchActLine Start Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-link-stp"></a></p>
+<h3 id="steuern_switch_link_stp">STEUERN_SWITCH_LINK_STP</h3>
+<p>SwitchActLine Stop Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-switch-link-rrr"></a></p>
+<h3 id="steuern_switch_link_rrr">STEUERN_SWITCH_LINK_RRR</h3>
+<p>SwitchActLine Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_CONTROL</td>
+<td>string</td>
+<td>"ON" | "OFF"</td>
+</tr>
+<tr>
+<td>STAT_LINK</td>
+<td>string</td>
+<td>"ON" | "OFF"</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-active-diagnostic-session"></a></p>
+<h3 id="active_diagnostic_session">ACTIVE_DIAGNOSTIC_SESSION</h3>
+<p>active diagnostic session</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-inq-hsfz-gw-str"></a></p>
+<h3 id="steuern_inq_hsfz_gw_str">STEUERN_INQ_HSFZ_GW_STR</h3>
+<p>Inquire HSFZ GatewayStart Routine</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TIMEOUT_MS</td>
+<td>int</td>
+<td>Zeit, die auf eine Antwort vom Gateway gewartet wird in Millisekunden, Default = 1000, Max = 2000</td>
+</tr>
+<tr>
+<td>RETRIES</td>
+<td>int</td>
+<td>Anzahl der Wiederholungen, wenn keine Antwort vom Gateway kommt Default = 2, Max. = 255</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-inq-hsfz-gw-str-imloif"></a></p>
+<h3 id="_test_steuern_inq_hsfz_gw_str_imloif">_TEST_STEUERN_INQ_HSFZ_GW_STR_IMLOIF</h3>
+<p>Inquire HSFZ GatewayStart Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-inq-hsfz-gw-stp"></a></p>
+<h3 id="steuern_inq_hsfz_gw_stp">STEUERN_INQ_HSFZ_GW_STP</h3>
+<p>Inquire HSFZ Gateway Stop Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-inq-hsfz-gw-rrr"></a></p>
+<h3 id="steuern_inq_hsfz_gw_rrr">STEUERN_INQ_HSFZ_GW_RRR</h3>
+<p>Inquire HSFZ Gateway Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_HSFZ_READY</td>
+<td>string</td>
+<td>BUSY = HSFZ Restart laeuft READY = HSFZ Restart laeuft nicht</td>
+</tr>
+<tr>
+<td>STAT_ETH_LINK</td>
+<td>string</td>
+<td>ON = Fahrzeug Ethernet hat Link OFF = Fahrzeug Ethernet hat kein Link</td>
+</tr>
+<tr>
+<td>STAT_GW_STATUS</td>
+<td>string</td>
+<td>OK = GW hat sich gemeldet, IP i.O. BAD GATEWAY_IP = GW hat sich gemeldet, IP n.i.O. NO_GATEWAY = GW hat sich nicht gemeldet</td>
+</tr>
+<tr>
+<td>STAT_GW_DIAGADR</td>
+<td>string</td>
+<td>Diagnoseadresse des Gateways als Hexstring</td>
+</tr>
+<tr>
+<td>STAT_VIN</td>
+<td>string</td>
+<td>Fahrgestellnummer</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-check-url-str"></a></p>
+<h3 id="steuern_check_url_str">STEUERN_CHECK_URL_STR</h3>
+<p>Inquire HSFZ GatewayStart Routine</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TIMEOUT_S</td>
+<td>int</td>
+<td>Zeit, die auf eine Antwort vom Server gewartet wird in Sekunden, Default = 30, Min = 10, Max = 2000</td>
+</tr>
+<tr>
+<td>RETRIES</td>
+<td>int</td>
+<td>Anzahl der Wiederholungen, wenn keine Antwort vom Server kommt Default = 0, Max. = 255 Da bereits Retries auf TCP - Ebene erfolgen, sind Retries auf HTTP Ebene wenig erfolgversprechend. Daher Default = 0</td>
+</tr>
+<tr>
+<td>LENGTH</td>
+<td>int</td>
+<td>Laenge des URL - Strings, max. 1200</td>
+</tr>
+<tr>
+<td>URL</td>
+<td>string</td>
+<td>URL - String, max. 1200 Zeichen, nullterminiert</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-check-url-str-imloif"></a></p>
+<h3 id="_test_steuern_check_url_str_imloif">_TEST_STEUERN_CHECK_URL_STR_IMLOIF</h3>
+<p>Inquire HSFZ GatewayStart Routine Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-check-url-stp"></a></p>
+<h3 id="steuern_check_url_stp">STEUERN_CHECK_URL_STP</h3>
+<p>Inquire HSFZ Gateway Stop Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-check-url-rrr"></a></p>
+<h3 id="steuern_check_url_rrr">STEUERN_CHECK_URL_RRR</h3>
+<p>Inquire HSFZ Gateway Request Routine Results</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STAT_NET_ERROR_INT</td>
+<td>int</td>
+<td>Fehler auf TCP Ebene Codierung siehe Tabelle CU_ERR_TEXT</td>
+</tr>
+<tr>
+<td>STAT_NET_ERROR_STRING</td>
+<td>string</td>
+<td>Fehler auf TCP Ebene als String Codierung siehe Tabelle CU_ERR_TEXT</td>
+</tr>
+<tr>
+<td>STAT_HTTP_STATUS</td>
+<td>int</td>
+<td>HTTP-Statuscode Ergebnis wird nur angelegt, wenn NET_ERROR_INT == 0</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-pin-control-str"></a></p>
+<h3 id="steuern_pin_control_str">STEUERN_PIN_CONTROL_STR</h3>
+<p>PinControl Start Routine Einstellen der gewünschten Pullup-Werte</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUP7</td>
+<td>int</td>
+<td>Pullup in Ohm für Pin 7 der OBD-Dose. 0 = kein Pullup (0,500,1000) Default = 0</td>
+</tr>
+<tr>
+<td>PUP8</td>
+<td>int</td>
+<td>Pullup in Ohm für Pin 8 der OBD-Dose. 0 = kein Pullup (0,500,1000)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-pin-control-str-imloif"></a></p>
+<h3 id="_test_steuern_pin_control_str_imloif">_TEST_STEUERN_PIN_CONTROL_STR_IMLOIF</h3>
+<p>Test Routine for PIN Control Test mit fehlenden Parametern -&gt; IMLOIF muss kommen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-steuern-pin-control-stop-routine-sfns"></a></p>
+<h3 id="_test_steuern_pin_control_stop_routine_sfns">_TEST_STEUERN_PIN_CONTROL_STOP_ROUTINE_SFNS</h3>
+<p>Pin Control Stop Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei es sollte aber SFNS - Subfunction Not Supported kommen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-pin-control-rrr"></a></p>
+<h3 id="steuern_pin_control_rrr">STEUERN_PIN_CONTROL_RRR</h3>
+<p>Pin Control Request Results Routine</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort vom SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+<tr>
+<td>PUP7</td>
+<td>int</td>
+<td>Pullup in Ohm für Pin 7 der OBD-Dose. Default: 0 = kein Pullup (0,500,1000)</td>
+</tr>
+<tr>
+<td>UPin7</td>
+<td>int</td>
+<td>Spannung an Pin 7 der OBD-Dose in mV</td>
+</tr>
+<tr>
+<td>PUP8</td>
+<td>int</td>
+<td>Pullup in Ohm für Pin 8 der OBD-Dose. Default: 0 = kein Pullup (0,500,1000)</td>
+</tr>
+<tr>
+<td>UPin8</td>
+<td>int</td>
+<td>Spannung an Pin 8 der OBD-Dose in mV</td>
+</tr>
+<tr>
+<td>UPin1</td>
+<td>int</td>
+<td>Spannung an Pin 1 der OBD-Dose in mV</td>
+</tr>
+<tr>
+<td>UPin16</td>
+<td>int</td>
+<td>Spannung an Pin 16 der OBD-Dose in mV</td>
+</tr>
+<tr>
+<td>AdapterConf</td>
+<td>string</td>
+<td>Bitmaske, die angibt, welche Adapter angesteckt sind: 0x01 = ICOM B angesteckt 0x02 = ICOM C angesteckt 0x04 = ICOM D angesteckt 0x08 = ICOM E angesteckt</td>
+</tr>
+<tr>
+<td>CanCl</td>
+<td>string</td>
+<td>Bitmaske, die angibt, welche zyklischen CAN-Botschaften empfangen werden: 0x01 : Klemmenstatus Botschaft (130h) 0x02 : Fahrzeugzustands – Botschaft (3Ch)</td>
+</tr>
+<tr>
+<td>CanCl15</td>
+<td>string</td>
+<td>0x01 = Klemme 15 in Botschaft 130h Ein, 0x00 sonst</td>
+</tr>
+<tr>
+<td>CanPWF</td>
+<td>string</td>
+<td>Signal ST_CON_VEH( Bit 0 .. Bit 3) aus Byte 6 der Fahrzeugzustands-Botschaft (3Ch)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-unknown-service"></a></p>
+<h3 id="_test_unknown_service">_TEST_UNKNOWN_SERVICE</h3>
+<p>Test des Diagnoseservers: soll $7F $11 provozieren</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY sollte nicht kommen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-test-unimplemented-routine"></a></p>
+<h3 id="_test_unimplemented_routine">_TEST_UNIMPLEMENTED_ROUTINE</h3>
+<p>Test des Diagnoseservers: soll Request Out Of Range ($7F $31 $31) provozieren</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag zum SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY sollte nicht kommen</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresult">JOBRESULT</a> (76 × 2)</li>
+<li><a href="#table-cu-err-text">CU_ERR_TEXT</a> (7 × 2)</li>
+</ul>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 76 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>ERROR_ECU_INCORRECT_MESSAGE_LENGTH_OR_INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>ERROR_ECU_RESPONSE_TOO_LONG</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>ERROR_ECU_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>ERROR_ECU_NO_RESPONSE_FROM_SUBNET_COMPONENT</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>ERROR_ECU_FAILURE_PREVENTS_EXECUTION_OF_REQUESTED_ACTION</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>ERROR_ECU_INVALID_KEY</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>ERROR_ECU_UPLOAD_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_DATA_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_GENERAL_PROGRAMMING_FAILURE</td>
+</tr>
+<tr>
+<td>0x73</td>
+<td>ERROR_ECU_WRONG_BLOCK_SEQUENCE_COUNTER</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>ERROR_ECU_SUB_FUNCTION_NOT_SUPPORTED_IN_ACTIVE_SESSION</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_SESSION</td>
+</tr>
+<tr>
+<td>0x81</td>
+<td>ERROR_ECU_RPM_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x82</td>
+<td>ERROR_ECU_RPM_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x83</td>
+<td>ERROR_ECU_ENGINE_IS_RUNNING</td>
+</tr>
+<tr>
+<td>0x84</td>
+<td>ERROR_ECU_ENGINE_IS_NOT_RUNNING</td>
+</tr>
+<tr>
+<td>0x85</td>
+<td>ERROR_ECU_ENGINE_RUN_TIME_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x86</td>
+<td>ERROR_ECU_TEMPERATURE_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x87</td>
+<td>ERROR_ECU_TEMPERATURE_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x88</td>
+<td>ERROR_ECU_VEHICLE_SPEED_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x89</td>
+<td>ERROR_ECU_VEHICLE_SPEED_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x8A</td>
+<td>ERROR_ECU_THROTTLE_PEDAL_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x8B</td>
+<td>ERROR_ECU_THROTTLE_PEDAL_TOO_LOW</td>
+</tr>
+<tr>
+<td>0x8C</td>
+<td>ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_NEUTRAL</td>
+</tr>
+<tr>
+<td>0x8D</td>
+<td>ERROR_ECU_TRANSMISSION_RANGE_NOT_IN_GEAR</td>
+</tr>
+<tr>
+<td>0x8F</td>
+<td>ERROR_ECU_BRAKE_SWITCH_NOT_CLOSED</td>
+</tr>
+<tr>
+<td>0x90</td>
+<td>ERROR_ECU_SHIFTER_LEVER_NOT_IN_PARK</td>
+</tr>
+<tr>
+<td>0x91</td>
+<td>ERROR_ECU_TORQUE_CONVERTER_CLUTCH_LOCKED</td>
+</tr>
+<tr>
+<td>0x92</td>
+<td>ERROR_ECU_VOLTAGE_TOO_HIGH</td>
+</tr>
+<tr>
+<td>0x93</td>
+<td>ERROR_ECU_VOLTAGE_TOO_LOW</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?01?</td>
+<td>ERROR_ECU_NO_RESPONSE</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?04?</td>
+<td>ERROR_ECU_TA_RESPONSE_NOT_SA_REQUEST</td>
+</tr>
+<tr>
+<td>?05?</td>
+<td>ERROR_ECU_SA_RESPONSE_NOT_TA_REQUEST</td>
+</tr>
+<tr>
+<td>?06?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DATA_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?07?</td>
+<td>ERROR_ECU_RESPONSE_TOO_MUCH_DATA</td>
+</tr>
+<tr>
+<td>?08?</td>
+<td>ERROR_ECU_RESPONSE_TOO_LESS_DATA</td>
+</tr>
+<tr>
+<td>?09?</td>
+<td>ERROR_ECU_RESPONSE_VALUE_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?0A?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?14?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_IO_CONTROL_PARAMETER</td>
+</tr>
+<tr>
+<td>?15?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_TYPE</td>
+</tr>
+<tr>
+<td>?16?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_SUB_FUNCTION</td>
+</tr>
+<tr>
+<td>?17?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DYNAMICALLY_DEFINED_DATA_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?18?</td>
+<td>ERROR_ECU_RESPONSE_NO_STRING_END_CHAR</td>
+</tr>
+<tr>
+<td>?19?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?1A?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_RESET_TYPE</td>
+</tr>
+<tr>
+<td>?1B?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_SERIAL_NUMBER_FORMAT</td>
+</tr>
+<tr>
+<td>?1C?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DTC_BY_STATUS_MASK</td>
+</tr>
+<tr>
+<td>?1D?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_DTC_STATUS_AVAILABILITY_MASK</td>
+</tr>
+<tr>
+<td>?1E?</td>
+<td>ERROR_ECU_RESPONSE_INCORRECT_ROUTINE_CONTROL_IDENTIFIER</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?61?</td>
+<td>ERROR_ECU_RESPONSE_ZGW</td>
+</tr>
+<tr>
+<td>?62?</td>
+<td>ERROR_ECU_RESPONSE_BACKUP</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_CALID_CVN_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_SVK_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_SVK_INCORRECT_FINGERPRINT</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-cu-err-text"></a></p>
+<h3 id="cu_err_text">CU_ERR_TEXT</h3>
+<p>Dimensions: 7 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>CUE_NO_ERROR</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>CUE_NO_FREE_SOCKET</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>CUE_NOT_RESOLVED</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>CUE_NO_CONNECTION</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>CUE_SEND_FAILED</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>CUE_TIMEOUT</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>CUE_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,5436 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/e81/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>e81.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#e81prg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              e81.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnoseprotokoll_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSEPROTOKOLL_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSEPROTOKOLL_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diagnoseprotokoll_setzen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIAGNOSEPROTOKOLL_SETZEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DIAGNOSEPROTOKOLL_SETZEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sleep_mode_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SLEEP_MODE_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SLEEP_MODE_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aif_lesen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AIF_LESEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AIF_LESEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flash_programmier_status_lesen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FLASH_PROGRAMMIER_STATUS_LESEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FLASH_PROGRAMMIER_STATUS_LESEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seriennummer_lesen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SERIENNUMMER_LESEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SERIENNUMMER_LESEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#physikalische_hw_nr_lesen_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PHYSIKALISCHE_HW_NR_LESEN_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PHYSIKALISCHE_HW_NR_LESEN_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#energiesparmode_funktional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ENERGIESPARMODE_FUNKTIONAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ENERGIESPARMODE_FUNKTIONAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i_stufe_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I_STUFE_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I_STUFE_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i_stufe_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I_STUFE_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I_STUFE_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konzept_tabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONZEPT_TABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalargument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALARGUMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#programmierstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PROGRAMMIERSTATUS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zuordnungstabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ZUORDNUNGSTABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funktionaleadresse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUNKTIONALEADRESSE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funktionalerfehlergruppe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUNKTIONALERFEHLERGRUPPE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i_stufe_e81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I_STUFE_E81
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grobname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GROBNAME
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="e81prg">e81.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">15</a></li>
+<li>Tables: <a href="#tables">11</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Funktionale Jobs fuer E81</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-430 Drexel</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-430 Drexel</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.17</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-diagnoseprotokoll-lesen">DIAGNOSEPROTOKOLL_LESEN</a> - Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück</li>
+<li><a href="#job-diagnoseprotokoll-setzen">DIAGNOSEPROTOKOLL_SETZEN</a> - Wählt ein Diagnoseprotokoll aus</li>
+<li><a href="#job-ident-funktional">IDENT_FUNKTIONAL</a> - Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</li>
+<li><a href="#job-fs-lesen-funktional">FS_LESEN_FUNKTIONAL</a> - Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default</li>
+<li><a href="#job-fs-loeschen-funktional">FS_LOESCHEN_FUNKTIONAL</a> - Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default</li>
+<li><a href="#job-sleep-mode-funktional">SLEEP_MODE_FUNKTIONAL</a> - SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier $05 PowerDown Modus  : Default</li>
+<li><a href="#job-aif-lesen-funktional">AIF_LESEN_FUNKTIONAL</a> - Auslesen des Anwender Informations Feldes KWP2000: $1A ReadECUIdentification $86 CurrentUIFDataTable Modus  : Default</li>
+<li><a href="#job-flash-programmier-status-lesen-funktional">FLASH_PROGRAMMIER_STATUS_LESEN_FUNKTIONAL</a> - Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default</li>
+<li><a href="#job-seriennummer-lesen-funktional">SERIENNUMMER_LESEN_FUNKTIONAL</a> - Hersteller Seriennummer lesen KWP2000: $1A ReadECUIdentification $89 SystemSupplierECUSerialNumber Modus  : Default</li>
+<li><a href="#job-physikalische-hw-nr-lesen-funktional">PHYSIKALISCHE_HW_NR_LESEN_FUNKTIONAL</a> - Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) Modus  : Default</li>
+<li><a href="#job-energiesparmode-funktional">ENERGIESPARMODE_FUNKTIONAL</a> - Einstellen des Energiesparmodes KWP2000: $31 StartRoutineByLocalIdentifier $0C ControlEnergySavingMode Modus  : Default</li>
+<li><a href="#job-i-stufe-lesen">I_STUFE_LESEN</a> - Auslesen des Pruefstempels aus Lichtmodul Wenn Daten nicht plausibel auch aus CAS KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default</li>
+<li><a href="#job-i-stufe-schreiben">I_STUFE_SCHREIBEN</a> - Beschreiben des Pruefstempels des Lichtmoduls Es muessen immer alle drei Argumente uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn Okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnoseprotokoll-lesen"></a></p>
+<h3 id="diagnoseprotokoll_lesen">DIAGNOSEPROTOKOLL_LESEN</h3>
+<p>Gibt die möglichen Diagnoseprotokolle für eine Auswahl an den Aufrufer zurück</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY oder ERROR_DIAG_PROT</td>
+</tr>
+<tr>
+<td>DIAG_PROT_IST</td>
+<td>string</td>
+<td>Gibt das aktuelle gewählte Protokoll aus table KONZEPT_TABELLE KONZEPT_TEXT</td>
+</tr>
+<tr>
+<td>DIAG_PROT_ANZAHL</td>
+<td>int</td>
+<td>Anzahl der Diagnoseprotokolle</td>
+</tr>
+<tr>
+<td>DIAG_PROT_NR1</td>
+<td>string</td>
+<td>Alle möglichen Diagnose-Protokolle Falls mehrere Protokolle möglich sind werden die entsprechenden Results DIAG_PROT_NRx dynamisch erzeugt</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-diagnoseprotokoll-setzen"></a></p>
+<h3 id="diagnoseprotokoll_setzen">DIAGNOSEPROTOKOLL_SETZEN</h3>
+<p>Wählt ein Diagnoseprotokoll aus</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DIAG_PROT</td>
+<td>string</td>
+<td>Diagnoseprotokoll table KONZEPT_TABELLE KONZEPT_TEXT</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident-funktional"></a></p>
+<h3 id="ident_funktional">IDENT_FUNKTIONAL</h3>
+<p>Identdaten KWP2000: $1A ReadECUIdentification Modus  : Default</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT oder spezifische SG-Adresse Defaultwert: ALL</td>
+</tr>
+<tr>
+<td>GRUPPENDATEI</td>
+<td>string</td>
+<td>optionales Argument nicht in Verbindung mit FUNKTIONALE_ADRESSE</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>ECU_NAME</td>
+<td>string</td>
+<td>Steuergeraete Name table ZuordnungsTabelle ADR_VAR_DIAG STEUERGERAET</td>
+</tr>
+<tr>
+<td>ECU_SGBD</td>
+<td>string</td>
+<td>Steuergeraete SGBD Name table ZuordnungsTabelle ADR_VAR_DIAG SGBD</td>
+</tr>
+<tr>
+<td>ECU_GRUPPE</td>
+<td>string</td>
+<td>Steuergeraete Gruppendatei Name table ZuordnungsTabelle ADR_VAR_DIAG GRUPPE</td>
+</tr>
+<tr>
+<td>ID_BMW_NR</td>
+<td>string</td>
+<td>BMW-Teilenummer</td>
+</tr>
+<tr>
+<td>ID_HW_NR</td>
+<td>string</td>
+<td>BMW-Hardwarenummer</td>
+</tr>
+<tr>
+<td>ID_COD_INDEX</td>
+<td>int</td>
+<td>Codier-Index</td>
+</tr>
+<tr>
+<td>ID_DIAG_INDEX</td>
+<td>int</td>
+<td>Diagnose-Index</td>
+</tr>
+<tr>
+<td>ID_VAR_INDEX</td>
+<td>int</td>
+<td>Varianten-Index</td>
+</tr>
+<tr>
+<td>ID_DATUM_JAHR</td>
+<td>int</td>
+<td>Herstelldatum (Jahr)</td>
+</tr>
+<tr>
+<td>ID_DATUM_MONAT</td>
+<td>int</td>
+<td>Herstelldatum (Monat)</td>
+</tr>
+<tr>
+<td>ID_DATUM_TAG</td>
+<td>int</td>
+<td>Herstelldatum (Tag)</td>
+</tr>
+<tr>
+<td>ID_DATUM</td>
+<td>string</td>
+<td>Herstelldatum (TT.MM.JJJJ)</td>
+</tr>
+<tr>
+<td>ID_LIEF_NR</td>
+<td>int</td>
+<td>Lieferanten-Nummer</td>
+</tr>
+<tr>
+<td>ID_LIEF_TEXT</td>
+<td>string</td>
+<td>Lieferanten-Text table Lieferanten LIEF_TEXT</td>
+</tr>
+<tr>
+<td>ID_SW_NR_MCV</td>
+<td>string</td>
+<td>Softwarenummer (message catalogue version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_FSV</td>
+<td>string</td>
+<td>Softwarenummer (functional software version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_OSV</td>
+<td>string</td>
+<td>Softwarenummer (operating system version)</td>
+</tr>
+<tr>
+<td>ID_SW_NR_RES</td>
+<td>string</td>
+<td>Softwarenummer (reserved - currently unused)</td>
+</tr>
+<tr>
+<td>SERIENNUMMER</td>
+<td>string</td>
+<td>Seriennummer des Steuergeraets Leer, wenn keine Seriennummer im Telegramm vorhanden</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen-funktional"></a></p>
+<h3 id="fs_lesen_funktional">FS_LESEN_FUNKTIONAL</h3>
+<p>Fehlerspeicher lesen (alle Fehler / Ort und Art) KWP2000: $18 ReadDiagnosticTroubleCodesByStatus Modus  : Default</p>
+<h4 id="arguments_2">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+<tr>
+<td>FEHLER_GRUPPE</td>
+<td>string</td>
+<td>gewuenschte funktionale Fehlergruppe table FunktionalerFehlerGruppe F_DTC F_DTC_TEXT Defaultwert: AG ( alle Fehlergruppen )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>F_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlereingetraege Je nach dieser Anzahl i (i = 1, 2, ...) existieren i mal folgende Results: (long)   F_ORTi_NR        Fehlercode (long)   F_ARTi_NR        Fehlerart</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen-funktional"></a></p>
+<h3 id="fs_loeschen_funktional">FS_LOESCHEN_FUNKTIONAL</h3>
+<p>Fehlerspeicher loeschen KWP2000: $14 ClearDiagnosticInformation Modus  : Default</p>
+<h4 id="arguments_3">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+<tr>
+<td>FEHLER_GRUPPE</td>
+<td>string</td>
+<td>gewuenschte funktionale Fehlergruppe table FunktionalerFehlerGruppe F_DTC F_DTC_TEXT Defaultwert: AG ( alle Fehlergruppen )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-sleep-mode-funktional"></a></p>
+<h3 id="sleep_mode_funktional">SLEEP_MODE_FUNKTIONAL</h3>
+<p>SG in Sleep-Mode versetzen KWP2000: $31 StartRoutineByLocalIdentifier $05 PowerDown Modus  : Default</p>
+<h4 id="arguments_4">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+<tr>
+<td>OHNE_POWERMODUL</td>
+<td>string</td>
+<td>Power Down ohne Powermodul Werte: JA, NEIN table DigitalArgument TEXT Defaultwert: NEIN</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-aif-lesen-funktional"></a></p>
+<h3 id="aif_lesen_funktional">AIF_LESEN_FUNKTIONAL</h3>
+<p>Auslesen des Anwender Informations Feldes KWP2000: $1A ReadECUIdentification $86 CurrentUIFDataTable Modus  : Default</p>
+<h4 id="arguments_5">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>AIF_LAENGE</td>
+<td>long</td>
+<td>Laenge des Aif ( Offset )</td>
+</tr>
+<tr>
+<td>AIF_FG_NR</td>
+<td>string</td>
+<td>Fahrgestellnummer 7-stellig</td>
+</tr>
+<tr>
+<td>AIF_DATUM</td>
+<td>string</td>
+<td>Datum der SG-Programmierung in der Form TT.MM.JJJJ</td>
+</tr>
+<tr>
+<td>AIF_ZB_NR</td>
+<td>string</td>
+<td>BMW/Rover Zusammenbaunummer</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG_2</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT_2</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-flash-programmier-status-lesen-funktional"></a></p>
+<h3 id="flash_programmier_status_lesen_funktional">FLASH_PROGRAMMIER_STATUS_LESEN_FUNKTIONAL</h3>
+<p>Programmierstatus des SG lesen KWP2000: $31 StartRoutineByLocalIdentifier $0A CheckProgrammingStatus Modus  : Default</p>
+<h4 id="arguments_6">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>FLASH_PROGRAMMIER_STATUS_TEXT</td>
+<td>string</td>
+<td>table ProgrammierStatus STATUS_TEXT</td>
+</tr>
+<tr>
+<td>FLASH_PROGRAMMIER_STATUS</td>
+<td>int</td>
+<td>ProgrammierStatus 0 - 255</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-seriennummer-lesen-funktional"></a></p>
+<h3 id="seriennummer_lesen_funktional">SERIENNUMMER_LESEN_FUNKTIONAL</h3>
+<p>Hersteller Seriennummer lesen KWP2000: $1A ReadECUIdentification $89 SystemSupplierECUSerialNumber Modus  : Default</p>
+<h4 id="arguments_7">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>SERIENNUMMER</td>
+<td>string</td>
+<td>Seriennummer des Steuergeraets</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-physikalische-hw-nr-lesen-funktional"></a></p>
+<h3 id="physikalische_hw_nr_lesen_funktional">PHYSIKALISCHE_HW_NR_LESEN_FUNKTIONAL</h3>
+<p>Auslesen der physikalischen Hardwarenummer KWP2000: $1A ReadECUIdentification $87 physicalECUHardwareNumber (PECUHN) Modus  : Default</p>
+<h4 id="arguments_8">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>PHYSIKALISCHE_HW_NR</td>
+<td>string</td>
+<td>Physikalische Hardware-Nummer</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-energiesparmode-funktional"></a></p>
+<h3 id="energiesparmode_funktional">ENERGIESPARMODE_FUNKTIONAL</h3>
+<p>Einstellen des Energiesparmodes KWP2000: $31 StartRoutineByLocalIdentifier $0C ControlEnergySavingMode Modus  : Default</p>
+<h4 id="arguments_9">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FUNKTIONALE_ADRESSE</td>
+<td>string</td>
+<td>gewuenschte funktionale Adresse table FunktionaleAdresse F_ADR F_ADR_TEXT Defaultwert: ALL ( alle Steuergeraete )</td>
+</tr>
+<tr>
+<td>PRODUKTIONSMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Produktions Mode ein "aus" -&gt; Produktions Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+<tr>
+<td>TRANSPORTMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Transport Mode ein "aus" -&gt; Transport Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+<tr>
+<td>WERKSTATTMODE</td>
+<td>string</td>
+<td>"ein" -&gt; Werkstatt Mode ein "aus" -&gt; Werkstatt Mode aus table DigitalArgument TEXT Default: "aus"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>ECU_ADR</td>
+<td>string</td>
+<td>Steuergeraeteadresse als Hex-String</td>
+</tr>
+<tr>
+<td>ECU_GROBNAME</td>
+<td>string</td>
+<td>Grobname des Steuergeraetes table Grobname GROBNAME</td>
+</tr>
+<tr>
+<td>ID_SG_ADR</td>
+<td>long</td>
+<td>Steuergeraeteadresse</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-i-stufe-lesen"></a></p>
+<h3 id="i_stufe_lesen">I_STUFE_LESEN</h3>
+<p>Auslesen des Pruefstempels aus Lichtmodul Wenn Daten nicht plausibel auch aus CAS KWP2000: $22 ReadDataByCommonIdentifier $1000 TestStamp Modus  : Default</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>I_STUFE_WERK</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 1 des Pruefstempels</td>
+</tr>
+<tr>
+<td>I_STUFE_HO</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 2 des Pruefstempels</td>
+</tr>
+<tr>
+<td>I_STUFE_HO_BACKUP</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 3 des Pruefstempels</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-i-stufe-schreiben"></a></p>
+<h3 id="i_stufe_schreiben">I_STUFE_SCHREIBEN</h3>
+<p>Beschreiben des Pruefstempels des Lichtmoduls Es muessen immer alle drei Argumente uebergeben werden. KWP2000: $2E WriteDataByCommonIdentifier $1000 TestStamp Modus  : Default</p>
+<h4 id="arguments_10">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I_STUFE_WERK</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 1 des Pruefstempels</td>
+</tr>
+<tr>
+<td>I_STUFE_HO</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 2 des Pruefstempels</td>
+</tr>
+<tr>
+<td>I_STUFE_HO_BACKUP</td>
+<td>string</td>
+<td>table I_STUFE_E81 I_STUFE_TEXT Entspricht Byte 3 des Pruefstempels</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei table JobResult STATUS_TEXT</td>
+</tr>
+<tr>
+<td>_TEL_AUFTRAG</td>
+<td>binary</td>
+<td>Hex-Auftrag an SG</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-konzept-tabelle">KONZEPT_TABELLE</a> (2 × 2)</li>
+<li><a href="#table-jobresult">JOBRESULT</a> (86 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (62 × 2)</li>
+<li><a href="#table-digitalargument">DIGITALARGUMENT</a> (16 × 2)</li>
+<li><a href="#table-programmierstatus">PROGRAMMIERSTATUS</a> (19 × 2)</li>
+<li><a href="#table-zuordnungstabelle">ZUORDNUNGSTABELLE</a> (288 × 5)</li>
+<li><a href="#table-funktionaleadresse">FUNKTIONALEADRESSE</a> (8 × 3)</li>
+<li><a href="#table-funktionalerfehlergruppe">FUNKTIONALERFEHLERGRUPPE</a> (5 × 3)</li>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (1 × 2)</li>
+<li><a href="#table-i-stufe-e81">I_STUFE_E81</a> (5 × 2)</li>
+<li><a href="#table-grobname">GROBNAME</a> (70 × 2)</li>
+</ul>
+<p><a id="table-konzept-tabelle"></a></p>
+<h3 id="konzept_tabelle">KONZEPT_TABELLE</h3>
+<p>Dimensions: 2 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0F</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KWP2000</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 86 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x10</td>
+<td>ERROR_ECU_GENERAL_REJECT</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_ECU_SUBFUNCTION_NOT_SUPPORTED__INVALID_FORMAT</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ERROR_ECU_BUSY_REPEAT_REQUEST</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>ERROR_ECU_CONDITIONS_NOT_CORRECT_OR_REQUEST_SEQUENCE_ERROR</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>ERROR_ECU_ROUTINE_NOT_COMPLETE</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>ERROR_ECU_REQUEST_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>ERROR_ECU_SECURITY_ACCESS_DENIED__SECURITY_ACCESS_REQUESTED</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>ERROR_ECU_EXCEED_NUMBER_OF_ATTEMPTS</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>ERROR_ECU_REQUIRED_TIME_DELAY_NOT_EXPIRED</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>ERROR_ECU_DOWNLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>ERROR_ECU_IMPROPER_DOWNLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_TO_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>ERROR_ECU_CANNOT_DOWNLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>ERROR_ECU_UPLOAD_NOT_ACCEPTED</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ERROR_ECU_IMPROPER_UPLOAD_TYPE</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_FROM_SPECIFIED_ADDRESS</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>ERROR_ECU_CANNOT_UPLOAD_NUMBER_OF_BYTES_REQUESTED</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>ERROR_ECU_TRANSFER_SUSPENDED</td>
+</tr>
+<tr>
+<td>0x72</td>
+<td>ERROR_ECU_TRANSFER_ABORTED</td>
+</tr>
+<tr>
+<td>0x74</td>
+<td>ERROR_ECU_ILLEGAL_ADDRESS_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x75</td>
+<td>ERROR_ECU_ILLEGAL_BYTE_COUNT_IN_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x76</td>
+<td>ERROR_ECU_ILLEGAL_BLOCK_TRANSFER_TYPE</td>
+</tr>
+<tr>
+<td>0x77</td>
+<td>ERROR_ECU_BLOCKTRANSFER_DATA_CHECKSUM_ERROR</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>ERROR_ECU_REQUEST_CORRECTLY_RECEIVED__RESPONSE_PENDING</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>ERROR_ECU_INCORRECT_BYTE_COUNT_DURING_BLOCK_TRANSFER</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>ERROR_ECU_SERVICE_NOT_SUPPORTED_IN_ACTIVE_DIAGNOSTIC_MODE</td>
+</tr>
+<tr>
+<td>?00?</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>?02?</td>
+<td>ERROR_ECU_INCORRECT_RESPONSE_ID</td>
+</tr>
+<tr>
+<td>?03?</td>
+<td>ERROR_ECU_INCORRECT_LEN</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_F_CODE</td>
+</tr>
+<tr>
+<td>?11?</td>
+<td>ERROR_TABLE</td>
+</tr>
+<tr>
+<td>?12?</td>
+<td>ERROR_INTERPRETATION</td>
+</tr>
+<tr>
+<td>?13?</td>
+<td>ERROR_F_POS</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_SEGMENT</td>
+</tr>
+<tr>
+<td>?21?</td>
+<td>ERROR_ADDRESS</td>
+</tr>
+<tr>
+<td>?22?</td>
+<td>ERROR_NUMBER</td>
+</tr>
+<tr>
+<td>?30?</td>
+<td>ERROR_DATA</td>
+</tr>
+<tr>
+<td>?40?</td>
+<td>ERROR_MODE</td>
+</tr>
+<tr>
+<td>?41?</td>
+<td>ERROR_BAUDRATE</td>
+</tr>
+<tr>
+<td>?50?</td>
+<td>ERROR_BYTE1</td>
+</tr>
+<tr>
+<td>?51?</td>
+<td>ERROR_BYTE2</td>
+</tr>
+<tr>
+<td>?52?</td>
+<td>ERROR_BYTE3</td>
+</tr>
+<tr>
+<td>?60?</td>
+<td>ERROR_DATA_OUT_OF_RANGE</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>?73?</td>
+<td>ERROR_NO_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?74?</td>
+<td>ERROR_BIN_BUFFER</td>
+</tr>
+<tr>
+<td>?75?</td>
+<td>ERROR_DATA_TYPE</td>
+</tr>
+<tr>
+<td>?76?</td>
+<td>ERROR_CHECKSUM</td>
+</tr>
+<tr>
+<td>?80?</td>
+<td>ERROR_FLASH_SIGNATURE_CHECK</td>
+</tr>
+<tr>
+<td>?81?</td>
+<td>ERROR_VIHICLE_IDENTFICATON_NR</td>
+</tr>
+<tr>
+<td>?82?</td>
+<td>ERROR_PROGRAMMING_DATE</td>
+</tr>
+<tr>
+<td>?83?</td>
+<td>ERROR_ASSEMBLY_NR</td>
+</tr>
+<tr>
+<td>?84?</td>
+<td>ERROR_CALIBRATION_DATASET_NR</td>
+</tr>
+<tr>
+<td>?85?</td>
+<td>ERROR_EXHAUST_REGULATION_OR_TYPE_APPROVAL_NR</td>
+</tr>
+<tr>
+<td>?86?</td>
+<td>ERROR_REPAIR_SHOP_NR</td>
+</tr>
+<tr>
+<td>?87?</td>
+<td>ERROR_TESTER_SERIAL_NR</td>
+</tr>
+<tr>
+<td>?88?</td>
+<td>ERROR_MILAGE</td>
+</tr>
+<tr>
+<td>?89?</td>
+<td>ERROR_PROGRAMMING_REFERENCE</td>
+</tr>
+<tr>
+<td>?8A?</td>
+<td>ERROR_NO_FREE_UIF</td>
+</tr>
+<tr>
+<td>?8B?</td>
+<td>ERROR_MAX_UIF</td>
+</tr>
+<tr>
+<td>?8C?</td>
+<td>ERROR_SIZE_UIF</td>
+</tr>
+<tr>
+<td>?8D?</td>
+<td>ERROR_LEVEL</td>
+</tr>
+<tr>
+<td>?8E?</td>
+<td>ERROR_KEY</td>
+</tr>
+<tr>
+<td>?8F?</td>
+<td>ERROR_AUTHENTICATION</td>
+</tr>
+<tr>
+<td>?90?</td>
+<td>ERROR_NO_DREF</td>
+</tr>
+<tr>
+<td>?91?</td>
+<td>ERROR_CHECK_PECUHN</td>
+</tr>
+<tr>
+<td>?92?</td>
+<td>ERROR_CHECK_PRGREF</td>
+</tr>
+<tr>
+<td>?93?</td>
+<td>ERROR_AIF_NR</td>
+</tr>
+<tr>
+<td>?94?</td>
+<td>ERROR_CHECK_DREF</td>
+</tr>
+<tr>
+<td>?95?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?96?</td>
+<td>ERROR_CHECK_HWREF</td>
+</tr>
+<tr>
+<td>?97?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?98?</td>
+<td>ERROR_CHECK_VMECUH*NB</td>
+</tr>
+<tr>
+<td>?99?</td>
+<td>ERROR_CHECK_PRGREFB</td>
+</tr>
+<tr>
+<td>?9A?</td>
+<td>ERROR_CHECK_VMECUH*N</td>
+</tr>
+<tr>
+<td>?A0?</td>
+<td>ERROR_DIAG_PROT</td>
+</tr>
+<tr>
+<td>?A1?</td>
+<td>ERROR_SG_ADRESSE</td>
+</tr>
+<tr>
+<td>?A2?</td>
+<td>ERROR_SG_MAXANZAHL_AIF</td>
+</tr>
+<tr>
+<td>?A3?</td>
+<td>ERROR_SG_GROESSE_AIF</td>
+</tr>
+<tr>
+<td>?A4?</td>
+<td>ERROR_SG_ENDEKENNUNG_AIF</td>
+</tr>
+<tr>
+<td>?A5?</td>
+<td>ERROR_SG_AUTHENTISIERUNG</td>
+</tr>
+<tr>
+<td>?F0?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_ECU_UNKNOWN_NEGATIVE_RESPONSE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 62 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalargument"></a></p>
+<h3 id="digitalargument">DIGITALARGUMENT</h3>
+<p>Dimensions: 16 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ein</td>
+<td>1</td>
+</tr>
+<tr>
+<td>aus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>1</td>
+</tr>
+<tr>
+<td>nein</td>
+<td>0</td>
+</tr>
+<tr>
+<td>auf</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>0</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>on</td>
+<td>1</td>
+</tr>
+<tr>
+<td>off</td>
+<td>0</td>
+</tr>
+<tr>
+<td>up</td>
+<td>1</td>
+</tr>
+<tr>
+<td>down</td>
+<td>0</td>
+</tr>
+<tr>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-programmierstatus"></a></p>
+<h3 id="programmierstatus">PROGRAMMIERSTATUS</h3>
+<p>Dimensions: 19 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>Anlieferzustand</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>Normalbetrieb</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Speicher geloescht</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>nicht benutzt</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Signaturpruefung PAF nicht durchgefuehrt</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Signaturpruefung DAF nicht durchgefuehrt</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Programmprogrammiersitzung aktiv</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Datenprogrammiersitzung aktiv</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Hardwarereferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Programmreferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>Referenzierungsfehler Hardware -&gt; Programm</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>Programm nicht vorhanden oder nicht vollstaendig</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>Datenreferenzeintrag fehlerhaft</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>Referenzierungsfehler Programm -&gt; Daten</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>Daten nicht vorhanden oder nicht vollstaendig</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>Reserviert fuer BMW</td>
+</tr>
+<tr>
+<td>0x80</td>
+<td>Reserviert fuer Zulieferer</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannter Programmierstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-zuordnungstabelle"></a></p>
+<h3 id="zuordnungstabelle">ZUORDNUNGSTABELLE</h3>
+<p>Dimensions: 288 rows × 5 columns</p>
+<table>
+<thead>
+<tr>
+<th>ADR_VAR_DIAG</th>
+<th>SGBD</th>
+<th>GRUPPE</th>
+<th>BR</th>
+<th>STEUERGERAET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00 .C5. 0100</td>
+<td>ZGM_E65</td>
+<td>D_ZGM</td>
+<td>E65</td>
+<td>Zentrales Gatewaymodul</td>
+</tr>
+<tr>
+<td>01 .DA. 0110</td>
+<td>SIM</td>
+<td>D_SIM</td>
+<td>E65</td>
+<td>Sicherheits- Informationsmodul</td>
+</tr>
+<tr>
+<td>02 .DB. 0120</td>
+<td>SZL</td>
+<td>D_SZL</td>
+<td>E65</td>
+<td>Satellit Lenksäule</td>
+</tr>
+<tr>
+<td>03 .DC. 0130</td>
+<td>SASL</td>
+<td>D_SASL</td>
+<td>E65</td>
+<td>Satellit A-Säule links</td>
+</tr>
+<tr>
+<td>04 .DD. 0140</td>
+<td>SASR</td>
+<td>D_SASR</td>
+<td>E65</td>
+<td>Satellit A-Säule rechts</td>
+</tr>
+<tr>
+<td>05 .DE. 0150</td>
+<td>STVL</td>
+<td>D_STVL</td>
+<td>E65</td>
+<td>Satellit Tür vorne links</td>
+</tr>
+<tr>
+<td>06 .DF. 0160</td>
+<td>STVR</td>
+<td>D_STVR</td>
+<td>E65</td>
+<td>Satellit Tür vorne rechts</td>
+</tr>
+<tr>
+<td>07 .DG. 0170</td>
+<td>SSFA</td>
+<td>D_SSFA</td>
+<td>E65</td>
+<td>Satellit Sitz Fahrer</td>
+</tr>
+<tr>
+<td>08 .DH. 0180</td>
+<td>SSBF</td>
+<td>D_SSBF</td>
+<td>E65</td>
+<td>Satellit Sitz Beifahrer</td>
+</tr>
+<tr>
+<td>09 .DI. 0190</td>
+<td>SBSL</td>
+<td>D_SBSL</td>
+<td>E65</td>
+<td>Satellit B-Säule links</td>
+</tr>
+<tr>
+<td>0A .DJ. 01A0</td>
+<td>SBSR</td>
+<td>D_SBSR</td>
+<td>E65</td>
+<td>Satellit B-Säule rechts</td>
+</tr>
+<tr>
+<td>0D .DM. 01D0</td>
+<td>SSH</td>
+<td>D_SSH</td>
+<td>E65</td>
+<td>Satellit Sitz hinten</td>
+</tr>
+<tr>
+<td>0E .DN. 01E0</td>
+<td>SFZ</td>
+<td>D_SFZ</td>
+<td>E65</td>
+<td>Satellit Fahrzeugzentrum</td>
+</tr>
+<tr>
+<td>12 .0Q. 0001</td>
+<td>ME965_4</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0Q. 000A</td>
+<td>ME9E65_5</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0Q. 000C</td>
+<td>ME9E65_6</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0Q. 000D</td>
+<td>ME9E65_6</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0Q. 000E</td>
+<td>ME9E65_6</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0Q. 0103</td>
+<td>ME9E65_6</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>12 .0R. 0001</td>
+<td>ME965_4</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Master</td>
+</tr>
+<tr>
+<td>12 .0R. 000A</td>
+<td>ME9E6514</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Master</td>
+</tr>
+<tr>
+<td>12 .0R. 000E</td>
+<td>N73_R0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Master</td>
+</tr>
+<tr>
+<td>12 .0R. 000F</td>
+<td>N73_R0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Master</td>
+</tr>
+<tr>
+<td>12 .CE. 0000</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 .CE. 0001</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 .CE. 000A</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 0059 0010</td>
+<td>D50M57A0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 6 Zylinder M57</td>
+</tr>
+<tr>
+<td>12 .59. 0010</td>
+<td>D50M57A0</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 6 Zylinder M57</td>
+</tr>
+<tr>
+<td>12 005A 0010</td>
+<td>D51MM670</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Master</td>
+</tr>
+<tr>
+<td>12 .5A. 0010</td>
+<td>D51MM670</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Master</td>
+</tr>
+<tr>
+<td>12 .5A. 0011</td>
+<td>D51MM670</td>
+<td>D_MOTOR</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Master</td>
+</tr>
+<tr>
+<td>13 005A 0010</td>
+<td>D51SM670</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Slave</td>
+</tr>
+<tr>
+<td>13 .5A. 0010</td>
+<td>D51SM670</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Slave</td>
+</tr>
+<tr>
+<td>13 .5A. 0011</td>
+<td>D51SM670</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Dieselelektronik DDE 5 8 Zylinder M67 Slave</td>
+</tr>
+<tr>
+<td>13 .0R. 0001</td>
+<td>ME965_4L</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Slave</td>
+</tr>
+<tr>
+<td>13 .0R. 000A</td>
+<td>ME96514L</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Slave</td>
+</tr>
+<tr>
+<td>13 .0R. 000E</td>
+<td>N73_L0</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Slave</td>
+</tr>
+<tr>
+<td>13 .0R. 000F</td>
+<td>N73_L0</td>
+<td>D_MOTOR2</td>
+<td>E65</td>
+<td>Motorelektronik ME 9 12 Zylinder N73 Slave</td>
+</tr>
+<tr>
+<td>18 .2K. 0200</td>
+<td>GS19</td>
+<td>D_EGS</td>
+<td>E65</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>18 .2L. 0200</td>
+<td>GS19</td>
+<td>D_EGS</td>
+<td>E65</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>1B .91. 000A</td>
+<td>VVT_B1_0</td>
+<td>D_VVT</td>
+<td>E65</td>
+<td>Variabler Ventiltrieb Bank 1 4 Zylinder N42</td>
+</tr>
+<tr>
+<td>1B .92. 000A</td>
+<td>VVT_B1_0</td>
+<td>D_VVT</td>
+<td>E65</td>
+<td>Variabler Ventiltrieb Bank 1 8 Zylinder N62</td>
+</tr>
+<tr>
+<td>1B .92. 0014</td>
+<td>VVT_B1_0</td>
+<td>D_VVT</td>
+<td>E65</td>
+<td>Variabler Ventiltrieb Bank 1 8 Zyl. N62, 12 Zyl. N73</td>
+</tr>
+<tr>
+<td>1E .92. 000A</td>
+<td>VVT_B2_0</td>
+<td>D_VVT2</td>
+<td>E65</td>
+<td>Variabler Ventiltrieb Bank 2 8 Zylinder N62</td>
+</tr>
+<tr>
+<td>1E .92. 0014</td>
+<td>VVT_B2_0</td>
+<td>D_VVT2</td>
+<td>E65</td>
+<td>Variabler Ventiltrieb Bank 2 8 Zyl. N62, 12 Zyl. N73</td>
+</tr>
+<tr>
+<td>20 .B6. 0230</td>
+<td>RDC_E65</td>
+<td>D_RDC</td>
+<td>E65</td>
+<td>Reifen Druck Control</td>
+</tr>
+<tr>
+<td>21 .A7. 0240</td>
+<td>ACC_E65</td>
+<td>D_ACC</td>
+<td>E65</td>
+<td>Adaptive Cruise Control</td>
+</tr>
+<tr>
+<td>23 .A1. 0250</td>
+<td>ARS_E65</td>
+<td>D_ARS</td>
+<td>E65</td>
+<td>Aktive Rollstabilisierung</td>
+</tr>
+<tr>
+<td>27 .B2. 0260</td>
+<td>PGS_E65</td>
+<td>D_PGS</td>
+<td>E65</td>
+<td>Passive Go System</td>
+</tr>
+<tr>
+<td>29 0001 0270</td>
+<td>DSC_E65</td>
+<td>D_DSC</td>
+<td>E65</td>
+<td>Dynamische Stabilitätskontrolle</td>
+</tr>
+<tr>
+<td>2A .A2. 0280</td>
+<td>EMF_E65</td>
+<td>D_EMF</td>
+<td>E65</td>
+<td>Elektromechanische Feststellbremse</td>
+</tr>
+<tr>
+<td>31 .AY. 04F0</td>
+<td>MMC_E65</td>
+<td>D_MMC</td>
+<td>E65</td>
+<td>Multimedia Changer</td>
+</tr>
+<tr>
+<td>35 .BF. 0530</td>
+<td>SVS_E65</td>
+<td>D_SVS</td>
+<td>E65</td>
+<td>Sprachverarbeitungssystem</td>
+</tr>
+<tr>
+<td>36 .BE. 0290</td>
+<td>TEL_ECE</td>
+<td>D_TEL</td>
+<td>E65</td>
+<td>Telefon ECE Variante</td>
+</tr>
+<tr>
+<td>36 .CD. 0298</td>
+<td>TEL_USA</td>
+<td>D_TEL</td>
+<td>E65</td>
+<td>Telefon US Variante</td>
+</tr>
+<tr>
+<td>37 .AA. 02A0</td>
+<td>AMP_E65</td>
+<td>D_AMP</td>
+<td>E65</td>
+<td>Top HIFI Verstärker</td>
+</tr>
+<tr>
+<td>38 .AP. 02B0</td>
+<td>EHC_E65</td>
+<td>D_EHC</td>
+<td>E65</td>
+<td>Luftfeder</td>
+</tr>
+<tr>
+<td>39 .A6. 02C0</td>
+<td>EDC_K</td>
+<td>D_EDC</td>
+<td>E65</td>
+<td>Elektronische Dämpferkontrolle</td>
+</tr>
+<tr>
+<td>39 .??. 02C1</td>
+<td>EDC_K_2</td>
+<td>D_EDC</td>
+<td>E65</td>
+<td>Elektronische Dämpferkontrolle</td>
+</tr>
+<tr>
+<td>3A .AW. 02D0</td>
+<td>KHI_E65</td>
+<td>D_KHI</td>
+<td>E65</td>
+<td>Kopfhöhrer Interface</td>
+</tr>
+<tr>
+<td>3B .B1. 02E0</td>
+<td>NAV_E65</td>
+<td>D_NAV</td>
+<td>E65</td>
+<td>Navigation ECE/US</td>
+</tr>
+<tr>
+<td>3C .DP. 02F0</td>
+<td>CDC_E65</td>
+<td>D_CDC</td>
+<td>E65</td>
+<td>Audio CD-Changer</td>
+</tr>
+<tr>
+<td>3F .AB. 0300</td>
+<td>ASK_E65</td>
+<td>D_ASK</td>
+<td>E65</td>
+<td>Audio System Kontroller Kassette</td>
+</tr>
+<tr>
+<td>3F .AC. 0300</td>
+<td>ASK_E65</td>
+<td>D_ASK</td>
+<td>E65</td>
+<td>Audio System Kontroller CD</td>
+</tr>
+<tr>
+<td>3F .AD. 0300</td>
+<td>ASK_E65</td>
+<td>D_ASK</td>
+<td>E65</td>
+<td>Audio System Kontroller Mini Disc</td>
+</tr>
+<tr>
+<td>40 .AH. 0310</td>
+<td>CAS</td>
+<td>D_CAS</td>
+<td>E65</td>
+<td>Car Access System</td>
+</tr>
+<tr>
+<td>40 .GT. 09C0</td>
+<td>CAS</td>
+<td>D_CAS</td>
+<td>E65</td>
+<td>Car Access System 2</td>
+</tr>
+<tr>
+<td>41 .AM. 0320</td>
+<td>DWA_E65</td>
+<td>D_DWA</td>
+<td>E65</td>
+<td>Diebstahlwarnanlage</td>
+</tr>
+<tr>
+<td>42 .AI. 0330</td>
+<td>CIM</td>
+<td>D_CIM</td>
+<td>E65</td>
+<td>Chassis Integration Modul</td>
+</tr>
+<tr>
+<td>42 .AI. 0331</td>
+<td>CIM_2</td>
+<td>D_CIM</td>
+<td>E65</td>
+<td>Chassis Integration Modul Redesign</td>
+</tr>
+<tr>
+<td>43 .B4. 0340</td>
+<td>POW_E65</td>
+<td>D_POW</td>
+<td>E65</td>
+<td>Powermodul bis I-6</td>
+</tr>
+<tr>
+<td>43 .B4. 0341</td>
+<td>POW_E65</td>
+<td>D_POW</td>
+<td>E65</td>
+<td>Powermodul</td>
+</tr>
+<tr>
+<td>44 .BI. 0350</td>
+<td>SHD_E65</td>
+<td>D_SHD</td>
+<td>E65</td>
+<td>Schiebehebedach</td>
+</tr>
+<tr>
+<td>45 .A9. 0360</td>
+<td>RLS_E65</td>
+<td>D_RLS</td>
+<td>E65</td>
+<td>Regen- Lichtsensor</td>
+</tr>
+<tr>
+<td>46 .C4. 0370</td>
+<td>WIM_E65</td>
+<td>D_WIM</td>
+<td>E65</td>
+<td>Wischermodul</td>
+</tr>
+<tr>
+<td>47 .AE. 0380</td>
+<td>ANT_E65</td>
+<td>D_ANTTU</td>
+<td>E65</td>
+<td>Antennentuner 1</td>
+</tr>
+<tr>
+<td>47 .AF. 0380</td>
+<td>ANT_E65</td>
+<td>D_ANTTU</td>
+<td>E65</td>
+<td>Antennentuner 2</td>
+</tr>
+<tr>
+<td>4B .C2. 0390</td>
+<td>VID_E65</td>
+<td>D_VIDEO</td>
+<td>E65</td>
+<td>Videomodul ECE</td>
+</tr>
+<tr>
+<td>4B .CG. 0391</td>
+<td>VID_E65</td>
+<td>D_VIDEO</td>
+<td>E65</td>
+<td>Videomodul RGB ohne Navigation</td>
+</tr>
+<tr>
+<td>4B .EP. 0392</td>
+<td>VID_E65</td>
+<td>D_VIDEO</td>
+<td>E65</td>
+<td>Videomodul vorne und hinten</td>
+</tr>
+<tr>
+<td>4C .C0. 03A0</td>
+<td>TMF_E65</td>
+<td>D_TMFT</td>
+<td>E65</td>
+<td>Türmodul Fahrer High</td>
+</tr>
+<tr>
+<td>4C .C8. 03A0</td>
+<td>TMF_E65</td>
+<td>D_TMFT</td>
+<td>E65</td>
+<td>Türmodul Fahrer Low</td>
+</tr>
+<tr>
+<td>4D .BY. 03B0</td>
+<td>TMB_E65</td>
+<td>D_TMBT</td>
+<td>E65</td>
+<td>Türmodul Beifahrer High</td>
+</tr>
+<tr>
+<td>4D .C6. 03B0</td>
+<td>TMB_E65</td>
+<td>D_TMBT</td>
+<td>E65</td>
+<td>Türmodul Beifahrer Low</td>
+</tr>
+<tr>
+<td>4E .C1. 03C0</td>
+<td>TMFHE65</td>
+<td>D_TMFTH</td>
+<td>E65</td>
+<td>Türmodul Fahrer hinten High</td>
+</tr>
+<tr>
+<td>4E .C9. 03C0</td>
+<td>TMFHE65</td>
+<td>D_TMFTH</td>
+<td>E65</td>
+<td>Türmodul Fahrer hinten Low</td>
+</tr>
+<tr>
+<td>4F .BZ. 03D0</td>
+<td>TMBHE65</td>
+<td>D_TMBTH</td>
+<td>E65</td>
+<td>Türmodul Beifahrer hinten High</td>
+</tr>
+<tr>
+<td>4F .C7. 03D0</td>
+<td>TMBHE65</td>
+<td>D_TMBTH</td>
+<td>E65</td>
+<td>Türmodul Beifahrer hinten Low</td>
+</tr>
+<tr>
+<td>50 0001 03E0</td>
+<td>SINE_65</td>
+<td>D_SINE</td>
+<td>E65</td>
+<td>DWA Sirene und Neigungsgeber</td>
+</tr>
+<tr>
+<td>60 .A3. 03F0</td>
+<td>KOMBI65</td>
+<td>D_KOMBI</td>
+<td>E65</td>
+<td>Instrumentenkombi</td>
+</tr>
+<tr>
+<td>60 .A3. 03F1</td>
+<td>KOMBI65</td>
+<td>D_KOMBI</td>
+<td>E65</td>
+<td>Instrumentenkombi ab 09/02</td>
+</tr>
+<tr>
+<td>61 .BD. 0520</td>
+<td>FBI_E65</td>
+<td>D_FBI</td>
+<td>E65</td>
+<td>Flexible Bus Interface</td>
+</tr>
+<tr>
+<td>62 .AX. 0400</td>
+<td>MC_GW</td>
+<td>D_MOSTGW</td>
+<td>E65</td>
+<td>MOST/CAN-Gateway (im MMI)</td>
+</tr>
+<tr>
+<td>63 .AZ. 0410</td>
+<td>MMI_GT</td>
+<td>D_MMI</td>
+<td>E65</td>
+<td>Mensch Maschine Interface Grafikteil</td>
+</tr>
+<tr>
+<td>64 .B3. 0420</td>
+<td>PDC_E65</td>
+<td>D_PDC</td>
+<td>E65</td>
+<td>Park Distance Control</td>
+</tr>
+<tr>
+<td>65 .BW. 0430</td>
+<td>BZM_E65</td>
+<td>D_BZM</td>
+<td>E65</td>
+<td>Bedienzentrum Mittelkonsole</td>
+</tr>
+<tr>
+<td>66 .BX. 0440</td>
+<td>BZMF_E65</td>
+<td>D_BZMF</td>
+<td>E65</td>
+<td>Bedienzentrum Mittelarmlehne</td>
+</tr>
+<tr>
+<td>67 .AN. 0540</td>
+<td>EC_E65</td>
+<td>D_EC</td>
+<td>E65</td>
+<td>Ergo Commander</td>
+</tr>
+<tr>
+<td>68 .AN. 0540</td>
+<td>ECF_E65</td>
+<td>D_ECF</td>
+<td>E65</td>
+<td>Ergo Commander Fond</td>
+</tr>
+<tr>
+<td>69 .BL. 0451</td>
+<td>FAH_65_2</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten</td>
+</tr>
+<tr>
+<td>69 .BL. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten</td>
+</tr>
+<tr>
+<td>69 .BM. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>69 .BN. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>69 .BO. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>69 .BP. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>69 .CC. 0450</td>
+<td>FAH_E65</td>
+<td>D_FAH</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6A .BL. 0451</td>
+<td>BFH_65_2</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten</td>
+</tr>
+<tr>
+<td>6A .BL. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten</td>
+</tr>
+<tr>
+<td>6A .BM. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6A .BN. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6A .BO. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6A .BP. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6A .CC. 0450</td>
+<td>BFH_E65</td>
+<td>D_BFH</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer hinten nur Vorserie1</td>
+</tr>
+<tr>
+<td>6B .AT. 0470</td>
+<td>HKL_E65</td>
+<td>D_HKL</td>
+<td>E65</td>
+<td>Heckklappenlift</td>
+</tr>
+<tr>
+<td>6D .BL. 0451</td>
+<td>FAS_65_2</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer</td>
+</tr>
+<tr>
+<td>6D .BL. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer</td>
+</tr>
+<tr>
+<td>6D .BM. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6D .BN. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6D .BO. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6D .BP. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6D .CC. 0450</td>
+<td>FAS_E65</td>
+<td>D_FAS</td>
+<td>E65</td>
+<td>Sitzmodul Fahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6E .BL. 0451</td>
+<td>BFS_65_2</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer</td>
+</tr>
+<tr>
+<td>6E .BL. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer</td>
+</tr>
+<tr>
+<td>6E .BM. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6E .BN. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6E .BO. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6E .BP. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>6E .CC. 0450</td>
+<td>BFS_E65</td>
+<td>D_BFS</td>
+<td>E65</td>
+<td>Sitzmodul Beifahrer nur Vorserie1</td>
+</tr>
+<tr>
+<td>70 0001 04A0</td>
+<td>LM_E65</td>
+<td>D_LM</td>
+<td>E65</td>
+<td>Lichtmodul</td>
+</tr>
+<tr>
+<td>70 .A0. 04A1</td>
+<td>LM_E65_2</td>
+<td>D_LM</td>
+<td>E65</td>
+<td>Lichtmodul</td>
+</tr>
+<tr>
+<td>71 .A8. 04B0</td>
+<td>AHM_E65</td>
+<td>D_AHM</td>
+<td>E65</td>
+<td>Anhängermodul</td>
+</tr>
+<tr>
+<td>74 .FP. 0980</td>
+<td>CIDF65</td>
+<td>D_CIDF</td>
+<td>E65</td>
+<td>Zentrales Info Display hinten</td>
+</tr>
+<tr>
+<td>78 .A4. 04C0</td>
+<td>IHKA65</td>
+<td>D_KLIMA</td>
+<td>E65</td>
+<td>Klimabedienteil</td>
+</tr>
+<tr>
+<td>79 .AS. 0510</td>
+<td>HKA_E65</td>
+<td>D_KLIMA2</td>
+<td>E65</td>
+<td>Heck Klimaautomatik</td>
+</tr>
+<tr>
+<td>7A .BJ. 04D0</td>
+<td>SHZH_E65</td>
+<td>D_SHZH</td>
+<td>E65</td>
+<td>Standheizung, Zuheizer</td>
+</tr>
+<tr>
+<td>32 .DS. 0660</td>
+<td>MMIFC</td>
+<td>D_MMIFC</td>
+<td>E66</td>
+<td>MOST/CAN-Gateway (im Fond MMI)</td>
+</tr>
+<tr>
+<td>34 .AZ. 0670</td>
+<td>MMI_GTF</td>
+<td>D_MMIF</td>
+<td>E66</td>
+<td>Mensch Maschine Interface Grafikteil Fond</td>
+</tr>
+<tr>
+<td>49 .F3. 0890</td>
+<td>SECUR1</td>
+<td>D_SECUR1</td>
+<td>E67</td>
+<td>Sicherheitsfahrzeugmodul 1</td>
+</tr>
+<tr>
+<td>4A .F4. 08A0</td>
+<td>SECUR2</td>
+<td>D_SECUR2</td>
+<td>E67</td>
+<td>Sicherheitsfahrzeugmodul 2</td>
+</tr>
+<tr>
+<td>00 .FC. 0100</td>
+<td>ZGM_E65</td>
+<td>D_ZGM</td>
+<td>E60</td>
+<td>Zentrales Gatewaymodul nur PPP</td>
+</tr>
+<tr>
+<td>00 .GA. 0100</td>
+<td>ZGM_E65</td>
+<td>D_ZGM</td>
+<td>E60</td>
+<td>Zentrales Gatewaymodul (im SGM)</td>
+</tr>
+<tr>
+<td>01 .FD. 0110</td>
+<td>SIM</td>
+<td>D_SIM</td>
+<td>E60</td>
+<td>Sicherheits- Informationsmodul nur PPP</td>
+</tr>
+<tr>
+<td>01 .GB. 01B0</td>
+<td>SGM_60</td>
+<td>D_SIM</td>
+<td>E60</td>
+<td>Sicherheits-und Gatewaymodul</td>
+</tr>
+<tr>
+<td>01 .GB. 0A70</td>
+<td>SGM_60_2</td>
+<td>D_SIM</td>
+<td>E60</td>
+<td>Sicherheits-und Gatewaymodul</td>
+</tr>
+<tr>
+<td>02 .F2. 01C0</td>
+<td>SZL</td>
+<td>D_SZL</td>
+<td>E60</td>
+<td>Satellit Lenksäule</td>
+</tr>
+<tr>
+<td>05 .EE. 01F0</td>
+<td>TEFA60</td>
+<td>D_STVL</td>
+<td>E60</td>
+<td>Satellit &amp; Türelektronik Fahrer</td>
+</tr>
+<tr>
+<td>06 .EF. 0210</td>
+<td>TEBF60</td>
+<td>D_STVR</td>
+<td>E60</td>
+<td>Satellit &amp; Türelektronik Beifahrer</td>
+</tr>
+<tr>
+<td>09 .FA. 0220</td>
+<td>SBSL60</td>
+<td>D_SBSL</td>
+<td>E60</td>
+<td>Satellit B-Säule links</td>
+</tr>
+<tr>
+<td>0A .FB. 0460</td>
+<td>SBSR60</td>
+<td>D_SBSR</td>
+<td>E60</td>
+<td>Satellit B-Säule rechts</td>
+</tr>
+<tr>
+<td>0E .FE. 0480</td>
+<td>SFZ60</td>
+<td>D_SFZ</td>
+<td>E60</td>
+<td>Satellit Fahrzeugzentrum</td>
+</tr>
+<tr>
+<td>12 .1C. 0000</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E60</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 .1C. 0001</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E60</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 .1C. 000A</td>
+<td>MS450DS0</td>
+<td>D_MOTOR</td>
+<td>E60</td>
+<td>Motorelektronik MS 45 6 Zylinder M54</td>
+</tr>
+<tr>
+<td>12 .2Q. 000E</td>
+<td>ME9E65_6</td>
+<td>D_MOTOR</td>
+<td>E60</td>
+<td>Motorelektronik ME 9  8 Zylinder N62</td>
+</tr>
+<tr>
+<td>16 .B7. 0500</td>
+<td>AFS_60</td>
+<td>D_AFS</td>
+<td>E60</td>
+<td>Aktiv Front Steering</td>
+</tr>
+<tr>
+<td>17 .FI. 0610</td>
+<td>EKP_60</td>
+<td>D_EKP</td>
+<td>E60</td>
+<td>Elektrische Kraftstoffpumpe</td>
+</tr>
+<tr>
+<td>18 .2N. 0490</td>
+<td>SSG_60</td>
+<td>D_EGS</td>
+<td>E60</td>
+<td>Sequentielles Schaltgetriebe</td>
+</tr>
+<tr>
+<td>18 .2T. 0201</td>
+<td>GS19A</td>
+<td>D_EGS</td>
+<td>E60</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>18 .2P. 0201</td>
+<td>GS19A</td>
+<td>D_EGS</td>
+<td>E60</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>18 .2R. 0201</td>
+<td>GS19A</td>
+<td>D_EGS</td>
+<td>E60</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>18 .2S. 0201</td>
+<td>GS19A</td>
+<td>D_EGS</td>
+<td>E60</td>
+<td>Getriebesteuergerät GS19</td>
+</tr>
+<tr>
+<td>1E .??. 05E0</td>
+<td>HDEV43</td>
+<td>D_HDV</td>
+<td>E60</td>
+<td>Hochdruck Einspritzventile N43</td>
+</tr>
+<tr>
+<td>20 .EG. 0560</td>
+<td>RDC_60</td>
+<td>D_RDC</td>
+<td>E60</td>
+<td>Reifen Druck Control</td>
+</tr>
+<tr>
+<td>21 .HN. 0240</td>
+<td>ACC_E65</td>
+<td>D_ACC</td>
+<td>E60</td>
+<td>Adaptive Cruise Control</td>
+</tr>
+<tr>
+<td>22 .EX. 05F0</td>
+<td>ALC_60</td>
+<td>D_ALC</td>
+<td>E60</td>
+<td>Adaptive Lichtsteuerung</td>
+</tr>
+<tr>
+<td>23 .A1. 0251</td>
+<td>ARS_60</td>
+<td>D_ARS</td>
+<td>E60</td>
+<td>Aktive Rollstabilisierung</td>
+</tr>
+<tr>
+<td>29 .EK. 0620</td>
+<td>DSC_60</td>
+<td>D_DSC</td>
+<td>E60</td>
+<td>Dynamische Stabilitätskontrolle ohne AFS</td>
+</tr>
+<tr>
+<td>29 .EL. 0620</td>
+<td>DSC_60</td>
+<td>D_DSC</td>
+<td>E60</td>
+<td>Dynamische Stabilitätskontrolle mit AFS</td>
+</tr>
+<tr>
+<td>31 .FL. 04F0</td>
+<td>MMC_E65</td>
+<td>D_MMC</td>
+<td>E60</td>
+<td>Multimedia Changer</td>
+</tr>
+<tr>
+<td>35 .??. 08F0</td>
+<td>SVS_60</td>
+<td>D_SVS</td>
+<td>E60</td>
+<td>Sprachverarbeitungssystem (im CCC)</td>
+</tr>
+<tr>
+<td>36 .EM. 0630</td>
+<td>TELE60</td>
+<td>D_TEL</td>
+<td>E60</td>
+<td>Telefon ECE Variante</td>
+</tr>
+<tr>
+<td>36 .EO. 0640</td>
+<td>TELE60</td>
+<td>D_TEL</td>
+<td>E60</td>
+<td>Telefon US Variante</td>
+</tr>
+<tr>
+<td>36 .EN. 0650</td>
+<td>TELE60</td>
+<td>D_TEL</td>
+<td>E60</td>
+<td>Telefon Japan Variante</td>
+</tr>
+<tr>
+<td>36 .??. 0A80</td>
+<td>ULF_60</td>
+<td>D_TEL</td>
+<td>E60</td>
+<td>Universelle Lade- Freisprecheinrichtung</td>
+</tr>
+<tr>
+<td>37 .FN. 0670</td>
+<td>AMP_60</td>
+<td>D_AMP</td>
+<td>E60</td>
+<td>Top HIFI Verstärker</td>
+</tr>
+<tr>
+<td>3B .FT. 0870</td>
+<td>JNAV60</td>
+<td>D_NAV</td>
+<td>E60</td>
+<td>Japan Navigation</td>
+</tr>
+<tr>
+<td>3B .??. 09F0</td>
+<td>NAV_60</td>
+<td>D_NAV</td>
+<td>E60</td>
+<td>Navigation ECE/US (im CCC)</td>
+</tr>
+<tr>
+<td>3C .FH. 02F0</td>
+<td>CDC_E65</td>
+<td>D_CDC</td>
+<td>E60</td>
+<td>Audio CD-Changer</td>
+</tr>
+<tr>
+<td>3D .EJ. 0680</td>
+<td>HUD_60</td>
+<td>D_HUD</td>
+<td>E60</td>
+<td>Head-Up-Display</td>
+</tr>
+<tr>
+<td>3F .??. 0A00</td>
+<td>ASK_60</td>
+<td>D_ASK</td>
+<td>E60</td>
+<td>Audio System Kontroller (im CCC)</td>
+</tr>
+<tr>
+<td>40 .GT. 0690</td>
+<td>CAS</td>
+<td>D_CAS</td>
+<td>E60</td>
+<td>Car Access System 2</td>
+</tr>
+<tr>
+<td>41 .ED. 06B0</td>
+<td>DWA_E65</td>
+<td>D_DWA</td>
+<td>E60</td>
+<td>Diebstahlwarnanlage</td>
+</tr>
+<tr>
+<td>41 .IU. 06B0</td>
+<td>DWA_E65</td>
+<td>D_DWA</td>
+<td>E60</td>
+<td>Diebstahlwarnanlage</td>
+</tr>
+<tr>
+<td>44 .HX. 0351</td>
+<td>SD_KWP</td>
+<td>D_SHD</td>
+<td>E60</td>
+<td>Multi Drive Schiebehebedach</td>
+</tr>
+<tr>
+<td>47 .??. 06D0</td>
+<td>ANT_60</td>
+<td>D_ANTTU</td>
+<td>E60</td>
+<td>Antennentuner im CCC</td>
+</tr>
+<tr>
+<td>54 .??. 0850</td>
+<td>DAB_60</td>
+<td>D_RADIO</td>
+<td>E60</td>
+<td>Digital Radio ECE</td>
+</tr>
+<tr>
+<td>54 .HT. 0860</td>
+<td>SAT_60</td>
+<td>D_RADIO</td>
+<td>E60</td>
+<td>Satellitenradio US</td>
+</tr>
+<tr>
+<td>60 .FQ. 06E0</td>
+<td>KOMB60</td>
+<td>D_KOMBI</td>
+<td>E60</td>
+<td>Intrumentenkombi</td>
+</tr>
+<tr>
+<td>60 .HU. 06E0</td>
+<td>KOMB60</td>
+<td>D_KOMBI</td>
+<td>E60</td>
+<td>Intrumentenkombi</td>
+</tr>
+<tr>
+<td>62 .FM. 09D0</td>
+<td>CCCG60</td>
+<td>D_MOSTGW</td>
+<td>E60</td>
+<td>MOST/CAN-Gateway (im CCC)</td>
+</tr>
+<tr>
+<td>62 .FY. 0590</td>
+<td>MCGW60</td>
+<td>D_MOSTGW</td>
+<td>E60</td>
+<td>MOST/CAN-Gateway (im MASK)</td>
+</tr>
+<tr>
+<td>63 .FL. 06F0</td>
+<td>CCC_60</td>
+<td>D_MMI</td>
+<td>E60</td>
+<td>Car Comunication Computer</td>
+</tr>
+<tr>
+<td>63 .FV. 0700</td>
+<td>MASK60</td>
+<td>D_MMI</td>
+<td>E60</td>
+<td>MMI Audio System Kontroller</td>
+</tr>
+<tr>
+<td>63 .FW. 0700</td>
+<td>MASK60</td>
+<td>D_MMI</td>
+<td>E60</td>
+<td>MMI Audio System Kontroller</td>
+</tr>
+<tr>
+<td>63 .FX. 0700</td>
+<td>MASK60</td>
+<td>D_MMI</td>
+<td>E60</td>
+<td>MMI Audio System Kontroller</td>
+</tr>
+<tr>
+<td>90 .FZ. 0700</td>
+<td></td>
+<td></td>
+<td>E60</td>
+<td>MMI Audio System Kontroller nur für Flashen</td>
+</tr>
+<tr>
+<td>64 .EQ. 0420</td>
+<td>PDC_E65</td>
+<td>D_PDC</td>
+<td>E60</td>
+<td>Park Distance Control</td>
+</tr>
+<tr>
+<td>65 .DU. 0710</td>
+<td>SZM_60</td>
+<td>D_BZM</td>
+<td>E60</td>
+<td>Schaltzentrum Mittelkonsole</td>
+</tr>
+<tr>
+<td>67 .EZ. 0720</td>
+<td>ECL60</td>
+<td>D_EC</td>
+<td>E60</td>
+<td>Ergo Commander Low</td>
+</tr>
+<tr>
+<td>67 .EY. 07F0</td>
+<td>ECH60</td>
+<td>D_EC</td>
+<td>E60</td>
+<td>Ergo Commander High</td>
+</tr>
+<tr>
+<td>70 .DT. 07B0</td>
+<td>LM_60</td>
+<td>D_LM</td>
+<td>E60</td>
+<td>Lichtmodul</td>
+</tr>
+<tr>
+<td>72 .ET. 0730</td>
+<td>KBM_60</td>
+<td>D_KBM</td>
+<td>E60</td>
+<td>Karosserie Basis Modul</td>
+</tr>
+<tr>
+<td>73 .ER. 0740</td>
+<td>CID_60</td>
+<td>D_CID</td>
+<td>E60</td>
+<td>Zentrales Info Display</td>
+</tr>
+<tr>
+<td>74 .ES. 0770</td>
+<td>CIDF65</td>
+<td>D_CIDF</td>
+<td>E60</td>
+<td>Zentrales Info Display hinten</td>
+</tr>
+<tr>
+<td>78 .DW. 0790</td>
+<td>IHKA60</td>
+<td>D_KLIMA</td>
+<td>E60</td>
+<td>Klimabedienteil High</td>
+</tr>
+<tr>
+<td>78 .GN. 0790</td>
+<td>IHKA60</td>
+<td>D_KLIMA</td>
+<td>E60</td>
+<td>Klimabedienteil High</td>
+</tr>
+<tr>
+<td>78 .DV. 0790</td>
+<td>IHKA60</td>
+<td>D_KLIMA</td>
+<td>E60</td>
+<td>Klimabedienteil Basis</td>
+</tr>
+<tr>
+<td>78 .GL. 0790</td>
+<td>IHKA60</td>
+<td>D_KLIMA</td>
+<td>E60</td>
+<td>Klimabedienteil Basis</td>
+</tr>
+<tr>
+<td>7A .FF. 04D0</td>
+<td>SHZH_E65</td>
+<td>D_SHZH</td>
+<td>E60</td>
+<td>Standheizung, Zuheizer</td>
+</tr>
+<tr>
+<td>7A .GI. 04D0</td>
+<td>SHZH_E65</td>
+<td>D_SHZH</td>
+<td>E60</td>
+<td>Standheizung, Zuheizer</td>
+</tr>
+<tr>
+<td>7A .GI. 0760</td>
+<td>SHZH60</td>
+<td>D_SHZH</td>
+<td>E60</td>
+<td>Standheizung, Zuheizer</td>
+</tr>
+<tr>
+<td>A1 .FA. 0220</td>
+<td>SBSL85</td>
+<td>D_SBSL2</td>
+<td>E60</td>
+<td>Satellit B-Säule links</td>
+</tr>
+<tr>
+<td>A2 .FB. 0460</td>
+<td>SBSR85</td>
+<td>D_SBSR2</td>
+<td>E60</td>
+<td>Satellit B-Säule rechts</td>
+</tr>
+<tr>
+<td>12 .32. 0000</td>
+<td>MSV70</td>
+<td>D_MOTOR</td>
+<td>E63</td>
+<td>Motorelektronik MS 70 6 Zylinder N51/N52</td>
+</tr>
+<tr>
+<td>12 .33. 0000</td>
+<td>MSD70</td>
+<td>D_MOTOR</td>
+<td>E63</td>
+<td>Motorelektronik MS 70 6 Zylinder N53</td>
+</tr>
+<tr>
+<td>12 .34. 0000</td>
+<td>MSDA70</td>
+<td>D_MOTOR</td>
+<td>E63</td>
+<td>Motorelektronik MS 70 6 Zylinder N54</td>
+</tr>
+<tr>
+<td>41 .HJ. 0750</td>
+<td>DWA_63</td>
+<td>D_DWA</td>
+<td>E63</td>
+<td>DWA Sirene und Neigungsgeber</td>
+</tr>
+<tr>
+<td>65 .FS. 0990</td>
+<td>SZM_60</td>
+<td>D_BZM</td>
+<td>E63</td>
+<td>Schaltzentrum Mittelkonsole</td>
+</tr>
+<tr>
+<td>24 .EW. 0600</td>
+<td>CVM_64</td>
+<td>D_CVM</td>
+<td>E64</td>
+<td>Cabrio Verdeck Modul</td>
+</tr>
+<tr>
+<td>A1 .II. 0A50</td>
+<td>SBSL85</td>
+<td>D_SBSL2</td>
+<td>E64</td>
+<td>Satellit B-Säule links</td>
+</tr>
+<tr>
+<td>A2 .IJ. 0A60</td>
+<td>SBSR85</td>
+<td>D_SBSR2</td>
+<td>E64</td>
+<td>Satellit B-Säule rechts</td>
+</tr>
+<tr>
+<td>00 .FR. 0100</td>
+<td>ZGM_E65</td>
+<td>D_ZGM</td>
+<td>RR1</td>
+<td>Zentrales Gatewaymodul</td>
+</tr>
+<tr>
+<td>34 .EH. 0810</td>
+<td>MMI_GTF</td>
+<td>D_MMIF</td>
+<td>RR1</td>
+<td>Mensch Maschine Interface hinten</td>
+</tr>
+<tr>
+<td>38 .EU. 0840</td>
+<td>EHC2RR</td>
+<td>D_EHC</td>
+<td>RR1</td>
+<td>2-Achs Luftfeder</td>
+</tr>
+<tr>
+<td>3B .EV. 02E0</td>
+<td>NAV_E65</td>
+<td>D_NAV</td>
+<td>RR1</td>
+<td>Navigation ECE/US</td>
+</tr>
+<tr>
+<td>3E .EB. 07D0</td>
+<td>ADP_RR</td>
+<td>D_ADP</td>
+<td>RR1</td>
+<td>Audio Display Panel</td>
+</tr>
+<tr>
+<td>3F .EI. 0300</td>
+<td>ASK_E65</td>
+<td>D_ASK</td>
+<td>RR1</td>
+<td>Audio System Kontroller CD</td>
+</tr>
+<tr>
+<td>62 .F8. 0830</td>
+<td>MC_GW</td>
+<td>D_MOSTGW</td>
+<td>RR1</td>
+<td>MOST/CAN-Gateway (im MMI)</td>
+</tr>
+<tr>
+<td>63 .EC. 0800</td>
+<td>MMI_GT</td>
+<td>D_MMI</td>
+<td>RR1</td>
+<td>Mensch Maschine Interface</td>
+</tr>
+<tr>
+<td>65 .DY. 0430</td>
+<td>BZM_E65</td>
+<td>D_BZM</td>
+<td>RR1</td>
+<td>Bedienzentrum Mittelkonsole</td>
+</tr>
+<tr>
+<td>6C .F9. 07A0</td>
+<td>KFS_RR</td>
+<td>D_KFS</td>
+<td>RR1</td>
+<td>Kühlerfigursteuerung</td>
+</tr>
+<tr>
+<td>60 .EA. 07C0</td>
+<td>KOMBRR</td>
+<td>D_KOMBI</td>
+<td>RR1</td>
+<td>Instrumentenkombi</td>
+</tr>
+<tr>
+<td>73 .DZ. 07E0</td>
+<td>CID_60</td>
+<td>D_CID</td>
+<td>RR1</td>
+<td>Central Information Display</td>
+</tr>
+<tr>
+<td>74 .GG. 09A0</td>
+<td>CIDF65</td>
+<td>D_CIDF</td>
+<td>RR1</td>
+<td>Zentrales Info Display hinten links</td>
+</tr>
+<tr>
+<td>75 .GH. 09B0</td>
+<td>CIDF2RR</td>
+<td>D_CIDF2</td>
+<td>RR1</td>
+<td>Zentrales Info Display hinten rechts</td>
+</tr>
+<tr>
+<td>78 .F1. 0660</td>
+<td>IHKARR</td>
+<td>D_KLIMA</td>
+<td>RR1</td>
+<td>Klimabedienteil</td>
+</tr>
+<tr>
+<td>55 .GY. 08C0</td>
+<td>JBBF8155</td>
+<td></td>
+<td>E81</td>
+<td>Junction Box Beifahrer nur JEXE</td>
+</tr>
+<tr>
+<td>00 .GY. 08C0</td>
+<td>JBBF81</td>
+<td>D_ZGM</td>
+<td>E81</td>
+<td>Junction Box Beifahrer</td>
+</tr>
+<tr>
+<td>01 .GZ. 08E0</td>
+<td>MRS5</td>
+<td>D_SIM</td>
+<td>E81</td>
+<td>Airbag Steuergerät</td>
+</tr>
+<tr>
+<td>29 .HB. 05B0</td>
+<td>DSC_81</td>
+<td>D_DSC</td>
+<td>E81</td>
+<td>Dynamische Stabilitätskontrolle</td>
+</tr>
+<tr>
+<td>40 .GT. 06A0</td>
+<td>CAS</td>
+<td>D_CAS</td>
+<td>E81</td>
+<td>Car Access System 2</td>
+</tr>
+<tr>
+<td>41 .IU. 0780</td>
+<td>DWA_E65</td>
+<td>D_DWA</td>
+<td>E81</td>
+<td>Diebstahlwarnanlage</td>
+</tr>
+<tr>
+<td>56 .HC. 05A0</td>
+<td>DEM_81</td>
+<td>D_DEM</td>
+<td>E81</td>
+<td>Dachelektronik Modul</td>
+</tr>
+<tr>
+<td>60 .HD. 08D0</td>
+<td>KOMB81</td>
+<td>D_KOMBI</td>
+<td>E81</td>
+<td>Instrumentenkombi</td>
+</tr>
+<tr>
+<td>63 .HE. 0900</td>
+<td>RAD1</td>
+<td>D_MMI</td>
+<td>E81</td>
+<td>Radio Stufe 1</td>
+</tr>
+<tr>
+<td>63 .HF. 0910</td>
+<td>RAD2</td>
+<td>D_MMI</td>
+<td>E81</td>
+<td>Radio Stufe 2</td>
+</tr>
+<tr>
+<td>64 .GR. 09E0</td>
+<td>PDC_81</td>
+<td>D_PDC</td>
+<td>E81</td>
+<td>Park Distance Control</td>
+</tr>
+<tr>
+<td>6D .HG. 0920</td>
+<td>FAS_81</td>
+<td>D_FAS</td>
+<td>E81</td>
+<td>Sitzmodul Fahrer</td>
+</tr>
+<tr>
+<td>6E .HG. 0930</td>
+<td>BFS_81</td>
+<td>D_BFS</td>
+<td>E81</td>
+<td>Sitzmodul Beifahrer</td>
+</tr>
+<tr>
+<td>72 .GX. 05C0</td>
+<td>FRM_81</td>
+<td>D_KBM</td>
+<td>E81</td>
+<td>Fussraum Modul Fahrerseite</td>
+</tr>
+<tr>
+<td>73 .IB. 0A40</td>
+<td>CID_81</td>
+<td>D_CID</td>
+<td>E81</td>
+<td>Zentrales Info Display</td>
+</tr>
+<tr>
+<td>78 .GU. 05D0</td>
+<td>IHKA81</td>
+<td>D_KLIMA</td>
+<td>E81</td>
+<td>Klimaautomatik</td>
+</tr>
+<tr>
+<td>78 .GV. 0880</td>
+<td>IHKR81</td>
+<td>D_KLIMA</td>
+<td>E81</td>
+<td>Klimaregelung</td>
+</tr>
+<tr>
+<td>78 .GW. 08B0</td>
+<td>IHR_81</td>
+<td>D_KLIMA</td>
+<td>E81</td>
+<td>Heizungsregelung</td>
+</tr>
+<tr>
+<td>30 .??. 0940</td>
+<td>EPS_90</td>
+<td>D_EPS</td>
+<td>E90</td>
+<td>Elektrische Lenkung</td>
+</tr>
+<tr>
+<td>19 .??. 0950</td>
+<td>VGSG90</td>
+<td>D_VGSG</td>
+<td>E90</td>
+<td>Verteilergetriebe Steuergerät</td>
+</tr>
+<tr>
+<td>72 .??. 0960</td>
+<td>FRM_90</td>
+<td>D_KBM</td>
+<td>E90</td>
+<td>Fussraum Modul Fahrerseite</td>
+</tr>
+<tr>
+<td>44 .??. 0970</td>
+<td>MDS_90</td>
+<td>D_SHD</td>
+<td>E90</td>
+<td>Multi Drive Sunroof</td>
+</tr>
+<tr>
+<td>73 .IA. 0A30</td>
+<td>CID_90</td>
+<td>D_CID</td>
+<td>E90</td>
+<td>Zentrales Info Display</td>
+</tr>
+<tr>
+<td>1C .??. 0A90</td>
+<td>LDM_90</td>
+<td>D_LDM</td>
+<td>E90</td>
+<td>Längs Dynamik Management</td>
+</tr>
+<tr>
+<td>1D .??. 0AA0</td>
+<td>FFP_90</td>
+<td>D_FFP</td>
+<td>E90</td>
+<td>Force Feedback Paddle</td>
+</tr>
+<tr>
+<td>29 0001 0001</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>E46</td>
+<td>DSC MK60 mit analogen DSC-Sensoren</td>
+</tr>
+<tr>
+<td>29 0002 0002</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>E46</td>
+<td>ASC MK60</td>
+</tr>
+<tr>
+<td>29 0012 0002</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>E46</td>
+<td>ASC MK60 mit RPA</td>
+</tr>
+<tr>
+<td>29 0006 0006</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>E46</td>
+<td>DSC MK60 mit SensorCluster</td>
+</tr>
+<tr>
+<td>29 0016 0006</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>E46</td>
+<td>DSC MK60 mit SensorCluster/RPA</td>
+</tr>
+<tr>
+<td>29 0003 0003</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>ABS MK60</td>
+</tr>
+<tr>
+<td>29 0013 0003</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>ABS MK60 mit RPA</td>
+</tr>
+<tr>
+<td>29 0004 0004</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>ASC MK60</td>
+</tr>
+<tr>
+<td>29 0014 0004</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>ASC MK60 mit RPA</td>
+</tr>
+<tr>
+<td>29 0005 0005</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>DSC MK60 mit SensorCluster</td>
+</tr>
+<tr>
+<td>29 0015 0005</td>
+<td>DSC_MK60</td>
+<td>D_ABSKWP</td>
+<td>R50</td>
+<td>DSC MK60 mit SensorCluster/RPA</td>
+</tr>
+<tr>
+<td>29 0020 0020</td>
+<td>DXC8</td>
+<td>D_ABSKWP</td>
+<td>E53</td>
+<td>DSC8 Allradsystem</td>
+</tr>
+<tr>
+<td>29 0021 0021</td>
+<td>DXC8</td>
+<td>D_ABSKWP</td>
+<td>E83</td>
+<td>DSC8 Allradsystem</td>
+</tr>
+<tr>
+<td>32 .2M. 0550</td>
+<td>GS30</td>
+<td>D_0032</td>
+<td>E85</td>
+<td>Sequentielles Schaltgetriebe</td>
+</tr>
+<tr>
+<td>37 0001 04E0</td>
+<td>EPS_E85</td>
+<td>D_EPS</td>
+<td>E85</td>
+<td>Elektrische Lenkung</td>
+</tr>
+<tr>
+<td>37 .GJ. 04E1</td>
+<td>EPS_85_2</td>
+<td>D_EPS</td>
+<td>E85</td>
+<td>Elektrische Lenkung</td>
+</tr>
+<tr>
+<td>46 0001 0670</td>
+<td>CID_85</td>
+<td>D_CID</td>
+<td>E85</td>
+<td>Zentrales Info Display</td>
+</tr>
+<tr>
+<td>A4 .HK. 0560</td>
+<td>SIM85</td>
+<td>D_SIM</td>
+<td>E85</td>
+<td>Sicherheits- Informationsmodul</td>
+</tr>
+<tr>
+<td>A1 .HL. 0570</td>
+<td>SBSL85</td>
+<td>D_SBSL2</td>
+<td>E85</td>
+<td>Satellit B-Säule links</td>
+</tr>
+<tr>
+<td>A2 .HM. 0580</td>
+<td>SBSR85</td>
+<td>D_SBSR2</td>
+<td>E85</td>
+<td>Satellit B-Säule rechts</td>
+</tr>
+<tr>
+<td>AD .HV. 0A10</td>
+<td>STVL85</td>
+<td>D_STVL2</td>
+<td>E85</td>
+<td>Satellit Tür vorne links</td>
+</tr>
+<tr>
+<td>AE .HW. 0A20</td>
+<td>STVR85</td>
+<td>D_STVR2</td>
+<td>E85</td>
+<td>Satellit Tür vorne rechts</td>
+</tr>
+<tr>
+<td>?? .??. 0AB0</td>
+<td></td>
+<td></td>
+<td>E??</td>
+<td></td>
+</tr>
+<tr>
+<td>?? .??. 0AC0</td>
+<td></td>
+<td></td>
+<td>E??</td>
+<td></td>
+</tr>
+<tr>
+<td>?? .??. 0AD0</td>
+<td></td>
+<td></td>
+<td>E??</td>
+<td></td>
+</tr>
+<tr>
+<td>?? .??. 0AE0</td>
+<td></td>
+<td></td>
+<td>E??</td>
+<td></td>
+</tr>
+<tr>
+<td>?? .??. 0AF0</td>
+<td></td>
+<td></td>
+<td>E??</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-funktionaleadresse"></a></p>
+<h3 id="funktionaleadresse">FUNKTIONALEADRESSE</h3>
+<p>Dimensions: 8 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>F_ADR</th>
+<th>F_ADR_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xE9</td>
+<td>K-CAN</td>
+<td>Karosserie-CAN Steuergeraete</td>
+</tr>
+<tr>
+<td>0xEA</td>
+<td>PT-CAN</td>
+<td>Powertrain-CAN Steuergeraete</td>
+</tr>
+<tr>
+<td>0xEB</td>
+<td>SI</td>
+<td>Sicherheits-BUS Steuergeraete</td>
+</tr>
+<tr>
+<td>0xEC</td>
+<td>MOST</td>
+<td>MOST-BUS Steuergeraete</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>BOS</td>
+<td>Bedarfsorientierter Service</td>
+</tr>
+<tr>
+<td>0xED</td>
+<td>CBS</td>
+<td>Bedarfsorientierter Service</td>
+</tr>
+<tr>
+<td>0xEE</td>
+<td>PERSONAL</td>
+<td>Personalisierung</td>
+</tr>
+<tr>
+<td>0xEF</td>
+<td>ALL</td>
+<td>alle Steuergeraete</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-funktionalerfehlergruppe"></a></p>
+<h3 id="funktionalerfehlergruppe">FUNKTIONALERFEHLERGRUPPE</h3>
+<p>Dimensions: 5 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>F_DTC</th>
+<th>F_DTC_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xFFFB</td>
+<td>PG</td>
+<td>Antriebsstrang Gruppe</td>
+</tr>
+<tr>
+<td>0xFFFC</td>
+<td>CG</td>
+<td>Fahrwerk Gruppe</td>
+</tr>
+<tr>
+<td>0xFFFD</td>
+<td>BG</td>
+<td>Karosserie Gruppe</td>
+</tr>
+<tr>
+<td>0xFFFE</td>
+<td>NG</td>
+<td>Netzwerk Kommunikation Gruppe</td>
+</tr>
+<tr>
+<td>0xFFFF</td>
+<td>AG</td>
+<td>alle Gruppen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 1 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xXY</td>
+<td>ERROR_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-i-stufe-e81"></a></p>
+<h3 id="i_stufe_e81">I_STUFE_E81</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>I_STUFE_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>2.31</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>2.32</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>3.10</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>unbekannte I-Stufe</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-grobname"></a></p>
+<h3 id="grobname">GROBNAME</h3>
+<p>Dimensions: 70 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ADR</th>
+<th>GROBNAME</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>SGM/ZGM</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>SIM</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>SZL</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>SASL</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>SASR</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>STVL</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>STVR</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>SSFA</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>SSBF</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>SBSL</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>SBSR</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>SSH</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>SFZ</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>DME/DDE</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>DME/DDE</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>EGS</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>VVT</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>VVT2</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>RDC</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>ACC</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>ARS</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>PGS</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DSC</td>
+</tr>
+<tr>
+<td>0x2A</td>
+<td>EMF</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>MMC</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>MMIFGW</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>MMIF</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>SVS</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>TEL</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>AMP</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>EHC</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>EDC</td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>KHI</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>NAV</td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>CDC</td>
+</tr>
+<tr>
+<td>0x3F</td>
+<td>ASK</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>CAS</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>DWA</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>CIM</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>POW</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>SHD</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>RLS</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>WIM</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ANTTU</td>
+</tr>
+<tr>
+<td>0x4B</td>
+<td>VIDEO</td>
+</tr>
+<tr>
+<td>0x4C</td>
+<td>TMFT</td>
+</tr>
+<tr>
+<td>0x4D</td>
+<td>TMBT</td>
+</tr>
+<tr>
+<td>0x4E</td>
+<td>TMFTH</td>
+</tr>
+<tr>
+<td>0x4F</td>
+<td>TMBTH</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>SINE</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>KOMBI</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>FBI</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>MMI_GW</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>MMI</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>PDC</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>BZM</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>BZMF</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>EC</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>ECF</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>FAH</td>
+</tr>
+<tr>
+<td>0x6A</td>
+<td>BFH</td>
+</tr>
+<tr>
+<td>0x6B</td>
+<td>HKL</td>
+</tr>
+<tr>
+<td>0x6D</td>
+<td>FAS</td>
+</tr>
+<tr>
+<td>0x6E</td>
+<td>BFS</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>LM</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>AHM</td>
+</tr>
+<tr>
+<td>0x78</td>
+<td>KLIMA</td>
+</tr>
+<tr>
+<td>0x79</td>
+<td>KLIMA2</td>
+</tr>
+<tr>
+<td>0x7A</td>
+<td>SHZH</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>????</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

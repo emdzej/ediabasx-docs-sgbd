@@ -1,0 +1,4365 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/oc3_upd/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>oc3_upd.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oc3_updprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              oc3_upd.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ident_oc3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IDENT_OC3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IDENT_OC3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_loeschen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LOESCHEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LOESCHEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fs_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FS_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FS_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#status_codierdaten_lesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STATUS_CODIERDATEN_LESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STATUS_CODIERDATEN_LESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steuern_codierdaten_schreiben" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        STEUERN_CODIERDATEN_SCHREIBEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STEUERN_CODIERDATEN_SCHREIBEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FORTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fartmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#farttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FARTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fumweltmatrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUMWELTMATRIX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fumwelttexte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FUMWELTTEXTE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresult" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lieferanten" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIEFERANTEN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digitalargument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DIGITALARGUMENT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloecke" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BLOECKE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_4
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_5
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_6
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_9
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_10
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_11
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codierdaten_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CODIERDATEN_12
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teilenummern_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TEILENUMMERN_1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uebersicht" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UEBERSICHT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crccheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRCCHECK
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="oc3_updprg">oc3_upd.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">7</a></li>
+<li>Tables: <a href="#tables">25</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>OC3 Occupation Classification -3 fuer Baureihe E6x,E65,E66,E83,E85,E90</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>Karsten Henze EI-62</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.009</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>Oliver Schieferstein BERATA GmbH, Thomas Huebner EI-62, Markus</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>OC3 Update für OC3 Matte</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.45</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Initialisierung und Kommunikationsparameter</li>
+<li><a href="#job-ident-oc3">IDENT_OC3</a> - Lesen Sachnummer und Codierindex</li>
+<li><a href="#job-fs-loeschen">FS_LOESCHEN</a> - Fehlerspeicher loeschen</li>
+<li><a href="#job-fs-lesen">FS_LESEN</a> - Fehlerspeicher lesen Read error memory</li>
+<li><a href="#job-status-codierdaten-lesen">STATUS_CODIERDATEN_LESEN</a> - Auslesen der Codierdaten</li>
+<li><a href="#job-steuern-codierdaten-schreiben">STEUERN_CODIERDATEN_SCHREIBEN</a> - Job, um die Codierdaten zu schreiben. Im Block 1 steht das Datum und die Händlernummer Das Datum liefert EDIABAS, die Händlernummer muss als Argument eingegeben werden</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Initialisierung und Kommunikationsparameter</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1, wenn okay</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-ident-oc3"></a></p>
+<h3 id="ident_oc3">IDENT_OC3</h3>
+<p>Lesen Sachnummer und Codierindex</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Status der Kommunikation</td>
+</tr>
+<tr>
+<td>TEILENUMMER</td>
+<td>string</td>
+<td>BMW - Teilenummer des Steuergeraetes BCD-codiert</td>
+</tr>
+<tr>
+<td>CODIERINDEX</td>
+<td>string</td>
+<td>Codierindex des Steuergeraetes BCD-codiert</td>
+</tr>
+<tr>
+<td>_TEL_ANTWORT</td>
+<td>binary</td>
+<td>Hex-Antwort von SG</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-loeschen"></a></p>
+<h3 id="fs_loeschen">FS_LOESCHEN</h3>
+<p>Fehlerspeicher loeschen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fs-lesen"></a></p>
+<h3 id="fs_lesen">FS_LESEN</h3>
+<p>Fehlerspeicher lesen Read error memory</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>qnormalerweiseq OKAY</td>
+</tr>
+<tr>
+<td>F_HEX_CODE</td>
+<td>binary</td>
+<td>Hex-Fehlerdaten je Fehler Hex format errordata</td>
+</tr>
+<tr>
+<td>F_ORT_NR</td>
+<td>int</td>
+<td>identisch Fehlerbytemaske Error location number FSR = Force Sensitive Resistor (Kraft/Druck-Abhaengiger Widerstand) SPI = Serial Peripheral Interface</td>
+</tr>
+<tr>
+<td>F_ORT_TEXT</td>
+<td>string</td>
+<td>Fehlerort als Text Error location text</td>
+</tr>
+<tr>
+<td>F_HFK</td>
+<td>int</td>
+<td>Fehlerhaeufigkeit Error frequency (occurences)</td>
+</tr>
+<tr>
+<td>F_ART_ANZ</td>
+<td>int</td>
+<td>Anzahl der Fehlerarten (hier: immer 8) Number of errortypes (always 8 here)</td>
+</tr>
+<tr>
+<td>F_ART1_NR</td>
+<td>int</td>
+<td>Index der 1. Fehlerart Index of 1st errortype</td>
+</tr>
+<tr>
+<td>F_ART1_TEXT</td>
+<td>string</td>
+<td>1. Fehlerart als Text Text of 1st errortype</td>
+</tr>
+<tr>
+<td>F_ART2_NR</td>
+<td>int</td>
+<td>Index der 2. Fehlerart</td>
+</tr>
+<tr>
+<td>F_ART2_TEXT</td>
+<td>string</td>
+<td>2. Fehlerart als Text</td>
+</tr>
+<tr>
+<td>F_UW_ANZ</td>
+<td>int</td>
+<td>Anzahl der Umweltbedingungen (hier: immer 2) Number of environment conditions (always 2 here)</td>
+</tr>
+<tr>
+<td>F_UW_SATZ</td>
+<td>int</td>
+<td>Anzahl der Umweltsaetze (hier: immer 1) Number of environment blocks (always 1 here)</td>
+</tr>
+<tr>
+<td>F_UW1_NR</td>
+<td>int</td>
+<td>Index der 1. Umweltbedingung (hier: immer 1) Index of 1st environment condition (always 1 here)</td>
+</tr>
+<tr>
+<td>F_UW1_TEXT</td>
+<td>string</td>
+<td>Text zur 1. Umweltbedingung (hier: immer Fehlerbeginn_std) Text of 1st environment condition</td>
+</tr>
+<tr>
+<td>F_UW1_WERT</td>
+<td>long</td>
+<td>Wert der 1. Umweltbedingung Value of 1st environment condition</td>
+</tr>
+<tr>
+<td>F_UW1_EINH</td>
+<td>string</td>
+<td>Einheit der 1. Umweltbedingung (hier: immer Std.) Unit of 1st environment condition</td>
+</tr>
+<tr>
+<td>F_UW2_NR</td>
+<td>int</td>
+<td>Index der 2. Umweltbedingung (hier: immer 2)</td>
+</tr>
+<tr>
+<td>F_UW2_TEXT</td>
+<td>string</td>
+<td>Text zur 2. Umweltbedingung (hier: immer Fehlerbeginn_min)</td>
+</tr>
+<tr>
+<td>F_UW2_WERT</td>
+<td>long</td>
+<td>Wert der 2. Umweltbedingung</td>
+</tr>
+<tr>
+<td>F_UW2_EINH</td>
+<td>string</td>
+<td>Einheit der 2. Umweltbedingung (hier: immer Min.)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-status-codierdaten-lesen"></a></p>
+<h3 id="status_codierdaten_lesen">STATUS_CODIERDATEN_LESEN</h3>
+<p>Auslesen der Codierdaten</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HAENDLERNUMMER</td>
+<td>string</td>
+<td>Ausgabe der Händlernummer</td>
+</tr>
+<tr>
+<td>DATUM</td>
+<td>string</td>
+<td>Ausgabe Datum</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_2</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_3</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_4</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_5</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_6</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_7</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_8</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_9</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_10</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_11</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_12</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_13</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_14</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_15</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_16</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_17</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_18</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_19</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_20</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_21</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_22</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_23</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_24</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_25</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_BLOCK_26</td>
+<td>string</td>
+<td>Inhalt des Codierdatenblocks</td>
+</tr>
+<tr>
+<td>STAT_CODIERDATEN_NR</td>
+<td>int</td>
+<td>Status der Codierdaten in Dezimalform 0: Fehler beim Auslesen 1: Daten nicht hinterlegt 2: Daten sind veraltet 3: Daten sind aktuell</td>
+</tr>
+<tr>
+<td>STAT_CODIERDATEN_TEXT</td>
+<td>string</td>
+<td>Status der Codierdaten in Textform Fehler beim Auslesen , veraltet, nicht hinterlegt</td>
+</tr>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-steuern-codierdaten-schreiben"></a></p>
+<h3 id="steuern_codierdaten_schreiben">STEUERN_CODIERDATEN_SCHREIBEN</h3>
+<p>Job, um die Codierdaten zu schreiben. Im Block 1 steht das Datum und die Händlernummer Das Datum liefert EDIABAS, die Händlernummer muss als Argument eingegeben werden</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HAENDLERNUMMER</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>DATUM_TAG</td>
+<td>string</td>
+<td>2 Stellen</td>
+</tr>
+<tr>
+<td>DATUM_MONAT</td>
+<td>string</td>
+<td>2 Stellen</td>
+</tr>
+<tr>
+<td>DATUM_JAHR</td>
+<td>string</td>
+<td>2 Stellen</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY, wenn fehlerfrei</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (1 × 2)</li>
+<li><a href="#table-forttexte">FORTTEXTE</a> (35 × 2)</li>
+<li><a href="#table-fartmatrix">FARTMATRIX</a> (1 × 5)</li>
+<li><a href="#table-farttexte">FARTTEXTE</a> (5 × 2)</li>
+<li><a href="#table-fumweltmatrix">FUMWELTMATRIX</a> (1 × 5)</li>
+<li><a href="#table-fumwelttexte">FUMWELTTEXTE</a> (2 × 9)</li>
+<li><a href="#table-jobresult">JOBRESULT</a> (13 × 2)</li>
+<li><a href="#table-lieferanten">LIEFERANTEN</a> (72 × 2)</li>
+<li><a href="#table-digitalargument">DIGITALARGUMENT</a> (17 × 2)</li>
+<li><a href="#table-bloecke">BLOECKE</a> (2 × 2)</li>
+<li><a href="#table-codierdaten-1">CODIERDATEN_1</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-2">CODIERDATEN_2</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-3">CODIERDATEN_3</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-4">CODIERDATEN_4</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-5">CODIERDATEN_5</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-6">CODIERDATEN_6</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-7">CODIERDATEN_7</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-8">CODIERDATEN_8</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-9">CODIERDATEN_9</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-10">CODIERDATEN_10</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-11">CODIERDATEN_11</a> (26 × 3)</li>
+<li><a href="#table-codierdaten-12">CODIERDATEN_12</a> (26 × 3)</li>
+<li><a href="#table-teilenummern-1">TEILENUMMERN_1</a> (29 × 2)</li>
+<li><a href="#table-uebersicht">UEBERSICHT</a> (29 × 3)</li>
+<li><a href="#table-crccheck">CRCCHECK</a> (29 × 2)</li>
+</ul>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 1 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xXY</td>
+<td>ERROR_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-forttexte"></a></p>
+<h3 id="forttexte">FORTTEXTE</h3>
+<p>Dimensions: 35 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>ORTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>A/D-Wandler Fehler</td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>HW EEPROM Pruefsummenfehler</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Algo EEPROM Parameterfehler oder Pruefsummenfehler</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Batteriespannung zu niedrig</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ADC Spannungsteiler Ubat nicht ok</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ADC Spannungsteiler Umref nicht ok</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>Reihen-Abschlusswiderstand defekt (dynamische Messung)</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Spalten-Abschlusswiderstand defekt (dynamische Messung)</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>SPI Ueberlauf (Kommunikation ASIC / FRAM)</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>SPI Paritaetsfehler (Kommunikation ASIC / FRAM)</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>Falsche Register-Page (ASIC-Fehler)</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>FSR Mattenueberlastung</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>FSR Fehlerstrom auf unbenutzten Reihen/Spalten</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>FSR Kurzschluss zwischen Spalten</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>FSR Kurzschluss zwischen Reihen</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>FSR Fehlerstrom nach Masse</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>FSR Fehlerstrom nach Ubat</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>FSR Kalibrationswiderstand K14/R4 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>FSR Kalibrationswiderstand K14/R5 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>FSR Kalibrationswiderstand K14/R8 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>FSR Kalibrationswiderstand K14/R9 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>FSR Kalibrationswiderstand K14/R10 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>FSR Referenzwiderstand K14/R2 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>FSR Referenzwiderstand K14/R3 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>FSR Referenzwiderstand K14/R6 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>FSR Referenzwiderstand K14/R7 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>FSR Widerstand K14/R1 oder K1/R9 ausserhalb Toleranz</td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>FSR Umref zu niedrig</td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>FSR /Max-Delta - Min-Delta/ oder Referenzwiderstaende ausserhalb der Grenzen</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>FSR Thermistor 1 ausserhalb der Grenzen</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>FSR Thermistor 2 ausserhalb der Grenzen</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>FSR Delta Thermistor /Thermistor 1 - Thermistor 2/ ausserhalb der Grenzen</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Crash-Daten-Speicher voll</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>FRAM Fehler</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>Unbekannter Fehler</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fartmatrix"></a></p>
+<h3 id="fartmatrix">FARTMATRIX</h3>
+<p>Dimensions: 1 rows × 5 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>A2_0</th>
+<th>A2_1</th>
+<th>A1_0</th>
+<th>A1_1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xFF</td>
+<td>0x01</td>
+<td>0x02</td>
+<td>0x08</td>
+<td>0x09</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-farttexte"></a></p>
+<h3 id="farttexte">FARTTEXTE</h3>
+<p>Dimensions: 5 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>ARTNR</th>
+<th>ARTTEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Fehler nicht vorhanden</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Fehler aktuell vorhanden</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Fehler nicht sporadisch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Fehler sporadisch</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fumweltmatrix"></a></p>
+<h3 id="fumweltmatrix">FUMWELTMATRIX</h3>
+<p>Dimensions: 1 rows × 5 columns</p>
+<table>
+<thead>
+<tr>
+<th>ORT</th>
+<th>UW_ANZ</th>
+<th>UW_SATZ</th>
+<th>UW1_NR</th>
+<th>UW2_NR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>0x02</td>
+<td>0x01</td>
+<td>0x01</td>
+<td>0x02</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-fumwelttexte"></a></p>
+<h3 id="fumwelttexte">FUMWELTTEXTE</h3>
+<p>Dimensions: 2 rows × 9 columns</p>
+<table>
+<thead>
+<tr>
+<th>UWNR</th>
+<th>UWTEXT</th>
+<th>UW_EINH</th>
+<th>L/H</th>
+<th>UWTYP</th>
+<th>NAME</th>
+<th>MUL</th>
+<th>DIV</th>
+<th>ADD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Fehlerbeginn_std</td>
+<td>Std.</td>
+<td>--</td>
+<td>long</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Fehlerbeginn_min</td>
+<td>Min.</td>
+<td>--</td>
+<td>long</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresult"></a></p>
+<h3 id="jobresult">JOBRESULT</h3>
+<p>Dimensions: 13 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xA0</td>
+<td>OKAY</td>
+</tr>
+<tr>
+<td>0xA1</td>
+<td>BUSY</td>
+</tr>
+<tr>
+<td>0xA2</td>
+<td>ERROR_ECU_REJECTED</td>
+</tr>
+<tr>
+<td>0xB0</td>
+<td>ERROR_ECU_PARAMETER</td>
+</tr>
+<tr>
+<td>0xB1</td>
+<td>ERROR_ECU_FUNCTION</td>
+</tr>
+<tr>
+<td>0xB2</td>
+<td>ERROR_ECU_NUMBER</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>ERROR_ECU_NACK</td>
+</tr>
+<tr>
+<td>?10?</td>
+<td>ERROR_ARGUMENT</td>
+</tr>
+<tr>
+<td>?20?</td>
+<td>ERROR_FEHLERANZAHL</td>
+</tr>
+<tr>
+<td>?70?</td>
+<td>ERROR_NUMBER_ARGUMENT</td>
+</tr>
+<tr>
+<td>?71?</td>
+<td>ERROR_RANGE_ARGUMENT</td>
+</tr>
+<tr>
+<td>?72?</td>
+<td>ERROR_VERIFY</td>
+</tr>
+<tr>
+<td>0x??</td>
+<td>ERROR_ECU_UNKNOWN_STATUSBYTE</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-lieferanten"></a></p>
+<h3 id="lieferanten">LIEFERANTEN</h3>
+<p>Dimensions: 72 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>LIEF_NR</th>
+<th>LIEF_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>Reinshagen =&gt; Delphi</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>Kostal</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>Hella</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>Siemens</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>Eaton</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>UTA</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>Helbako</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>Bosch</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>Loewe =&gt; Lear</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>VDO</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>Valeo</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MBB</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>Kammerer</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>SWF</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>Blaupunkt</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>Philips</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>Alpine</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>Continental Teves</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>Elektromatik Suedafrika</td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>Becker</td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>Preh</td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>Alps</td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>Motorola</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>Temic</td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>Webasto</td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>MotoMeter</td>
+</tr>
+<tr>
+<td>0x27</td>
+<td>Delphi PHI</td>
+</tr>
+<tr>
+<td>0x28</td>
+<td>DODUCO =&gt; BERU</td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>DENSO</td>
+</tr>
+<tr>
+<td>0x30</td>
+<td>NEC</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>DASA</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>Pioneer</td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>Jatco</td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>Fuba</td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>UK-NSI</td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>AABG</td>
+</tr>
+<tr>
+<td>0x37</td>
+<td>Dunlop</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>Sachs</td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>ITT</td>
+</tr>
+<tr>
+<td>0x40</td>
+<td>FTE</td>
+</tr>
+<tr>
+<td>0x41</td>
+<td>Megamos</td>
+</tr>
+<tr>
+<td>0x42</td>
+<td>TRW</td>
+</tr>
+<tr>
+<td>0x43</td>
+<td>Wabco</td>
+</tr>
+<tr>
+<td>0x44</td>
+<td>ISAD Electronic Systems</td>
+</tr>
+<tr>
+<td>0x45</td>
+<td>HEC (Hella Electronics Corporation)</td>
+</tr>
+<tr>
+<td>0x46</td>
+<td>Gemel</td>
+</tr>
+<tr>
+<td>0x47</td>
+<td>ZF</td>
+</tr>
+<tr>
+<td>0x48</td>
+<td>GMPT</td>
+</tr>
+<tr>
+<td>0x49</td>
+<td>Harman Kardon</td>
+</tr>
+<tr>
+<td>0x50</td>
+<td>Remes</td>
+</tr>
+<tr>
+<td>0x51</td>
+<td>ZF Lenksysteme</td>
+</tr>
+<tr>
+<td>0x52</td>
+<td>Magneti Marelli</td>
+</tr>
+<tr>
+<td>0x53</td>
+<td>Borg Instruments</td>
+</tr>
+<tr>
+<td>0x54</td>
+<td>GETRAG</td>
+</tr>
+<tr>
+<td>0x55</td>
+<td>BHTC (Behr Hella Thermocontrol)</td>
+</tr>
+<tr>
+<td>0x56</td>
+<td>Siemens VDO Automotive</td>
+</tr>
+<tr>
+<td>0x57</td>
+<td>Visteon</td>
+</tr>
+<tr>
+<td>0x58</td>
+<td>Autoliv</td>
+</tr>
+<tr>
+<td>0x59</td>
+<td>Haberl</td>
+</tr>
+<tr>
+<td>0x60</td>
+<td>Magna Steyr</td>
+</tr>
+<tr>
+<td>0x61</td>
+<td>Marquardt</td>
+</tr>
+<tr>
+<td>0x62</td>
+<td>AB-Elektronik</td>
+</tr>
+<tr>
+<td>0x63</td>
+<td>Siemens VDO Borg</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>Hirschmann Electronics</td>
+</tr>
+<tr>
+<td>0x65</td>
+<td>Hoerbiger Electronics</td>
+</tr>
+<tr>
+<td>0x66</td>
+<td>Thyssen Krupp Automotive Mechatronics</td>
+</tr>
+<tr>
+<td>0x67</td>
+<td>Gentex GmbH</td>
+</tr>
+<tr>
+<td>0x68</td>
+<td>Atena GmbH</td>
+</tr>
+<tr>
+<td>0x69</td>
+<td>Magna-Donelly</td>
+</tr>
+<tr>
+<td>0x70</td>
+<td>Koyo Steering Europe</td>
+</tr>
+<tr>
+<td>0x71</td>
+<td>NSI B.V</td>
+</tr>
+<tr>
+<td>0xFF</td>
+<td>unbekannter Hersteller</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-digitalargument"></a></p>
+<h3 id="digitalargument">DIGITALARGUMENT</h3>
+<p>Dimensions: 17 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ein</td>
+<td>1</td>
+</tr>
+<tr>
+<td>aus</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ja</td>
+<td>1</td>
+</tr>
+<tr>
+<td>nein</td>
+<td>0</td>
+</tr>
+<tr>
+<td>auf</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ab</td>
+<td>0</td>
+</tr>
+<tr>
+<td>an</td>
+<td>1</td>
+</tr>
+<tr>
+<td>yes</td>
+<td>1</td>
+</tr>
+<tr>
+<td>no</td>
+<td>0</td>
+</tr>
+<tr>
+<td>on</td>
+<td>1</td>
+</tr>
+<tr>
+<td>off</td>
+<td>0</td>
+</tr>
+<tr>
+<td>up</td>
+<td>1</td>
+</tr>
+<tr>
+<td>down</td>
+<td>0</td>
+</tr>
+<tr>
+<td>true</td>
+<td>1</td>
+</tr>
+<tr>
+<td>false</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-bloecke"></a></p>
+<h3 id="bloecke">BLOECKE</h3>
+<p>Dimensions: 2 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEXT</th>
+<th>WERT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>BLOCK_1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>BLOCK_2</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-1"></a></p>
+<h3 id="codierdaten_1">CODIERDATEN_1</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0C09E40492BD428000221121425C216A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006433460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>00140001000501100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>0000000004103DE2610421BFA1200408</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>B1A827041B00344B121DABAB2A323200</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>00003232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>32000000AA555555FF5555555555FFFF</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>55AAAA55555555AAFF55555500091818</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>101E1B2DBEC81F31353C3FB0B9CF0044</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>4D80BAC5378E1D22333BAABFA5B4383D</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>020C73780A0E000714199095000F0821</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>00031F21343C0D2D9FB40B100A0F2232</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>363A5876FFFFABB0B0B5A6A9A9CDA0A5</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>FFFF0000FFFF0000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF2523192208231905230625222323</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>22100D1A1B0A230A0A1B0A2221230C0C</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>220D262324FFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF80305011A230991A990A9B1A9B1C</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9A0A9D20921E530283019F7044158530</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>96064717883089188B0C8D9F8E0CA19F</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>9F4F303007FE07000000B5EC</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-2"></a></p>
+<h3 id="codierdaten_2">CODIERDATEN_2</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>2906E404923D428000333229421C016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A60064134601140114080000000000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>000780006100000000000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>21140001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000041116F5740421BBA3220407</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>66CD4C0405A8AC2B3232000000323200</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>00003232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>320000007F7FFEFE7F7FFE7F7FFE7F7F</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>7FFE7F7F7F7F7F7F7F00000000091515</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0E1409110003636E11185C706275A9B9</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>5F64020500040010A2B5363B00063138</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>0008A5AA0F1417311E323BAAAAB32B76</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>769F0D1213180F1313182326333F4D51</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>5157294B5B67A2A7A7AB2A2F34390000</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>A2AE0000FFFF0000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF121E08220808232411130F231412</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>18072521212123092222132108251423</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF8E308F00811090129013909A901B</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>92098A9A820384148506955697305851</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>8730993088308B1C8B0C9D0D30303030</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>3030303007FE03000000DE64</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-3"></a></p>
+<h3 id="codierdaten_3">CODIERDATEN_3</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>2A06E40492BD4280004232294224016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A60064134601140114080000000000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>000780006100000000000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>211E0001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>000000000421BDA2210406B7A5240719</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>D69514040754D6550708FB8302041135</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>E665040B6418E2323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>32000000FFAAAAAAFF55555555FF55FF</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>FFFF5555FFFF55A8FFAAAAFFFF0E1919</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0E160004070F13198BA52A2F0416A3B0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>A8B25C72AAB2A3A70000AEB6B6BB0207</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>00032B30171DF2F7D4DCA1AF99ACA4A9</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>A9AE0307070BB8BDE0F415275D7D5D73</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>FFFF2F33FFFFA0A5B9BE0D232C3A4359</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>6A6F00378CAE454A4B500000696A262B</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF1E12081527072222082223FF2223</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>0711270A26242322231A150808272306</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>062125280AFFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF80308E018F169710984243999130</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>941F951F95009520A122A122A1229204</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>85065A479B70880986309D1C9D309E53</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>8C0D8A9E7FF8FF010000C712</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-4"></a></p>
+<h3 id="codierdaten_4">CODIERDATEN_4</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0C0AE40492BD428000221121425E216A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006433460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>00140001000501100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>0000000004103DE2610421BFA1200408</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>B1A827041B00344B121DABAB2A323200</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>00003232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>32000000AA555555FF5555555555FFFF</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>55AAAA55555555AAFF55555500091818</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>101E1B2DBEC81F31353C3FB0B9CF0044</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>4D80BAC5378E1D22333BAABFA5B4383D</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>020C73780A0E000714199095000F0821</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>00031F21343C0D2D9FB40B100A0F2232</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>363A5876FFFFABB0B0B5A6A9A9CDA0A5</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>FFFF0000FFFF0000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF2523192208231905230625222323</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>22100D1A1B0A230A0A1B0A2221230C0C</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>220D262324FFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF80305011A230991A990A9B1A9B1C</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9A0A9D20921E530283019F7044158530</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>96064717883089188B0C8D9F8E0CA19F</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>9F4F303007FE0700000060DF</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-5"></a></p>
+<h3 id="codierdaten_5">CODIERDATEN_5</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>1B08E404933D4280002211014262016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>1F1E0001000A011001000A0110000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000041265CE4D121CCA9B1A0421</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>BBA3220408ABAB2A3232000000323200</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>00003232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>3200000057575757575757575757FFFF</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>FFAB57AB57FF5757FFFF57FFFF0D1919</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0B18CCD1090E969DA9B79AA3C7CA1417</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>1E23A3B364691417969DA0A33F492124</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>A1A6979C27346065CBCD4146282A0A0F</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>0D100207121700050A0FA2A5A5A9383D</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>3F47A3ABACBA3C415F64000AFFFFC9CA</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>D0D20000383A2E303C4161636B6FA6A8</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>AFB1230E25242523040A24210725241F</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>2124250A22230804070B0E072408241F</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>072321180D24FFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF8B308C1E580D8E008E00990F9A01</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>8F109A069B1789D58A548A5482308813</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>8543843091929CA393305516871D958E</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>5F20A122FFFCFF010000E843</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-6"></a></p>
+<h3 id="codierdaten_6">CODIERDATEN_6</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>1B09E404933D4280002211014260016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>1F1E0001000A011001000A0110000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000041265CE4D121CCA9B1A0421</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>BBA3220408ABAB2A3232000000323200</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>00003232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>3200000057575757575757575757FFFF</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>FFAB57AB57FF5757FFFF57FFFF0D1919</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0B18CCD1090E969DA9B79AA3C7CA1417</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>1E23A3B364691417969DA0A33F492124</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>A1A6979C27346065CBCD4146282A0A0F</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>0D100207121700050A0FA2A5A5A9383D</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>3F47A3ABACBA3C415F64000AFFFFC9CA</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>D0D20000383A2E303C4161636B6FA6A8</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>AFB1230E25242523040A24210725241F</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>2124250A22230804070B0E072408241F</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>072321180D24FFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF8B308C1E580D8E008E00990F9A01</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>8F109A069B1789D58A548A5482308813</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>8543843091929CA393305516871D958E</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>5F20A122FFFCFF0100001B80</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-7"></a></p>
+<h3 id="codierdaten_7">CODIERDATEN_7</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0B0AE404923D428000231121425E016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>221E0001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000041B00413E0408BFA120101D</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>A2AF2E0419A9AC2B101CCF9918121CCF</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>99183232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>32000000FEFEFE7F7F7FFFFFFF7F7FFE</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>7FFE7F7FFEFEFEFE0000000000091414</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>141E252A1D301D692A67060BA9C5005D</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>A8AD8DD3363B00664690D0D9AAAF030D</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>24260608060806080608053AD0D5D1D6</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>0E131217111633331216010301034799</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>A5BB060909140C1F1F771E2A2A5D1F24</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>24290202080B0000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF220A212107232125181921152624</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>1B04FFFFFFFF212627221D1D0A10FFFF</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>231B100A0A07FFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF940081308C0DA1418D0E8D22A31A</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9A238F1B821583169E30841785309F18</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>86074809980A604B9930303030303030</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>30303030C3FF0F00000085A7</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-8"></a></p>
+<h3 id="codierdaten_8">CODIERDATEN_8</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0B0BE404923D428000231121425C016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>221E0001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000041B00413E0408BFA120101D</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>A2AF2E0419A9AC2B101CCF9918121CCF</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>99183232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>32000000FEFEFE7F7F7FFFFFFF7F7FFE</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>7FFE7F7FFEFEFEFE0000000000091414</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>141E252A1D301D692A67060BA9C5005D</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>A8AD8DD3363B00664690D0D9AAAF030D</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>24260608060806080608053AD0D5D1D6</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>0E131217111633331216010301034799</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>A5BB060909140C1F1F771E2A2A5D1F24</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>24290202080B0000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF220A212107232125181921152624</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>1B04FFFFFFFF212627221D1D0A10FFFF</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>231B100A0A07FFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF940081308C0DA1418D0E8D22A31A</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9A238F1B821583169E30841785309F18</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>86074809980A604B9930303030303030</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>30303030C3FF0F0000007664</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-9"></a></p>
+<h3 id="codierdaten_9">CODIERDATEN_9</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>1008E40492BD428000221121425C016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>211E0001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000040743DE5D0421A6AD2C0406</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>B3A72604124DD958071DA2AF2E0405AF</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>A9283232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>320000005555555555FF555555AA5555</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>AAAAFF55AAAAAA5500000000000B1414</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0A165A863D42A6AC3B4B363B3B40575C</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>193BA5AF90A47D8202083A3F353A2A36</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>A3A5455AA8ADA6AB7F938CAA01033A3D</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>3D7B070F0F4290A4B7FF9BA7A9BB081C</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>335F97A9BFF38CAADDF32025505C1436</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>36403A3F4045244C53610000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF251924252122080A262323070422</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>22231C27272323FF1F0723270723FF13</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>220406FFFFFFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF8A004B0196704C0D82308E039E52</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9E5F93A08812881F974999309ADB9470</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>840546078F709D709011303030303030</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>303030303FF80F000000D987</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-10"></a></p>
+<h3 id="codierdaten_10">CODIERDATEN_10</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>1007E40492BD428000221121425E016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A1A6006413460508325008F6030000FD</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>080780006100000500000000003C5004</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>211E0001000A01100000000000000000</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0000000000000000400000000F143214</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>00000000040743DE5D0421A6AD2C0406</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>B3A72604124DD958071DA2AF2E0405AF</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>A9283232000000323200000032320000</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>00323200000032320000003232000000</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>32320000003232000000323200000032</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>320000005555555555FF555555AA5555</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>AAAAFF55AAAAAA5500000000000B1414</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>0A165A863D42A6AC3B4B363B3B40575C</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>193BA5AF90A47D8202083A3F353A2A36</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>A3A5455AA8ADA6AB7F938CAA01033A3D</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>3D7B070F0F4290A4B7FF9BA7A9BB081C</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>335F97A9BFF38CAADDF32025505C1436</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>36403A3F4045244C53610000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF251924252122080A262323070422</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>22231C27272323FF1F0723270723FF13</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>220406FFFFFFFFFFFFFFFFFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF8A004B0196704C0D82308E039E52</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>9E5F93A08812881F974999309ADB9470</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>840546078F709D709011303030303030</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>303030303FF80F000000DA94</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-11"></a></p>
+<h3 id="codierdaten_11">CODIERDATEN_11</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0F12E40092A0008000233229421E016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A4860064134601140114080000000000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>000780006100000000000000003C5044</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>190A0A96967C7C808080808411100600</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0F143214202802FFFF00000000000000</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>000000000F0300532C230B0018670405</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>9E31B20118000A750111000B74240151</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>57D81506D5159606030066190A23006E</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>11091F004B3401188040C02223A3AF2E</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>23061AF3723636000000363600000036</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>36000000A078FF6E6EC8C8FF7A686882</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>FFFF6468647866644A6EFF78000F1818</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>1928353A151914192629797C737D8E97</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>56589EA4262D0007272B323F7F831F29</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>838D2E2F01066872BFC43E40212BACB1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>04054A52C5EE2E3896A3001A38402D2F</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>2325303E2428A6B011133F4219231A1F</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>1D2216191F210000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF010A0A04282323052B091F2D2F30</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>2123180B173132012C2A08231F260329</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>040A2104230A2E0327010AFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF9302A0199D28430498304C268017</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>890AA4866214A3308B0D48309630950C</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>81279A309C1B9E059F30A1078E0F9011</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>92253030FFFFFB000000AD0F</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-codierdaten-12"></a></p>
+<h3 id="codierdaten_12">CODIERDATEN_12</h3>
+<p>Dimensions: 26 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>BLOCK</th>
+<th>BYTE</th>
+<th>DATEN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>6</td>
+<td>Haendlernummer / Pruefdatum</td>
+</tr>
+<tr>
+<td>2</td>
+<td>16</td>
+<td>0F13E40092A0008000233229421C016A</td>
+</tr>
+<tr>
+<td>3</td>
+<td>16</td>
+<td>A4860064134601140114080000000000</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>000780006100000000000000003C5044</td>
+</tr>
+<tr>
+<td>5</td>
+<td>16</td>
+<td>190A0A96967C7C808080808411100600</td>
+</tr>
+<tr>
+<td>6</td>
+<td>16</td>
+<td>0F143214202802FFFF00000000000000</td>
+</tr>
+<tr>
+<td>7</td>
+<td>16</td>
+<td>000000000F0300532C230B0018670405</td>
+</tr>
+<tr>
+<td>8</td>
+<td>16</td>
+<td>9E31B20118000A750111000B74240151</td>
+</tr>
+<tr>
+<td>9</td>
+<td>16</td>
+<td>57D81506D5159606030066190A23006E</td>
+</tr>
+<tr>
+<td>10</td>
+<td>16</td>
+<td>11091F004B3401188040C02223A3AF2E</td>
+</tr>
+<tr>
+<td>11</td>
+<td>16</td>
+<td>23061AF3723636000000363600000036</td>
+</tr>
+<tr>
+<td>12</td>
+<td>16</td>
+<td>36000000A078FF6E6EC8C8FF7A686882</td>
+</tr>
+<tr>
+<td>13</td>
+<td>16</td>
+<td>FFFF6468647866644A6EFF78000F1818</td>
+</tr>
+<tr>
+<td>14</td>
+<td>16</td>
+<td>1928353A151914192629797C737D8E97</td>
+</tr>
+<tr>
+<td>15</td>
+<td>16</td>
+<td>56589EA4262D0007272B323F7F831F29</td>
+</tr>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>838D2E2F01066872BFC43E40212BACB1</td>
+</tr>
+<tr>
+<td>17</td>
+<td>16</td>
+<td>04054A52C5EE2E3896A3001A38402D2F</td>
+</tr>
+<tr>
+<td>18</td>
+<td>16</td>
+<td>2325303E2428A6B011133F4219231A1F</td>
+</tr>
+<tr>
+<td>19</td>
+<td>16</td>
+<td>1D2216191F210000FFFF0000FFFF0000</td>
+</tr>
+<tr>
+<td>20</td>
+<td>16</td>
+<td>FFFF010A0A04282323052B091F2D2F30</td>
+</tr>
+<tr>
+<td>21</td>
+<td>16</td>
+<td>2123180B173132012C2A08231F260329</td>
+</tr>
+<tr>
+<td>22</td>
+<td>16</td>
+<td>040A2104230A2E0327010AFFFFFFFFFF</td>
+</tr>
+<tr>
+<td>23</td>
+<td>16</td>
+<td>FFFF9302A0199D28430498304C268017</td>
+</tr>
+<tr>
+<td>24</td>
+<td>16</td>
+<td>890AA4866214A3308B0D48309630950C</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>81279A309C1B9E059F30A1078E0F9011</td>
+</tr>
+<tr>
+<td>26</td>
+<td>12</td>
+<td>92253030FFFFFB0000005ECC</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-teilenummern-1"></a></p>
+<h3 id="teilenummern_1">TEILENUMMERN_1</h3>
+<p>Dimensions: 29 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEILENUMMERN</th>
+<th>CODIERDATEN_TABELLE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>86972549</td>
+<td>CODIERDATEN_1</td>
+</tr>
+<tr>
+<td>86964626</td>
+<td>CODIERDATEN_1</td>
+</tr>
+<tr>
+<td>86949951</td>
+<td>CODIERDATEN_1</td>
+</tr>
+<tr>
+<td>86964640</td>
+<td>CODIERDATEN_2</td>
+</tr>
+<tr>
+<td>86946023</td>
+<td>CODIERDATEN_2</td>
+</tr>
+<tr>
+<td>86964646</td>
+<td>CODIERDATEN_3</td>
+</tr>
+<tr>
+<td>86946024</td>
+<td>CODIERDATEN_3</td>
+</tr>
+<tr>
+<td>86972647</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86964632</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86945013</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86941083</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86940446</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86929525</td>
+<td>CODIERDATEN_4</td>
+</tr>
+<tr>
+<td>86964639</td>
+<td>CODIERDATEN_5</td>
+</tr>
+<tr>
+<td>86946852</td>
+<td>CODIERDATEN_5</td>
+</tr>
+<tr>
+<td>86964638</td>
+<td>CODIERDATEN_6</td>
+</tr>
+<tr>
+<td>86949963</td>
+<td>CODIERDATEN_6</td>
+</tr>
+<tr>
+<td>86964631</td>
+<td>CODIERDATEN_7</td>
+</tr>
+<tr>
+<td>86945011</td>
+<td>CODIERDATEN_7</td>
+</tr>
+<tr>
+<td>86941081</td>
+<td>CODIERDATEN_7</td>
+</tr>
+<tr>
+<td>86929523</td>
+<td>CODIERDATEN_7</td>
+</tr>
+<tr>
+<td>86964625</td>
+<td>CODIERDATEN_8</td>
+</tr>
+<tr>
+<td>86949950</td>
+<td>CODIERDATEN_8</td>
+</tr>
+<tr>
+<td>86949958</td>
+<td>CODIERDATEN_9</td>
+</tr>
+<tr>
+<td>86964876</td>
+<td>CODIERDATEN_10</td>
+</tr>
+<tr>
+<td>86960024</td>
+<td>CODIERDATEN_10</td>
+</tr>
+<tr>
+<td>86930595</td>
+<td>CODIERDATEN_10</td>
+</tr>
+<tr>
+<td>89139392</td>
+<td>CODIERDATEN_12</td>
+</tr>
+<tr>
+<td>89139393</td>
+<td>CODIERDATEN_11</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-uebersicht"></a></p>
+<h3 id="uebersicht">UEBERSICHT</h3>
+<p>Dimensions: 29 rows × 3 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEILENUMMERN</th>
+<th>FAHRZEUG / SITZTYP</th>
+<th>KALIBRIERUNG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>86972549</td>
+<td>E60/65 Sport Kl.0</td>
+<td>c09</td>
+</tr>
+<tr>
+<td>86964626</td>
+<td>E60/65 Sport Kl.0</td>
+<td>c09</td>
+</tr>
+<tr>
+<td>86949951</td>
+<td>E60/65 Sport Kl.0</td>
+<td>c09</td>
+</tr>
+<tr>
+<td>86964640</td>
+<td>E90/91 Basis</td>
+<td>ae06</td>
+</tr>
+<tr>
+<td>86946023</td>
+<td>E90/91 Basis</td>
+<td>ae06</td>
+</tr>
+<tr>
+<td>86964646</td>
+<td>E90/91 Sport</td>
+<td>af06</td>
+</tr>
+<tr>
+<td>86946024</td>
+<td>E90/91 Sport</td>
+<td>af06</td>
+</tr>
+<tr>
+<td>86972647</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86964632</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86945013</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86941083</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86940446</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86929525</td>
+<td>E60/65 Sport</td>
+<td>c10</td>
+</tr>
+<tr>
+<td>86964639</td>
+<td>E65 MFS</td>
+<td>r08</td>
+</tr>
+<tr>
+<td>86946852</td>
+<td>E65 MFS</td>
+<td>r08</td>
+</tr>
+<tr>
+<td>86964638</td>
+<td>E65 MFS      Kl.0</td>
+<td>r09</td>
+</tr>
+<tr>
+<td>86949963</td>
+<td>E65 MFS      Kl.0</td>
+<td>r09</td>
+</tr>
+<tr>
+<td>86964631</td>
+<td>E60 MFS</td>
+<td>b10</td>
+</tr>
+<tr>
+<td>86945011</td>
+<td>E60 MFS</td>
+<td>b10</td>
+</tr>
+<tr>
+<td>86941081</td>
+<td>E60 MFS</td>
+<td>b10</td>
+</tr>
+<tr>
+<td>86929523</td>
+<td>E60 MFS</td>
+<td>b10</td>
+</tr>
+<tr>
+<td>86964625</td>
+<td>E60 MFS      Kl.0</td>
+<td>b11</td>
+</tr>
+<tr>
+<td>86949950</td>
+<td>E60 MFS      Kl.0</td>
+<td>b11</td>
+</tr>
+<tr>
+<td>86949958</td>
+<td>E83    Sport Kl.0</td>
+<td>d08</td>
+</tr>
+<tr>
+<td>86964876</td>
+<td>E83    Sport</td>
+<td>d07</td>
+</tr>
+<tr>
+<td>86960024</td>
+<td>E83    Sport</td>
+<td>d07</td>
+</tr>
+<tr>
+<td>86930595</td>
+<td>E83    Sport</td>
+<td>d07</td>
+</tr>
+<tr>
+<td>89139392</td>
+<td>E83    Basis</td>
+<td>d13</td>
+</tr>
+<tr>
+<td>89139393</td>
+<td>E83 Basis Ersatz Kl.0 ohne SW</td>
+<td>d13</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-crccheck"></a></p>
+<h3 id="crccheck">CRCCHECK</h3>
+<p>Dimensions: 29 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>TEILENUMMERN</th>
+<th>BUG</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>86972549</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964626</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86949951</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964640</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86946023</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964646</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86946024</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86972647</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964632</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86945013</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86941083</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86940446</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86929525</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964639</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86946852</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964638</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86949963</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964631</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86945011</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86941081</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86929523</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964625</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86949950</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86949958</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86964876</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86960024</td>
+<td>1</td>
+</tr>
+<tr>
+<td>86930595</td>
+<td>1</td>
+</tr>
+<tr>
+<td>89139392</td>
+<td>2</td>
+</tr>
+<tr>
+<td>89139393</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

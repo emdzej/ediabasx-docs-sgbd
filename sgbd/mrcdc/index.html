@@ -1,0 +1,1006 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/mrcdc/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>mrcdc.prg - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mrcdcprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mrcdc.prg
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fa_stream2struct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FA_STREAM2STRUCT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FA_STREAM2STRUCT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fa_stream_for_ecu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FA_STREAM_FOR_ECU
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FA_STREAM_FOR_ECU">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#konzept_tabelle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        KONZEPT_TABELLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jobresultextended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JOBRESULTEXTENDED
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mrcdcprg">mrcdc.prg</h1>
+<ul>
+<li>Jobs: <a href="#jobs">4</a></li>
+<li>Tables: <a href="#tables">2</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>Special SGBD used by coding system</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-431 Nau</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.03</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW TI-431 Dennert, BMW TI-431 Nau</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>1.24</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Default init job</li>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-fa-stream2struct">FA_STREAM2STRUCT</a> - Decoding of 'Fahrzeugauftrag' Further fuctionality: extraction of files according to memory type Further results VERSION, BR and C_TYP will be created during run time Further results C_DATE, LACK and POLSTER will be created during run time Further results ZUSBAU_XXX (1 ... ZUSBAU_ANZ) will be created during run time 'ZUSBAU-Nummer' as a 4-digit string. The number of results depends on ZUSBAU_ANZ. X corresponds to the variable number. Further results E_WORT_XXX (1 ... E_WORT_ANZ) will be created during run time 'Ergaenzungswort' as a 4-digit string. The number of results depends on E_WORT_ANZ. X corresponds to the variable number. Further results SA_XXX (1 ... SA_ANZ) will be created during run time 'SA' as a 4-digit string. The number of results depends on SA_ANZ. X corresponds to the variable number. Further results HO_XXX (1 ... HO_ANZ) will be created during run time 'HO' as a 4-digit string. The number of results depends on HO_ANZ. X corresponds to the variable number. Further result COMPRESSED_STREAM will be created during run time depending on parameter 'VERSION'</li>
+<li><a href="#job-fa-stream-for-ecu">FA_STREAM_FOR_ECU</a> - Conversion of 'Fahrzeugauftrag' from the application into Fahrzeugauftrag for the ECU. No identifiers will be provided by the application</li>
+</ul>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Default init job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 if done</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fa-stream2struct"></a></p>
+<h3 id="fa_stream2struct">FA_STREAM2STRUCT</h3>
+<p>Decoding of 'Fahrzeugauftrag' Further fuctionality: extraction of files according to memory type Further results VERSION, BR and C_TYP will be created during run time Further results C_DATE, LACK and POLSTER will be created during run time Further results ZUSBAU_XXX (1 ... ZUSBAU_ANZ) will be created during run time 'ZUSBAU-Nummer' as a 4-digit string. The number of results depends on ZUSBAU_ANZ. X corresponds to the variable number. Further results E_WORT_XXX (1 ... E_WORT_ANZ) will be created during run time 'Ergaenzungswort' as a 4-digit string. The number of results depends on E_WORT_ANZ. X corresponds to the variable number. Further results SA_XXX (1 ... SA_ANZ) will be created during run time 'SA' as a 4-digit string. The number of results depends on SA_ANZ. X corresponds to the variable number. Further results HO_XXX (1 ... HO_ANZ) will be created during run time 'HO' as a 4-digit string. The number of results depends on HO_ANZ. X corresponds to the variable number. Further result COMPRESSED_STREAM will be created during run time depending on parameter 'VERSION'</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOCK</td>
+<td>string</td>
+<td>Possiblilties: '1' for the total stream-block, if the total stream lenght is &lt; 1kByte '2' for the first stream-block, if the total stream length is &gt; 1kByte '3' for the following stream-blocks, if the total stream length is &gt; 1kByte</td>
+</tr>
+<tr>
+<td>FA_STREAM</td>
+<td>string</td>
+<td>'Fahrzeugauftrag' as a data-array. Maximum array-length in total: 1 kByte Only the active constituents will be filtered out. If the array is longer than 1 kByte it will be separated from the calling application into two blocks. Particular results will be dynamicly generated during run time.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY -&gt; FA present and interpretable ERROR_NO_FA -&gt; 'Fahrzeugauftrag' (FA_STREAM) not present or filled with 0x00 or 0xFF ERROR_STRINGLENGTH, ERROR_BR, ...</td>
+</tr>
+<tr>
+<td>STANDARD_FA</td>
+<td>string</td>
+<td>Standard 'Fahrzeugauftrag' (equals to 'Fahrzeugauftrag' without VERSION and incactive constituents)</td>
+</tr>
+<tr>
+<td>SA_ANZ</td>
+<td>int</td>
+<td>Number of saved 'SA's' Particular results for the 'SA's' (3 digits each) will be dynamicly generated during run time</td>
+</tr>
+<tr>
+<td>E_WORT_ANZ</td>
+<td>int</td>
+<td>Number of saved 'E-Worte' Particular results for the 'E-Worte' (4 digits each) will be dynamicly generated during run time.</td>
+</tr>
+<tr>
+<td>HO_WORT_ANZ</td>
+<td>int</td>
+<td>Number of saved 'HO-Worte' Particular results for the 'HO-Worte' (4 digits each) will be dynamicly generated during run time.</td>
+</tr>
+<tr>
+<td>ZUSBAU_ANZ</td>
+<td>int</td>
+<td>Number of saved 'ZusBau-Nummern' Particular results for the 'ZusBau-Nummern' (7 digits each) will be dynamicly generated during run time.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-fa-stream-for-ecu"></a></p>
+<h3 id="fa_stream_for_ecu">FA_STREAM_FOR_ECU</h3>
+<p>Conversion of 'Fahrzeugauftrag' from the application into Fahrzeugauftrag for the ECU. No identifiers will be provided by the application</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOCK</td>
+<td>string</td>
+<td>Possiblilties: '1' for the total stream-block, if the total stream lenght is &lt; 1kByte '2' for the first stream-block, if the total stream length is &gt; 1kByte '3' for the following stream-blocks, if the total stream length is &gt; 1kByte</td>
+</tr>
+<tr>
+<td>VERSION</td>
+<td>string</td>
+<td>VERSION comes from application (Oberflaeche) in any case</td>
+</tr>
+<tr>
+<td>FA_STREAM_OF</td>
+<td>string</td>
+<td>'Fahrzeugauftrag' from application (without VERSION, and only active constituents), corresponds to Standard FA-stream This argument is always present</td>
+</tr>
+<tr>
+<td>FA_STREAM_ECU</td>
+<td>string</td>
+<td>'Fahrzeugauftrag' from ECU as a data array (with VERSION, active and depending on memory type, inactive constituents). Maximum array-length in total: 1kByte Only the active constituents will be filtered out. Case empty Memory: FA_STREAM_ECU = ''. If the array is longer than 1 kByte it will be separated from the calling application into two blocks. Particular results will be dynamicly generated during run time. This argument not always present</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>OKAY -&gt; 'Fahrzeugauftrag'-conversion was successful</td>
+</tr>
+<tr>
+<td>FA_STREAM_FOR_ECU</td>
+<td>string</td>
+<td>'Fahrzeugauftrag' for ECU in certain representation depending on parameter VERSION</td>
+</tr>
+<tr>
+<td>FA_STREAM_FOR_ECU_BIN</td>
+<td>binary</td>
+<td>'Fahrzeugauftrag' for ECU in binary representation</td>
+</tr>
+<tr>
+<td>DIFFERENCE</td>
+<td>int</td>
+<td>Number of differences (add, del, change) in streams Master is FA_STREAM_ECU</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<h3 id="index_1">Index</h3>
+<ul>
+<li><a href="#table-konzept-tabelle">KONZEPT_TABELLE</a> (2 × 2)</li>
+<li><a href="#table-jobresultextended">JOBRESULTEXTENDED</a> (30 × 2)</li>
+</ul>
+<p><a id="table-konzept-tabelle"></a></p>
+<h3 id="konzept_tabelle">KONZEPT_TABELLE</h3>
+<p>Dimensions: 2 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>NR</th>
+<th>KONZEPT_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x0F</td>
+<td>BMW-FAST</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>KWP2000</td>
+</tr>
+</tbody>
+</table>
+<p><a id="table-jobresultextended"></a></p>
+<h3 id="jobresultextended">JOBRESULTEXTENDED</h3>
+<p>Dimensions: 30 rows × 2 columns</p>
+<table>
+<thead>
+<tr>
+<th>SB</th>
+<th>STATUS_TEXT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>ERROR_NO_FA</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>ERROR_UNKNOWN_CONSTIT</td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>ERROR_UNKNOWN_IDENTIFIER</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>ERROR_STRINGLENGTH</td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>ERROR_TOTAL_STRING_LENGTH</td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>ERROR_POSCOUNTER</td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>ERROR_ACTIVE_TYPSCHLUESSELANZAHL_&gt;_1</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>ERROR_ACTIVE_TYPSCHLUESSELANZAHL_!=_1</td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>ERROR_ACTIVE_C_DATE_NUMBER_&gt;_1</td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>ERROR_ACTIVE_C_DATE_NUMBER_!=_1</td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>ERROR_ACTIVE_LACK_NUMBER_&gt;_1</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>ERROR_ACTIVE_LACK_NUMBER_!=_1</td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>ERROR_ACTIVE_POLSTER_NUMBER_&gt;_1</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>ERROR_ACTIVE_POLSTER_NUMBER_!=_1</td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>ERROR_ACTIVE_ZUSBAU_NUMBER_&gt;_3</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>ERROR_VERSION</td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>ERROR_BR</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>ERROR_TYPSCHLUESSEL</td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>ERROR_C_DATE</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>ERROR_LACK</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>ERROR_POLSTER</td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>ERROR_ZUSBAUNUMMER</td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>ERROR_SA</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>ERROR_E_WORT</td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>ERROR_HO_WORT</td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>ERROR_PAR_VERSION_NOT_PRESENT</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>ERROR_PAR_FA_STREAM_OF_NOT_PRESENT</td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>ERROR_INVALID_BLOCK_0</td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>ERROR_BLOCK_0_NOT_PRESENT</td>
+</tr>
+<tr>
+<td>0xXY</td>
+<td>ERROR_UNKNOWN</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

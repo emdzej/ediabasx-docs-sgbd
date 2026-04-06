@@ -1,0 +1,2464 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://emdzej.github.io/ediabasx-docs-sgbd/sgbd/EDIC/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>EDIC.PRG - EdiabasX SGBD Reference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#edicprg" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-header__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EdiabasX SGBD Reference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              EDIC.PRG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EdiabasX SGBD Reference" class="md-nav__button md-logo" aria-label="EdiabasX SGBD Reference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EdiabasX SGBD Reference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/emdzej/ediabasx-docs-sgbd" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jobs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jobs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Index
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#info_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INFO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INFO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initialisierung" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        INITIALISIERUNG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="INITIALISIERUNG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_spannung_kl30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SPANNUNG_KL30
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SPANNUNG_KL30">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_spannung_kl15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SPANNUNG_KL15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SPANNUNG_KL15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_6
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_6">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_get_port_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_GET_PORT_7
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_GET_PORT_7">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_u_prog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_U_PROG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_U_PROG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_jumper_einlesen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_JUMPER_EINLESEN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_JUMPER_EINLESEN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_sia_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SIA_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SIA_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arguments_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arguments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_sia_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SIA_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SIA_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_sia_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SIA_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SIA_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_0_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_0_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_0_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_0_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_0_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_0_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_1_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_1_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_1_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_1_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_1_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_1_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_2_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_2_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_2_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_2_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_2_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_2_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_3_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_3_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_3_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_3_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_3_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_3_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_4_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_4_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_4_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_4_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_4_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_4_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_5_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_5_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_5_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_5_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_5_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_5_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_6_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_6_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_6_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_6_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_6_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_6_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_7_ein" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_7_EIN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_7_EIN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_set_port_7_aus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_SET_PORT_7_AUS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_SET_PORT_7_AUS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_leitungstest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_LEITUNGSTEST
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_LEITUNGSTEST">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_reset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_RESET
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_RESET">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edic_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EDIC_VERSION
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="EDIC_VERSION">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#results_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="edicprg">EDIC.PRG</h1>
+<ul>
+<li>Jobs: <a href="#jobs">36</a></li>
+<li>Tables: <a href="#tables">0</a></li>
+</ul>
+<h2 id="info">INFO</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>EDIC Interface</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>BMW TI-430 Drexel</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>BMW ET-421 Weber, BMW TI-430 Drexel</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>0.06</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>deutsch</td>
+</tr>
+</tbody>
+</table>
+<h2 id="jobs">Jobs</h2>
+<h3 id="index">Index</h3>
+<ul>
+<li><a href="#job-info">INFO</a> - Information SGBD</li>
+<li><a href="#job-initialisierung">INITIALISIERUNG</a> - Default init job</li>
+<li><a href="#job-edic-spannung-kl30">EDIC_SPANNUNG_KL30</a> - Messung Klemme30</li>
+<li><a href="#job-edic-spannung-kl15">EDIC_SPANNUNG_KL15</a> - Default Messung Klemme15 job</li>
+<li><a href="#job-edic-get-port-0">EDIC_GET_PORT_0</a> - Messung Spannung Analogeingang 0</li>
+<li><a href="#job-edic-get-port-1">EDIC_GET_PORT_1</a> - Messung Spannung Analogeingang 1</li>
+<li><a href="#job-edic-get-port-2">EDIC_GET_PORT_2</a> - Messung Spannung Analogeingang 2</li>
+<li><a href="#job-edic-get-port-3">EDIC_GET_PORT_3</a> - Messung Spannung Analogeingang 3</li>
+<li><a href="#job-edic-get-port-4">EDIC_GET_PORT_4</a> - Messung Spannung Analogeingang 4</li>
+<li><a href="#job-edic-get-port-5">EDIC_GET_PORT_5</a> - Messung Spannung Analogeingang 5</li>
+<li><a href="#job-edic-get-port-6">EDIC_GET_PORT_6</a> - Messung Spannung Analogeingang 6</li>
+<li><a href="#job-edic-get-port-7">EDIC_GET_PORT_7</a> - Messung Spannung Analogeingang 7</li>
+<li><a href="#job-edic-set-u-prog">EDIC_SET_U_PROG</a> - Default set uprog job</li>
+<li><a href="#job-edic-jumper-einlesen">EDIC_JUMPER_EINLESEN</a> - Default jumper einlesen job</li>
+<li><a href="#job-edic-sia-reset">EDIC_SIA_RESET</a> - Default sia-reset job</li>
+<li><a href="#job-edic-sia-ein">EDIC_SIA_EIN</a> - Default sia-reset job</li>
+<li><a href="#job-edic-sia-aus">EDIC_SIA_AUS</a> - Default sia-reset job</li>
+<li><a href="#job-edic-set-port-0-ein">EDIC_SET_PORT_0_EIN</a> - Set Port 0 Ein</li>
+<li><a href="#job-edic-set-port-0-aus">EDIC_SET_PORT_0_AUS</a> - Set Port 0 Aus</li>
+<li><a href="#job-edic-set-port-1-ein">EDIC_SET_PORT_1_EIN</a> - Set Port 1 Ein</li>
+<li><a href="#job-edic-set-port-1-aus">EDIC_SET_PORT_1_AUS</a> - Set Port 1 Aus</li>
+<li><a href="#job-edic-set-port-2-ein">EDIC_SET_PORT_2_EIN</a> - Set Port 2 Ein</li>
+<li><a href="#job-edic-set-port-2-aus">EDIC_SET_PORT_2_AUS</a> - Set Port 2 Aus</li>
+<li><a href="#job-edic-set-port-3-ein">EDIC_SET_PORT_3_EIN</a> - Set Port 3 Ein</li>
+<li><a href="#job-edic-set-port-3-aus">EDIC_SET_PORT_3_AUS</a> - Set Port 3 Aus</li>
+<li><a href="#job-edic-set-port-4-ein">EDIC_SET_PORT_4_EIN</a> - Set Port 4 Ein</li>
+<li><a href="#job-edic-set-port-4-aus">EDIC_SET_PORT_4_AUS</a> - Set Port 4 Aus</li>
+<li><a href="#job-edic-set-port-5-ein">EDIC_SET_PORT_5_EIN</a> - Set Port 5 Ein</li>
+<li><a href="#job-edic-set-port-5-aus">EDIC_SET_PORT_5_AUS</a> - Set Port 5 Aus</li>
+<li><a href="#job-edic-set-port-6-ein">EDIC_SET_PORT_6_EIN</a> - Set Port 5 Ein</li>
+<li><a href="#job-edic-set-port-6-aus">EDIC_SET_PORT_6_AUS</a> - Set Port 5 Aus</li>
+<li><a href="#job-edic-set-port-7-ein">EDIC_SET_PORT_7_EIN</a> - Set Port 7 Ein</li>
+<li><a href="#job-edic-set-port-7-aus">EDIC_SET_PORT_7_AUS</a> - Set Port 7 Aus</li>
+<li><a href="#job-edic-leitungstest">EDIC_LEITUNGSTEST</a> - Testschleife</li>
+<li><a href="#job-edic-reset">EDIC_RESET</a> - EDIC-Reset</li>
+<li><a href="#job-edic-version">EDIC_VERSION</a> - EDIC-Version auslesen</li>
+</ul>
+<p><a id="job-info"></a></p>
+<h3 id="info_1">INFO</h3>
+<p>Information SGBD</p>
+<p><em>No arguments.</em></p>
+<h4 id="results">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECU</td>
+<td>string</td>
+<td>Steuergerät im Klartext</td>
+</tr>
+<tr>
+<td>ORIGIN</td>
+<td>string</td>
+<td>Steuergeräte-Verantwortlicher</td>
+</tr>
+<tr>
+<td>REVISION</td>
+<td>string</td>
+<td>Versions-Nummer</td>
+</tr>
+<tr>
+<td>AUTHOR</td>
+<td>string</td>
+<td>Namen aller Autoren</td>
+</tr>
+<tr>
+<td>COMMENT</td>
+<td>string</td>
+<td>wichtige Hinweise</td>
+</tr>
+<tr>
+<td>PACKAGE</td>
+<td>string</td>
+<td>Include-Paket-Nummer</td>
+</tr>
+<tr>
+<td>SPRACHE</td>
+<td>string</td>
+<td>deutsch, english</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-initialisierung"></a></p>
+<h3 id="initialisierung">INITIALISIERUNG</h3>
+<p>Default init job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_1">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DONE</td>
+<td>int</td>
+<td>1 if done</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-spannung-kl30"></a></p>
+<h3 id="edic_spannung_kl30">EDIC_SPANNUNG_KL30</h3>
+<p>Messung Klemme30</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_2">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>KL30_WERT</td>
+<td>real</td>
+<td>Spannungswert KL30 in mVolt</td>
+</tr>
+<tr>
+<td>KL30_EINH</td>
+<td>string</td>
+<td>Einheit von KL30_WERT (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-spannung-kl15"></a></p>
+<h3 id="edic_spannung_kl15">EDIC_SPANNUNG_KL15</h3>
+<p>Default Messung Klemme15 job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_3">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>KL15_WERT</td>
+<td>real</td>
+<td>Spannung an KL15 in V</td>
+</tr>
+<tr>
+<td>KL15_EINH</td>
+<td>string</td>
+<td>Einheit KL15 (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-0"></a></p>
+<h3 id="edic_get_port_0">EDIC_GET_PORT_0</h3>
+<p>Messung Spannung Analogeingang 0</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_4">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_0_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_0_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-1"></a></p>
+<h3 id="edic_get_port_1">EDIC_GET_PORT_1</h3>
+<p>Messung Spannung Analogeingang 1</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_5">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_1_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_1_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-2"></a></p>
+<h3 id="edic_get_port_2">EDIC_GET_PORT_2</h3>
+<p>Messung Spannung Analogeingang 2</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_6">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_2_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_2_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-3"></a></p>
+<h3 id="edic_get_port_3">EDIC_GET_PORT_3</h3>
+<p>Messung Spannung Analogeingang 3</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_7">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_3_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_3_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-4"></a></p>
+<h3 id="edic_get_port_4">EDIC_GET_PORT_4</h3>
+<p>Messung Spannung Analogeingang 4</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_8">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_4_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_4_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-5"></a></p>
+<h3 id="edic_get_port_5">EDIC_GET_PORT_5</h3>
+<p>Messung Spannung Analogeingang 5</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_9">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_5_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_5_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-6"></a></p>
+<h3 id="edic_get_port_6">EDIC_GET_PORT_6</h3>
+<p>Messung Spannung Analogeingang 6</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_10">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_6_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_6_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-get-port-7"></a></p>
+<h3 id="edic_get_port_7">EDIC_GET_PORT_7</h3>
+<p>Messung Spannung Analogeingang 7</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_11">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_7_WERT</td>
+<td>real</td>
+<td>Wert des Eingangs in mV</td>
+</tr>
+<tr>
+<td>EDIC_GET_PORT_7_EINH</td>
+<td>string</td>
+<td>Einheit der Spannung (V)</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-u-prog"></a></p>
+<h3 id="edic_set_u_prog">EDIC_SET_U_PROG</h3>
+<p>Default set uprog job</p>
+<h4 id="arguments">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPANNUNG</td>
+<td>string</td>
+<td>Wert der Programmierspannung in mV</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_12">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-jumper-einlesen"></a></p>
+<h3 id="edic_jumper_einlesen">EDIC_JUMPER_EINLESEN</h3>
+<p>Default jumper einlesen job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_13">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>JUMPERS</td>
+<td>string</td>
+<td>Jumperstellungen</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-sia-reset"></a></p>
+<h3 id="edic_sia_reset">EDIC_SIA_RESET</h3>
+<p>Default sia-reset job</p>
+<h4 id="arguments_1">Arguments</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZEIT</td>
+<td>string</td>
+<td>Zeit fuer das Schliessen des SI-Relais</td>
+</tr>
+</tbody>
+</table>
+<h4 id="results_14">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-sia-ein"></a></p>
+<h3 id="edic_sia_ein">EDIC_SIA_EIN</h3>
+<p>Default sia-reset job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_15">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-sia-aus"></a></p>
+<h3 id="edic_sia_aus">EDIC_SIA_AUS</h3>
+<p>Default sia-reset job</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_16">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-0-ein"></a></p>
+<h3 id="edic_set_port_0_ein">EDIC_SET_PORT_0_EIN</h3>
+<p>Set Port 0 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_17">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-0-aus"></a></p>
+<h3 id="edic_set_port_0_aus">EDIC_SET_PORT_0_AUS</h3>
+<p>Set Port 0 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_18">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-1-ein"></a></p>
+<h3 id="edic_set_port_1_ein">EDIC_SET_PORT_1_EIN</h3>
+<p>Set Port 1 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_19">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-1-aus"></a></p>
+<h3 id="edic_set_port_1_aus">EDIC_SET_PORT_1_AUS</h3>
+<p>Set Port 1 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_20">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-2-ein"></a></p>
+<h3 id="edic_set_port_2_ein">EDIC_SET_PORT_2_EIN</h3>
+<p>Set Port 2 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_21">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-2-aus"></a></p>
+<h3 id="edic_set_port_2_aus">EDIC_SET_PORT_2_AUS</h3>
+<p>Set Port 2 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_22">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-3-ein"></a></p>
+<h3 id="edic_set_port_3_ein">EDIC_SET_PORT_3_EIN</h3>
+<p>Set Port 3 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_23">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-3-aus"></a></p>
+<h3 id="edic_set_port_3_aus">EDIC_SET_PORT_3_AUS</h3>
+<p>Set Port 3 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_24">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-4-ein"></a></p>
+<h3 id="edic_set_port_4_ein">EDIC_SET_PORT_4_EIN</h3>
+<p>Set Port 4 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_25">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-4-aus"></a></p>
+<h3 id="edic_set_port_4_aus">EDIC_SET_PORT_4_AUS</h3>
+<p>Set Port 4 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_26">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-5-ein"></a></p>
+<h3 id="edic_set_port_5_ein">EDIC_SET_PORT_5_EIN</h3>
+<p>Set Port 5 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_27">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-5-aus"></a></p>
+<h3 id="edic_set_port_5_aus">EDIC_SET_PORT_5_AUS</h3>
+<p>Set Port 5 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_28">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-6-ein"></a></p>
+<h3 id="edic_set_port_6_ein">EDIC_SET_PORT_6_EIN</h3>
+<p>Set Port 5 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_29">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-6-aus"></a></p>
+<h3 id="edic_set_port_6_aus">EDIC_SET_PORT_6_AUS</h3>
+<p>Set Port 5 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_30">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-7-ein"></a></p>
+<h3 id="edic_set_port_7_ein">EDIC_SET_PORT_7_EIN</h3>
+<p>Set Port 7 Ein</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_31">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-set-port-7-aus"></a></p>
+<h3 id="edic_set_port_7_aus">EDIC_SET_PORT_7_AUS</h3>
+<p>Set Port 7 Aus</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_32">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td>Jobstatus</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-leitungstest"></a></p>
+<h3 id="edic_leitungstest">EDIC_LEITUNGSTEST</h3>
+<p>Testschleife</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_33">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>CHECK</td>
+<td>string</td>
+<td>Ergebnis des Leitungstests: Leitungen OKAY</td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-reset"></a></p>
+<h3 id="edic_reset">EDIC_RESET</h3>
+<p>EDIC-Reset</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_34">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a id="job-edic-version"></a></p>
+<h3 id="edic_version">EDIC_VERSION</h3>
+<p>EDIC-Version auslesen</p>
+<p><em>No arguments.</em></p>
+<h4 id="results_35">Results</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JOB_STATUS</td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td>VERSION</td>
+<td>long</td>
+<td>EDIC-Versionsnummer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tables">Tables</h2>
+<p>No tables found.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
